@@ -1,0 +1,47 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_naver_map (0.10.1):
+    - Flutter
+    - NMapsMap
+  - kakao_flutter_sdk (0.9.0):
+    - Flutter
+  - NMapsMap (3.14.1)
+  - package_info_plus (0.4.5):
+    - Flutter
+  - shared_preferences_ios (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_naver_map (from `.symlinks/plugins/flutter_naver_map/ios`)
+  - kakao_flutter_sdk (from `.symlinks/plugins/kakao_flutter_sdk/ios`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+
+SPEC REPOS:
+  trunk:
+    - NMapsMap
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_naver_map:
+    :path: ".symlinks/plugins/flutter_naver_map/ios"
+  kakao_flutter_sdk:
+    :path: ".symlinks/plugins/kakao_flutter_sdk/ios"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_naver_map: 6c7f2f09a8f05722ac344149bbf9cf52a3d9eeaf
+  kakao_flutter_sdk: bb7397452b15fb550037aea8e6d347143488af71
+  NMapsMap: 79bae4e0d7cc5214dd6dabdb95687a1356616556
+  package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+
+PODFILE CHECKSUM: 790a208e646b05b94020c163c6fb5cbc6cfa4fbd
+
+COCOAPODS: 1.11.2

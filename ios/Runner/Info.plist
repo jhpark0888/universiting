@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Universiting</string>
+	<string>유니버시팅</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -24,6 +24,19 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NMFClientId</key>
+	<string>kbx9cb788s</string>
+	<key>NSAllowsArbitraryLoads</key>
+	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>회원님의 학교 위치와 주변 학교 위치 정보를 불러오기 위해 필요합니다.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>회원님의 학교 위치와 주변 학교 위치 정보를 불러오기 위해 필요합니다.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -43,5 +56,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<string>NO</string>
 </dict>
 </plist>
