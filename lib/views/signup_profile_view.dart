@@ -44,8 +44,8 @@ class SignupProfileView extends StatelessWidget {
                 text: TextSpan(children: [
                   TextSpan(
                       text: '프로필',
-                      style: TstyleHeader.copyWith(color: Colors.blue)),
-                  const TextSpan(text: '을 작성해주세요', style: TstyleHeader)
+                      style: kStyleHeader.copyWith(color: Colors.blue)),
+                  const TextSpan(text: '을 작성해주세요', style: kStyleHeader)
                 ])),
             SizedBox(
               height: height(context) / 20,

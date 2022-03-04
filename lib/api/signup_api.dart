@@ -15,7 +15,7 @@ import '../utils/global_variable.dart';
 Future<void> getUniversityList() async {
   ConnectivityResult result = await checkConnectionStatus();
   SignupController signupController = Get.find();
-  var url = Uri.parse('$uri/user_api/university_list');
+  var url = Uri.parse('$serverUrl/user_api/university_list');
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
@@ -40,7 +40,7 @@ Future<void> getUniversityList() async {
 Future<void> getDepartList(String univ) async {
   ConnectivityResult result = await checkConnectionStatus();
   SignupController signupController = Get.find();
-  var url = Uri.parse('$uri/user_api/department_list?query=$univ');
+  var url = Uri.parse('$serverUrl/user_api/department_list?query=$univ');
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
@@ -68,7 +68,7 @@ Future<void> getDepartList(String univ) async {
 Future<void> checkEmail() async {
   ConnectivityResult result = await checkConnectionStatus();
   SignupController signupController = Get.find();
-  var url = Uri.parse('$uri/user_api/check_email');
+  var url = Uri.parse('$serverUrl/user_api/check_email');
   Map<String, dynamic> signup = {
     'email':
         signupController.emailController.text + signupController.univLink.value,
@@ -99,7 +99,7 @@ Future<void> postProfile() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
   SignupController signupController = Get.find();
-  var url = Uri.parse('$uri/user_api/signup');
+  var url = Uri.parse('$serverUrl/user_api/signup');
   Map<String, dynamic> signup = {
     'type': '12',
     'email':

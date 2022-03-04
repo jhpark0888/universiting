@@ -81,9 +81,9 @@ class _SignupViewState extends State<SignupView> {
                       text: TextSpan(children: [
                         TextSpan(
                             text: '어느 대학',
-                            style: TstyleHeader.copyWith(color: Colors.blue)),
+                            style: kStyleHeader.copyWith(color: Colors.blue)),
                         const TextSpan(
-                            text: '에 재학 중이신가요?', style: TstyleHeader),
+                            text: '에 재학 중이신가요?', style: kStyleHeader),
                       ])),
                   SizedBox(
                     height: height(context) / 20,

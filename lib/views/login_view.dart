@@ -32,7 +32,7 @@ class LoginView extends StatelessWidget {
             children: [
               Text(
                 '학교 이메일 주소',
-                style: TstyleContent,
+                style: kStyleContent,
                 textAlign: TextAlign.start,
               ),
               CustomTextFormField(controller: loginController.emailController),
@@ -41,7 +41,7 @@ class LoginView extends StatelessWidget {
               ),
               Text(
                 '비밀번호',
-                style: TstyleContent,
+                style: kStyleContent,
                 textAlign: TextAlign.start,
               ),
               CustomTextFormField(

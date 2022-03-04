@@ -61,15 +61,15 @@ class SignupUserView extends StatelessWidget {
                     text: TextSpan(children: [
                       TextSpan(
                           text: '계정',
-                          style: TstyleHeader.copyWith(color: Colors.blue)),
-                      const TextSpan(text: '을 만들어주세요', style: TstyleHeader)
+                          style: kStyleHeader.copyWith(color: Colors.blue)),
+                      const TextSpan(text: '을 만들어주세요', style: kStyleHeader)
                     ]),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: height(context) / 20),
                   Text(
                     '${signupController.universityController.text} 이메일 주소',
-                    style: TstyleContent.copyWith(fontSize: 14),
+                    style: kStyleContent.copyWith(fontSize: 14),
                     textAlign: TextAlign.start,
                   ),
                   Row(children: [
@@ -81,7 +81,7 @@ class SignupUserView extends StatelessWidget {
                   SizedBox(height: height(context) / 20),
                   Text(
                     '비밀번호',
-                    style: TstyleContent.copyWith(fontSize: 14),
+                    style: kStyleContent.copyWith(fontSize: 14),
                     textAlign: TextAlign.start,
                   ),
                   CustomTextFormField(
@@ -93,7 +93,7 @@ class SignupUserView extends StatelessWidget {
                   SizedBox(height: height(context) / 20),
                   Text(
                     '비밀번호 확인',
-                    style: TstyleContent.copyWith(fontSize: 14),
+                    style: kStyleContent.copyWith(fontSize: 14),
                     textAlign: TextAlign.start,
                   ),
                   CustomTextFormField(

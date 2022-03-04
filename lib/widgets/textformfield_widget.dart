@@ -14,7 +14,7 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
         controller: controller,
         maxLines: 1,
-        style: TstyleContent,
+        style: kStyleContent,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
             focusedBorder: UnderlineInputBorder(

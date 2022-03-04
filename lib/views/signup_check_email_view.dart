@@ -45,8 +45,8 @@ class SignupCheckEmailView extends StatelessWidget {
                 text: TextSpan(children: [
                   TextSpan(
                       text: '메일',
-                      style: TstyleHeader.copyWith(color: Colors.blue)),
-                  const TextSpan(text: '을 확인해주세요', style: TstyleHeader)
+                      style: kStyleHeader.copyWith(color: Colors.blue)),
+                  const TextSpan(text: '을 확인해주세요', style: kStyleHeader)
                 ])),
             SizedBox(height: height(context) / 20),
             Obx(
@@ -55,7 +55,7 @@ class SignupCheckEmailView extends StatelessWidget {
                 initialValue: SignupController.to.emailController.text +
                     SignupController.to.univLink.value,
                 maxLines: 1,
-                style: TstyleContent.copyWith(
+                style: kStyleContent.copyWith(
                     color: Colors.black.withOpacity(0.6)),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
@@ -66,7 +66,7 @@ class SignupCheckEmailView extends StatelessWidget {
                               'assets/icons/Check_Active_blue.svg')
                           : Text(
                               '인증중..',
-                              style: TstyleContent.copyWith(
+                              style: kStyleContent.copyWith(
                                   color: Colors.black.withOpacity(0.5),
                                   fontSize: 14),
                             ),

@@ -60,8 +60,8 @@ class SignupDepartmentView extends StatelessWidget {
                 text: TextSpan(children: [
                   TextSpan(
                       text: '어느 학과',
-                      style: TstyleHeader.copyWith(color: Colors.blue)),
-                  const TextSpan(text: '를 전공하고 계신가요?', style: TstyleHeader),
+                      style: kStyleHeader.copyWith(color: Colors.blue)),
+                  const TextSpan(text: '를 전공하고 계신가요?', style: kStyleHeader),
                 ])),
             SizedBox(height: height(context) / 40),
             Text('내 학과는 : ${signupController.departmentController.text}'),

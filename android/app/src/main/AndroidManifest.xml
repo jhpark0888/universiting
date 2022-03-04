@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <meta-data
-            android:name="com.naver.maps.map.kbx9cb788s"
+            android:name="com.naver.maps.map.CLIENT_ID"
             android:value="kbx9cb788s" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
