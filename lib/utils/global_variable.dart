@@ -1,34 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 
-String uri = 'http://ec2-3-38-225-107.ap-northeast-2.compute.amazonaws.com:8000';
 
 
 
-enum Screenstate { loading, error, connecting }
-
-const TextStyle TstyleAppbar = TextStyle(
-    color: Colors.black,
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    fontFamily: 'SUIT');
-
-const TextStyle TstyleHeader = TextStyle(
-    color: Colors.black,
-    fontSize: 16,
-    height: 1.5,
-    fontWeight: FontWeight.w500,
-    fontFamily: 'SUIT');
-
-const TextStyle TstyleContent = TextStyle(
-    color: Colors.black,
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    fontFamily: 'SUIT');
 
 double height(context) {
   return MediaQuery.of(context).size.height;

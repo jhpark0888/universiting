@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:universiting/Api/signup_api.dart';
-import 'package:universiting/controller/signup_controller.dart';
-import 'package:universiting/function/global_variable.dart';
-import 'package:universiting/widget/appbar_widget.dart';
-import 'package:universiting/widget/textformfield_widget.dart';
+import 'package:universiting/constant.dart';
+import '../api/signup_api.dart';
+import '../controllers/signup_controller.dart';
+import '../utils/global_variable.dart';
+import '../widgets/appbar_widget.dart';
+import '../widgets/textformfield_widget.dart';
 
-class SignupProfileScreen extends StatelessWidget {
-  SignupProfileScreen({Key? key}) : super(key: key);
+class SignupProfileView extends StatelessWidget {
+  SignupProfileView({Key? key}) : super(key: key);
   SignupController signupController = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class SignupProfileScreen extends StatelessWidget {
               },
               icon: Text(
                 '다음',
-                style: TstyleAppbar,
+                style: kStyleAppbar,
               ))
         ],
       ),
@@ -43,22 +44,22 @@ class SignupProfileScreen extends StatelessWidget {
                 text: TextSpan(children: [
                   TextSpan(
                       text: '프로필',
-                      style: TstyleHeader.copyWith(color: Colors.blue)),
-                  const TextSpan(text: '을 작성해주세요', style: TstyleHeader)
+                      style: kStyleHeader.copyWith(color: Colors.blue)),
+                  const TextSpan(text: '을 작성해주세요', style: kStyleHeader)
                 ])),
             SizedBox(
               height: height(context) / 20,
             ),
             Text(
               '닉네임',
-              style: TstyleContent.copyWith(fontSize: 14),
+              style: kStyleContent.copyWith(fontSize: 14),
               textAlign: TextAlign.start,
             ),
             CustomTextFormField(controller: signupController.nameController),
             SizedBox(height: height(context) / 20),
             Text(
               '생년월일',
-              style: TstyleContent.copyWith(fontSize: 14),
+              style: kStyleContent.copyWith(fontSize: 14),
               textAlign: TextAlign.start,
             ),
             SizedBox(height: height(context) / 30),
@@ -71,7 +72,7 @@ class SignupProfileScreen extends StatelessWidget {
             SizedBox(height: height(context) / 20),
             Text(
               '성별',
-              style: TstyleContent.copyWith(fontSize: 14),
+              style: kStyleContent.copyWith(fontSize: 14),
               textAlign: TextAlign.start,
             ),
             Row(

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:universiting/Api/signup_api.dart';
-import 'package:universiting/Screen/signup_user_screen.dart';
-import 'package:universiting/controller/signup_controller.dart';
-import 'package:universiting/function/global_variable.dart';
-import 'package:universiting/widget/appbar_widget.dart';
-import 'package:universiting/widget/textformfield_widget.dart';
+import '../api/signup_api.dart';
+import '../constant.dart';
+import '../controllers/signup_controller.dart';
+import '../utils/global_variable.dart';
+import '../views/signup_user_view.dart';
+import '../widgets/appbar_widget.dart';
+import '../widgets/textformfield_widget.dart';
 
-class SignupDepartmentScreen extends StatelessWidget {
-  SignupDepartmentScreen({Key? key}) : super(key: key);
+class SignupDepartmentView extends StatelessWidget {
+  SignupDepartmentView({Key? key}) : super(key: key);
 
   SignupController signupController = Get.find();
 
@@ -19,27 +20,27 @@ class SignupDepartmentScreen extends StatelessWidget {
       appBar: AppBarWidget(
         title: '회원가입',
         leading: IconButton(
-              onPressed: () {
-                signupController.departmentController.clear();
-                signupController.departSearchList.clear();
-                Get.back();
-              },
-              icon: SvgPicture.asset('assets/icons/Arrow.svg')),
+            onPressed: () {
+              signupController.departmentController.clear();
+              signupController.departSearchList.clear();
+              Get.back();
+            },
+            icon: SvgPicture.asset('assets/icons/Arrow.svg')),
         actions: [
           Obx(
             () => IconButton(
                 onPressed: () {
                   resultOfConnection().then((value) => value
                       ? signupController.isDepart.value
-                          ? Get.to(() => SignupUserScreen())
+                          ? Get.to(() => SignupUserView())
                           : print(signupController.isDepart.value)
                       : showCustomDialog('네트워크를 확인해주세요', 3000));
                 },
                 icon: Text(
                   '다음',
                   style: (signupController.isDepart.value)
-                      ? TstyleAppbar.copyWith(color: Colors.blue)
-                      : TstyleAppbar.copyWith(
+                      ? kStyleAppbar.copyWith(color: Colors.blue)
+                      : kStyleAppbar.copyWith(
                           color: Colors.black.withOpacity(0.6)),
                 )),
           )
@@ -48,7 +49,9 @@ class SignupDepartmentScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
         child: GestureDetector(
-          onTap: (){FocusScope.of(context).unfocus();},
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
           child: Center(
               child: Column(children: [
             SizedBox(height: height(context) / 20),
@@ -57,8 +60,8 @@ class SignupDepartmentScreen extends StatelessWidget {
                 text: TextSpan(children: [
                   TextSpan(
                       text: '어느 학과',
-                      style: TstyleHeader.copyWith(color: Colors.blue)),
-                  const TextSpan(text: '를 전공하고 계신가요?', style: TstyleHeader),
+                      style: kStyleHeader.copyWith(color: Colors.blue)),
+                  const TextSpan(text: '를 전공하고 계신가요?', style: kStyleHeader),
                 ])),
             SizedBox(height: height(context) / 40),
             Text('내 학과는 : ${signupController.departmentController.text}'),
@@ -76,7 +79,6 @@ class SignupDepartmentScreen extends StatelessWidget {
                               onTap: () {
                                 signupController.departmentController.text =
                                     element;
-
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,

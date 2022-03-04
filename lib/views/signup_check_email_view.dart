@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:universiting/Screen/signup_profile_screen.dart';
-import 'package:universiting/controller/signup_controller.dart';
-import 'package:universiting/function/global_variable.dart';
-import 'package:universiting/widget/appbar_widget.dart';
+import '../controllers/signup_controller.dart';
+import '../utils/global_variable.dart';
+import '../views/signup_profile_view.dart';
+import '../widgets/appbar_widget.dart';
 
-class SignupCheckEmailScreen extends StatelessWidget {
-  const SignupCheckEmailScreen({Key? key}) : super(key: key);
+import '../constant.dart';
+
+class SignupCheckEmailView extends StatelessWidget {
+  const SignupCheckEmailView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +20,13 @@ class SignupCheckEmailScreen extends StatelessWidget {
           Obx(
             () => IconButton(
                 onPressed: () {
-                  if(SignupController.to.isEmailCheck.value){
-                    Get.to(()=> SignupProfileScreen());
+                  if (SignupController.to.isEmailCheck.value) {
+                    Get.to(() => SignupProfileView());
                   }
                 },
                 icon: Text(
                   '다음',
-                  style: TstyleAppbar.copyWith(
+                  style: kStyleAppbar.copyWith(
                       color: SignupController.to.isEmailCheck.value
                           ? Colors.blue
                           : Colors.black.withOpacity(0.6)),
@@ -43,8 +45,8 @@ class SignupCheckEmailScreen extends StatelessWidget {
                 text: TextSpan(children: [
                   TextSpan(
                       text: '메일',
-                      style: TstyleHeader.copyWith(color: Colors.blue)),
-                  const TextSpan(text: '을 확인해주세요', style: TstyleHeader)
+                      style: kStyleHeader.copyWith(color: Colors.blue)),
+                  const TextSpan(text: '을 확인해주세요', style: kStyleHeader)
                 ])),
             SizedBox(height: height(context) / 20),
             Obx(
@@ -53,17 +55,18 @@ class SignupCheckEmailScreen extends StatelessWidget {
                 initialValue: SignupController.to.emailController.text +
                     SignupController.to.univLink.value,
                 maxLines: 1,
-                style:
-                    TstyleContent.copyWith(color: Colors.black.withOpacity(0.6)),
+                style: kStyleContent.copyWith(
+                    color: Colors.black.withOpacity(0.6)),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                     suffixIcon: Padding(
                       padding: EdgeInsets.only(top: Get.height / 100),
                       child: (SignupController.to.isEmailCheck.value)
-                          ? SvgPicture.asset('assets/icons/Check_Active_blue.svg')
+                          ? SvgPicture.asset(
+                              'assets/icons/Check_Active_blue.svg')
                           : Text(
                               '인증중..',
-                              style: TstyleContent.copyWith(
+                              style: kStyleContent.copyWith(
                                   color: Colors.black.withOpacity(0.5),
                                   fontSize: 14),
                             ),

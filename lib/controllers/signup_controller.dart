@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:universiting/Api/signup_api.dart';
-import 'package:universiting/model/signup_model.dart';
+
+import '../api/signup_api.dart';
+import '../models/signup_model.dart';
 
 class SignupController extends GetxController {
   static SignupController get to => Get.find();
@@ -15,8 +13,6 @@ class SignupController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
-
-
 
   RxList<DateTime> datetime = <DateTime>[DateTime.now()].obs;
   RxList<Univ> allUnivList = <Univ>[].obs;
@@ -40,7 +36,7 @@ class SignupController extends GetxController {
     } catch (e) {
       print(e);
     }
-    
+
     universityController.addListener(() {
       univSearchList.clear();
       for (String univ in univList) {
@@ -95,16 +91,16 @@ class SignupController extends GetxController {
   }
 
   void getlink(String univ) {
-    for(Univ i in allUnivList){
-      if(i.school == univ){
+    for (Univ i in allUnivList) {
+      if (i.school == univ) {
         univLink.value = '@${i.link}';
       }
     }
   }
 
-  void getDepartId(String depart){
-    for(Depart i in allDepartList){
-      if(i.depName == depart){
+  void getDepartId(String depart) {
+    for (Depart i in allDepartList) {
+      if (i.depName == depart) {
         departId.value = i.id;
         schoolId.value = i.schoolId;
       }

@@ -1,25 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:universiting/Api/signup_api.dart';
-import 'package:universiting/Screen/signup_department_screen.dart';
-import 'package:universiting/controller/signup_controller.dart';
-import 'package:universiting/function/global_variable.dart';
-import 'package:universiting/widget/appbar_widget.dart';
-import 'package:universiting/widget/textformfield_widget.dart';
+import 'package:universiting/constant.dart';
+import '../api/signup_api.dart';
+import '../controllers/signup_controller.dart';
+import '../utils/global_variable.dart';
+import '../views/signup_department_view.dart';
+import '../widgets/appbar_widget.dart';
+import '../widgets/textformfield_widget.dart';
 
-class SignupScreen extends StatefulWidget {
-  SignupScreen({Key? key}) : super(key: key);
+class SignupView extends StatefulWidget {
+  SignupView({Key? key}) : super(key: key);
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SignupView> createState() => _SignupViewState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupViewState extends State<SignupView> {
   SignupController signupController = Get.put(SignupController());
 
   @override
@@ -33,8 +33,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 resultOfConnection().then((value) async {
                   if (value) {
                     if (signupController.isUniv.value) {
-                      await getDepartList(signupController.universityController.text);
-                      Get.to(() => SignupDepartmentScreen());
+                      await getDepartList(
+                          signupController.universityController.text);
+                      Get.to(() => SignupDepartmentView());
                       signupController
                           .getlink(signupController.universityController.text);
                       print(signupController.univLink);
@@ -53,7 +54,7 @@ class _SignupScreenState extends State<SignupScreen> {
               icon: Obx(
                 () => Text(
                   '다음',
-                  style: TstyleAppbar.copyWith(
+                  style: kStyleAppbar.copyWith(
                       color: signupController.isUniv.value
                           ? Colors.blue
                           : Colors.black.withOpacity(0.6)),
@@ -80,9 +81,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       text: TextSpan(children: [
                         TextSpan(
                             text: '어느 대학',
-                            style: TstyleHeader.copyWith(color: Colors.blue)),
+                            style: kStyleHeader.copyWith(color: Colors.blue)),
                         const TextSpan(
-                            text: '에 재학 중이신가요?', style: TstyleHeader),
+                            text: '에 재학 중이신가요?', style: kStyleHeader),
                       ])),
                   SizedBox(
                     height: height(context) / 20,

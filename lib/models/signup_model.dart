@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 class Univ {
   String link;
   String school;
@@ -17,21 +15,28 @@ List<Univ> univParsed(String responsebody) {
   return parse.map<Univ>((e) => Univ.fromJson(e)).toList();
 }
 
-
-class Depart{
+class Depart {
   int id;
   int schoolId;
   String depName;
   String schoolName;
 
-  Depart({required this.id, required this.schoolId, required this.depName, required this.schoolName});
+  Depart(
+      {required this.id,
+      required this.schoolId,
+      required this.depName,
+      required this.schoolName});
 
-  factory Depart.fromJson(Map<String, dynamic>json) {
-    return Depart(id: json['id'], schoolId: json['school_id'], depName: json['dep_name'], schoolName: json['school_name']);
+  factory Depart.fromJson(Map<String, dynamic> json) {
+    return Depart(
+        id: json['id'],
+        schoolId: json['school_id'],
+        depName: json['dep_name'],
+        schoolName: json['school_name']);
   }
-
 }
-List<Depart> departParsed(String responsebody){
+
+List<Depart> departParsed(String responsebody) {
   List parse = jsonDecode(responsebody);
   return parse.map<Depart>((e) => Depart.fromJson(e)).toList();
 }

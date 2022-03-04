@@ -1,4 +1,4 @@
-import 'package:universiting/controller/signup_controller.dart';
+import '../controllers/signup_controller.dart';
 
 class CheckValidate {
   String? validateName(String value) {
@@ -44,6 +44,7 @@ class CheckValidate {
       }
     }
   }
+
   String? validatePasswordCheck(String value) {
     if (value.isEmpty) {
       return '';
@@ -65,7 +66,7 @@ class CheckValidate {
     } else {
       Pattern pattern =
           r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?~^<>,.&+=])[A-Za-z\d$@$!%*#?~^<>,.&+=]{8,15}$';
-      RegExp regExp = new RegExp(pattern.toString());
+      RegExp regExp = RegExp(pattern.toString());
       if (regExp.hasMatch(value)) {
         return '특수문자가 포함되어 있어요';
       } else {

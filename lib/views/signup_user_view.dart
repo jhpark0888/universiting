@@ -1,17 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:universiting/Api/signup_api.dart';
-import 'package:universiting/Screen/signup_check_email_screen.dart';
-import 'package:universiting/Screen/signup_profile_screen.dart';
-import 'package:universiting/controller/signup_controller.dart';
-import 'package:universiting/function/check_validator.dart';
-import 'package:universiting/function/global_variable.dart';
-import 'package:universiting/widget/appbar_widget.dart';
-import 'package:universiting/widget/textformfield_widget.dart';
+import 'package:universiting/constant.dart';
+import '../api/signup_api.dart';
+import '../views/signup_check_email_view.dart';
+import '../views/signup_profile_view.dart';
+import '../controllers/signup_controller.dart';
+import '../utils/check_validator.dart';
+import '../utils/global_variable.dart';
+import '../widgets/appbar_widget.dart';
+import '../widgets/textformfield_widget.dart';
 
-class SignupUserScreen extends StatelessWidget {
-  SignupUserScreen({Key? key}) : super(key: key);
+class SignupUserView extends StatelessWidget {
+  SignupUserView({Key? key}) : super(key: key);
   SignupController signupController = Get.find();
   final _key = GlobalKey<FormState>();
   @override
@@ -25,10 +25,12 @@ class SignupUserScreen extends StatelessWidget {
                 if (_key.currentState!.validate()) {
                   resultOfConnection().then(
                     (value) {
-                      if(value){
-                      checkEmail();
-                      Get.to(() => SignupCheckEmailScreen());}
-                      else{showCustomDialog('네트워크를 확인해주세요', 3000);}
+                      if (value) {
+                        checkEmail();
+                        Get.to(() => SignupCheckEmailView());
+                      } else {
+                        showCustomDialog('네트워크를 확인해주세요', 3000);
+                      }
                     },
                   );
                 }
@@ -36,8 +38,8 @@ class SignupUserScreen extends StatelessWidget {
               icon: Text('다음',
                   style: _key.currentState?.validate() != null &&
                           _key.currentState?.validate() == true
-                      ? TstyleAppbar.copyWith(color: Colors.blue)
-                      : TstyleAppbar.copyWith(
+                      ? kStyleAppbar.copyWith(color: Colors.blue)
+                      : kStyleAppbar.copyWith(
                           color: Colors.black.withOpacity(0.6))))
         ],
       ),
@@ -59,15 +61,15 @@ class SignupUserScreen extends StatelessWidget {
                     text: TextSpan(children: [
                       TextSpan(
                           text: '계정',
-                          style: TstyleHeader.copyWith(color: Colors.blue)),
-                      const TextSpan(text: '을 만들어주세요', style: TstyleHeader)
+                          style: kStyleHeader.copyWith(color: Colors.blue)),
+                      const TextSpan(text: '을 만들어주세요', style: kStyleHeader)
                     ]),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: height(context) / 20),
                   Text(
                     '${signupController.universityController.text} 이메일 주소',
-                    style: TstyleContent.copyWith(fontSize: 14),
+                    style: kStyleContent.copyWith(fontSize: 14),
                     textAlign: TextAlign.start,
                   ),
                   Row(children: [
@@ -79,7 +81,7 @@ class SignupUserScreen extends StatelessWidget {
                   SizedBox(height: height(context) / 20),
                   Text(
                     '비밀번호',
-                    style: TstyleContent.copyWith(fontSize: 14),
+                    style: kStyleContent.copyWith(fontSize: 14),
                     textAlign: TextAlign.start,
                   ),
                   CustomTextFormField(
@@ -91,7 +93,7 @@ class SignupUserScreen extends StatelessWidget {
                   SizedBox(height: height(context) / 20),
                   Text(
                     '비밀번호 확인',
-                    style: TstyleContent.copyWith(fontSize: 14),
+                    style: kStyleContent.copyWith(fontSize: 14),
                     textAlign: TextAlign.start,
                   ),
                   CustomTextFormField(
