@@ -1,35 +1,36 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get/get.dart';
-import 'package:universiting/Screen/first_screen.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk/all.dart';
+import 'package:universiting/views/home_view.dart';
 
 void main() {
-  // KakaoContext.clientId = 'eb18509049dc9fe5b2261f98dae73979';
-  runApp(const MyApp());
+  // KakaoContext.clientId = 'e06de717f9da68813c22bb619fb5fab8';
+
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-  // This widget is the root of your application.
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // _initKaKaoTalkInstalled();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: '유니버시팅',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ko', ''),
-        Locale('en', ''),
-      ],
-      home: FirstScreen(),
+      home: HomeView(),
     );
   }
 }
