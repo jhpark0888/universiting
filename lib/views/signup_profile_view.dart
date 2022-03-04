@@ -52,14 +52,14 @@ class SignupProfileView extends StatelessWidget {
             ),
             Text(
               '닉네임',
-              style: TstyleContent.copyWith(fontSize: 14),
+              style: kStyleContent.copyWith(fontSize: 14),
               textAlign: TextAlign.start,
             ),
             CustomTextFormField(controller: signupController.nameController),
             SizedBox(height: height(context) / 20),
             Text(
               '생년월일',
-              style: TstyleContent.copyWith(fontSize: 14),
+              style: kStyleContent.copyWith(fontSize: 14),
               textAlign: TextAlign.start,
             ),
             SizedBox(height: height(context) / 30),
@@ -72,7 +72,7 @@ class SignupProfileView extends StatelessWidget {
             SizedBox(height: height(context) / 20),
             Text(
               '성별',
-              style: TstyleContent.copyWith(fontSize: 14),
+              style: kStyleContent.copyWith(fontSize: 14),
               textAlign: TextAlign.start,
             ),
             Row(
