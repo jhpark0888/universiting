@@ -1,4 +1,4 @@
-package com.example.universiting
+package com.loop.universiting
 
 import io.flutter.embedding.android.FlutterActivity
 
