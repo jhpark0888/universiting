@@ -14,6 +14,19 @@ class MapController extends GetxController {
 
   // final RxInt currentMode = MODE_NONE.obs;
 
+  void onMarkerTap(Marker? marker, Map<String, int?>? iconSize) {
+    int pos = markers.indexWhere((m) => m.markerId == marker?.markerId);
+    markers[pos].captionText = '선택됨';
+    // setState(() {});
+    // _name.value = '선택됨';
+    // Get.dialog(Container(
+    //   child: Text('as'),
+    // ));
+    // if (currentMode.value == MODE_REMOVE) {
+    //   markers.removeWhere((m) => m.markerId == marker?.markerId);
+    // }
+  }
+
   // void onMapTap(LatLng latLng) {
   //   if (currentMode.value == MODE_ADD) {
   //     markers.add(Marker(
@@ -24,5 +37,23 @@ class MapController extends GetxController {
   //     ));
   //   }
   // }
-
+  @override
+  void onReady() {
+    super.onReady();
+    OverlayImage.fromAssetImage(
+      assetName: 'assets/icons/marker.png',
+    ).then((image) {
+      markers.add(Marker(
+          markerId: 'id',
+          position: LatLng(37.563600, 126.962370),
+          captionText: '한양대학교',
+          captionColor: Colors.indigo,
+          captionTextSize: 14.0,
+          icon: image,
+          anchor: AnchorPoint(0.5, 1),
+          width: 45,
+          height: 45,
+          onMarkerTab: onMarkerTap));
+    });
+  }
 }
