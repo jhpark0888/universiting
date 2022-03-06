@@ -3,19 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-
-
-
-
-
-
-double height(context) {
-  return MediaQuery.of(context).size.height;
-}
-
-double width(context) {
-  return MediaQuery.of(context).size.width;
-}
+import 'package:universiting/constant.dart';
 
 void showCustomDialog(String title, int duration) {
   Get.dialog(
@@ -26,16 +14,16 @@ void showCustomDialog(String title, int duration) {
           Radius.circular(8.0),
         ),
       ),
-      contentPadding: const EdgeInsets.fromLTRB(
-        24,
-        12,
-        24,
-        14,
+      contentPadding: EdgeInsets.fromLTRB(
+        Get.width / 15,
+        Get.width / 30,
+        Get.width / 15,
+        Get.width / 30,
       ),
       backgroundColor: Colors.white,
       content: Text(
         title,
-        // style: kSubTitle4Style,
+        style: kStyleDiolog,
         textAlign: TextAlign.center,
       ),
     ),
@@ -75,4 +63,3 @@ Future<bool> resultOfConnection() async {
     return true;
   }
 }
-

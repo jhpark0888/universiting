@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class Univ {
-  String link;
-  String school;
-
-  Univ({required this.link, required this.school});
+  String email;
+  String schoolname;
+  int id;
+  Univ({required this.email, required this.schoolname, required this.id});
 
   factory Univ.fromJson(Map<String, dynamic> json) =>
-      Univ(link: json['link'], school: json['school']);
+      Univ(id : json['id'],email: json['email'], schoolname: json['schoolname']);
 }
 
 List<Univ> univParsed(String responsebody) {
@@ -30,9 +30,9 @@ class Depart {
   factory Depart.fromJson(Map<String, dynamic> json) {
     return Depart(
         id: json['id'],
-        schoolId: json['school_id'],
+        schoolId: json['university_id'],
         depName: json['dep_name'],
-        schoolName: json['school_name']);
+        schoolName: json['schoolname']);
   }
 }
 
