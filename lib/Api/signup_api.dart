@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/login_view.dart';
 
 import '../constant.dart';
@@ -97,48 +99,42 @@ Future<void> checkEmail() async {
   }
 }
 
-// Future<void> postProfile() async {
-//   ConnectivityResult result = await checkConnectionStatus();
-//   FlutterSecureStorage storage = const FlutterSecureStorage();
-//   SignupController signupController = Get.find();
-//   var url = Uri.parse('$serverUrl/user_api/signup');
-//   Map<String, dynamic> signup = {
-//     'type': '12',
-//     'email':
-//         signupController.emailController.text + signupController.univLink.value,
-//     'nickname': signupController.nameController.text,
-//     'gender': signupController.gender.value,
-//     'birth': DateFormat('yyyy-MM-dd')
-//         .format(DateTime.parse(signupController.datetime[0].toString())),
-//     'department_id': signupController.departId.toString(),
-//     'university_id': signupController.schoolId.toString()
-//   };
-//   var headers = {'Content-Type': 'multipart/form-data'};
-//   if (result == ConnectionState.none) {
-//     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
-//   } else {
-//     try {
-//       var response = await http.post(url, body: signup);
-//       if (response.statusCode >= 200 && response.statusCode < 300) {
-//         String responsebody = utf8.decode(response.bodyBytes);
-//         String id = jsonDecode(responsebody)['user_id'];
-//         String token = jsonDecode(responsebody)['token'];
-//         await storage.write(key: 'id$id', value: id);
-//         await storage.write(key: 'token$id', value: token);
-//         print(id);
-//         print(token);
-//         print(response.statusCode);
-//         Get.offAll(() => LoginView(
-//               isSignup: true,
-//             ));
-//       } else {
-//         print(response.statusCode);
-//       }
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
-// }
+Future<void> postProfile() async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = const FlutterSecureStorage();
+  SignupController signupController = Get.find();
+  var url = Uri.parse('$serverUrl/user_api/signup');
+  Map<String, dynamic> signup = {
+    'type': 12,
+    'email':
+        signupController.emailController.text + '@' +signupController.uni.value.email,
+    'nickname': signupController.nameController.text,
+    'gender': signupController.isgender.value,
+    'age': int.parse(signupController.ageController.text),
+    'department_id': signupController.departId.value,
+    'university_id': signupController.schoolId.value
+  };
+  var headers = {'Content-Type': 'application/json'};
+  if (result == ConnectionState.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+      var response = await http.post(url, body: jsonEncode(signup), headers: headers);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        String responsebody = utf8.decode(response.bodyBytes);
+        String id = jsonDecode(responsebody)['user_id'];
+        String token = jsonDecode(responsebody)['token'];
+        await storage.write(key: 'id$id', value: id);
+        await storage.write(key: 'token$id', value: token);
+        print(id);
+        print(token);
+        print(response.statusCode);
+        
+      } else {
+        print(response.statusCode);
+      }
+    
+  }
+}
 void showEmailCustomDialog(String title, int duration) {
   Get.dialog(
     AlertDialog(

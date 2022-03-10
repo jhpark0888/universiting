@@ -102,7 +102,11 @@ class SignupDepartmentView extends StatelessWidget {
                       bottom: Get.width / 15,
                       right: Get.width / 20,
                       child: GestureDetector(
-                        onTap: (){if(signupController.isDepart.value)Get.to(() => SignupNameView());},
+                        onTap: (){
+                          signupController.getDepartId(signupController.departmentController.text);
+                          print(signupController.departId);
+                          print(signupController.schoolId);
+                          if(signupController.isDepart.value)Get.to(() => SignupNameView());},
                         child: BottomButtonWidget(
                             color: signupController.isDepart.value
                                 ? mainblack

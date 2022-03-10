@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/Api/signup_api.dart';
 import 'package:universiting/utils/check_validator.dart';
+import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/signup_check_email_view.dart';
 import 'package:universiting/views/signup_gender_view.dart';
 import 'package:universiting/views/signup_profile_view.dart';
@@ -65,14 +66,17 @@ class SignupCheckEmailView extends StatelessWidget {
                   right: Get.width / 20,
                   child: Obx(
                     () => GestureDetector(
-                      onTap: () async{
+                      onTap: () async {
                         if (signupController.isEmail.value == true &&
                             signupController.isEmailPress.value == false &&
                             signupController.isEmailCheck.value == false) {
                           signupController.isEmailPress.value = true;
-                        }else if(signupController.isEmail.value == true &&
-                        signupController.isEmailPress.value == true){
                           await checkEmail();
+                        } else if (signupController.isEmail.value == true &&
+                            signupController.isEmailPress.value == true &&
+                            signupController.isSendEmail.value == true &&
+                            signupController.isEmailCheck.value == true) {
+                          await postProfile().then((value) => Get.offAll(() => HomeView(login: false, tag : '첫 화면')));
                         }
                       },
                       child: BottomButtonWidget(
@@ -87,8 +91,7 @@ class SignupCheckEmailView extends StatelessWidget {
                                       '인증 메일 보내기',
                                       style: kStyleDiolog.copyWith(
                                           fontWeight: FontWeight.w600,
-                                          color: signupController
-                                                  .isEmail.value
+                                          color: signupController.isEmail.value
                                               ? Colors.white
                                               : mainblack.withOpacity(0.38)),
                                     )
@@ -100,8 +103,9 @@ class SignupCheckEmailView extends StatelessWidget {
                                             )
                                           : Text('인증 대기중',
                                               style: kStyleDiolog.copyWith(
-                                                  fontWeight:
-                                                      FontWeight.w600, color: mainblack.withOpacity(0.38)))
+                                                  fontWeight: FontWeight.w600,
+                                                  color: mainblack
+                                                      .withOpacity(0.38)))
                                       : Icon(
                                           Icons.restart_alt,
                                           color: Colors.white,

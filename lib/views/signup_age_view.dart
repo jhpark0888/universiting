@@ -9,7 +9,6 @@ import '../api/signup_api.dart';
 import '../constant.dart';
 import '../controllers/signup_controller.dart';
 import '../utils/global_variable.dart';
-import '../views/signup_user_view.dart';
 import '../widgets/appbar_widget.dart';
 import '../widgets/textformfield_widget.dart';
 
