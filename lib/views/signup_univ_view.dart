@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:universiting/Api/signup_api.dart';
+import 'package:universiting/api/signup_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/widgets/bottombutton.dart';
 import '../controllers/signup_controller.dart';
@@ -13,62 +13,20 @@ import '../views/signup_department_view.dart';
 import '../widgets/appbar_widget.dart';
 import '../widgets/textformfield_widget.dart';
 
-class SignupView extends StatefulWidget {
-  SignupView({Key? key}) : super(key: key);
+class SignupUnivView extends StatefulWidget {
+  SignupUnivView({Key? key}) : super(key: key);
 
   @override
-  State<SignupView> createState() => _SignupViewState();
+  State<SignupUnivView> createState() => _SignupViewState();
 }
 
-class _SignupViewState extends State<SignupView> {
+class _SignupViewState extends State<SignupUnivView> {
   SignupController signupController = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
     print(Get.width);
     return Scaffold(
-      // bottomSheet: GestureDetector(
-      //     onTap: () {Get.to(() => SignupDepartmentView());},
-      //     child: BottomSheetWidget(
-      //       color: signupController.isUniv.value ? Colors.black : buttonColor,
-      //     )),
-      // appBar: AppBarWidget(
-      //   title: '회원 가입',
-      //   actions: [
-      //     IconButton(
-      //         onPressed: () async {
-      //           resultOfConnection().then((value) async {
-      //             if (value) {
-      //               if (signupController.isUniv.value) {
-      //                 await getDepartList(
-      //                     signupController.universityController.text);
-      //                 Get.to(() => SignupDepartmentView());
-      //                 signupController
-      //                     .getlink(signupController.universityController.text);
-      //                 print(signupController.univLink);
-      //               } else {
-      //                 print(signupController.isUniv.value);
-      //               }
-      //             } else {
-      //               showCustomDialog('네트워크를 확인해주세요', 3000);
-      //             }
-      //           });
-      //           // ? signupController.isUniv.value
-      //           //     ? Get.to(() => SignupDepartmentScreen(univ: signupController.universityController.text,))
-      //           //     : print(signupController.isUniv.value)
-      //           // : showCustomDialog('네트워크를 확인해주세요', 3000));
-      //         },
-      //         icon: Obx(
-      //           () => Text(
-      //             '다음',
-      //             style: kStyleAppbar.copyWith(
-      //                 color: signupController.isUniv.value
-      //                     ? Colors.blue
-      //                     : Colors.black.withOpacity(0.6)),
-      //           ),
-      //         ))
-      //   ],
-      // ),
       body: GestureDetector(
         onTap: (){FocusScope.of(context).unfocus();},
         child: GestureDetector(
@@ -77,7 +35,7 @@ class _SignupViewState extends State<SignupView> {
           },
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-                Get.width / 20, Get.width / 6, Get.width / 20, 0),
+                20, 64, 20, 0),
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -85,13 +43,13 @@ class _SignupViewState extends State<SignupView> {
                   children: [
                     RichText(
                         text: const TextSpan(children: [
-                      TextSpan(text: '여긴 대학생들을 위한 공간이에요.', style: kStyleHeader),
+                      TextSpan(text: '여긴 대학생들을 위한 공간이에요.', style: kHeaderStyle1),
                     ])),
-                    SizedBox(height: Get.width / 30),
+                    SizedBox(height: 12),
                     RichText(
                         text: const TextSpan(children: [
                       TextSpan(
-                          text: '현재 다니고 계시는 학교가 어디신가요?', style: kStyleHeader),
+                          text: '현재 다니고 계시는 학교가 어디신가요?', style: kHeaderStyle1),
                     ])),
                     SizedBox(
                       height: Get.height / 20,
@@ -150,8 +108,8 @@ class _SignupViewState extends State<SignupView> {
                                   },
                                   child: BottomButtonWidget(
                                       color: signupController.isUniv.value
-                                          ? mainblack
-                                          : Color(0xffe7e7e7)),
+                                          ? kPrimary
+                                          : kPrimary),
                                 ))
                             // GestureDetector(
                             //     onTap: () {

@@ -24,22 +24,22 @@ class SignupDepartmentView extends StatelessWidget {
           FocusScope.of(context).unfocus();
         },
         child: Padding(
-          padding: EdgeInsets.fromLTRB(Get.width / 20, Get.width / 6, Get.width/20, 0),
+          padding: EdgeInsets.fromLTRB(20, 64, 20, 0),
           child: GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
             },
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('그렇군요!', style: kStyleHeader),
+              const Text('그렇군요!', style: kHeaderStyle1),
               SizedBox(
                 height: Get.width / 30,
               ),
-              const Text('그럼 학과는요?', style: kStyleHeader),
+              const Text('그럼 학과는요?', style: kHeaderStyle1),
               SizedBox(height: Get.width / 30),
               Text('괜찮아요 내 학과는 매칭된 친구들끼리만 확인할 수 있어요',
-                  style: kStyleContent.copyWith(
-                      color: Colors.black.withOpacity(0.6))),
+                  style: kLargeCaptionStyle.copyWith(
+                      color: kMainBlack.withOpacity(0.6))),
               SizedBox(height: Get.height / 20),
               CustomTextFormField(
                 controller: signupController.departmentController,
@@ -80,8 +80,8 @@ class SignupDepartmentView extends StatelessWidget {
                           if(signupController.isDepart.value)Get.to(() => SignupNameView());},
                         child: BottomButtonWidget(
                             color: signupController.isDepart.value
-                                ? mainblack
-                                : Color(0xffe7e7e7)),
+                                ? kPrimary
+                                : kPrimary),
                       ),
                     )
                   ]),

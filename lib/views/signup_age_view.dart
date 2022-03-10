@@ -22,21 +22,21 @@ class SignupAgeView extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-            Get.width / 20, Get.width / 6, Get.width / 20, 0),
+            20, 64, 20, 0),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('안녕하세요 ${signupController.nameController.text}님,', style: kStyleHeader),
+            Text('안녕하세요 ${signupController.nameController.text}님,', style: kHeaderStyle1),
             SizedBox(
               height: Get.width / 30,
             ),
-            const Text('혹시.. 나이가 어떻게 되시나요?', style: kStyleHeader),
+            const Text('혹시.. 나이가 어떻게 되시나요?', style: kHeaderStyle1),
             SizedBox(height: Get.width / 30),
             Text('괜찮아요. 나이는 매칭된 친구들만 확인할 수 있어요',
-                style: kStyleContent.copyWith(
+                style: kLargeCaptionStyle.copyWith(
                     color: Colors.black.withOpacity(0.6))),
             SizedBox(height: Get.height / 20),
             Form(
@@ -63,8 +63,8 @@ class SignupAgeView extends StatelessWidget {
                       child: Obx(
                         () => BottomButtonWidget(
                             color: signupController.isage.value
-                                ? mainblack
-                                : Color(0xffe7e7e7)),
+                                ? kPrimary
+                                : kPrimary),
                       ),
                     ),
                   )

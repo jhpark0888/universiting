@@ -28,22 +28,22 @@ class SignupGenderView extends StatelessWidget {
         },
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-              Get.width / 20, Get.width / 6, Get.width / 20, 0),
+              20, 64, 20, 0),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('${signupController.ageController.text}살, $content',
-                    style: kStyleHeader),
+                    style: kHeaderStyle1),
                 SizedBox(
                   height: Get.width / 30,
                 ),
                 Text('근데 ${signupController.nameController.text}님은...',
-                    style: kStyleHeader),
+                    style: kHeaderStyle1),
                 SizedBox(height: Get.width / 30),
                 Text('괜찮아요. 성별는 매칭된 친구들만 확인할 수 있어요',
-                    style: kStyleContent.copyWith(
-                        color: Colors.black.withOpacity(0.6))),
+                    style: kLargeCaptionStyle.copyWith(
+                        color: kMainBlack.withOpacity(0.6))),
                 SizedBox(height: Get.height / 10),
                 Obx(
                   () => Row(
@@ -53,12 +53,12 @@ class SignupGenderView extends StatelessWidget {
                       signupController.isgender.value == 'M'
                           ? Text(
                               mcontents[1],
-                              style: kStyleAppbar,
+                              style: kSubtitleStyle2,
                             )
                           : Text(
                               mcontents[0],
-                              style: kStyleAppbar.copyWith(
-                                  color: mainblack.withOpacity(0.38)),
+                              style: kSubtitleStyle2.copyWith(
+                                  color: kMainBlack.withOpacity(0.38)),
                             ),
                       SizedBox(
                         height: Get.height / 30,
@@ -83,12 +83,12 @@ class SignupGenderView extends StatelessWidget {
                         signupController.isgender.value == 'F'
                             ? Text(
                                 wcontents[1],
-                                style: kStyleAppbar,
+                                style: kSubtitleStyle2,
                               )
                             : Text(
                                 wcontents[0],
-                                style: kStyleAppbar.copyWith(
-                                    color: mainblack.withOpacity(0.38)),
+                                style: kSubtitleStyle2.copyWith(
+                                    color: kMainBlack.withOpacity(0.38)),
                               ),
                         SizedBox(
                           height: Get.height / 30,
@@ -122,8 +122,8 @@ class SignupGenderView extends StatelessWidget {
                         child: Obx(
                           () => BottomButtonWidget(
                               color: (signupController.isgender.value.isNotEmpty)
-                                  ? mainblack
-                                  : Color(0xffe7e7e7)),
+                                  ? kPrimary
+                                  : kPrimary),
                         ),
                       ),
                     ),

@@ -38,12 +38,12 @@ class App extends StatelessWidget {
                       width: Get.width / 9,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: mainblack),
+                          color: kMainBlack),
                       child: Center(
                         child: Text(
                           'U',
                           textAlign: TextAlign.center,
-                          style: kStyleDiolog.copyWith(color: Colors.white),
+                          style: kActiveButtonStyle.copyWith(color: Colors.white),
                         ),
                       ),
                     ), label: ''),

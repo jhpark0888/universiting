@@ -24,7 +24,7 @@ class LoginView extends StatelessWidget {
             children: [
               const Text(
                 '로그인',
-                style: kStyleHeader,
+                style: kHeaderStyle2,
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: Get.width / 20),
@@ -36,8 +36,8 @@ class LoginView extends StatelessWidget {
                       fillColor: const Color(0xffF4F4F4),
                       filled: true,
                       hintText: '학교 이메일 주소',
-                      hintStyle: kStyleContent.copyWith(
-                        color: mainblack.withOpacity(0.38),
+                      hintStyle: kBodyStyle2.copyWith(
+                        color: kMainBlack.withOpacity(0.38),
                       ),
                       enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -55,8 +55,8 @@ class LoginView extends StatelessWidget {
                       fillColor: const Color(0xffF4F4F4),
                       filled: true,
                       hintText: '비밀번호',
-                      hintStyle: kStyleContent.copyWith(
-                        color: mainblack.withOpacity(0.38),
+                      hintStyle: kBodyStyle2.copyWith(
+                        color: kMainBlack.withOpacity(0.38),
                       ),
                       enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -69,9 +69,9 @@ class LoginView extends StatelessWidget {
               Center(
                   child: Text(
                 '비밀번호를 잊어버렸어요',
-                style: kStyleContent.copyWith(
+                style: kBodyStyle2.copyWith(
                     decoration: TextDecoration.underline,
-                    color: mainblack.withOpacity(0.6)),
+                    color: kMainBlack.withOpacity(0.6)),
               )),
               SizedBox(
                 height: Get.height / 30,
@@ -87,14 +87,14 @@ class LoginView extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: LoginController.to.passwordValidate.value &&
                                 LoginController.to.emailValidate.value
-                            ? mainblack
+                            ? kMainBlack
                             : const Color(0xffE7E7E7),
                         borderRadius: BorderRadius.circular(16)),
                     child: Padding(
                       padding: EdgeInsets.all(Get.width / 30),
                       child: Text(
                         '로그인하기',
-                        style: kStyleButton.copyWith(
+                        style: kActiveButtonStyle.copyWith(
                             color: LoginController.to.passwordValidate.value &&
                                     LoginController.to.emailValidate.value
                                 ? Colors.white

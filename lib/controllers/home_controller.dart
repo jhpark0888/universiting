@@ -28,7 +28,7 @@ class HomeController extends GetxController {
             captionColor: Colors.indigo,
             captionTextSize: 14.0,
             icon: image,
-            iconTintColor: element.type ? mainblack : Colors.red,
+            iconTintColor: element.type ? kMainBlack : Colors.red,
             anchor: AnchorPoint(0.5, 1),
             width: 45,
             height: 45,

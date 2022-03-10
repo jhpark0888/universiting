@@ -23,18 +23,18 @@ class SignupNameView extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-            Get.width / 20, Get.width / 6, Get.width / 20, 0),
+            20, 64, 20, 0),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('좋아요!', style: kStyleHeader),
+            const Text('좋아요!', style: kHeaderStyle1),
             SizedBox(
               height: Get.width / 30,
             ),
-            const Text('친구들이 당신을 뭐라고 불러야할까요?', style: kStyleHeader),
+            const Text('친구들이 당신을 뭐라고 불러야할까요?', style: kHeaderStyle1),
             SizedBox(height: Get.width / 30),
             SizedBox(height: Get.height / 20),
             Form(
@@ -61,8 +61,8 @@ class SignupNameView extends StatelessWidget {
                       child: Obx(
                         () => BottomButtonWidget(
                             color: signupController.isname.value
-                                ? mainblack
-                                : Color(0xffe7e7e7)),
+                                ? kPrimary
+                                : kPrimary),
                       ),
                     ),
                   )

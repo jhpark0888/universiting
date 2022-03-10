@@ -153,7 +153,7 @@ void showEmailCustomDialog(String title, int duration) {
       backgroundColor: Colors.white,
       content: Text(
         title,
-        style: kStyleDiolog,
+        style: kActiveButtonStyle,
         textAlign: TextAlign.center,
       ),
     ),
