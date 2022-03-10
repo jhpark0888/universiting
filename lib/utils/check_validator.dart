@@ -5,13 +5,11 @@ class CheckValidate {
     if (value.isEmpty) {
       return '아직 아무것도 쓰지 않았어요';
     } else {
-      Pattern pattern = r'[\-\_\/\\\[\]\(\)\|\{\}*$@$!%*#?~^<>,.&+=]';
-      RegExp regExp = RegExp(pattern.toString());
-      if (regExp.hasMatch(value)) {
-        return '특수문자는 쓸 수 없어요';
-      } else {
-        return null;
-      }
+      // Pattern pattern = r'[\-\_\/\\\[\]\(\)\|\{\}*$@$!%*#?~^<>,.&+=]';
+      // RegExp regExp = RegExp(pattern.toString());
+      // if (regExp.hasMatch(value)) {
+      //   return '특수문자는 쓸 수 없어요';
+      // }
     }
   }
 

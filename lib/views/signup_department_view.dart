@@ -32,7 +32,7 @@ class SignupDepartmentView extends StatelessWidget {
                 onPressed: () {
                   resultOfConnection().then((value) => value
                       ? signupController.isDepart.value
-                          ? Get.to(() => SignupUserView())
+                          ? print('a')
                           : print(signupController.isDepart.value)
                       : showCustomDialog('네트워크를 확인해주세요', 3000));
                 },
@@ -54,7 +54,7 @@ class SignupDepartmentView extends StatelessWidget {
           },
           child: Center(
               child: Column(children: [
-            SizedBox(height: height(context) / 20),
+            SizedBox(height: Get.width / 20),
             RichText(
                 textAlign: TextAlign.right,
                 text: TextSpan(children: [
@@ -63,9 +63,9 @@ class SignupDepartmentView extends StatelessWidget {
                       style: kStyleHeader.copyWith(color: Colors.blue)),
                   const TextSpan(text: '를 전공하고 계신가요?', style: kStyleHeader),
                 ])),
-            SizedBox(height: height(context) / 40),
+            SizedBox(height: Get.height / 40),
             Text('내 학과는 : ${signupController.departmentController.text}'),
-            SizedBox(height: height(context) / 20),
+            SizedBox(height: Get.height / 20),
             CustomTextFormField(
                 controller: signupController.departmentController),
             const SizedBox(

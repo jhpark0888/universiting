@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:universiting/constant.dart';
 
 import '../api/signup_api.dart';
 import '../models/signup_model.dart';
@@ -13,6 +14,7 @@ class SignupController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
 
   RxList<DateTime> datetime = <DateTime>[DateTime.now()].obs;
   RxList<Univ> allUnivList = <Univ>[].obs;
@@ -22,20 +24,23 @@ class SignupController extends GetxController {
   RxList<String> departList = <String>['산업경영공학과'].obs;
   RxList<String> departSearchList = <String>[].obs;
 
-  RxString univLink = ''.obs;
-  RxString gender = ''.obs;
+  final uni = Univ(email: '', schoolname: '', id: 1).obs;
+
+  RxString isgender = ''.obs;
   RxInt departId = 0.obs;
   RxInt schoolId = 0.obs;
+
   RxBool isUniv = false.obs;
   RxBool isDepart = false.obs;
+  RxBool isname = false.obs;
+  RxBool isage = false.obs;
+  RxBool isEmail = false.obs;
+  RxBool isEmailPress = false.obs;
+  RxBool isSendEmail = false.obs;
   RxBool isEmailCheck = false.obs;
   @override
   void onInit() async {
-    try {
-      await getUniversityList();
-    } catch (e) {
-      print(e);
-    }
+    await getUniversityList();
 
     universityController.addListener(() {
       univSearchList.clear();
@@ -60,6 +65,30 @@ class SignupController extends GetxController {
         }
       }
     });
+
+    nameController.addListener(() {
+      if (nameController.text.isNotEmpty) {
+        isname.value = true;
+      } else if (nameController.text.isEmpty) {
+        isname.value = false;
+      }
+    });
+
+    ageController.addListener(() {
+      if (ageController.text.isNotEmpty) {
+        isage.value = true;
+      } else if (ageController.text.isEmpty) {
+        isage.value = false;
+      }
+    });
+
+    emailController.addListener(() {
+      if (emailController.text.isNotEmpty) {
+        isEmail.value = true;
+      } else if (emailController.text.isEmpty) {
+        isEmail.value = false;
+      }
+    });
     super.onInit();
   }
 
@@ -69,7 +98,9 @@ class SignupController extends GetxController {
     departmentController.clear();
     isUniv(false);
     isDepart(false);
-    gender.value = '';
+    isname(false);
+    isEmail(false);
+    isEmailPress(false);
     isEmailCheck(false);
     super.onClose();
   }
@@ -90,10 +121,10 @@ class SignupController extends GetxController {
     }
   }
 
-  void getlink(String univ) {
+  void selectuniv(String univ) {
     for (Univ i in allUnivList) {
-      if (i.school == univ) {
-        univLink.value = '@${i.link}';
+      if (i.schoolname == univ) {
+        uni.value = i;
       }
     }
   }
@@ -104,6 +135,17 @@ class SignupController extends GetxController {
         departId.value = i.id;
         schoolId.value = i.schoolId;
       }
+    }
+  }
+
+  String checkAge() {
+    int age = int.parse(ageController.text);
+    if (age <= 22) {
+      return ageContents[0];
+    } else if (age <= 26) {
+      return ageContents[1];
+    } else {
+      return ageContents[2];
     }
   }
 }

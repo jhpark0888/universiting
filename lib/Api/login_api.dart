@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:universiting/app.dart';
+import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +15,7 @@ Future<void> login() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   LoginController loginController = Get.put(LoginController());
+  HomeController homeController = Get.find(tag: '첫 화면');
   Map<String, dynamic> login_info = {
     'username': loginController.emailController.text,
     'password': loginController.passwordController.text,
@@ -34,7 +37,11 @@ Future<void> login() async {
         await storage.write(key: 'id$id', value: id);
         await storage.write(key: 'token$id', value: token);
         print(response.statusCode);
-      } else {
+        print(responsebody);
+        homeController.isGuest(false);
+        Get.offAll( () => App());
+      } else if(response.statusCode == 401) {
+        showCustomDialog('이메일 주소 또는 비밀번호를 다시 확인해주세요', 1400);
         print(response.statusCode);
       }
     } catch (e) {

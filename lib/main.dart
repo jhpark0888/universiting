@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirstView(),
+      home: HomeView(login: false,tag: '첫 화면',),
     );
   }
 }
