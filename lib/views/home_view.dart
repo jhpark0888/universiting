@@ -15,7 +15,6 @@ class HomeView extends StatelessWidget {
           Expanded(
             child: Stack(
               children: [
-
                 Obx(
                   () => NaverMap(
                     initialCameraPosition:
