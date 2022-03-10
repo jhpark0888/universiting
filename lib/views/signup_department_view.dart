@@ -19,35 +19,6 @@ class SignupDepartmentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBarWidget(
-      //   title: '회원가입',
-      //   leading: IconButton(
-      //       onPressed: () {
-      //         signupController.departmentController.clear();
-      //         signupController.departSearchList.clear();
-      //         Get.back();
-      //       },
-      //       icon: SvgPicture.asset('assets/icons/Arrow.svg')),
-      //   actions: [
-      //     Obx(
-      //       () => IconButton(
-      //           onPressed: () {
-      //             resultOfConnection().then((value) => value
-      //                 ? signupController.isDepart.value
-      //                     ? Get.to(() => SignupUserView())
-      //                     : print(signupController.isDepart.value)
-      //                 : showCustomDialog('네트워크를 확인해주세요', 3000));
-      //           },
-      //           icon: Text(
-      //             '다음',
-      //             style: (signupController.isDepart.value)
-      //                 ? kStyleAppbar.copyWith(color: Colors.blue)
-      //                 : kStyleAppbar.copyWith(
-      //                     color: Colors.black.withOpacity(0.6)),
-      //           )),
-      //     )
-      //   ],
-      // ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
