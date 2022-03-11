@@ -37,7 +37,7 @@ class SignupNameView extends StatelessWidget {
             SizedBox(height: Get.width / 30),
             Form(
               key: _key,
-              child: CustomTextFormField(
+              child: SignUpTextFormField(
                 controller: signupController.nameController,
                 validator: (value) {
                   if (value!.isEmpty) {

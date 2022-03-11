@@ -38,7 +38,7 @@ class SignupPasswordView extends StatelessWidget {
             SizedBox(height: Get.height / 20),
             Obx(
               () => Form(
-                child: CustomTextFormField(
+                child: SignUpTextFormField(
                   controller: signupController.isPasswordCheck.value ? signupController.passwordCheckController : signupController.passwordController,
                   obsecuretext: true,
                   hinttext: signupController.isPasswordCheck.value ? '비밀번호 확인' :'비밀번호 6자 이상',

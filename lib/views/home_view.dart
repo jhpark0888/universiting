@@ -16,7 +16,6 @@ class HomeView extends StatelessWidget {
       : super(key: key);
   bool login = false;
   String tag;
-
   static CameraUpdate cameraUpdate =
       CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
 
@@ -28,60 +27,67 @@ class HomeView extends StatelessWidget {
       homeController.mapController.nMapController.complete(controller);
     }
 
+    Future.delayed(Duration(milliseconds: 1000), () {
+      mapController.context1 = context;
+    });
     return Scaffold(
       extendBody: true,
       bottomSheet: login
-          ? Obx(() => AnimatedContainer(
-              duration: Duration(milliseconds: 100),
-              height: mapController.isClick.value
-                  ? homeController.isDetailClick.value
-                      ? Get.width / 0.8
-                      : Get.width / 1.5
-                  : 0,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20),
-              )),
-              // foregroundDecoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),color: kMainWhite),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            homeController.isDetailClick.value = !homeController.isDetailClick.value;
-                            print(homeController.isDetailClick.value);
-                          },
-                          child: Center(
-                              child: Container(
-                                  height: 4, width: 28, color: kLightGrey))),
-                      SizedBox(height: 21),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            mapController.clickedUniv.value,
-                            style: kHeaderStyle2,
-                          ),
-                          Text(
-                            '방 0개',
-                            style: kSubtitleStyle1,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              )))
+      ? Container(height: 0)
+          // ? Obx(() => AnimatedContainer(
+          //     duration: Duration(milliseconds: 100),
+          //     height: mapController.isClick.value
+          //         ? homeController.isDetailClick.value
+          //             ? Get.width / 0.8
+          //             : Get.width / 1.5
+          //         : 0,
+          //     decoration: const BoxDecoration(
+          //         borderRadius: BorderRadius.only(
+          //       topRight: Radius.circular(20),
+          //       topLeft: Radius.circular(20),
+          //     )),
+          //     // foregroundDecoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),color: kMainWhite),
+          //     child: ClipRRect(
+          //       borderRadius: const BorderRadius.only(
+          //         topLeft: Radius.circular(20),
+          //         topRight: Radius.circular(20),
+          //         bottomLeft: Radius.circular(0),
+          //         bottomRight: Radius.circular(0),
+          //       ),
+          //       child: Padding(
+          //         padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+          //         child: SingleChildScrollView(
+          //           child: Column(
+          //             crossAxisAlignment: CrossAxisAlignment.stretch,
+          //             children: [
+          //               GestureDetector(
+          //                   onTap: () {
+          //                     homeController.isDetailClick.value =
+          //                         !homeController.isDetailClick.value;
+          //                     print(homeController.isDetailClick.value);
+          //                   },
+          //                   child: Center(
+          //                       child: Container(
+          //                           height: 4, width: 28, color: kLightGrey))),
+          //               SizedBox(height: 21),
+          //               Row(
+          //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                 children: [
+          //                   Text(
+          //                     mapController.clickedUniv.value,
+          //                     style: kHeaderStyle2,
+          //                   ),
+          //                   Text(
+          //                     '방 0개',
+          //                     style: kSubtitleStyle1,
+          //                   )
+          //                 ],
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     )))
           : Obx(() => homeController.islogin.value
               ? homeController.isGuest.value
                   ? LoginView()
@@ -206,7 +212,6 @@ class HomeView extends StatelessWidget {
                       onMapCreated: login ? null : onMapCreated,
                       onMapTap: (value) {
                         mapController.isClick(false);
-                        print(mapController.isClick);
                       },
                       markers: homeController.mapController.markers.isNotEmpty
                           ? homeController.mapController.markers

@@ -47,7 +47,7 @@ class SignupEmailValidateView extends StatelessWidget {
               children: [
                 Container(
                   width: Get.width / 3,
-                  child: CustomTextFormField(
+                  child: SignUpTextFormField(
                     textalign: TextAlign.start,
                     controller: signupController.emailController,
                     hinttext: '학교 이메일',

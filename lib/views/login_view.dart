@@ -15,6 +15,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
+        decoration: BoxDecoration(color: kMainWhite),
         height: Get.width / 1,
         child: Padding(
           padding: EdgeInsets.fromLTRB(

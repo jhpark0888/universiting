@@ -37,7 +37,7 @@ class SignupPasswordCheckView extends StatelessWidget {
             const Text('사용할 비밀번호를 입력해주세요.', style: kHeaderStyle1),
             SizedBox(height: Get.height / 20),
             Form(
-              child: CustomTextFormField(
+              child: SignUpTextFormField(
                 obsecuretext: true,
                 controller: signupController.passwordCheckController,
                 hinttext: '비밀번호 확인',

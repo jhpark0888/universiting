@@ -7,6 +7,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/all.dart';
+import 'package:universiting/constant.dart';
 import 'package:universiting/views/first_view.dart';
 import 'package:universiting/views/home_view.dart';
 
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(scaffoldBackgroundColor: kMainWhite),
       home: HomeView(login: false,tag: '첫 화면',),
     );
   }

@@ -41,7 +41,7 @@ class SignupDepartmentView extends StatelessWidget {
                   style: kLargeCaptionStyle.copyWith(
                       color: kMainBlack.withOpacity(0.6))),
               const SizedBox(height: 36),
-              CustomTextFormField(
+              SignUpTextFormField(
                 controller: signupController.departmentController,
                 hinttext: '학과 이름',
               ),

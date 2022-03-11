@@ -74,7 +74,7 @@
 //                   ),
 //                   Row(children: [
 //                     Expanded(
-//                         child: CustomTextFormField(
+//                         child: SignUpTextFormField(
 //                             controller: signupController.emailController)),
 //                     Text(signupController.univLink.value)
 //                   ]),
@@ -84,7 +84,7 @@
 //                     style: kStyleContent.copyWith(fontSize: 14),
 //                     textAlign: TextAlign.start,
 //                   ),
-//                   CustomTextFormField(
+//                   SignUpTextFormField(
 //                     controller: signupController.passwordController,
 //                     obsecuretext: true,
 //                     validator: ((value) =>
@@ -96,7 +96,7 @@
 //                     style: kStyleContent.copyWith(fontSize: 14),
 //                     textAlign: TextAlign.start,
 //                   ),
-//                   CustomTextFormField(
+//                   SignUpTextFormField(
 //                     controller: signupController.passwordCheckController,
 //                     obsecuretext: true,
 //                     validator: ((value) =>

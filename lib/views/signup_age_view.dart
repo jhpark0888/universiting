@@ -45,7 +45,7 @@ class SignupAgeView extends StatelessWidget {
                     color: Colors.black.withOpacity(0.6))),
             SizedBox(height: Get.height / 30),
             Form(
-              child: CustomTextFormField(
+              child: SignUpTextFormField(
                 controller: signupController.ageController,
                 hinttext: '나이',
               ),

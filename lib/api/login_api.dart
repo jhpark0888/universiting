@@ -36,8 +36,8 @@ Future<void> login() async {
         String responsebody = utf8.decode(response.bodyBytes);
         String id = jsonDecode(responsebody)['user_id'];
         String token = jsonDecode(responsebody)['token'];
-        await storage.write(key: 'id$id', value: id);
-        await storage.write(key: 'token$id', value: token);
+        await storage.write(key: 'id', value: id);
+        await storage.write(key: 'token', value: token);
         print(response.statusCode);
         print(responsebody);
         homeController.isGuest(false);

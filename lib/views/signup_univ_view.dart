@@ -52,7 +52,7 @@ class SignupUnivView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: CustomTextFormField(
+                          child: SignUpTextFormField(
                             controller: signupController.universityController,
                             hinttext: '학교 이름',
                           ),
