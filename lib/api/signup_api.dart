@@ -55,9 +55,9 @@ Future<void> getDepartList(int id) async {
         for (Depart i in signupController.allDepartList) {
           signupController.departList.add(i.depName);
         }
-        signupController.departList.value =
-            signupController.departList.toSet().toList();
+        print(responsebody);
         print(response.statusCode);
+        print(signupController.departList);
       } else {
         print(response.statusCode);
       }
@@ -157,7 +157,7 @@ void showEmailCustomDialog(String title, int duration) {
       backgroundColor: Colors.white,
       content: Text(
         title,
-        style: kStyleDiolog,
+        style: kActiveButtonStyle,
         textAlign: TextAlign.center,
       ),
     ),

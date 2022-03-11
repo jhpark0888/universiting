@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/utils/check_validator.dart';
-import 'package:universiting/views/signup_check_email_view.dart';
+import 'package:universiting/views/signup_email_validate_view.dart';
 import 'package:universiting/views/signup_gender_view.dart';
 import 'package:universiting/views/signup_profile_view.dart';
 import 'package:universiting/widgets/bottombutton.dart';
@@ -23,18 +23,18 @@ class SignupPasswordCheckView extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-            Get.width / 20, Get.width / 6, Get.width / 20, 0),
+            20, 64, 20, 0),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('이제 거의 끝나가요.', style: kStyleHeader),
+            Text('이제 거의 끝나가요.', style: kHeaderStyle1),
             SizedBox(
               height: Get.width / 30,
             ),
-            const Text('사용할 비밀번호를 입력해주세요.', style: kStyleHeader),
+            const Text('사용할 비밀번호를 입력해주세요.', style: kHeaderStyle1),
             SizedBox(height: Get.height / 20),
             Form(
               child: CustomTextFormField(
@@ -53,14 +53,14 @@ class SignupPasswordCheckView extends StatelessWidget {
                       if(signupController.passwordCheckController.text != signupController.passwordController.text){
                         showCustomDialog('비밀번호가 일치하지 않아요', 1200);
                       }else{
-                        Get.to(()=> SignupCheckEmailView());
+                        Get.to(()=> SignupEmailValidateView());
                       }
                     },
                     child: Obx(
                       () => BottomButtonWidget(
                           color: signupController.isage.value
-                              ? mainblack
-                              : Color(0xffe7e7e7)),
+                              ? kPrimary
+                              : kPrimary),
                     ),
                   ),
                 ),
@@ -75,8 +75,8 @@ class SignupPasswordCheckView extends StatelessWidget {
                       () => BottomButtonWidget(
                         widget: Icon(Icons.arrow_back, color: Colors.blue,),
                           color: signupController.isage.value
-                              ? mainblack
-                              : Color(0xffe7e7e7)),
+                              ? kPrimary
+                              : kPrimary),
                     ),
                   ),
                 )

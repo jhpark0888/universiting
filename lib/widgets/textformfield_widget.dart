@@ -15,14 +15,14 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
         controller: controller,
+        cursorColor: kPrimary,
         maxLines: 1,
-        style: kStyleHeader,
+        style: kHeaderStyle2,
         textAlign: textalign ??TextAlign.center,
         decoration: InputDecoration(
-          focusColor: Colors.black,
           border: InputBorder.none,
           hintText: hinttext ?? '',
-          hintStyle: kStyleHeader.copyWith(color: Colors.black.withOpacity(0.38)),
+          hintStyle: kHeaderStyle2.copyWith(color: kMainBlack.withOpacity(0.38)),
             focusedBorder: InputBorder.none,
             errorBorder: InputBorder.none,
             // enabledBorder: UnderlineInputBorder(

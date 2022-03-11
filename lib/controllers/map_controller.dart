@@ -10,6 +10,7 @@ class MapController extends GetxController {
   final Completer<NaverMapController> nMapController = Completer();
 
   RxList<Marker> markers = <Marker>[].obs;
+  RxBool isClick = false.obs;
   // final RxString _name = '한양대학교'.obs;
 
   // final RxInt currentMode = MODE_NONE.obs;
@@ -17,6 +18,7 @@ class MapController extends GetxController {
   void onMarkerTap(Marker? marker, Map<String, int?>? iconSize) {
     int pos = markers.indexWhere((m) => m.markerId == marker?.markerId);
     markers[pos].captionText = '선택됨';
+    isClick.value = true;
     markers.refresh();
     // setState(() {});
     // _name.value = '선택됨';
@@ -62,6 +64,7 @@ class MapController extends GetxController {
   @override
   void onClose() {
     markers.clear();
+    isClick(false);
     super.onClose();
   }
 }

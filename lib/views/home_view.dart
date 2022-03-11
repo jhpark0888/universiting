@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
-import 'package:universiting/Api/login_api.dart';
-import 'package:universiting/Api/main_api.dart';
+import 'package:universiting/api/login_api.dart';
+import 'package:universiting/api/main_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/views/login_view.dart';
-import 'package:universiting/views/signup_university_view.dart';
+import 'package:universiting/views/signup_univ_view.dart';
 import 'package:universiting/widgets/textformfield_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -39,6 +39,7 @@ class HomeView extends StatelessWidget {
                     )
               : homeController.isGuest.value
                   ? Container(
+                    decoration: BoxDecoration(color: kMainWhite),
                       height: Get.width / 1.3,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(Get.width / 20,
@@ -46,28 +47,8 @@ class HomeView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => SignupView());
-                              },
-                              child: Container(
-                                height: Get.width / 8,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    color: const Color(0xffC4C4C4)),
-                                child: Center(
-                                  child: Text(
-                                    '시작해볼까요?',
-                                    style:
-                                        kStyleButton.copyWith(color: mainblack),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.width / 20,
-                            ),
+                            if(homeController.mapController.isClick.value)
+                            const Text('로그인 또는 회원 가입 후 이용할 수 있어요!', style: kSubtitleStyle2,),
                             GestureDetector(
                               onTap: () async {
                                 await getMainUniv();
@@ -75,19 +56,42 @@ class HomeView extends StatelessWidget {
                               child: Container(
                                 height: Get.width / 8,
                                 decoration: BoxDecoration(
+                                    border: Border.all(color: kPrimary),
                                     borderRadius: BorderRadius.circular(16),
-                                    color: const Color(0xffC4C4C4)),
+                                    color: kMainWhite),
                                 child: Center(
                                   child: Text(
-                                    '유니버시팅에선 뭘 할 수 있나요?',
+                                    '유니버시팅에서 무엇을 할 수 있을까요?',
                                     style:
-                                        kStyleButton.copyWith(color: mainblack),
+                                        kActiveButtonStyle.copyWith(color: kPrimary),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: Get.width / 15),
+                            const SizedBox(height: 16),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => SignupUnivView());
+                              },
+                              child: Container(
+                                height: Get.width / 8,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    color: kPrimary),
+                                child: Center(
+                                  child: Text(
+                                    '시작해볼까요?',
+                                    style:
+                                        kActiveButtonStyle.copyWith(color: kMainWhite),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
                             Center(
                                 child: GestureDetector(
                               onTap: () {
@@ -95,36 +99,35 @@ class HomeView extends StatelessWidget {
                               },
                               child: Text(
                                 '이미 계정이 있어요',
-                                style: kStyleContent.copyWith(
-                                    color: mainblack.withOpacity(0.6),
-                                    decoration: TextDecoration.underline),
+                                style: kInActiveButtonStyle.copyWith(
+                                    color: kMainBlack.withOpacity(0.6)),
                               ),
                             )),
-                            SizedBox(height: Get.width / 15),
+                            const SizedBox(height: 24),
                             RichText(
                                 text: TextSpan(children: [
                               TextSpan(
                                   text: "'시작해볼까요?' 버튼을 누르시면 유니버시팅의 ",
-                                  style: kStylecontents.copyWith(
-                                      color: mainblack.withOpacity(0.6))),
+                                  style: kSmallCaptionStyle.copyWith(
+                                      color: kMainBlack.withOpacity(0.6))),
                               TextSpan(
                                   text: '개인정보 처리방침',
-                                  style: kStylecontents.copyWith(
-                                      color: mainblack.withOpacity(0.6),
+                                  style: kSmallCaptionStyle.copyWith(
+                                      color: kMainBlack.withOpacity(0.6),
                                       decoration: TextDecoration.underline)),
                               TextSpan(
                                   text: '을 읽고, ',
-                                  style: kStylecontents.copyWith(
-                                      color: mainblack.withOpacity(0.6))),
+                                  style: kSmallCaptionStyle.copyWith(
+                                      color: kMainBlack.withOpacity(0.6))),
                               TextSpan(
                                   text: '서비스 이용약관',
-                                  style: kStylecontents.copyWith(
-                                      color: mainblack.withOpacity(0.6),
+                                  style: kSmallCaptionStyle.copyWith(
+                                      color: kMainBlack.withOpacity(0.6),
                                       decoration: TextDecoration.underline)),
                               TextSpan(
                                   text: '에 동의한 것으로 간주됩니다.',
-                                  style: kStylecontents.copyWith(
-                                      color: mainblack.withOpacity(0.6)))
+                                  style: kSmallCaptionStyle.copyWith(
+                                      color: kMainBlack.withOpacity(0.6)))
                             ]))
                           ],
                         ),
@@ -169,7 +172,7 @@ class HomeView extends StatelessWidget {
                                     captionTextSize: 14.0,
                                     icon: homeController.image,
                                     iconTintColor:
-                                        element.type ? mainblack : Colors.red,
+                                        element.type ? kMainBlack : Colors.red,
                                     anchor: AnchorPoint(0.5, 1),
                                     width: 45,
                                     height: 45,
@@ -198,12 +201,12 @@ class HomeView extends StatelessWidget {
                         width: Get.width / 9,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: mainblack),
+                            color: kMainBlack),
                         child: Center(
                           child: Text(
                             'MY',
                             textAlign: TextAlign.center,
-                            style: kStyleDiolog.copyWith(color: Colors.white),
+                            style: kActiveButtonStyle.copyWith(color: Colors.white),
                           ),
                         ),
                       ),

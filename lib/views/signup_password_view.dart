@@ -24,18 +24,18 @@ class SignupPasswordView extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-            Get.width / 20, Get.width / 6, Get.width / 20, 0),
+            20, 64, 20, 0),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('이제 거의 끝나가요.', style: kStyleHeader),
+            Text('이제 거의 끝나가요.', style: kHeaderStyle1),
             SizedBox(
               height: Get.width / 30,
             ),
-            const Text('사용할 비밀번호를 입력해주세요.', style: kStyleHeader),
+            const Text('사용할 비밀번호를 입력해주세요.', style: kHeaderStyle1),
             SizedBox(height: Get.height / 20),
             Form(
               key: _key,
@@ -62,8 +62,8 @@ class SignupPasswordView extends StatelessWidget {
                       child: Obx(
                         () => BottomButtonWidget(
                             color: signupController.isage.value
-                                ? mainblack
-                                : Color(0xffe7e7e7)),
+                                ? kPrimary
+                                : kPrimary),
                       ),
                     ),
                   )

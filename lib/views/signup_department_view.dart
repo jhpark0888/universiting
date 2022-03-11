@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:universiting/views/signup_name_view.dart';
 import '../api/signup_api.dart';
 import '../constant.dart';
 import '../controllers/signup_controller.dart';
 import '../utils/global_variable.dart';
 import '../views/signup_user_view.dart';
 import '../widgets/appbar_widget.dart';
+import '../widgets/bottombutton.dart';
 import '../widgets/textformfield_widget.dart';
 
 class SignupDepartmentView extends StatelessWidget {
@@ -17,79 +19,83 @@ class SignupDepartmentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(
-        title: '회원가입',
-        leading: IconButton(
-            onPressed: () {
-              signupController.departmentController.clear();
-              signupController.departSearchList.clear();
-              Get.back();
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 64, 20, 0),
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
             },
-            icon: SvgPicture.asset('assets/icons/Arrow.svg')),
-        actions: [
-          Obx(
-            () => IconButton(
-                onPressed: () {
-                  resultOfConnection().then((value) => value
-                      ? signupController.isDepart.value
-                          ? print('a')
-                          : print(signupController.isDepart.value)
-                      : showCustomDialog('네트워크를 확인해주세요', 3000));
-                },
-                icon: Text(
-                  '다음',
-                  style: (signupController.isDepart.value)
-                      ? kStyleAppbar.copyWith(color: Colors.blue)
-                      : kStyleAppbar.copyWith(
-                          color: Colors.black.withOpacity(0.6)),
-                )),
-          )
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Center(
-              child: Column(children: [
-            SizedBox(height: Get.width / 20),
-            RichText(
-                textAlign: TextAlign.right,
-                text: TextSpan(children: [
-                  TextSpan(
-                      text: '어느 학과',
-                      style: kStyleHeader.copyWith(color: Colors.blue)),
-                  const TextSpan(text: '를 전공하고 계신가요?', style: kStyleHeader),
-                ])),
-            SizedBox(height: Get.height / 40),
-            Text('내 학과는 : ${signupController.departmentController.text}'),
-            SizedBox(height: Get.height / 20),
-            CustomTextFormField(
-                controller: signupController.departmentController),
-            const SizedBox(
-              height: 10,
-            ),
-            Obx(
-              () => Expanded(
-                child: ListView(
-                    children: signupController.departSearchList
-                        .map((element) => GestureDetector(
-                              onTap: () {
-                                signupController.departmentController.text =
-                                    element;
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [Text(element), const Divider()],
-                              ),
-                            ))
-                        .toList()),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text('그렇군요!', style: kHeaderStyle1),
+              const SizedBox(
+                height: 12,
               ),
-            )
-          ])),
+              const Text('그럼 학과는요?', style: kHeaderStyle1),
+              const SizedBox(height: 12),
+              Text('괜찮아요 내 학과는 매칭된 친구들끼리만 확인할 수 있어요',
+                  style: kLargeCaptionStyle.copyWith(
+                      color: kMainBlack.withOpacity(0.6))),
+              const SizedBox(height: 36),
+              CustomTextFormField(
+                controller: signupController.departmentController,
+                hinttext: '학과 이름',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: Obx(
+                  () => Stack(children: [
+                    ListView(
+                        children: signupController.departSearchList
+                            .map((element) => GestureDetector(
+                                  onTap: () {
+                                    signupController.departmentController.text =
+                                        element;
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(element),
+                                      SizedBox(height: 16),
+                                      const Divider()
+                                    ],
+                                  ),
+                                ))
+                            .toList()),
+                    Positioned(
+                      bottom: 20,
+                      right: 20,
+                      child: GestureDetector(
+                        onTap: () {
+                          signupController.getDepartId(
+                              signupController.departmentController.text);
+                          print(signupController.departId);
+                          print(signupController.schoolId);
+                          if (signupController.isDepart.value) {
+                            Get.to(() => SignupNameView());
+                          } else {
+                            showCustomDialog('학과를 선택해주세요', 1200);
+                          }
+                        },
+                        child: BottomButtonWidget(
+                            color: signupController.isDepart.value
+                                ? kPrimary
+                                : kPrimary),
+                      ),
+                    )
+                  ]),
+                ),
+              )
+            ]),
+          ),
         ),
       ),
     );
