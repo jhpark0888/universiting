@@ -22,12 +22,9 @@ class CustomTextFormField extends StatelessWidget {
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hinttext ?? '',
-          hintStyle: kHeaderStyle2.copyWith(color: kMainBlack.withOpacity(0.38)),
+          hintStyle: kHeaderStyle1.copyWith(color: kMainBlack.withOpacity(0.38)),
             focusedBorder: InputBorder.none,
             errorBorder: InputBorder.none,
-            // enabledBorder: UnderlineInputBorder(
-            //     borderRadius: BorderRadius.circular(2),
-            //     borderSide: const BorderSide(color: Colors.black))),
             enabledBorder: InputBorder.none),
         validator: validator,
         obscureText: obsecuretext ?? false);

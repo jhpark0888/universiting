@@ -8,8 +8,9 @@ import 'package:universiting/controllers/home_controller.dart';
 class MapController extends GetxController {
   static MapController get to => Get.find();
   final Completer<NaverMapController> nMapController = Completer();
-
+  var context;
   RxList<Marker> markers = <Marker>[].obs;
+  RxString clickedUniv = ''.obs;
   RxBool isClick = false.obs;
   // final RxString _name = '한양대학교'.obs;
 
@@ -17,9 +18,10 @@ class MapController extends GetxController {
 
   void onMarkerTap(Marker? marker, Map<String, int?>? iconSize) {
     int pos = markers.indexWhere((m) => m.markerId == marker?.markerId);
-    markers[pos].captionText = '선택됨';
+    clickedUniv.value = markers[pos].captionText! ;
     isClick.value = true;
-    markers.refresh();
+    clickedUniv.refresh();
+    isClick.refresh();
     // setState(() {});
     // _name.value = '선택됨';
     // Get.dialog(Container(
@@ -28,7 +30,7 @@ class MapController extends GetxController {
     // if (currentMode.value == MODE_REMOVE) {
     //   markers.removeWhere((m) => m.markerId == marker?.markerId);
     // }
-    print('${markers[pos].captionText}');
+    print('${clickedUniv}');
   }
 
   // void onMapTap(LatLng latLng) {

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:universiting/app.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/login_controller.dart';
+import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,12 +15,13 @@ import '../constant.dart';
 Future<void> login() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
+  // NotificationController controller = Get.put(NotificationController());
   LoginController loginController = Get.put(LoginController());
   HomeController homeController = Get.find(tag: '첫 화면');
   Map<String, dynamic> login_info = {
     'username': loginController.emailController.text,
     'password': loginController.passwordController.text,
-    'fcm_token': ' '
+    'fcm_token': ''
   };
   final headers = {'Content-Type': 'application/json'};
   final url = Uri.parse('$serverUrl/user_api/login');

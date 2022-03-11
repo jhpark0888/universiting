@@ -16,21 +16,72 @@ class HomeView extends StatelessWidget {
       : super(key: key);
   bool login = false;
   String tag;
-  late HomeController homeController = Get.put(HomeController(), tag: tag);
+
   static CameraUpdate cameraUpdate =
       CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
 
-  void onMapCreated(NaverMapController controller) {
-    homeController.mapController.nMapController.complete(controller);
-  }
-
   @override
   Widget build(BuildContext context) {
+    HomeController homeController = Get.put(HomeController(), tag: tag);
+    MapController mapController = Get.put(MapController());
+    void onMapCreated(NaverMapController controller) {
+      homeController.mapController.nMapController.complete(controller);
+    }
+
     return Scaffold(
+      extendBody: true,
       bottomSheet: login
-          ? Container(
-              height: 0,
-            )
+          ? Obx(() => AnimatedContainer(
+              duration: Duration(milliseconds: 100),
+              height: mapController.isClick.value
+                  ? homeController.isDetailClick.value
+                      ? Get.width / 0.8
+                      : Get.width / 1.5
+                  : 0,
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20),
+              )),
+              // foregroundDecoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),color: kMainWhite),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(0),
+                  bottomRight: Radius.circular(0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            homeController.isDetailClick.value = !homeController.isDetailClick.value;
+                            print(homeController.isDetailClick.value);
+                          },
+                          child: Center(
+                              child: Container(
+                                  height: 4, width: 28, color: kLightGrey))),
+                      SizedBox(height: 21),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            mapController.clickedUniv.value,
+                            style: kHeaderStyle2,
+                          ),
+                          Text(
+                            '방 0개',
+                            style: kSubtitleStyle1,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )))
           : Obx(() => homeController.islogin.value
               ? homeController.isGuest.value
                   ? LoginView()
@@ -39,7 +90,7 @@ class HomeView extends StatelessWidget {
                     )
               : homeController.isGuest.value
                   ? Container(
-                    decoration: BoxDecoration(color: kMainWhite),
+                      decoration: BoxDecoration(color: kMainWhite),
                       height: Get.width / 1.1,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(Get.width / 20,
@@ -47,10 +98,16 @@ class HomeView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            if(homeController.mapController.isClick.value)
-                            const Center(child: Text('로그인 또는 회원 가입 후 이용할 수 있어요!', style: kSubtitleStyle2,)),
-                            if(homeController.mapController.isClick.value)
-                            const SizedBox(height: 24,),
+                            if (mapController.isClick.value)
+                              const Center(
+                                  child: Text(
+                                '로그인 또는 회원 가입 후 이용할 수 있어요!',
+                                style: kSubtitleStyle2,
+                              )),
+                            if (mapController.isClick.value)
+                              const SizedBox(
+                                height: 24,
+                              ),
                             GestureDetector(
                               onTap: () async {
                                 await getMainUniv();
@@ -64,8 +121,8 @@ class HomeView extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     '유니버시팅에서 무엇을 할 수 있을까요?',
-                                    style:
-                                        kActiveButtonStyle.copyWith(color: kPrimary),
+                                    style: kActiveButtonStyle.copyWith(
+                                        color: kPrimary),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -84,8 +141,8 @@ class HomeView extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     '시작해볼까요?',
-                                    style:
-                                        kActiveButtonStyle.copyWith(color: kMainWhite),
+                                    style: kActiveButtonStyle.copyWith(
+                                        color: kMainWhite),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -144,13 +201,13 @@ class HomeView extends StatelessWidget {
             child: Stack(
               children: [
                 Obx(() => NaverMap(
-                      onCameraChange: homeController.isClick.value
-                          ? ((latLng, reason, isAnimated) => cameraUpdate)
-                          : null,
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(37.563600, 126.962370)),
                       onMapCreated: login ? null : onMapCreated,
-                      // onMapTap: _onMapTap,
+                      onMapTap: (value) {
+                        mapController.isClick(false);
+                        print(mapController.isClick);
+                      },
                       markers: homeController.mapController.markers.isNotEmpty
                           ? homeController.mapController.markers
                           : [
@@ -195,9 +252,7 @@ class HomeView extends StatelessWidget {
                     left: Get.width / 10),
                 Positioned(
                     child: GestureDetector(
-                      onTap: () async {
-                        homeController.isClick(true);
-                      },
+                      onTap: () async {},
                       child: Container(
                         height: Get.width / 9,
                         width: Get.width / 9,
@@ -208,7 +263,8 @@ class HomeView extends StatelessWidget {
                           child: Text(
                             'MY',
                             textAlign: TextAlign.center,
-                            style: kActiveButtonStyle.copyWith(color: Colors.white),
+                            style: kActiveButtonStyle.copyWith(
+                                color: Colors.white),
                           ),
                         ),
                       ),

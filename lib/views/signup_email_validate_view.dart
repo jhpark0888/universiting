@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:universiting/Api/signup_api.dart';
+import 'package:universiting/api/signup_api.dart';
+import 'package:universiting/app.dart';
 import 'package:universiting/utils/check_validator.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/signup_email_validate_view.dart';
@@ -31,12 +32,12 @@ class SignupEmailValidateView extends StatelessWidget {
           },
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('이제 마지막이에요!.', style: kHeaderStyle1),
-            SizedBox(
-              height: Get.width / 30,
+            const Text('이제 마지막이에요!', style: kHeaderStyle1),
+            const SizedBox(
+              height: 12,
             ),
             const Text('학교 이메일 인증을 해주세요.', style: kHeaderStyle1),
-            SizedBox(height: Get.height / 30),
+            const SizedBox(height: 12),
             Text('대학생만 이용할 수 있게 하기 위한 절차에요. 번거로우시더라도 양해 부탁드려요',
                 style: kLargeCaptionStyle.copyWith(
                     color: Colors.black.withOpacity(0.6))),
@@ -76,7 +77,7 @@ class SignupEmailValidateView extends StatelessWidget {
                             signupController.isEmailPress.value == true &&
                             signupController.isSendEmail.value == true &&
                             signupController.isEmailCheck.value == true) {
-                          await postProfile().then((value) => Get.offAll(() => HomeView(login: false, tag : '첫 화면')));
+                          await postProfile().then((value) => Get.offAll(() => App()));
                         }
                       },
                       child: BottomButtonWidget(
@@ -99,7 +100,7 @@ class SignupEmailValidateView extends StatelessWidget {
                                       ? signupController.isEmailCheck.value
                                           ? Text(
                                               '끝났어요!',
-                                              style: kActiveButtonStyle,
+                                              style: kActiveButtonStyle.copyWith(color: kMainWhite),
                                             )
                                           : Text('인증 대기중',
                                               style: kActiveButtonStyle.copyWith(

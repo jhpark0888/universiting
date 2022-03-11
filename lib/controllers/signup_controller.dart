@@ -34,6 +34,7 @@ class SignupController extends GetxController {
   RxBool isDepart = false.obs;
   RxBool isname = false.obs;
   RxBool isage = false.obs;
+  RxBool isPasswordCheck = false.obs;
   RxBool isEmail = false.obs;
   RxBool isEmailPress = false.obs;
   RxBool isSendEmail = false.obs;
@@ -66,13 +67,13 @@ class SignupController extends GetxController {
       }
     });
 
-    nameController.addListener(() {
-      if (nameController.text.isNotEmpty) {
-        isname.value = true;
-      } else if (nameController.text.isEmpty) {
-        isname.value = false;
-      }
-    });
+    // nameController.addListener(() {
+    //   if (nameController.text.isNotEmpty) {
+    //     isname.value = true;
+    //   } else if (nameController.text.isEmpty) {
+    //     isname.value = false;
+    //   }
+    // });
 
     ageController.addListener(() {
       if (ageController.text.isNotEmpty) {
@@ -99,6 +100,7 @@ class SignupController extends GetxController {
     isUniv(false);
     isDepart(false);
     isname(false);
+    isPasswordCheck(false);
     isEmail(false);
     isEmailPress(false);
     isEmailCheck(false);

@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
-import 'package:universiting/Api/main_api.dart';
+import 'package:universiting/api/main_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/models/main_univ_model.dart';
 import 'package:universiting/views/home_view.dart';
 
 class HomeController extends GetxController {
+  HomeController();
   MapController mapController = Get.put(MapController());
   RxList<MainUniv> mainuniv = <MainUniv>[].obs;
+
   RxBool isGuest = true.obs;
   RxBool islogin = false.obs;
-    RxBool isClick = false.obs;
+  RxBool isDetailClick = false.obs;
   late final OverlayImage image;
 
   @override
   void onInit() async {
     OverlayImage.fromAssetImage(assetName: 'assets/icons/marker.png')
         .then((value) => image = value);
-    mainuniv.value = (await getMainUniv()) ;
+    mainuniv.value = (await getMainUniv());
     mapController.markers.value = mainuniv
         .map((element) => Marker(
             markerId: element.id.toString(),
@@ -42,6 +44,7 @@ class HomeController extends GetxController {
     mainuniv.clear;
     islogin(false);
     isGuest(true);
+    isDetailClick(false);
     super.onClose();
   }
 }

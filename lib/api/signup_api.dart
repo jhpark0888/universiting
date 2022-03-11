@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/login_view.dart';
+import 'package:universiting/views/signup_age_view.dart';
 
 import '../constant.dart';
 import '../controllers/signup_controller.dart';
@@ -67,6 +68,30 @@ Future<void> getDepartList(int id) async {
   }
 }
 
+Future<void> checkNickName() async {
+  ConnectivityResult result = await checkConnectionStatus();
+  SignupController signupController = Get.find();
+  var url = Uri.parse(
+      '$serverUrl/user_api/nickname?nickname=${signupController.nameController.text}');
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    var response = await http.get(
+      url,
+    );
+    print(response.statusCode);
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      signupController.isname.value = true;
+      print(response.statusCode);
+      Get.to(()=> SignupAgeView());
+    } else if (response.statusCode == 406) {
+      signupController.isname.value = false;
+      showCustomDialog('이미 사용 중인 닉네임이에요', 1200);
+    }
+  }
+}
+
 Future<void> checkEmail() async {
   ConnectivityResult result = await checkConnectionStatus();
   SignupController signupController = Get.find();
@@ -82,6 +107,7 @@ Future<void> checkEmail() async {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
     try {
+      await Future.delayed(const Duration(milliseconds: 1200));
       signupController.isSendEmail.value = true;
       showEmailCustomDialog(
           '${signupController.emailController.text}@${signupController.uni.value.email}로 인증 메일을 보내드렸어요',

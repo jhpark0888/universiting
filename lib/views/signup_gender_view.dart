@@ -27,103 +27,116 @@ class SignupGenderView extends StatelessWidget {
           FocusScope.of(context).unfocus();
         },
         child: Padding(
-          padding: EdgeInsets.fromLTRB(
-              20, 64, 20, 0),
+          padding: const EdgeInsets.fromLTRB(20, 64, 20, 0),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${signupController.ageController.text}살, $content',
-                    style: kHeaderStyle1),
-                SizedBox(
-                  height: Get.width / 30,
-                ),
-                Text('근데 ${signupController.nameController.text}님은...',
-                    style: kHeaderStyle1),
-                SizedBox(height: Get.width / 30),
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: '${signupController.ageController.text}살,',
+                      style: kHeaderStyle1.copyWith(color: kPrimary)),
+                  TextSpan(text: content, style: kHeaderStyle1)
+                ])),
+                const SizedBox(height: 12),
+                RichText(
+                    text: TextSpan(children: [
+                  const TextSpan(text: '근데 ', style: kHeaderStyle1),
+                  TextSpan(
+                      text: signupController.nameController.text,
+                      style: kHeaderStyle1.copyWith(color: kPrimary)),
+                  const TextSpan(text: '님은...', style: kHeaderStyle1)
+                ])),
+                const SizedBox(height: 12),
                 Text('괜찮아요. 성별는 매칭된 친구들만 확인할 수 있어요',
                     style: kLargeCaptionStyle.copyWith(
                         color: kMainBlack.withOpacity(0.6))),
-                SizedBox(height: Get.height / 10),
+                const SizedBox(height: 48),
                 Obx(
                   () => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                    Column(children: [
-                      signupController.isgender.value == 'M'
-                          ? Text(
-                              mcontents[1],
-                              style: kSubtitleStyle2,
-                            )
-                          : Text(
-                              mcontents[0],
-                              style: kSubtitleStyle2.copyWith(
-                                  color: kMainBlack.withOpacity(0.38)),
-                            ),
-                      SizedBox(
-                        height: Get.height / 30,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          signupController.isgender.value = 'M';
-                        },
-                        child: Container(
-                          height: Get.width / 4,
-                          width: Get.width / 4,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(60),
-                              color: signupController.isgender.value == 'M'
-                                  ? const Color(0xff747272)
-                                  : const Color(0x00c4c4c4).withOpacity(0.38)),
-                        ),
-                      )
-                    ]),
-                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        signupController.isgender.value == 'F'
-                            ? Text(
-                                wcontents[1],
-                                style: kSubtitleStyle2,
-                              )
-                            : Text(
-                                wcontents[0],
-                                style: kSubtitleStyle2.copyWith(
-                                    color: kMainBlack.withOpacity(0.38)),
-                              ),
-                        SizedBox(
-                          height: Get.height / 30,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            signupController.isgender.value = 'F';
-                          },
-                          child: Container(
-                            height: Get.width / 4,
-                            width: Get.width / 4,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(60),
-                                color: signupController.isgender.value == 'F'
-                                    ? const Color(0xff747272)
-                                    : const Color(0x00C4C4C4)
-                                        .withOpacity(0.38)),
+                        Column(children: [
+                          signupController.isgender.value == 'M'
+                              ? Text(
+                                  mcontents[1],
+                                  style: kSubtitleStyle2,
+                                )
+                              : Text(
+                                  mcontents[0],
+                                  style: kSubtitleStyle2.copyWith(
+                                      color: kMainBlack.withOpacity(0.38)),
+                                ),
+                          const SizedBox(
+                            height: 12,
                           ),
-                        ),
-                      ],
-                    )
-                  ]),
+                          GestureDetector(
+                            onTap: () {
+                              signupController.isgender.value = 'M';
+                            },
+                            child: Container(
+                              height: Get.width / 4,
+                              width: Get.width / 4,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(60),
+                                  color: signupController.isgender.value == 'M'
+                                      ? const Color(0xff747272)
+                                      : const Color(0x00c4c4c4)
+                                          .withOpacity(0.38)),
+                            ),
+                          )
+                        ]),
+                        Column(
+                          children: [
+                            signupController.isgender.value == 'F'
+                                ? Text(
+                                    wcontents[1],
+                                    style: kSubtitleStyle2,
+                                  )
+                                : Text(
+                                    wcontents[0],
+                                    style: kSubtitleStyle2.copyWith(
+                                        color: kMainBlack.withOpacity(0.38)),
+                                  ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                signupController.isgender.value = 'F';
+                              },
+                              child: Container(
+                                height: Get.width / 4,
+                                width: Get.width / 4,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(60),
+                                    color:
+                                        signupController.isgender.value == 'F'
+                                            ? const Color(0xff747272)
+                                            : const Color(0x00C4C4C4)
+                                                .withOpacity(0.38)),
+                              ),
+                            ),
+                          ],
+                        )
+                      ]),
                 ),
                 Expanded(
                   child: Stack(children: [
                     Positioned(
-                      bottom: Get.width / 15,
-                      right: Get.width / 20,
+                      bottom: 20,
+                      right: 20,
                       child: GestureDetector(
-                        onTap: () {Get.to(() => SignupPasswordView());},
+                        onTap: () {
+                          Get.to(() => SignupPasswordView());
+                        },
                         child: Obx(
                           () => BottomButtonWidget(
-                              color: (signupController.isgender.value.isNotEmpty)
-                                  ? kPrimary
-                                  : kPrimary),
+                              color:
+                                  (signupController.isgender.value.isNotEmpty)
+                                      ? kPrimary
+                                      : kPrimary),
                         ),
                       ),
                     ),

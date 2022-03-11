@@ -22,8 +22,7 @@ class SignupNameView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.fromLTRB(
-            20, 64, 20, 0),
+        padding: EdgeInsets.fromLTRB(20, 64, 20, 0),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -41,40 +40,37 @@ class SignupNameView extends StatelessWidget {
               child: CustomTextFormField(
                 controller: signupController.nameController,
                 validator: (value) {
-                  if(value!.isEmpty){return '아무것도 입력하지 않았어요';}
+                  if (value!.isEmpty) {
+                    return '아무것도 입력하지 않았어요';
+                  }
                 },
                 hinttext: '최대 8자',
               ),
             ),
             Expanded(
               child: Stack(children: [
-                  Positioned(
-                    bottom: 20,
-                    right: 20,
-                    child: GestureDetector(
-                      onTap: () async {
-                        // if (_key.currentState!.validate()) {
-                        //   Get.to(()=> SignupAgeView());
-                        // }
-                        if(signupController.nameController.text.isEmpty){
-                          showCustomDialog('아무것도 입력하지 않았어요', 1200);
-                        }else if(signupController.nameController.text.length >= 8){
-                          showCustomDialog('8자 이하로 적어주세요', 1200);
-                        }else{
-                          Get.to(() => SignupAgeView());
-                        }
-                      },
-                      child: Obx(
-                        () => BottomButtonWidget(
-                            color: signupController.isname.value
-                                ? kPrimary
-                                : kPrimary),
-                      ),
-                    ),
-                  )
-                ]),
-              ),
-            
+                Positioned(
+                  bottom: 20,
+                  right: 20,
+                  child: GestureDetector(
+                    onTap: () async {
+                      // if (_key.currentState!.validate()) {
+                      //   Get.to(()=> SignupAgeView());
+                      // }
+                      if (signupController.nameController.text.isEmpty) {
+                        showCustomDialog('아무것도 입력하지 않았어요', 1200);
+                      } else if (signupController.nameController.text.length >=
+                          8) {
+                        showCustomDialog('8자 이하로 적어주세요', 1200);
+                      } else {
+                        checkNickName();
+                      }
+                    },
+                    child: BottomButtonWidget(color: kPrimary),
+                  ),
+                ),
+              ]),
+            ),
           ]),
         ),
       ),
