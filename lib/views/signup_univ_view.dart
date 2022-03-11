@@ -13,29 +13,22 @@ import '../views/signup_department_view.dart';
 import '../widgets/appbar_widget.dart';
 import '../widgets/textformfield_widget.dart';
 
-class SignupUnivView extends StatefulWidget {
+class SignupUnivView extends StatelessWidget {
   SignupUnivView({Key? key}) : super(key: key);
-
-  @override
-  State<SignupUnivView> createState() => _SignupViewState();
-}
-
-class _SignupViewState extends State<SignupUnivView> {
   SignupController signupController = Get.put(SignupController());
-
   @override
   Widget build(BuildContext context) {
-    print(Get.width);
     return Scaffold(
       body: GestureDetector(
-        onTap: (){FocusScope.of(context).unfocus();},
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
           child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                20, 64, 20, 0),
+            padding: EdgeInsets.fromLTRB(20, 64, 20, 0),
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -43,7 +36,8 @@ class _SignupViewState extends State<SignupUnivView> {
                   children: [
                     RichText(
                         text: const TextSpan(children: [
-                      TextSpan(text: '여긴 대학생들을 위한 공간이에요.', style: kHeaderStyle1),
+                      TextSpan(
+                          text: '여긴 대학생들을 위한 공간이에요.', style: kHeaderStyle1),
                     ])),
                     SizedBox(height: 12),
                     RichText(
@@ -76,7 +70,8 @@ class _SignupViewState extends State<SignupUnivView> {
                                 children: signupController.univSearchList
                                     .map((element) => GestureDetector(
                                           onTap: () {
-                                            signupController.universityController
+                                            signupController
+                                                .universityController
                                                 .text = element;
                                           },
                                           child: Column(
@@ -85,31 +80,34 @@ class _SignupViewState extends State<SignupUnivView> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              SizedBox(
-                                                height: Get.width / 20,
-                                              ),
                                               Text(element),
+                                              SizedBox(
+                                                height: 16,
+                                              ),
                                               const Divider()
                                             ],
                                           ),
                                         ))
                                     .toList()),
                             Positioned(
-                                bottom: Get.width / 15,
-                                right: Get.width / 20,
+                                bottom: 20,
+                                right: 20,
                                 child: GestureDetector(
                                   onTap: () async {
-                                    signupController.selectuniv(signupController
-                                        .universityController.text);
-                                    print(signupController.uni.value.id);
-                                    await getDepartList(
-                                        signupController.uni.value.id);
-                                    Get.to(() => SignupDepartmentView());
+                                    if (signupController.isUniv.value) {
+                                      signupController.selectuniv(
+                                          signupController
+                                              .universityController.text);
+                                      print(signupController.uni.value.id);
+                                      await getDepartList(
+                                          signupController.uni.value.id);
+                                      Get.to(() => SignupDepartmentView());
+                                    } else {
+                                      showCustomDialog(
+                                          '다니고 계시는 학교를 선택해주세요', 1200);
+                                    }
                                   },
-                                  child: BottomButtonWidget(
-                                      color: signupController.isUniv.value
-                                          ? kPrimary
-                                          : kPrimary),
+                                  child: BottomButtonWidget(color: kPrimary),
                                 ))
                             // GestureDetector(
                             //     onTap: () {

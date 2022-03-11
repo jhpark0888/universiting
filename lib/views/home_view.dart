@@ -46,6 +46,8 @@ class HomeView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            if(homeController.mapController.isClick.value)
+                            const Text('로그인 또는 회원 가입 후 이용할 수 있어요!', style: kSubtitleStyle2,),
                             GestureDetector(
                               onTap: () async {
                                 await getMainUniv();
@@ -66,7 +68,7 @@ class HomeView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: Get.width / 15),
+                            const SizedBox(height: 16),
                             GestureDetector(
                               onTap: () {
                                 Get.to(() => SignupUnivView());
@@ -86,8 +88,8 @@ class HomeView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: Get.width / 20,
+                            const SizedBox(
+                              height: 24,
                             ),
                             Center(
                                 child: GestureDetector(
@@ -97,11 +99,10 @@ class HomeView extends StatelessWidget {
                               child: Text(
                                 '이미 계정이 있어요',
                                 style: kInActiveButtonStyle.copyWith(
-                                    color: kMainBlack.withOpacity(0.6),
-                                    decoration: TextDecoration.underline),
+                                    color: kMainBlack.withOpacity(0.6)),
                               ),
                             )),
-                            SizedBox(height: Get.width / 15),
+                            const SizedBox(height: 24),
                             RichText(
                                 text: TextSpan(children: [
                               TextSpan(

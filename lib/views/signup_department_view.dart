@@ -32,15 +32,15 @@ class SignupDepartmentView extends StatelessWidget {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text('그렇군요!', style: kHeaderStyle1),
-              SizedBox(
-                height: Get.width / 30,
+              const SizedBox(
+                height: 12,
               ),
               const Text('그럼 학과는요?', style: kHeaderStyle1),
-              SizedBox(height: Get.width / 30),
+              const SizedBox(height: 12),
               Text('괜찮아요 내 학과는 매칭된 친구들끼리만 확인할 수 있어요',
                   style: kLargeCaptionStyle.copyWith(
                       color: kMainBlack.withOpacity(0.6))),
-              SizedBox(height: Get.height / 20),
+              const SizedBox(height: 36),
               CustomTextFormField(
                 controller: signupController.departmentController,
                 hinttext: '학과 이름',
@@ -60,24 +60,29 @@ class SignupDepartmentView extends StatelessWidget {
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(element),
-                                      SizedBox(height: Get.width / 20),
+                                      SizedBox(height: 16),
                                       const Divider()
                                     ],
                                   ),
                                 ))
                             .toList()),
                     Positioned(
-                      bottom: Get.width / 15,
-                      right: Get.width / 20,
+                      bottom: 20,
+                      right: 20,
                       child: GestureDetector(
-                        onTap: (){
-                          signupController.getDepartId(signupController.departmentController.text);
+                        onTap: () {
+                          signupController.getDepartId(
+                              signupController.departmentController.text);
                           print(signupController.departId);
                           print(signupController.schoolId);
-                          if(signupController.isDepart.value)Get.to(() => SignupNameView());},
+                          if (signupController.isDepart.value) {
+                            Get.to(() => SignupNameView());
+                          }else{showCustomDialog('학과를 선택해주세요', 1200);}
+                        },
                         child: BottomButtonWidget(
                             color: signupController.isDepart.value
                                 ? kPrimary

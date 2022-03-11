@@ -15,11 +15,11 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
         controller: controller,
+        cursorColor: kPrimary,
         maxLines: 1,
-        style: kHeaderStyle1,
+        style: kHeaderStyle2,
         textAlign: textalign ??TextAlign.center,
         decoration: InputDecoration(
-          focusColor: Colors.black,
           border: InputBorder.none,
           hintText: hinttext ?? '',
           hintStyle: kHeaderStyle2.copyWith(color: kMainBlack.withOpacity(0.38)),

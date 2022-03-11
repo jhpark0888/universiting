@@ -55,9 +55,9 @@ Future<void> getDepartList(int id) async {
         for (Depart i in signupController.allDepartList) {
           signupController.departList.add(i.depName);
         }
-        signupController.departList.value =
-            signupController.departList.toSet().toList();
+        print(responsebody);
         print(response.statusCode);
+        print(signupController.departList);
       } else {
         print(response.statusCode);
       }

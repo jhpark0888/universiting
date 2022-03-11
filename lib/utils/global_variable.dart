@@ -23,7 +23,7 @@ void showCustomDialog(String title, int duration) {
       backgroundColor: Colors.white,
       content: Text(
         title,
-        style: kActiveButtonStyle,
+        style: kSubtitleStyle3,
         textAlign: TextAlign.center,
       ),
     ),

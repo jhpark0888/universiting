@@ -21,7 +21,7 @@ class SignupController extends GetxController {
   RxList<String> univList = <String>[].obs;
   RxList<String> univSearchList = <String>[].obs;
   RxList<Depart> allDepartList = <Depart>[].obs;
-  RxList<String> departList = <String>['산업경영공학과'].obs;
+  RxList<String> departList = <String>[].obs;
   RxList<String> departSearchList = <String>[].obs;
 
   final uni = Univ(email: '', schoolname: '', id: 1).obs;
