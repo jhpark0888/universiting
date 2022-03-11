@@ -39,7 +39,7 @@ class HomeView extends StatelessWidget {
               : homeController.isGuest.value
                   ? Container(
                     decoration: BoxDecoration(color: kMainWhite),
-                      height: Get.width / 1.3,
+                      height: Get.width / 1.1,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(Get.width / 20,
                             Get.width / 15, Get.width / 20, Get.width / 9),
@@ -47,7 +47,9 @@ class HomeView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             if(homeController.mapController.isClick.value)
-                            const Text('로그인 또는 회원 가입 후 이용할 수 있어요!', style: kSubtitleStyle2,),
+                            const Center(child: Text('로그인 또는 회원 가입 후 이용할 수 있어요!', style: kSubtitleStyle2,)),
+                            if(homeController.mapController.isClick.value)
+                            const SizedBox(height: 24,),
                             GestureDetector(
                               onTap: () async {
                                 await getMainUniv();

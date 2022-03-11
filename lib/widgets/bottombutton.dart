@@ -16,7 +16,7 @@ class BottomButtonWidget extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20), color: color),
         child: Center(
-          child: widget ?? Icon(Icons.arrow_forward, color: Colors.blue),
+          child: widget ?? const Icon(Icons.arrow_forward, color: kMainWhite),
         ));
   }
 }

@@ -32,11 +32,10 @@ class SignupNameView extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Text('좋아요!', style: kHeaderStyle1),
             SizedBox(
-              height: Get.width / 30,
+              height: 12,
             ),
             const Text('친구들이 당신을 뭐라고 불러야할까요?', style: kHeaderStyle1),
             SizedBox(height: Get.width / 30),
-            SizedBox(height: Get.height / 20),
             Form(
               key: _key,
               child: CustomTextFormField(
@@ -44,18 +43,25 @@ class SignupNameView extends StatelessWidget {
                 validator: (value) {
                   if(value!.isEmpty){return '아무것도 입력하지 않았어요';}
                 },
-                hinttext: '이름 또는 닉네임',
+                hinttext: '최대 8자',
               ),
             ),
             Expanded(
               child: Stack(children: [
                   Positioned(
-                    bottom: Get.width / 15,
-                    right: Get.width / 20,
+                    bottom: 20,
+                    right: 20,
                     child: GestureDetector(
                       onTap: () async {
-                        if (_key.currentState!.validate()) {
-                          Get.to(()=> SignupAgeView());
+                        // if (_key.currentState!.validate()) {
+                        //   Get.to(()=> SignupAgeView());
+                        // }
+                        if(signupController.nameController.text.isEmpty){
+                          showCustomDialog('아무것도 입력하지 않았어요', 1200);
+                        }else if(signupController.nameController.text.length >= 8){
+                          showCustomDialog('8자 이하로 적어주세요', 1200);
+                        }else{
+                          Get.to(() => SignupAgeView());
                         }
                       },
                       child: Obx(
