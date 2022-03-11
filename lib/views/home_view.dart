@@ -17,7 +17,8 @@ class HomeView extends StatelessWidget {
   bool login = false;
   String tag;
   late HomeController homeController = Get.put(HomeController(), tag: tag);
-  static CameraUpdate cameraUpdate =  CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
+  static CameraUpdate cameraUpdate =
+      CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
 
   void onMapCreated(NaverMapController controller) {
     homeController.mapController.nMapController.complete(controller);
@@ -143,7 +144,9 @@ class HomeView extends StatelessWidget {
             child: Stack(
               children: [
                 Obx(() => NaverMap(
-                  onCameraChange: homeController.isClick.value ? ((latLng, reason, isAnimated) => cameraUpdate) : null,
+                      onCameraChange: homeController.isClick.value
+                          ? ((latLng, reason, isAnimated) => cameraUpdate)
+                          : null,
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(37.563600, 126.962370)),
                       onMapCreated: login ? null : onMapCreated,
@@ -192,9 +195,8 @@ class HomeView extends StatelessWidget {
                     left: Get.width / 10),
                 Positioned(
                     child: GestureDetector(
-                      onTap: () async{
+                      onTap: () async {
                         homeController.isClick(true);
-
                       },
                       child: Container(
                         height: Get.width / 9,

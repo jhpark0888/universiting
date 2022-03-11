@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/views/signup_name_view.dart';
-import 'package:universiting/widgets/bottombutton.dart';
 import '../api/signup_api.dart';
 import '../constant.dart';
 import '../controllers/signup_controller.dart';
 import '../utils/global_variable.dart';
 import '../views/signup_user_view.dart';
 import '../widgets/appbar_widget.dart';
+import '../widgets/bottombutton.dart';
 import '../widgets/textformfield_widget.dart';
 
 class SignupDepartmentView extends StatelessWidget {
@@ -81,7 +81,9 @@ class SignupDepartmentView extends StatelessWidget {
                           print(signupController.schoolId);
                           if (signupController.isDepart.value) {
                             Get.to(() => SignupNameView());
-                          }else{showCustomDialog('학과를 선택해주세요', 1200);}
+                          } else {
+                            showCustomDialog('학과를 선택해주세요', 1200);
+                          }
                         },
                         child: BottomButtonWidget(
                             color: signupController.isDepart.value

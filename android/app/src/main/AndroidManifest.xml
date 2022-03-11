@@ -31,7 +31,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>     
+        </activity>
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="kbx9cb788s" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool GeneratedPluginRegistrant.java -->
         <meta-data
