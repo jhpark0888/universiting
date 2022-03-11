@@ -72,8 +72,9 @@ Future<void> checkEmail() async {
   SignupController signupController = Get.find();
   var url = Uri.parse('$serverUrl/user_api/check_email');
   Map<String, dynamic> signup = {
-    'email':
-        signupController.emailController.text + '@' +signupController.uni.value.email,
+    'email': signupController.emailController.text +
+        '@' +
+        signupController.uni.value.email,
     'password': signupController.passwordController.text
   };
   var headers = {'Content-Type': 'multipart/form-data'};
@@ -82,7 +83,9 @@ Future<void> checkEmail() async {
   } else {
     try {
       signupController.isSendEmail.value = true;
-      showEmailCustomDialog('${signupController.emailController.text}@${signupController.uni.value.email}로 인증 메일을 보내드렸어요', 1200);
+      showEmailCustomDialog(
+          '${signupController.emailController.text}@${signupController.uni.value.email}로 인증 메일을 보내드렸어요',
+          1200);
       var response = await http.post(url, body: signup);
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print(response.statusCode);
@@ -106,8 +109,9 @@ Future<void> postProfile() async {
   var url = Uri.parse('$serverUrl/user_api/signup');
   Map<String, dynamic> signup = {
     'type': 12,
-    'email':
-        signupController.emailController.text + '@' +signupController.uni.value.email,
+    'email': signupController.emailController.text +
+        '@' +
+        signupController.uni.value.email,
     'nickname': signupController.nameController.text,
     'gender': signupController.isgender.value,
     'age': int.parse(signupController.ageController.text),
@@ -118,23 +122,23 @@ Future<void> postProfile() async {
   if (result == ConnectionState.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-      var response = await http.post(url, body: jsonEncode(signup), headers: headers);
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        String responsebody = utf8.decode(response.bodyBytes);
-        String id = jsonDecode(responsebody)['user_id'];
-        String token = jsonDecode(responsebody)['token'];
-        await storage.write(key: 'id$id', value: id);
-        await storage.write(key: 'token$id', value: token);
-        print(id);
-        print(token);
-        print(response.statusCode);
-        
-      } else {
-        print(response.statusCode);
-      }
-    
+    var response =
+        await http.post(url, body: jsonEncode(signup), headers: headers);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      String responsebody = utf8.decode(response.bodyBytes);
+      String id = jsonDecode(responsebody)['user_id'];
+      String token = jsonDecode(responsebody)['token'];
+      await storage.write(key: 'id$id', value: id);
+      await storage.write(key: 'token$id', value: token);
+      print(id);
+      print(token);
+      print(response.statusCode);
+    } else {
+      print(response.statusCode);
+    }
   }
 }
+
 void showEmailCustomDialog(String title, int duration) {
   Get.dialog(
     AlertDialog(

@@ -70,7 +70,9 @@ class _SignupViewState extends State<SignupView> {
       //   ],
       // ),
       body: GestureDetector(
-        onTap: (){FocusScope.of(context).unfocus();},
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -118,7 +120,8 @@ class _SignupViewState extends State<SignupView> {
                                 children: signupController.univSearchList
                                     .map((element) => GestureDetector(
                                           onTap: () {
-                                            signupController.universityController
+                                            signupController
+                                                .universityController
                                                 .text = element;
                                           },
                                           child: Column(

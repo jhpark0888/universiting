@@ -17,7 +17,8 @@ class HomeView extends StatelessWidget {
   bool login = false;
   String tag;
   late HomeController homeController = Get.put(HomeController(), tag: tag);
-  static CameraUpdate cameraUpdate =  CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
+  static CameraUpdate cameraUpdate =
+      CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
 
   void onMapCreated(NaverMapController controller) {
     homeController.mapController.nMapController.complete(controller);
@@ -137,26 +138,10 @@ class HomeView extends StatelessWidget {
           Expanded(
             child: Stack(
               children: [
-<<<<<<< HEAD
-                Obx(
-                  () => NaverMap(
-                    initialCameraPosition:
-                        CameraPosition(target: LatLng(37.563600, 126.962370)),
-                    onMapCreated: onMapCreated,
-                    // onMapTap: _onMapTap,
-                    markers: _mapController.markers.value.isNotEmpty
-                        ? _mapController.markers
-                        : [
-                            Marker(
-                                markerId: '-1',
-                                position: LatLng(37.563600, 126.962370))
-                          ],
-                    initLocationTrackingMode: LocationTrackingMode.Follow,
-                  ),
-                ),
-=======
                 Obx(() => NaverMap(
-                  onCameraChange: homeController.isClick.value ? ((latLng, reason, isAnimated) => cameraUpdate) : null,
+                      onCameraChange: homeController.isClick.value
+                          ? ((latLng, reason, isAnimated) => cameraUpdate)
+                          : null,
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(37.563600, 126.962370)),
                       onMapCreated: login ? null : onMapCreated,
@@ -205,9 +190,8 @@ class HomeView extends StatelessWidget {
                     left: Get.width / 10),
                 Positioned(
                     child: GestureDetector(
-                      onTap: () async{
+                      onTap: () async {
                         homeController.isClick(true);
-
                       },
                       child: Container(
                         height: Get.width / 9,
@@ -226,7 +210,6 @@ class HomeView extends StatelessWidget {
                     ),
                     bottom: Get.width / 3,
                     right: Get.width / 10)
->>>>>>> 65068e6079b1a67995929ba0d07752e34be6249a
               ],
             ),
           ),
