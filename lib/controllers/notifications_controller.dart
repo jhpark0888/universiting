@@ -4,6 +4,11 @@
 // class NotificationController extends GetxController {
 //     static NotificationController get to => Get.find();
 //   FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+//   @override
+//   void onInit(){
+//     super.onInit();
+//   }
 // Future<String?> getToken() async {
 //     try {
 //       String? userMessageToken = await messaging.getToken(

@@ -18,11 +18,13 @@ Future<void> login() async {
   // NotificationController controller = Get.put(NotificationController());
   LoginController loginController = Get.put(LoginController());
   HomeController homeController = Get.find(tag: '첫 화면');
+  var fcm_token = await storage.read(key: 'fcm_token');
   Map<String, dynamic> login_info = {
     'username': loginController.emailController.text,
     'password': loginController.passwordController.text,
-    'fcm_token': ''
+    'fcm_token': fcm_token
   };
+  print(login_info);
   final headers = {'Content-Type': 'application/json'};
   final url = Uri.parse('$serverUrl/user_api/login');
 
@@ -47,6 +49,7 @@ Future<void> login() async {
         print(response.statusCode);
       }
     } catch (e) {
+      showCustomDialog('서버 점검중입니다.', 1200);
       print(e);
     }
   }

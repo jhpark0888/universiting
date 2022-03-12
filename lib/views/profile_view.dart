@@ -44,21 +44,24 @@ class ProfileView extends StatelessWidget {
                       const SizedBox(height: 20),
                       Row(
                         children: [
-                          Container(
-                            height: Get.width / 4.5,
-                            width: Get.width / 4.5,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                color: const Color(0xffC4C4C4)),
+                          ClipOval(
                             child:
                                 profileController.profile.value.profileImage ==
                                         ''
-                                    ? Image.asset('assets/icons/marker.png',
-                                        fit: BoxFit.cover)
+                                    ? Image.asset(
+                                        'assets/icons/marker.png',
+                                        height: Get.width / 4.5,
+                                        width: Get.width / 4.5,
+                                        fit: BoxFit.cover,
+                                      )
                                     : Image.network(
-                                        profileController
-                                            .profile.value.profileImage,
-                                        fit: BoxFit.cover),
+                                        serverUrl +
+                                            profileController
+                                                .profile.value.profileImage,
+                                        height: Get.width / 4.5,
+                                        width: Get.width / 4.5,
+                                        fit: BoxFit.cover,
+                                      ),
                           ),
                           const SizedBox(width: 12),
                           Column(
@@ -111,7 +114,7 @@ class ProfileView extends StatelessWidget {
                               value1: '라이브러리에서 선택',
                               value2: '기본 이미지로 변경',
                               func1: changeProfileImage,
-                              func2: () {});
+                              func2: changeDefaultImage);
                         },
                         child: const Icon(Icons.photo_camera)),
                     left: Get.width / 6,
@@ -123,10 +126,15 @@ class ProfileView extends StatelessWidget {
           ),
         ));
   }
-  void changeProfileImage()async{
+
+  void changeProfileImage() async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     print(image);
     updateMyProfile(ProfileType.image, File(image!.path));
     print('클릭했습니다.');
+  }
+
+  void changeDefaultImage() async {
+    updateMyProfile(ProfileType.image, null);
   }
 }

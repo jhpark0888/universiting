@@ -35,6 +35,7 @@ Future<void> getMyProfile() async {
       }
     } catch (e) {
       print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }
@@ -59,29 +60,35 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
         request.fields['introduction'] = profileController.introController.text;
       }
       if (profileType == ProfileType.image) {
-        if(image != null){
+        if (image != null) {
           print('이것도 클릭됨');
-        var multipartFile =
-            await http.MultipartFile.fromPath('profile_image', image.path);
-            request.files.add(multipartFile);
-            print('multipartFile : ${multipartFile}');
+          var multipartFile =
+              await http.MultipartFile.fromPath('image', image.path);
+          request.files.add(multipartFile);
+          // profileController.profile.value.profileImage = image.path;
+        } else if (image == null) {
+          request.fields['image'] = jsonEncode(null);
+          // profileController.profile.value.profileImage = '';
         }
       }
       http.StreamedResponse response = await request.send();
       if (response.statusCode <= 200 && response.statusCode < 300) {
         String responsebody = await response.stream.bytesToString();
-        profileController.profile.value.nickname ==
-            profileController.nameController.text;
-        profileController.profile.value.age ==
-            int.parse(profileController.ageController.text);
-        profileController.profile.value.introduction ==
-            profileController.introController.text;
-
+        // profileController.profile.value.nickname ==
+        //     profileController.nameController.text;
+        // profileController.profile.value.age ==
+        //     int.parse(profileController.ageController.text);
+        // profileController.profile.value.introduction ==
+        //     profileController.introController.text;
+        profileController.profile.value =
+            Profile.fromJson(jsonDecode(responsebody));
         print(response.statusCode);
         print(responsebody);
+        Get.back();
       }
     } catch (e) {
       print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }

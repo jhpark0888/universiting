@@ -22,20 +22,24 @@ Future<void> getUniversityList() async {
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response = await http.get(url);
-    print(response.statusCode);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
-      String responsebody = utf8.decode(response.bodyBytes);
-
-      signupController.allUnivList.value = univParsed(responsebody);
-      for (Univ i in signupController.allUnivList) {
-        signupController.univList.add(i.schoolname);
-      }
-
-      signupController.univList =
-          signupController.univList.toList().toSet().toList().obs;
-    } else {
+    try {
+      var response = await http.get(url);
       print(response.statusCode);
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+        String responsebody = utf8.decode(response.bodyBytes);
+
+        signupController.allUnivList.value = univParsed(responsebody);
+        for (Univ i in signupController.allUnivList) {
+          signupController.univList.add(i.schoolname);
+        }
+
+        signupController.univList =
+            signupController.univList.toList().toSet().toList().obs;
+      } else {
+        print(response.statusCode);
+      }
+    } catch (e) {
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }
@@ -63,6 +67,7 @@ Future<void> getDepartList(int id) async {
         print(response.statusCode);
       }
     } catch (e) {
+      showCustomDialog('서버 점검중입니다.', 1200);
       print(e);
     }
   }
@@ -76,18 +81,22 @@ Future<void> checkNickName() async {
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response = await http.get(
-      url,
-    );
-    print(response.statusCode);
-    String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
-      signupController.isname.value = true;
+    try {
+      var response = await http.get(
+        url,
+      );
       print(response.statusCode);
-      Get.to(()=> SignupAgeView());
-    } else if (response.statusCode == 406) {
-      signupController.isname.value = false;
-      showCustomDialog('이미 사용 중인 닉네임이에요', 1200);
+      String responsebody = utf8.decode(response.bodyBytes);
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+        signupController.isname.value = true;
+        print(response.statusCode);
+        Get.to(() => SignupAgeView());
+      } else if (response.statusCode == 406) {
+        signupController.isname.value = false;
+        showCustomDialog('이미 사용 중인 닉네임이에요', 1200);
+      }
+    } catch (e) {
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }
@@ -124,6 +133,7 @@ Future<void> checkEmail() async {
       }
     } catch (e) {
       print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }
@@ -148,19 +158,23 @@ Future<void> postProfile() async {
   if (result == ConnectionState.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.post(url, body: jsonEncode(signup), headers: headers);
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      String responsebody = utf8.decode(response.bodyBytes);
-      String id = jsonDecode(responsebody)['user_id'];
-      String token = jsonDecode(responsebody)['token'];
-      await storage.write(key: 'id$id', value: id);
-      await storage.write(key: 'token$id', value: token);
-      print(id);
-      print(token);
-      print(response.statusCode);
-    } else {
-      print(response.statusCode);
+    try {
+      var response =
+          await http.post(url, body: jsonEncode(signup), headers: headers);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        String responsebody = utf8.decode(response.bodyBytes);
+        String id = jsonDecode(responsebody)['user_id'];
+        String token = jsonDecode(responsebody)['token'];
+        await storage.write(key: 'id$id', value: id);
+        await storage.write(key: 'token$id', value: token);
+        print(id);
+        print(token);
+        print(response.statusCode);
+      } else {
+        print(response.statusCode);
+      }
+    } catch (e) {
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }

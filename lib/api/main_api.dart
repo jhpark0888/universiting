@@ -16,7 +16,10 @@ Future<List<MainUniv>> getMainUniv() async {
   final url = Uri.parse('$serverUrl/school_api/main_load');
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
-    return [MainUniv(id: 0, schoolname: '', lat: 37.563600, lng: 126.962370, type: false)].obs;
+    return [
+      MainUniv(
+          id: 0, schoolname: '', lat: 37.563600, lng: 126.962370, type: false)
+    ].obs;
   } else {
     try {
       var response = await http.get(url);
@@ -24,14 +27,24 @@ Future<List<MainUniv>> getMainUniv() async {
         String responsebody = utf8.decode(response.bodyBytes);
         print(response.statusCode);
         return mainUnivParse(responsebody);
-
       } else {
         print(response.statusCode);
-        return [MainUniv(id: 0, schoolname: '', lat: 37.563600, lng: 126.962370, type: false)].obs;
+        return [
+          MainUniv(
+              id: 0,
+              schoolname: '',
+              lat: 37.563600,
+              lng: 126.962370,
+              type: false)
+        ].obs;
       }
     } catch (e) {
       print(e);
-      return [MainUniv(id: 0, schoolname: '', lat: 37.563600, lng: 126.962370, type: false)].obs;
+      showCustomDialog('서버 점검중입니다.', 1200);
+      return [
+        MainUniv(
+            id: 0, schoolname: '', lat: 37.563600, lng: 126.962370, type: false)
+      ].obs;
     }
   }
 }

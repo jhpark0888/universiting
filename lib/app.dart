@@ -4,7 +4,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/profile_view.dart';
-import 'package:universiting/views/room_view.dart';
+import 'package:universiting/views/my_room_view.dart';
 
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
@@ -29,6 +29,9 @@ class App extends StatelessWidget {
                   type: BottomNavigationBarType.fixed,
                   currentIndex: appController.currentIndex.value,
                   onTap: appController.changePageIndex,
+                  selectedItemColor: kMainBlack,
+                    selectedFontSize: 12,
+                    unselectedFontSize: 12,
                   items: [
                     BottomNavigationBarItem(
                         icon: Container(
@@ -36,7 +39,7 @@ class App extends StatelessWidget {
                           width: Get.width / 12,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: Color(0xffC4C4C4)),
+                              color: appController.currentIndex.value == 0 ? kMainBlack :const Color(0xffC4C4C4)),
                         ),
                         label: '내 목록'),
                     BottomNavigationBarItem(
@@ -45,13 +48,13 @@ class App extends StatelessWidget {
                           width: Get.width / 9,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: kMainBlack),
+                              color: appController.currentIndex.value == 1 ? kMainBlack :const Color(0xffC4C4C4)),
                           child: Center(
                             child: Text(
                               'U',
                               textAlign: TextAlign.center,
                               style: kActiveButtonStyle.copyWith(
-                                  color: Colors.white),
+                                  color: kMainWhite),
                             ),
                           ),
                         ),
@@ -62,7 +65,7 @@ class App extends StatelessWidget {
                           width: Get.width / 12,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: Color(0xffC4C4C4)),
+                              color: appController.currentIndex.value == 2 ? kMainBlack :const Color(0xffC4C4C4)),
                         ),
                         label: '프로필')
                   ]),

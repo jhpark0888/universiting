@@ -29,7 +29,7 @@ class MapController extends GetxController {
             () => SafeArea(
               child: AnimatedContainer(
                   height: isDetailClick.value ? Get.height - 30 : Get.width / 1.5,
-                  duration: Duration(milliseconds: 1000),
+                  duration: Duration(milliseconds: 100),
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
