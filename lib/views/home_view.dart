@@ -23,71 +23,11 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeController homeController = Get.put(HomeController(), tag: tag);
     MapController mapController = Get.put(MapController());
-    void onMapCreated(NaverMapController controller) {
-      homeController.mapController.nMapController.complete(controller);
-    }
 
-    Future.delayed(Duration(milliseconds: 1000), () {
-      mapController.context1 = context;
-    });
     return Scaffold(
       extendBody: true,
       bottomSheet: login
       ? Container(height: 0)
-          // ? Obx(() => AnimatedContainer(
-          //     duration: Duration(milliseconds: 100),
-          //     height: mapController.isClick.value
-          //         ? homeController.isDetailClick.value
-          //             ? Get.width / 0.8
-          //             : Get.width / 1.5
-          //         : 0,
-          //     decoration: const BoxDecoration(
-          //         borderRadius: BorderRadius.only(
-          //       topRight: Radius.circular(20),
-          //       topLeft: Radius.circular(20),
-          //     )),
-          //     // foregroundDecoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),color: kMainWhite),
-          //     child: ClipRRect(
-          //       borderRadius: const BorderRadius.only(
-          //         topLeft: Radius.circular(20),
-          //         topRight: Radius.circular(20),
-          //         bottomLeft: Radius.circular(0),
-          //         bottomRight: Radius.circular(0),
-          //       ),
-          //       child: Padding(
-          //         padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-          //         child: SingleChildScrollView(
-          //           child: Column(
-          //             crossAxisAlignment: CrossAxisAlignment.stretch,
-          //             children: [
-          //               GestureDetector(
-          //                   onTap: () {
-          //                     homeController.isDetailClick.value =
-          //                         !homeController.isDetailClick.value;
-          //                     print(homeController.isDetailClick.value);
-          //                   },
-          //                   child: Center(
-          //                       child: Container(
-          //                           height: 4, width: 28, color: kLightGrey))),
-          //               SizedBox(height: 21),
-          //               Row(
-          //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                 children: [
-          //                   Text(
-          //                     mapController.clickedUniv.value,
-          //                     style: kHeaderStyle2,
-          //                   ),
-          //                   Text(
-          //                     '방 0개',
-          //                     style: kSubtitleStyle1,
-          //                   )
-          //                 ],
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //     )))
           : Obx(() => homeController.islogin.value
               ? homeController.isGuest.value
                   ? LoginView()
@@ -209,7 +149,7 @@ class HomeView extends StatelessWidget {
                 Obx(() => NaverMap(
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(37.563600, 126.962370)),
-                      onMapCreated: login ? null : onMapCreated,
+                      onMapCreated: login ? null : mapController.onMapCreated,
                       onMapTap: (value) {
                         mapController.isClick(false);
                       },
@@ -225,24 +165,7 @@ class HomeView extends StatelessWidget {
                 Positioned(
                     child: GestureDetector(
                       onTap: () {
-                        homeController.mapController.markers.clear();
-                        homeController.mapController.markers.value =
-                            homeController.mainuniv
-                                .map((element) => Marker(
-                                    markerId: element.id.toString(),
-                                    position: LatLng(element.lat, element.lng),
-                                    captionText: element.schoolname,
-                                    captionColor: Colors.indigo,
-                                    captionTextSize: 14.0,
-                                    icon: homeController.image,
-                                    iconTintColor:
-                                        element.type ? kMainBlack : Colors.red,
-                                    anchor: AnchorPoint(0.5, 1),
-                                    width: 45,
-                                    height: 45,
-                                    onMarkerTab: homeController
-                                        .mapController.onMarkerTap))
-                                .toList();
+                        homeController.createdMarker();
                       },
                       child: Container(
                         height: Get.width / 9,
@@ -275,7 +198,7 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                     bottom: Get.width / 3,
-                    right: Get.width / 10)
+                    right: Get.width / 10),
               ],
             ),
           ),

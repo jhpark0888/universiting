@@ -40,15 +40,16 @@ class SignUpTextFormField extends StatelessWidget {
 
 class CustomTextFormField extends StatelessWidget {
   CustomTextFormField(
-      {Key? key, required this.controller, this.hinttext, this.maxLine})
+      {Key? key, required this.controller, this.hinttext, this.maxLine, this.height})
       : super(key: key);
   TextEditingController controller;
   String? hinttext;
   int? maxLine;
+  double? height;
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Get.width / 8,
+      height: height ?? Get.width / 8,
       child: TextFormField(
         controller: controller,
         cursorColor: kPrimary,
@@ -64,6 +65,7 @@ class CustomTextFormField extends StatelessWidget {
             focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: Color(0xffF4F4F4))),
             enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: Color(0xffF4F4F4)))
             ),
+            textInputAction: TextInputAction.newline,
       ),
     );
   }

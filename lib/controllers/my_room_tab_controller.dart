@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MyRoomController extends GetxController with GetSingleTickerProviderStateMixin{
+class MyRoomTabController extends GetxController with GetSingleTickerProviderStateMixin{
   late TabController tapcontroller;
   RxInt currentIndex = 0.obs;
   @override 

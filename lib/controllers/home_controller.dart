@@ -22,6 +22,21 @@ class HomeController extends GetxController {
     OverlayImage.fromAssetImage(assetName: 'assets/icons/marker.png')
         .then((value) => image = value);
     mainuniv.value = (await getMainUniv());
+    createdMarker();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    mainuniv.clear;
+    islogin(false);
+    isGuest(true);
+    isDetailClick(false);
+    super.onClose();
+  }
+
+  void createdMarker() {
+    mapController.markers.clear();
     mapController.markers.value = mainuniv
         .map((element) => Marker(
             markerId: element.id.toString(),
@@ -36,15 +51,5 @@ class HomeController extends GetxController {
             height: 45,
             onMarkerTab: mapController.onMarkerTap))
         .toList();
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    mainuniv.clear;
-    islogin(false);
-    isGuest(true);
-    isDetailClick(false);
-    super.onClose();
   }
 }
