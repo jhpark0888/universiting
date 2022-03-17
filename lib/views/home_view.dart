@@ -9,6 +9,7 @@ import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/views/login_view.dart';
 import 'package:universiting/views/signup_univ_view.dart';
+import 'package:universiting/views/test_view.dart';
 import 'package:universiting/widgets/textformfield_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -39,7 +40,7 @@ class HomeView extends StatelessWidget {
                     )
               : homeController.isGuest.value
                   ? Container(
-                    decoration: BoxDecoration(color: kMainWhite),
+                      decoration: BoxDecoration(color: kMainWhite),
                       height: Get.width / 1.3,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(Get.width / 20,
@@ -47,12 +48,16 @@ class HomeView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            if(homeController.mapController.isClick.value)
-                            const Text('로그인 또는 회원 가입 후 이용할 수 있어요!', style: kSubtitleStyle2,),
+                            if (homeController.mapController.isClick.value)
+                              const Text(
+                                '로그인 또는 회원 가입 후 이용할 수 있어요!',
+                                style: kSubtitleStyle2,
+                              ),
                             GestureDetector(
                               onTap: () async {
                                 await getMainUniv();
                               },
+                              onDoubleTap: () => Get.to(TestView()),
                               child: Container(
                                 height: Get.width / 8,
                                 decoration: BoxDecoration(
@@ -62,8 +67,8 @@ class HomeView extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     '유니버시팅에서 무엇을 할 수 있을까요?',
-                                    style:
-                                        kActiveButtonStyle.copyWith(color: kPrimary),
+                                    style: kActiveButtonStyle.copyWith(
+                                        color: kPrimary),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -82,8 +87,8 @@ class HomeView extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     '시작해볼까요?',
-                                    style:
-                                        kActiveButtonStyle.copyWith(color: kMainWhite),
+                                    style: kActiveButtonStyle.copyWith(
+                                        color: kMainWhite),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -206,7 +211,8 @@ class HomeView extends StatelessWidget {
                           child: Text(
                             'MY',
                             textAlign: TextAlign.center,
-                            style: kActiveButtonStyle.copyWith(color: Colors.white),
+                            style: kActiveButtonStyle.copyWith(
+                                color: Colors.white),
                           ),
                         ),
                       ),
