@@ -9,7 +9,7 @@ import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/views/login_view.dart';
 import 'package:universiting/views/signup_univ_view.dart';
-import 'package:universiting/views/test_view.dart';
+import 'package:universiting/widgets/state_management_widget.dart';
 import 'package:universiting/widgets/textformfield_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -57,7 +57,9 @@ class HomeView extends StatelessWidget {
                               onTap: () async {
                                 await getMainUniv();
                               },
-                              onDoubleTap: () => Get.to(TestView()),
+                              onDoubleTap: () => Get.to(StateManagementWidget(
+                                state: StateManagement.friendReject,
+                              )),
                               child: Container(
                                 height: Get.width / 8,
                                 decoration: BoxDecoration(
