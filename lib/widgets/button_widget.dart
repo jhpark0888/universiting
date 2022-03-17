@@ -1,20 +1,21 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:universiting/function/global_variable.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:universiting/constant.dart';
 
-// class SignupNextButton extends StatelessWidget {
-//   String data;
-//   SignupNextButton({ Key? key, required this.data,  }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return IconButton(
-//       onPressed: (){resultOfConnection().then((value) => value
-//                     ? signupController.isUniv.value
-//                         ? Get.to(() => SignupDepartmentScreen())
-//                         : print(signupController.isUniv.value)
-//                     : showCustomDialog('네트워크를 확인해주세요', 3000));},
-//       icon: Text('다음'),
-//     );
-//   }
-// }
+class PrimaryButton extends StatelessWidget {
+  PrimaryButton({ Key? key, required this.text, this.height, this.width, this.backColor, this.textColor}) : super(key: key);
+  Color? backColor;
+  Color? textColor;
+  String text;
+  double? height;
+  double? width;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height ?? Get.width / 8.5,
+      width: width?? Get.width,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: backColor?? kMainBlack),
+      child: Center(child: Text(text, style: kActiveButtonStyle.copyWith(color: textColor?? kMainWhite),)),
+    );
+  }
+}

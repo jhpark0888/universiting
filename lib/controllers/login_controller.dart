@@ -22,7 +22,7 @@ class LoginController extends GetxController{
 
     passwordController.addListener(() {
       print(passwordValidate);
-      if(passwordController.text.length >= 6){
+      if(passwordController.text.isNotEmpty){
         passwordValidate(true);
       }else{
         passwordValidate(false);

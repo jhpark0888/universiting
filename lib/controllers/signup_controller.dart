@@ -20,9 +20,9 @@ class SignupController extends GetxController {
   RxList<Univ> allUnivList = <Univ>[].obs;
   RxList<String> univList = <String>[].obs;
   RxList<String> univSearchList = <String>[].obs;
-  RxList<Depart> allDepartList = <Depart>[].obs;
-  RxList<String> departList = <String>[].obs;
-  RxList<String> departSearchList = <String>[].obs;
+  // RxList<Depart> allDepartList = <Depart>[].obs;
+  // RxList<String> departList = <String>[].obs;
+  // RxList<String> departSearchList = <String>[].obs;
 
   final uni = Univ(email: '', schoolname: '', id: 1).obs;
 
@@ -34,6 +34,7 @@ class SignupController extends GetxController {
   RxBool isDepart = false.obs;
   RxBool isname = false.obs;
   RxBool isage = false.obs;
+  RxBool isPasswordCheck = false.obs;
   RxBool isEmail = false.obs;
   RxBool isEmailPress = false.obs;
   RxBool isSendEmail = false.obs;
@@ -54,25 +55,25 @@ class SignupController extends GetxController {
       }
     });
 
-    departmentController.addListener(() {
-      departSearchList.clear();
-      for (String depart in departList) {
-        if (departmentController.text != '') {
-          if (depart.contains(departmentController.text)) {
-            departSearchList.add(depart);
-            checkdepartment();
-          }
-        }
-      }
-    });
+    // departmentController.addListener(() {
+    //   departSearchList.clear();
+    //   for (String depart in departList) {
+    //     if (departmentController.text != '') {
+    //       if (depart.contains(departmentController.text)) {
+    //         departSearchList.add(depart);
+    //         checkdepartment();
+    //       }
+    //     }
+    //   }
+    // });
 
-    nameController.addListener(() {
-      if (nameController.text.isNotEmpty) {
-        isname.value = true;
-      } else if (nameController.text.isEmpty) {
-        isname.value = false;
-      }
-    });
+    // nameController.addListener(() {
+    //   if (nameController.text.isNotEmpty) {
+    //     isname.value = true;
+    //   } else if (nameController.text.isEmpty) {
+    //     isname.value = false;
+    //   }
+    // });
 
     ageController.addListener(() {
       if (ageController.text.isNotEmpty) {
@@ -99,6 +100,7 @@ class SignupController extends GetxController {
     isUniv(false);
     isDepart(false);
     isname(false);
+    isPasswordCheck(false);
     isEmail(false);
     isEmailPress(false);
     isEmailCheck(false);
@@ -113,30 +115,31 @@ class SignupController extends GetxController {
     }
   }
 
-  void checkdepartment() {
-    if (departSearchList.contains(departmentController.text)) {
-      isDepart(true);
-    } else {
-      isDepart(false);
-    }
-  }
+  // void checkdepartment() {
+  //   if (departSearchList.contains(departmentController.text)) {
+  //     isDepart(true);
+  //   } else {
+  //     isDepart(false);
+  //   }
+  // }
 
   void selectuniv(String univ) {
     for (Univ i in allUnivList) {
       if (i.schoolname == univ) {
         uni.value = i;
+        schoolId.value = i.id;
       }
     }
   }
 
-  void getDepartId(String depart) {
-    for (Depart i in allDepartList) {
-      if (i.depName == depart) {
-        departId.value = i.id;
-        schoolId.value = i.schoolId;
-      }
-    }
-  }
+  // void getDepartId(String depart) {
+  //   for (Depart i in allDepartList) {
+  //     if (i.depName == depart) {
+  //       departId.value = i.id;
+  //       schoolId.value = i.schoolId;
+  //     }
+  //   }
+  // }
 
   String checkAge() {
     int age = int.parse(ageController.text);

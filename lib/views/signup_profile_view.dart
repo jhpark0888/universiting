@@ -55,7 +55,7 @@
 //               style: kStyleContent.copyWith(fontSize: 14),
 //               textAlign: TextAlign.start,
 //             ),
-//             CustomTextFormField(controller: signupController.nameController),
+//             SignUpTextFormField(controller: signupController.nameController),
 //             SizedBox(height: Get.height / 20),
 //             Text(
 //               '생년월일',

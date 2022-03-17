@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/login_api.dart';
 import 'package:universiting/api/main_api.dart';
@@ -10,28 +11,35 @@ import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/views/login_view.dart';
 import 'package:universiting/views/signup_univ_view.dart';
 import 'package:universiting/widgets/state_management_widget.dart';
+import 'package:universiting/widgets/spinkit_widget.dart';
 import 'package:universiting/widgets/textformfield_widget.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({Key? key, required this.login, required this.tag})
+  HomeView(
+      {Key? key,
+      required this.login,
+      required this.tag,
+      required this.lat,
+      required this.lng})
       : super(key: key);
+  double lat;
+  double lng;
   bool login = false;
-  String tag;
-  late HomeController homeController = Get.put(HomeController(), tag: tag);
+  late String tag;
   static CameraUpdate cameraUpdate =
       CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
 
-  void onMapCreated(NaverMapController controller) {
-    homeController.mapController.nMapController.complete(controller);
-  }
-
+  MapController mapController = Get.put(MapController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    HomeController homeController = Get.put(HomeController(), tag: tag);
+    return
+        // Obx(
+        // ()=> (homeController.isLoading.value == false) ?
+        Scaffold(
+      extendBody: true,
       bottomSheet: login
-          ? Container(
-              height: 0,
-            )
+          ? Container(height: 0)
           : Obx(() => homeController.islogin.value
               ? homeController.isGuest.value
                   ? LoginView()
@@ -41,25 +49,25 @@ class HomeView extends StatelessWidget {
               : homeController.isGuest.value
                   ? Container(
                       decoration: BoxDecoration(color: kMainWhite),
-                      height: Get.width / 1.3,
+                      height: Get.width / 1.1,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(Get.width / 20,
                             Get.width / 15, Get.width / 20, Get.width / 9),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            if (homeController.mapController.isClick.value)
-                              const Text(
+                            if (mapController.isClick.value)
+                              const Center(
+                                  child: Text(
                                 '로그인 또는 회원 가입 후 이용할 수 있어요!',
                                 style: kSubtitleStyle2,
+                              )),
+                            if (mapController.isClick.value)
+                              const SizedBox(
+                                height: 24,
                               ),
                             GestureDetector(
-                              onTap: () async {
-                                await getMainUniv();
-                              },
-                              onDoubleTap: () => Get.to(StateManagementWidget(
-                                state: StateManagement.friendReject,
-                              )),
+                              onTap: () async {},
                               child: Container(
                                 height: Get.width / 8,
                                 decoration: BoxDecoration(
@@ -149,43 +157,25 @@ class HomeView extends StatelessWidget {
             child: Stack(
               children: [
                 Obx(() => NaverMap(
-                      onCameraChange: homeController.isClick.value
-                          ? ((latLng, reason, isAnimated) => cameraUpdate)
-                          : null,
-                      initialCameraPosition: const CameraPosition(
-                          target: LatLng(37.563600, 126.962370)),
-                      onMapCreated: login ? null : onMapCreated,
-                      // onMapTap: _onMapTap,
+                      initialCameraPosition:
+                          CameraPosition(target: LatLng(lat, lng)),
+                      onMapCreated: login ? null : mapController.onMapCreated,
+                      onMapTap: (value) {
+                        mapController.isClick(false);
+                      },
                       markers: homeController.mapController.markers.isNotEmpty
                           ? homeController.mapController.markers
                           : [
                               Marker(
                                   markerId: '-1',
-                                  position: const LatLng(37.563600, 126.962370))
+                                  position: LatLng(37.563600, 126.962370))
                             ],
                       initLocationTrackingMode: LocationTrackingMode.Follow,
                     )),
                 Positioned(
                     child: GestureDetector(
                       onTap: () {
-                        homeController.mapController.markers.clear();
-                        homeController.mapController.markers.value =
-                            homeController.mainuniv
-                                .map((element) => Marker(
-                                    markerId: element.id.toString(),
-                                    position: LatLng(element.lat, element.lng),
-                                    captionText: element.schoolname,
-                                    captionColor: Colors.indigo,
-                                    captionTextSize: 14.0,
-                                    icon: homeController.image,
-                                    iconTintColor:
-                                        element.type ? kMainBlack : Colors.red,
-                                    anchor: AnchorPoint(0.5, 1),
-                                    width: 45,
-                                    height: 45,
-                                    onMarkerTab: homeController
-                                        .mapController.onMarkerTap))
-                                .toList();
+                        homeController.createdMarker();
                       },
                       child: Container(
                         height: Get.width / 9,
@@ -200,9 +190,7 @@ class HomeView extends StatelessWidget {
                     left: Get.width / 10),
                 Positioned(
                     child: GestureDetector(
-                      onTap: () async {
-                        homeController.isClick(true);
-                      },
+                      onTap: () async {},
                       child: Container(
                         height: Get.width / 9,
                         width: Get.width / 9,
@@ -220,7 +208,7 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                     bottom: Get.width / 3,
-                    right: Get.width / 10)
+                    right: Get.width / 10),
               ],
             ),
           ),

@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 
 class BottomButtonWidget extends StatelessWidget {
-  BottomButtonWidget({Key? key, required this.color, this.widget, this.width, this.height}) : super(key: key);
+  BottomButtonWidget({Key? key, required this.color, this.borderColor, this.widget, this.width, this.height}) : super(key: key);
   Color color;
+  Color? borderColor;
   Widget? widget;
   double? width;
   double? height;
@@ -14,9 +15,9 @@ class BottomButtonWidget extends StatelessWidget {
         width: width?? Get.width / 6,
         height: height ?? Get.width / 7,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: color),
+            borderRadius: BorderRadius.circular(20), color: color, border: Border.all(color: borderColor ?? kMainWhite)),
         child: Center(
-          child: widget ?? Icon(Icons.arrow_forward, color: Colors.blue),
+          child: widget ?? Icon(Icons.arrow_forward, color: kMainWhite),
         ));
   }
 }
