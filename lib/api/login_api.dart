@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:universiting/app.dart';
@@ -40,10 +41,13 @@ Future<void> login() async {
         String token = jsonDecode(responsebody)['token'];
         await storage.write(key: 'id', value: id);
         await storage.write(key: 'token', value: token);
+        String? univId = await storage.read(key: loginController.emailController.text);
         print(response.statusCode);
         print(responsebody);
         homeController.isGuest(false);
-        Get.offAll( () => App());
+        print(univId);
+        Get.offAll( () => App(lat: double.parse(jsonDecode(responsebody)['lat']), lng: double.parse(jsonDecode(responsebody)['lng'])));
+
       } else if(response.statusCode == 401) {
         showCustomDialog('이메일 주소 또는 비밀번호를 다시 확인해주세요', 1400);
         print(response.statusCode);

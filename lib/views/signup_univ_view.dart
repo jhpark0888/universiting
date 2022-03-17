@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:universiting/api/signup_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/views/signup_name_view.dart';
 import 'package:universiting/widgets/bottombutton.dart';
 import '../controllers/signup_controller.dart';
 import '../utils/global_variable.dart';
@@ -98,28 +99,18 @@ class SignupUnivView extends StatelessWidget {
                                       signupController.selectuniv(
                                           signupController
                                               .universityController.text);
-                                      print(signupController.uni.value.id);
-                                      await getDepartList(
-                                          signupController.uni.value.id);
-                                      Get.to(() => SignupDepartmentView());
+                                      // print(signupController.uni.value.id);
+                                      // await getDepartList(
+                                      //     signupController.uni.value.id);
+                                      Get.to(() => SignupNameView());
                                     } else {
                                       showCustomDialog(
                                           '다니고 계시는 학교를 선택해주세요', 1200);
                                     }
+
                                   },
                                   child: BottomButtonWidget(color: kPrimary),
                                 ))
-                            // GestureDetector(
-                            //     onTap: () {
-                            //       // signupController.selectuniv(
-                            //       //     signupController.universityController.text);
-                            //       //     print(signupController.uni.value.schoolname);
-                            //     },
-                            //     child: BottomButtonWidget(
-                            // color: signupController.isUniv.value
-                            //     ? mainblack
-                            //     :
-                            //     color : Color(0xffe7e7e7)))
                           ],
                         ),
                       ),

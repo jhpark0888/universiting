@@ -18,34 +18,34 @@ class MyRoomGetRequestWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                '내가 만든 방',
-                style: kSubtitleStyle2,
-                textAlign: TextAlign.start,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Text('새로운 방을 만들어보세요', style: kSubtitleStyle2),
-                      SizedBox(height: 12),
-                      GestureDetector(
-                        onTap: (){Get.to(() => CreateRoomView());},
-                        child: PrimaryButton(
-                          text: '방 만들기',
-                          width: Get.width / 4,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 40),
-              Text(
-                '받은 신청',
-                style: kSubtitleStyle2,
-              ),
+              // const Text(
+              //   '내가 만든 방',
+              //   style: kSubtitleStyle2,
+              //   textAlign: TextAlign.start,
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 20.0),
+              //   child: Container(
+              //     child: Column(
+              //       children: [
+              //         Text('새로운 방을 만들어보세요', style: kSubtitleStyle2),
+              //         SizedBox(height: 12),
+              //         GestureDetector(
+              //           onTap: (){Get.to(() => CreateRoomView());},
+              //           child: PrimaryButton(
+              //             text: '방 만들기',
+              //             width: Get.width / 4,
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: 40),
+              // Text(
+              //   '받은 신청',
+              //   style: kSubtitleStyle2,
+              // ),
               SizedBox(height: 32),
               Text(
                 '아직 받은 신청이 없어요',

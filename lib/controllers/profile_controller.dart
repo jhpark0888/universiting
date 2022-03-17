@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/profile_api.dart';
+import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 
 class ProfileController extends GetxController{
-  
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController introController = TextEditingController();

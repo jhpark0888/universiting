@@ -58,19 +58,6 @@ class SignupGenderView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(children: [
-                          signupController.isgender.value == 'M'
-                              ? Text(
-                                  mcontents[1],
-                                  style: kSubtitleStyle2,
-                                )
-                              : Text(
-                                  mcontents[0],
-                                  style: kSubtitleStyle2.copyWith(
-                                      color: kMainBlack.withOpacity(0.38)),
-                                ),
-                          const SizedBox(
-                            height: 12,
-                          ),
                           GestureDetector(
                             onTap: () {
                               signupController.isgender.value = 'M';
@@ -85,23 +72,23 @@ class SignupGenderView extends StatelessWidget {
                                       : const Color(0x00c4c4c4)
                                           .withOpacity(0.38)),
                             ),
-                          )
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          signupController.isgender.value == 'M'
+                              ? Text(
+                                  mcontents[1],
+                                  style: kSubtitleStyle2,
+                                )
+                              : Text(
+                                  mcontents[0],
+                                  style: kSubtitleStyle2.copyWith(
+                                      color: kMainBlack.withOpacity(0.38)),
+                                ),
                         ]),
                         Column(
                           children: [
-                            signupController.isgender.value == 'F'
-                                ? Text(
-                                    wcontents[1],
-                                    style: kSubtitleStyle2,
-                                  )
-                                : Text(
-                                    wcontents[0],
-                                    style: kSubtitleStyle2.copyWith(
-                                        color: kMainBlack.withOpacity(0.38)),
-                                  ),
-                            const SizedBox(
-                              height: 12,
-                            ),
                             GestureDetector(
                               onTap: () {
                                 signupController.isgender.value = 'F';
@@ -118,6 +105,19 @@ class SignupGenderView extends StatelessWidget {
                                                 .withOpacity(0.38)),
                               ),
                             ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            signupController.isgender.value == 'F'
+                                ? Text(
+                                    wcontents[1],
+                                    style: kSubtitleStyle2,
+                                  )
+                                : Text(
+                                    wcontents[0],
+                                    style: kSubtitleStyle2.copyWith(
+                                        color: kMainBlack.withOpacity(0.38)),
+                                  ),
                           ],
                         )
                       ]),

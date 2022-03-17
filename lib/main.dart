@@ -20,7 +20,7 @@ import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
+  print('Handling a background message ${message.data}');
 }
 
 late AndroidNotificationChannel channel;
@@ -107,6 +107,8 @@ class _MyAppState extends State<MyApp> {
       home: HomeView(
         login: false,
         tag: '첫 화면',
+        lat: 37.563600,
+        lng:  126.962370,
       ),
     );
   }

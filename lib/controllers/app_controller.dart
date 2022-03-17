@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class AppController extends GetxController{
 
-  RxInt currentIndex = 1.obs;
+  RxInt currentIndex = 0.obs;
 
   void changePageIndex(int index){
     if(index == 0){
@@ -12,6 +12,11 @@ class AppController extends GetxController{
       currentIndex.value = index; 
     }else if(index == 2){
       currentIndex.value = index;
+    }else if(index == 3){
+      currentIndex.value = index;
+    }else if(index == 4){
+      currentIndex.value = index;
     }
+    
   }
 }

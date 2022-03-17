@@ -40,9 +40,10 @@ class SignUpTextFormField extends StatelessWidget {
 
 class CustomTextFormField extends StatelessWidget {
   CustomTextFormField(
-      {Key? key, required this.controller, this.hinttext, this.maxLine, this.height})
+      {Key? key, required this.controller, this.hinttext, this.maxLine, this.height, this.obsecure})
       : super(key: key);
   TextEditingController controller;
+  bool? obsecure;
   String? hinttext;
   int? maxLine;
   double? height;
@@ -55,6 +56,7 @@ class CustomTextFormField extends StatelessWidget {
         cursorColor: kPrimary,
         maxLines: maxLine ?? 1,
         style: kBodyStyle2,
+        obscureText: obsecure ?? false,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(left: 20, top: 13, bottom: 13, right: 20),
           hintText: hinttext??'',

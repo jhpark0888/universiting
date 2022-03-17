@@ -2,20 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
+import 'package:universiting/views/chat_list_view.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/profile_view.dart';
+import 'package:universiting/views/status_view.dart';
 import 'package:universiting/views/my_room_view.dart';
 
 class App extends StatelessWidget {
-  App({Key? key}) : super(key: key);
-  List<Widget> views = [
-    RoomView(),
-    HomeView(login: true, tag: '다음 화면'),
-    ProfileView()
-  ];
+  App({Key? key,required this.lat,required this.lng}) : super(key: key);
+  double lat;
+  double lng;
   AppController appController = Get.put(AppController());
   @override
   Widget build(BuildContext context) {
+    List<Widget> views = [
+    HomeView(login: true, tag: '다음 화면', lat: lat, lng: lng,),
+    MyRoomView(),
+    StatusView(),
+    ChatListView(),
+    ProfileView()
+  ];
+
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: Obx(() => Container(
@@ -41,24 +48,16 @@ class App extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30),
                               color: appController.currentIndex.value == 0 ? kMainBlack :const Color(0xffC4C4C4)),
                         ),
-                        label: '내 목록'),
-                    BottomNavigationBarItem(
+                        label: '홈'),
+                        BottomNavigationBarItem(
                         icon: Container(
-                          height: Get.width / 9,
-                          width: Get.width / 9,
+                          height: Get.width / 12,
+                          width: Get.width / 12,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: appController.currentIndex.value == 1 ? kMainBlack :const Color(0xffC4C4C4)),
-                          child: Center(
-                            child: Text(
-                              'U',
-                              textAlign: TextAlign.center,
-                              style: kActiveButtonStyle.copyWith(
-                                  color: kMainWhite),
-                            ),
-                          ),
                         ),
-                        label: ''),
+                        label: '내 방'),
                     BottomNavigationBarItem(
                         icon: Container(
                           height: Get.width / 12,
@@ -66,6 +65,26 @@ class App extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: appController.currentIndex.value == 2 ? kMainBlack :const Color(0xffC4C4C4)),
+                        ),
+                        label: '신청 현황'),
+                    
+                    
+                        BottomNavigationBarItem(
+                        icon: Container(
+                          height: Get.width / 12,
+                          width: Get.width / 12,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: appController.currentIndex.value == 3 ? kMainBlack :const Color(0xffC4C4C4)),
+                        ),
+                        label: '채팅방'),
+                        BottomNavigationBarItem(
+                        icon: Container(
+                          height: Get.width / 12,
+                          width: Get.width / 12,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: appController.currentIndex.value == 4 ? kMainBlack :const Color(0xffC4C4C4)),
                         ),
                         label: '프로필')
                   ]),

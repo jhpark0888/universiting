@@ -75,7 +75,7 @@ class SignupPasswordView extends StatelessWidget {
                       onTap: () async {
                         signupController.isPasswordCheck(false);
                       },
-                      child: BottomButtonWidget(widget: const Icon(Icons.arrow_back, color: kMainWhite,),color: kPrimary),
+                      child: BottomButtonWidget(widget: const Icon(Icons.arrow_back, color: kPrimary,),color: kMainWhite, borderColor: kPrimary,),
                       
                     ),
                   )

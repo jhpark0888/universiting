@@ -24,8 +24,7 @@ class SignupEmailValidateView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.fromLTRB(
-            20, 64, 20, 0),
+        padding: EdgeInsets.fromLTRB(20, 64, 20, 0),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -55,8 +54,8 @@ class SignupEmailValidateView extends StatelessWidget {
                 ),
                 Text(
                   '@${signupController.uni.value.email}',
-                  style:
-                      kHeaderStyle1.copyWith(color: kMainBlack.withOpacity(0.6)),
+                  style: kHeaderStyle1.copyWith(
+                      color: kMainBlack.withOpacity(0.6)),
                 )
               ],
             ),
@@ -77,7 +76,8 @@ class SignupEmailValidateView extends StatelessWidget {
                             signupController.isEmailPress.value == true &&
                             signupController.isSendEmail.value == true &&
                             signupController.isEmailCheck.value == true) {
-                          await postProfile().then((value) => Get.offAll(() => App()));
+                          await postProfile()
+                              ;
                         }
                       },
                       child: BottomButtonWidget(
@@ -90,33 +90,39 @@ class SignupEmailValidateView extends StatelessWidget {
                               ? signupController.isEmailPress.value == false
                                   ? Text(
                                       '인증 메일 보내기',
-                                      style:signupController.isEmail.value ? kActiveButtonStyle.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: 
-                                              kMainWhite
-                                              ) : kInActiveButtonStyle.copyWith(color: kMainWhite),
+                                      style: signupController.isEmail.value
+                                          ? kActiveButtonStyle.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: kMainWhite)
+                                          : kInActiveButtonStyle.copyWith(
+                                              color: kMainWhite),
                                     )
                                   : signupController.isSendEmail.value
                                       ? signupController.isEmailCheck.value
                                           ? Text(
                                               '끝났어요!',
-                                              style: kActiveButtonStyle.copyWith(color: kMainWhite),
+                                              style: kActiveButtonStyle
+                                                  .copyWith(color: kMainWhite),
                                             )
                                           : Text('인증 대기중',
-                                              style: kActiveButtonStyle.copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: kMainBlack
-                                                      .withOpacity(0.38)))
-                                      : Icon(
-                                          Icons.restart_alt,
-                                          color: Colors.white,
-                                        )
+                                              style:
+                                                  kActiveButtonStyle.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: kMainBlack
+                                                          .withOpacity(0.38)))
+                                      : Text('인증 메일 보내기',
+                                              style:
+                                                  kActiveButtonStyle.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: kMainWhite))
                               : Text(
                                   '인증 메일 보내기',
                                   style: kActiveButtonStyle.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: signupController.isEmail.value
-                                          ? Colors.white
+                                          ? kMainWhite
                                           : kMainBlack.withOpacity(0.38)),
                                 ),
                           width: Get.width / 3,
@@ -125,11 +131,11 @@ class SignupEmailValidateView extends StatelessWidget {
                               ? signupController.isEmailPress.value
                                   ? signupController.isSendEmail.value
                                       ? signupController.isEmailCheck.value
-                                          ? kMainBlack
-                                          : Color(0xffe7e7e7)
-                                      : kMainBlack
-                                  : kMainBlack
-                              : Color(0xffe7e7e7)),
+                                          ? kPrimary
+                                          : kLightGrey
+                                      : kPrimary
+                                  : kPrimary
+                              : kLightGrey),
                     ),
                   ),
                 ),
@@ -143,14 +149,15 @@ class SignupEmailValidateView extends StatelessWidget {
                     child: Obx(
                       () => (signupController.isEmail.value == true &&
                               signupController.isEmailPress.value == true &&
-                              signupController.isSendEmail.value == true)
+                              signupController.isSendEmail.value == true &&
+                              signupController.isEmailCheck.value == false)
                           ? BottomButtonWidget(
                               widget: Text('다시 보내기',
                                   style: kActiveButtonStyle.copyWith(
-                                      color: Colors.white)),
+                                      color: kPrimary)),
                               width: Get.width / 3,
                               height: Get.width / 8,
-                              color: Color(0xff939393))
+                              color: kMainWhite, borderColor: kPrimary,)
                           : Container(),
                     ),
                   ),
