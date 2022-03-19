@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 // import 'package:universiting/api/main_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/map_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
+import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/main_univ_model.dart';
 import 'package:universiting/models/profile_model.dart';
@@ -17,6 +19,7 @@ import 'package:http/http.dart' as http;
 class HomeController extends GetxController {
   static HomeController get to => Get.find(tag: '첫 화면');
   MapController mapController = Get.put(MapController());
+  NotificationController notificationController = Get.put(NotificationController());
   RxList<MainUniv> mainuniv = <MainUniv>[].obs;
   String? univId;
   RxString markerId = ''.obs;

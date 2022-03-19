@@ -14,8 +14,10 @@ class PrimaryButton extends StatelessWidget {
     return Container(
       height: height ?? Get.width / 8.5,
       width: width?? Get.width,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: backColor?? kMainBlack),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: backColor?? kPrimary),
       child: Center(child: Text(text, style: kActiveButtonStyle.copyWith(color: textColor?? kMainWhite),)),
     );
   }
 }
+
+

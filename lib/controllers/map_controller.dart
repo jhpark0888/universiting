@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
+import 'package:universiting/modal.dart';
 import 'package:universiting/widgets/univ_room_widget.dart';
 
 class MapController extends GetxController {
@@ -33,7 +34,7 @@ class MapController extends GetxController {
     if(HomeController.to.isGuest.value == false){
     try {
       
-      bottomSheetModal();
+      bottomSheetModal(UnivRoomWidget(), isDetailClick);
     } catch (e) {
       print(e);
     }
@@ -47,16 +48,5 @@ class MapController extends GetxController {
     super.onClose();
   }
 
-  void bottomSheetModal() {
   
-  showModalBottomSheet(
-      isScrollControlled: true,
-      useRootNavigator: true,
-      barrierColor: kMainWhite.withOpacity(0.1),
-      isDismissible: true,
-      context: Get.context!,
-      builder: (context) {
-        return UnivRoomWidget();
-      }).whenComplete((){isDetailClick.value = false; Get.delete<UnivRoomController>(); });
-}
 }

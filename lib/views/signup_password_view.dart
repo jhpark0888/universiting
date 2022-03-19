@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/utils/check_validator.dart';
 import 'package:universiting/views/signup_email_validate_view.dart';
 import 'package:universiting/views/signup_gender_view.dart';

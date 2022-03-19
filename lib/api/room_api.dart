@@ -7,35 +7,44 @@ import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
 import 'package:universiting/controllers/create_room_controller.dart';
-import 'package:universiting/controllers/select_friend_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
+import 'package:universiting/controllers/participate_controller.dart';
+import 'package:universiting/controllers/room_detail_controller.dart';
+import 'package:universiting/controllers/select_member_controller.dart';
+import 'package:universiting/models/host_model.dart';
+import 'package:universiting/models/my_room_model.dart';
+import 'package:universiting/models/room_model.dart';
 import 'package:universiting/models/select_member_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> getMyRoom() async {
-  SelectMemberController selectMemberController = Get.find();
+Future<MyRoom> getMyRoom() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse(
-      '$serverUrl/room_api/my_list');
+      '$serverUrl/room_api/my_room');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return MyRoom(chiefList: [], memberList: []);
   } else {
     try {
       var response = await http.get(url, headers: headers);
       print(response.statusCode);
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode <= 200 && response.statusCode < 300) {
-        selectMemberController.member.value =
-            SelectMember.fromJson(jsonDecode(responsebody));
+        // selectMemberController.seletedMember.value =
+        //     SelectMember.fromJson(jsonDecode(responsebody));
+        return MyRoom.fromJson(jsonDecode(responsebody));
       } else {
         print(response.statusCode);
+        return MyRoom(chiefList: [], memberList: []);
       }
     } catch (e) {
       showCustomDialog('서버 점검중입니다.', 1200);
     }
+    return MyRoom(chiefList: [], memberList: []);
   }
 }
 
@@ -58,7 +67,7 @@ Future<void> SearchMember() async {
       print(response.statusCode);
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode <= 200 && response.statusCode < 300) {
-        selectMemberController.member.value =
+        selectMemberController.seletedMember.value =
             SelectMember.fromJson(jsonDecode(responsebody));
       } else {
         print(response.statusCode);
@@ -96,7 +105,69 @@ Future<void> makeRoom() async {
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(responsebody);
       print(response.statusCode);
-      Get.back();
+
+    } else {
+      print(response.statusCode);
+    }
+  }
+}
+
+
+Future<Room> getDetailRoom(String id) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse(
+      '$serverUrl/room_api/room?type=room&room_id=${id}');
+  var headers = {'Authorization': 'Token $token'};
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return Room(id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
+  } else {
+    try{
+      var response = await http.get(url, headers: headers);
+      print(response.statusCode);
+      String responsebody = utf8.decode(response.bodyBytes);
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+        print(responsebody);
+        return Room.fromJson(jsonDecode(responsebody));
+      } else {
+        print(response.statusCode);
+        return Room(id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
+      }
+    }catch(e){
+      showcustomCustomDialog(1200);
+      return Room(id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
+    }
+  }
+}
+
+// room_api/joinmember
+
+Future<void> roomJoin(String room_id) async {
+
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/room_api/join_member');
+
+  var body = {
+    'room_id': room_id,
+    'member_id': ParticipateController.to.members.toString()
+  };
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    var response =
+        await http.post(url, headers: headers, body: body);
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      print(responsebody);
+      print(response.statusCode);
+
     } else {
       print(response.statusCode);
     }

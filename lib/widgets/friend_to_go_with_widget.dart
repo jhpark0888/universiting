@@ -3,32 +3,48 @@ import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
 import 'package:universiting/controllers/create_room_controller.dart';
-import 'package:universiting/views/select_friends_view.dart';
+import 'package:universiting/controllers/participate_controller.dart';
+import 'package:universiting/views/select_friend_view.dart';
 
 class FriendToGoWithWidget extends StatelessWidget {
-  FriendToGoWithWidget({Key? key, required this.text}) : super(key: key);
-  CreateRoomController createRoomController = Get.find();
+  FriendToGoWithWidget(
+      {Key? key,
+      required this.text,
+      required this.humanNum,
+      required this.type})
+      : super(key: key);
   int text;
+  int humanNum;
+  AddFriends type;
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Row(
         children: [
           GestureDetector(
-            onTap: (){CheckPeopleController.to.selectPeople(text);
-            Get.to(()=>SelectMemberView());
+            onTap: () {
+              Get.to(() => SelectFriendView(text: text + 2,type: type));
+              print('$humanNum입니다');
             },
             child: Container(
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
               width: Get.width / 7,
               height: Get.width / 7,
               decoration: BoxDecoration(
-                border: Border.all(),
+                  border: Border.all(),
                   borderRadius: BorderRadius.circular(30),
-                  color: createRoomController.members.length == text ? kMainBlack.withOpacity(0.38) : kMainWhite),
+                  color: type == AddFriends.myRoom
+                      ? CreateRoomController.to.members != []
+                          ? CreateRoomController.to.members.length >= humanNum
+                              ? kMainBlack.withOpacity(0.38)
+                              : kMainWhite
+                          : kMainWhite
+                      : ParticipateController.to.members != []
+                      ? ParticipateController.to.members.length >= humanNum
+                      ? kMainBlack.withOpacity(0.38):kMainWhite : kMainWhite),
             ),
           ),
-          SizedBox(width: 8)
+          const SizedBox(width: 8)
         ],
       ),
     );

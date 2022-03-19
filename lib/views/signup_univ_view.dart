@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:universiting/api/signup_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/views/signup_name_view.dart';
 import 'package:universiting/widgets/bottombutton.dart';
 import '../controllers/signup_controller.dart';

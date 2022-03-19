@@ -5,6 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/signup_controller.dart';
 import 'package:universiting/models/profile_model.dart';
