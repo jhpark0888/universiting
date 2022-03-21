@@ -8,6 +8,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
+import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/views/login_view.dart';
 import 'package:universiting/views/signup_univ_view.dart';
 import 'package:universiting/widgets/state_management_widget.dart';
@@ -28,7 +29,7 @@ class HomeView extends StatelessWidget {
   late String tag;
   static CameraUpdate cameraUpdate =
       CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
-
+ 
   MapController mapController = Get.put(MapController());
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,11 @@ class HomeView extends StatelessWidget {
                                 height: 24,
                               ),
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                Get.to(() => StateManagementWidget(
+                                      state: StateManagement.waitingFriend,
+                                    ));
+                              },
                               child: Container(
                                 height: Get.width / 8,
                                 decoration: BoxDecoration(

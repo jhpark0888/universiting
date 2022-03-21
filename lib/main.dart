@@ -18,14 +18,7 @@ import 'package:universiting/views/home_view.dart';
 
 import 'firebase_options.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print('Handling a background message ${message.data}');
-}
 
-late AndroidNotificationChannel channel;
-
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Firebase.apps.length == 0) {
@@ -36,29 +29,7 @@ void main() async {
   var token = await FirebaseMessaging.instance.getToken();
   print("token : ${token ?? 'token NULL!'}");
   FlutterSecureStorage().write(key: 'fcm_token', value: token);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  if (!kIsWeb) {
-    channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      importance: Importance.high,
-    );
-
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-  }
+  
   runApp(MyApp());
 }
 
@@ -71,30 +42,30 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      var androidNotiDetails = AndroidNotificationDetails(
-        channel.id,
-        channel.name,
-        channelDescription: channel.description,
-      );
-      var iOSNotiDetails = const IOSNotificationDetails();
-      var details =
-          NotificationDetails(android: androidNotiDetails, iOS: iOSNotiDetails);
-      if (notification != null) {
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          details,
-        );
-      }
-    });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    //   RemoteNotification? notification = message.notification;
+    //   AndroidNotification? android = message.notification?.android;
+    //   var androidNotiDetails = AndroidNotificationDetails(
+    //     channel.id,
+    //     channel.name,
+    //     channelDescription: channel.description,
+    //   );
+    //   var iOSNotiDetails = const IOSNotificationDetails();
+    //   var details =
+    //       NotificationDetails(android: androidNotiDetails, iOS: iOSNotiDetails);
+    //   if (notification != null) {
+    //     flutterLocalNotificationsPlugin.show(
+    //       notification.hashCode,
+    //       notification.title,
+    //       notification.body,
+    //       details,
+    //     );
+    //   }
+    // });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print(message);
-    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    //   print(message);
+    // });
 
     // _initKaKaoTalkInstalled();
   }

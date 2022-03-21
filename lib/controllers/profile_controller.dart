@@ -5,6 +5,7 @@ import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 
 class ProfileController extends GetxController{
+  static ProfileController get to => Get.find(); 
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController introController = TextEditingController();

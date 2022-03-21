@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:universiting/app.dart';
 import 'package:universiting/controllers/home_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/login_view.dart';
 import 'package:universiting/views/signup_age_view.dart';

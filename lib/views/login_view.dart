@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/widgets/button_widget.dart';
 

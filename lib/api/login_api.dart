@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:universiting/app.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/login_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;

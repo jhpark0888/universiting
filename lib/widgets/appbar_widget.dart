@@ -8,13 +8,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   String title;
   List<Widget>? actions;
   Widget? leading;
-  AppBarWidget({Key? key, required this.title, this.actions, this.leading})
+  double? leadingwidth;
+  AppBarWidget({Key? key, required this.title, this.actions, this.leading, this.leadingwidth})
       : super(key: key);
 
   AppBar appbar = AppBar();
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leadingWidth: leadingwidth,
       automaticallyImplyLeading: false,
       title: Text(title, style: kSubtitleStyle2),
       centerTitle: true,

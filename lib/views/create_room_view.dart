@@ -54,12 +54,7 @@ class CreateRoomView extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Row(
-                    children: [
-                      RoomManagerWithWidget(),
-                      Row(
-                        children: CheckPeopleController.to.checkPeopleList,
-                      )
-                    ],
+                    children: CheckPeopleController.to.checkPeopleList,
                   ),
                   const SizedBox(height: 24),
                   const Text('간단한 방 소개', style: kSubtitleStyle2),
@@ -71,9 +66,19 @@ class CreateRoomView extends StatelessWidget {
                     height: Get.height / 8,
                   ),
                   const SizedBox(height: 24),
-                  GestureDetector(onTap: (){makeRoom();},child: PrimaryButton(text: '방 만들기')),
+                  GestureDetector(
+                      onTap: () {
+                        makeRoom();
+                        Get.back();
+                      },
+                      child: PrimaryButton(text: '방 만들기')),
                   SizedBox(height: 12),
-                  Text('만든 방은 내가 속한 학교의 방 리스트에 추가돼요', style: kSmallCaptionStyle.copyWith(color: kMainBlack.withOpacity(0.6)),textAlign: TextAlign.center,)
+                  Text(
+                    '만든 방은 내가 속한 학교의 방 리스트에 추가돼요',
+                    style: kSmallCaptionStyle.copyWith(
+                        color: kMainBlack.withOpacity(0.6)),
+                    textAlign: TextAlign.center,
+                  )
                 ],
               ),
             ),
