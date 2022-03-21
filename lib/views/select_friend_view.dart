@@ -9,7 +9,9 @@ import 'package:universiting/controllers/select_member_controller.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/participate_selected_name_widget.dart';
-import 'package:universiting/widgets/textformfield_widget.dart';
+import 'package:universiting/widgets/empty_back_textfield_widget.dart';
+
+import '../widgets/background_textfield_widget.dart';
 
 class SelectFriendView extends StatelessWidget {
   SelectFriendView({Key? key, required this.text, required this.type})
@@ -45,7 +47,7 @@ class SelectFriendView extends StatelessWidget {
                   children: ParticipateController.to.selectedMembers,
                 ),
               const SizedBox(height: 12),
-              CustomTextFormField(
+              BackgroundTextfieldWidget(
                 controller: selectFriendController.nickNameController,
                 hinttext: '친구 닉네임 검색',
               ),

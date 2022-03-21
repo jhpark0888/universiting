@@ -93,7 +93,7 @@ Future<void> checkNickName() async {
       if (response.statusCode <= 200 && response.statusCode < 300) {
         signupController.isname.value = true;
         print(response.statusCode);
-        Get.to(() => SignupAgeView());
+        Get.to(() => SignupAgeView(), transition: Transition.noTransition);
       } else if (response.statusCode == 406) {
         signupController.isname.value = false;
         showCustomDialog('이미 사용 중인 닉네임이에요', 1200);
@@ -122,12 +122,11 @@ Future<void> checkEmail() async {
       showcustomCustomDialog(1200);
       await Future.delayed(const Duration(milliseconds: 1200));
       signupController.isSendEmail.value = true;
-       showEmailCustomDialog(
+      showEmailCustomDialog(
           '${signupController.emailController.text}@${signupController.uni.value.email}로 인증 메일을 보내드렸어요',
           1200);
       var response = await http.post(url, body: signup);
       if (response.statusCode >= 200 && response.statusCode < 300) {
-       
         print(response.statusCode);
         signupController.isEmailCheck.value = true;
       } else if (response.statusCode == 400) {
@@ -173,9 +172,11 @@ Future<void> postProfile() async {
         String token = jsonDecode(responsebody)['token'];
         await storage.write(key: 'id$id', value: id);
         await storage.write(key: 'token$id', value: token);
-        await storage.write(key: signupController.emailController.text +
-        '@' +
-        signupController.uni.value.email, value: signupController.schoolId.value.toString());
+        await storage.write(
+            key: signupController.emailController.text +
+                '@' +
+                signupController.uni.value.email,
+            value: signupController.schoolId.value.toString());
         login();
       } else {
         print(response.statusCode);
@@ -186,9 +187,6 @@ Future<void> postProfile() async {
   }
 }
 
-
-
-
 Future<void> login() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
@@ -197,7 +195,9 @@ Future<void> login() async {
   HomeController homeController = Get.find(tag: '첫 화면');
   var fcm_token = await storage.read(key: 'fcm_token');
   Map<String, dynamic> login_info = {
-    'username': signupController.emailController.text + '@' +signupController.uni.value.email,
+    'username': signupController.emailController.text +
+        '@' +
+        signupController.uni.value.email,
     'password': signupController.passwordController.text,
     'fcm_token': fcm_token
   };
@@ -220,8 +220,10 @@ Future<void> login() async {
         print(response.statusCode);
         print(responsebody);
         homeController.isGuest(false);
-        Get.offAll( () => App(lat: double.parse(jsonDecode(responsebody)['lat']), lng: double.parse(jsonDecode(responsebody)['lng'])));
-      } else{
+        Get.offAll(() => App(
+            lat: double.parse(jsonDecode(responsebody)['lat']),
+            lng: double.parse(jsonDecode(responsebody)['lng'])));
+      } else {
         print(response.statusCode);
       }
     } catch (e) {
@@ -230,7 +232,6 @@ Future<void> login() async {
     }
   }
 }
-
 
 void showEmailCustomDialog(String title, int duration) {
   Get.dialog(
@@ -263,4 +264,3 @@ void showEmailCustomDialog(String title, int duration) {
     Get.back();
   });
 }
-

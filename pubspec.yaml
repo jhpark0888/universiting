@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   cupertino_icons: ^1.0.2
   get: ^4.6.1
@@ -28,6 +30,8 @@ dependencies:
   flutter_local_notifications: ^9.4.0
   flutter_spinkit: ^5.1.0
   pull_to_refresh: ^2.0.0
+  flutter_keyboard_visibility: ^5.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -40,6 +44,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/fonts/
+    - assets/illustrations/
 
   fonts:
     - family: SUIT

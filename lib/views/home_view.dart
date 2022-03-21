@@ -11,9 +11,10 @@ import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/views/login_view.dart';
 import 'package:universiting/views/signup_univ_view.dart';
+import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/state_management_widget.dart';
 import 'package:universiting/widgets/spinkit_widget.dart';
-import 'package:universiting/widgets/textformfield_widget.dart';
+import 'package:universiting/widgets/empty_back_textfield_widget.dart';
 
 class HomeView extends StatelessWidget {
   HomeView(
@@ -29,11 +30,13 @@ class HomeView extends StatelessWidget {
   late String tag;
   static CameraUpdate cameraUpdate =
       CameraUpdate.scrollTo(const LatLng(37.563600, 126.962370));
- 
+
   MapController mapController = Get.put(MapController());
+  late final HomeController homeController =
+      Get.put(HomeController(), tag: tag);
+
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.put(HomeController(), tag: tag);
     return
         // Obx(
         // ()=> (homeController.isLoading.value == false) ?
@@ -41,121 +44,110 @@ class HomeView extends StatelessWidget {
       extendBody: true,
       bottomSheet: login
           ? Container(height: 0)
-          : Obx(() => homeController.islogin.value
-              ? homeController.isGuest.value
-                  ? LoginView()
-                  : Container(
-                      height: 0,
-                    )
-              : homeController.isGuest.value
-                  ? Container(
-                      decoration: BoxDecoration(color: kMainWhite),
-                      height: Get.width / 1.1,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(Get.width / 20,
-                            Get.width / 15, Get.width / 20, Get.width / 9),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            if (mapController.isClick.value)
-                              const Center(
-                                  child: Text(
-                                '로그인 또는 회원 가입 후 이용할 수 있어요!',
-                                style: kSubtitleStyle2,
-                              )),
-                            if (mapController.isClick.value)
-                              const SizedBox(
-                                height: 24,
+          : Obx(
+              () => homeController.islogin.value
+                  ? homeController.isGuest.value
+                      ? LoginView()
+                      : const SizedBox.shrink()
+                  : homeController.isGuest.value
+                      ? Container(
+                          decoration: BoxDecoration(
+                            color: kBackgroundWhite,
+                            border: Border(
+                              top: BorderSide(
+                                width: 1.6,
+                                color: Color(0xffe7e7e7),
                               ),
-                            GestureDetector(
-                              onTap: () async {
-                                Get.to(() => StateManagementWidget(
-                                      state: StateManagement.waitingFriend,
-                                    ));
-                              },
-                              child: Container(
-                                height: Get.width / 8,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: kPrimary),
-                                    borderRadius: BorderRadius.circular(16),
-                                    color: kMainWhite),
-                                child: Center(
-                                  child: Text(
-                                    '유니버시팅에서 무엇을 할 수 있을까요?',
-                                    style: kActiveButtonStyle.copyWith(
-                                        color: kPrimary),
-                                    textAlign: TextAlign.center,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              right: 20,
+                              left: 20,
+                              top: 28,
+                              bottom: 40,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                if (mapController.isClick.value)
+                                  const Center(
+                                      child: Text(
+                                    '로그인 또는 회원 가입 후 이용할 수 있어요!',
+                                    style: kSubtitleStyle2,
+                                  )),
+                                if (mapController.isClick.value)
+                                  const SizedBox(
+                                    height: 24,
                                   ),
+                                CustomButtonWidget(
+                                    onTap: () {
+                                      Get.to(() => SignupUnivView());
+                                    },
+                                    buttonTitle: '유니버시팅에서 무엇을 할 수 있을까요?',
+                                    buttonState: ButtonState.secondary),
+                                const SizedBox(height: 16),
+                                CustomButtonWidget(
+                                    onTap: () {
+                                      Get.to(() => SignupUnivView(),
+                                          transition: Transition.noTransition);
+                                    },
+                                    buttonTitle: '시작해볼까요?',
+                                    buttonState: ButtonState.primary),
+                                const SizedBox(
+                                  height: 16,
                                 ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => SignupUnivView());
-                              },
-                              child: Container(
-                                height: Get.width / 8,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    color: kPrimary),
-                                child: Center(
-                                  child: Text(
-                                    '시작해볼까요?',
-                                    style: kActiveButtonStyle.copyWith(
-                                        color: kMainWhite),
-                                    textAlign: TextAlign.center,
+                                Center(
+                                    child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    homeController.islogin.value = true;
+                                  },
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(
+                                      '이미 계정이 있어요',
+                                      style: kInActiveButtonStyle.copyWith(
+                                          color: kMainBlack.withOpacity(0.6)),
+                                    ),
                                   ),
-                                ),
-                              ),
+                                )),
+                                const SizedBox(height: 16),
+                                RichText(
+                                    text: TextSpan(children: [
+                                  TextSpan(
+                                      text: "'시작해볼까요?' 버튼을 누르시면 유니버시팅의 ",
+                                      style: kSmallCaptionStyle.copyWith(
+                                          color: kMainBlack.withOpacity(0.6))),
+                                  TextSpan(
+                                      text: '개인정보 처리방침',
+                                      style: kSmallCaptionStyle.copyWith(
+                                          color: kMainBlack.withOpacity(0.6),
+                                          decoration:
+                                              TextDecoration.underline)),
+                                  TextSpan(
+                                      text: '을 읽고, ',
+                                      style: kSmallCaptionStyle.copyWith(
+                                          color: kMainBlack.withOpacity(0.6))),
+                                  TextSpan(
+                                      text: '서비스 이용약관',
+                                      style: kSmallCaptionStyle.copyWith(
+                                          color: kMainBlack.withOpacity(0.6),
+                                          decoration:
+                                              TextDecoration.underline)),
+                                  TextSpan(
+                                      text: '에 동의한 것으로 간주됩니다.',
+                                      style: kSmallCaptionStyle.copyWith(
+                                          color: kMainBlack.withOpacity(0.6)))
+                                ]))
+                              ],
                             ),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            Center(
-                                child: GestureDetector(
-                              onTap: () {
-                                homeController.islogin.value = true;
-                              },
-                              child: Text(
-                                '이미 계정이 있어요',
-                                style: kInActiveButtonStyle.copyWith(
-                                    color: kMainBlack.withOpacity(0.6)),
-                              ),
-                            )),
-                            const SizedBox(height: 24),
-                            RichText(
-                                text: TextSpan(children: [
-                              TextSpan(
-                                  text: "'시작해볼까요?' 버튼을 누르시면 유니버시팅의 ",
-                                  style: kSmallCaptionStyle.copyWith(
-                                      color: kMainBlack.withOpacity(0.6))),
-                              TextSpan(
-                                  text: '개인정보 처리방침',
-                                  style: kSmallCaptionStyle.copyWith(
-                                      color: kMainBlack.withOpacity(0.6),
-                                      decoration: TextDecoration.underline)),
-                              TextSpan(
-                                  text: '을 읽고, ',
-                                  style: kSmallCaptionStyle.copyWith(
-                                      color: kMainBlack.withOpacity(0.6))),
-                              TextSpan(
-                                  text: '서비스 이용약관',
-                                  style: kSmallCaptionStyle.copyWith(
-                                      color: kMainBlack.withOpacity(0.6),
-                                      decoration: TextDecoration.underline)),
-                              TextSpan(
-                                  text: '에 동의한 것으로 간주됩니다.',
-                                  style: kSmallCaptionStyle.copyWith(
-                                      color: kMainBlack.withOpacity(0.6)))
-                            ]))
-                          ],
-                        ),
-                      ),
-                    )
-                  : Container(
-                      height: Get.width / 1.3,
-                    )),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+            ),
       body: Column(
         children: [
           Expanded(

@@ -9,7 +9,9 @@ import 'package:universiting/widgets/button_widget.dart';
 import 'package:universiting/widgets/check_number_of_people_widget.dart';
 import 'package:universiting/widgets/friend_to_go_with_widget.dart';
 import 'package:universiting/widgets/room_manager_widget.dart';
-import 'package:universiting/widgets/textformfield_widget.dart';
+import 'package:universiting/widgets/empty_back_textfield_widget.dart';
+
+import '../widgets/background_textfield_widget.dart';
 
 class CreateRoomView extends StatelessWidget {
   CreateRoomView({Key? key}) : super(key: key);
@@ -35,7 +37,7 @@ class CreateRoomView extends StatelessWidget {
                     textAlign: TextAlign.start,
                   ),
                   const SizedBox(height: 12),
-                  CustomTextFormField(
+                  BackgroundTextfieldWidget(
                     controller: createRoomController.roomTitleController,
                     hinttext: '방 제목을 적어주세요',
                   ),
@@ -59,7 +61,7 @@ class CreateRoomView extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Text('간단한 방 소개', style: kSubtitleStyle2),
                   const SizedBox(height: 12),
-                  CustomTextFormField(
+                  BackgroundTextfieldWidget(
                     controller: createRoomController.introController,
                     hinttext: '친구들의 특징이나 선호나는 약속 시간, 장소 등을 간략하게 적어보세요',
                     maxLine: 2,

@@ -14,7 +14,7 @@ import '../controllers/signup_controller.dart';
 import '../utils/global_variable.dart';
 import '../views/signup_user_view.dart';
 import '../widgets/appbar_widget.dart';
-import '../widgets/textformfield_widget.dart';
+import '../widgets/empty_back_textfield_widget.dart';
 
 class SignupEmailValidateView extends StatelessWidget {
   SignupEmailValidateView({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class SignupEmailValidateView extends StatelessWidget {
               children: [
                 Container(
                   width: Get.width / 3,
-                  child: SignUpTextFormField(
+                  child: EmptyBackTextfieldWidget(
                     textalign: TextAlign.start,
                     controller: signupController.emailController,
                     hinttext: '학교 이메일',
@@ -76,8 +76,7 @@ class SignupEmailValidateView extends StatelessWidget {
                             signupController.isEmailPress.value == true &&
                             signupController.isSendEmail.value == true &&
                             signupController.isEmailCheck.value == true) {
-                          await postProfile()
-                              ;
+                          await postProfile();
                         }
                       },
                       child: BottomButtonWidget(
@@ -112,11 +111,9 @@ class SignupEmailValidateView extends StatelessWidget {
                                                       color: kMainBlack
                                                           .withOpacity(0.38)))
                                       : Text('인증 메일 보내기',
-                                              style:
-                                                  kActiveButtonStyle.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: kMainWhite))
+                                          style: kActiveButtonStyle.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: kMainWhite))
                               : Text(
                                   '인증 메일 보내기',
                                   style: kActiveButtonStyle.copyWith(
@@ -157,7 +154,9 @@ class SignupEmailValidateView extends StatelessWidget {
                                       color: kPrimary)),
                               width: Get.width / 3,
                               height: Get.width / 8,
-                              color: kMainWhite, borderColor: kPrimary,)
+                              color: kMainWhite,
+                              borderColor: kPrimary,
+                            )
                           : Container(),
                     ),
                   ),

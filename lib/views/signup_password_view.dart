@@ -14,7 +14,7 @@ import '../controllers/signup_controller.dart';
 import '../utils/global_variable.dart';
 import '../views/signup_user_view.dart';
 import '../widgets/appbar_widget.dart';
-import '../widgets/textformfield_widget.dart';
+import '../widgets/empty_back_textfield_widget.dart';
 
 class SignupPasswordView extends StatelessWidget {
   SignupPasswordView({Key? key}) : super(key: key);
@@ -39,10 +39,14 @@ class SignupPasswordView extends StatelessWidget {
             SizedBox(height: Get.height / 20),
             Obx(
               () => Form(
-                child: SignUpTextFormField(
-                  controller: signupController.isPasswordCheck.value ? signupController.passwordCheckController : signupController.passwordController,
+                child: EmptyBackTextfieldWidget(
+                  controller: signupController.isPasswordCheck.value
+                      ? signupController.passwordCheckController
+                      : signupController.passwordController,
                   obsecuretext: true,
-                  hinttext: signupController.isPasswordCheck.value ? '비밀번호 확인' :'비밀번호 6자 이상',
+                  hinttext: signupController.isPasswordCheck.value
+                      ? '비밀번호 확인'
+                      : '비밀번호 6자 이상',
                 ),
               ),
             ),
@@ -54,32 +58,38 @@ class SignupPasswordView extends StatelessWidget {
                     right: 20,
                     child: GestureDetector(
                       onTap: () async {
-                        if(!signupController.isPasswordCheck.value){
+                        if (!signupController.isPasswordCheck.value) {
                           signupController.isPasswordCheck(true);
-                        }else{
-                        if(signupController.passwordCheckController.text != signupController.passwordController.text){
-                        showCustomDialog('비밀번호가 일치하지 않아요', 1200);
-                      }else{
-                        Get.to(()=> SignupEmailValidateView());
-                      }
+                        } else {
+                          if (signupController.passwordCheckController.text !=
+                              signupController.passwordController.text) {
+                            showCustomDialog('비밀번호가 일치하지 않아요', 1200);
+                          } else {
+                            Get.to(() => SignupEmailValidateView());
+                          }
                         }
                       },
                       child: BottomButtonWidget(color: kPrimary),
-                      
                     ),
                   ),
-                  if(signupController.isPasswordCheck.value)
-                  Positioned(
-                    bottom: 20,
-                    left: 20,
-                    child: GestureDetector(
-                      onTap: () async {
-                        signupController.isPasswordCheck(false);
-                      },
-                      child: BottomButtonWidget(widget: const Icon(Icons.arrow_back, color: kPrimary,),color: kMainWhite, borderColor: kPrimary,),
-                      
-                    ),
-                  )
+                  if (signupController.isPasswordCheck.value)
+                    Positioned(
+                      bottom: 20,
+                      left: 20,
+                      child: GestureDetector(
+                        onTap: () async {
+                          signupController.isPasswordCheck(false);
+                        },
+                        child: BottomButtonWidget(
+                          widget: const Icon(
+                            Icons.arrow_back,
+                            color: kPrimary,
+                          ),
+                          color: kMainWhite,
+                          borderColor: kPrimary,
+                        ),
+                      ),
+                    )
                 ]),
               ),
             ),
