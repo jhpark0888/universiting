@@ -174,7 +174,8 @@ class SignupGenderView extends StatelessWidget {
                   opacity: _animationController.loadValue,
                   child: CustomButtonWidget(
                     onTap: () async {
-                      Get.to(() => SignupPasswordView());
+                      Get.to(() => SignupPasswordView(),
+                          transition: Transition.noTransition);
                     },
                     buttonState: ButtonState.primary,
                     buttonTitle: '다음',
