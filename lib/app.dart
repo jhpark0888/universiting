@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
@@ -41,51 +42,26 @@ class App extends StatelessWidget {
                     unselectedFontSize: 12,
                   items: [
                     BottomNavigationBarItem(
-                        icon: Container(
-                          height: Get.width / 12,
-                          width: Get.width / 12,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: appController.currentIndex.value == 0 ? kMainBlack :const Color(0xffC4C4C4)),
-                        ),
+                        icon: SvgPicture.asset('assets/icons/home_inactive.svg'),
+                        activeIcon: SvgPicture.asset('assets/icons/home_active.svg'),
                         label: '홈'),
                         BottomNavigationBarItem(
-                        icon: Container(
-                          height: Get.width / 12,
-                          width: Get.width / 12,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: appController.currentIndex.value == 1 ? kMainBlack :const Color(0xffC4C4C4)),
-                        ),
+                        icon: SvgPicture.asset('assets/icons/room_inactive.svg'),
+                        activeIcon: SvgPicture.asset('assets/icons/room_active.svg'),
                         label: '내 방'),
                     BottomNavigationBarItem(
-                        icon: Container(
-                          height: Get.width / 12,
-                          width: Get.width / 12,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: appController.currentIndex.value == 2 ? kMainBlack :const Color(0xffC4C4C4)),
-                        ),
+                        icon: SvgPicture.asset('assets/icons/state_inactive.svg'),
+                        activeIcon: SvgPicture.asset('assets/icons/state_active.svg'),
                         label: '신청 현황'),
                     
                     
                         BottomNavigationBarItem(
-                        icon: Container(
-                          height: Get.width / 12,
-                          width: Get.width / 12,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: appController.currentIndex.value == 3 ? kMainBlack :const Color(0xffC4C4C4)),
-                        ),
+                        icon: SvgPicture.asset('assets/icons/chat_inactive.svg'),
+                        activeIcon: SvgPicture.asset('assets/icons/chat_active.svg'),
                         label: '채팅방'),
                         BottomNavigationBarItem(
-                        icon: Container(
-                          height: Get.width / 12,
-                          width: Get.width / 12,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: appController.currentIndex.value == 4 ? kMainBlack :const Color(0xffC4C4C4)),
-                        ),
+                        icon: SvgPicture.asset('assets/icons/profile_inactive.svg'),
+                        activeIcon: SvgPicture.asset('assets/icons/profile_active.svg'),
                         label: '프로필')
                   ]),
             ),

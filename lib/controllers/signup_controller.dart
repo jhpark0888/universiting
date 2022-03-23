@@ -14,8 +14,9 @@ class SignupController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
-
+  TextEditingController yearController = TextEditingController();
+TextEditingController monthController = TextEditingController();
+TextEditingController dayController = TextEditingController();
   RxList<DateTime> datetime = <DateTime>[DateTime.now()].obs;
   RxList<Univ> allUnivList = <Univ>[].obs;
   RxList<String> univList = <String>[].obs;
@@ -29,7 +30,7 @@ class SignupController extends GetxController {
   RxString isgender = ''.obs;
   RxInt departId = 0.obs;
   RxInt schoolId = 0.obs;
-
+  RxInt age = 0.obs;
   RxBool isUniv = false.obs;
   RxBool isDepart = false.obs;
   RxBool isname = false.obs;
@@ -75,13 +76,13 @@ class SignupController extends GetxController {
     //   }
     // });
 
-    ageController.addListener(() {
-      if (ageController.text.isNotEmpty) {
-        isage.value = true;
-      } else if (ageController.text.isEmpty) {
-        isage.value = false;
-      }
-    });
+    // ageController.addListener(() {
+    //   if (ageController.text.isNotEmpty) {
+    //     isage.value = true;
+    //   } else if (ageController.text.isEmpty) {
+    //     isage.value = false;
+    //   }
+    // });
 
     emailController.addListener(() {
       if (emailController.text.isNotEmpty) {
@@ -142,7 +143,7 @@ class SignupController extends GetxController {
   // }
 
   String checkAge() {
-    int age = int.parse(ageController.text);
+    age.value = DateTime.now().year - int.parse(yearController.text) + 1;
     if (age <= 22) {
       return ageContents[0];
     } else if (age <= 26) {

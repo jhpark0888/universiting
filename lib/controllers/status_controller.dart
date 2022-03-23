@@ -24,6 +24,7 @@ class StatusController extends GetxController{
     allReceiveList.clear();
     for(var alarm in receiveList){
       allReceiveList.add(AlarmWidget(alarm: alarm));
+      profileImage.value = getHostsList(alarm.content);
     }
   }
   void onrefresh()async{
@@ -35,6 +36,7 @@ class StatusController extends GetxController{
   }
 
   List<ProfileImageWidget> getHostsList(Room room){
+    if(room.hosts != null){
     switch(room.totalMember){
       case 2:
       case 3:
@@ -47,5 +49,7 @@ class StatusController extends GetxController{
       profileImage.add(ProfileImageWidget(host: room.hosts![i],));
     }
     return profileImage.toList();
+  }
+  return profileImage.toList();
   }
 }

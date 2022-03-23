@@ -62,10 +62,7 @@ class HomeController extends GetxController {
             captionColor: Colors.indigo,
             captionTextSize: 14.0,
             icon: element.type ? image[0] : image[1],
-            // icon: image,
-            iconTintColor: element.type ? kMainBlack : kPrimary,
-            anchor: AnchorPoint(0.5, 1),
-            width: 45,
+            width: 36,
             height: 45,
             onMarkerTab: mapController.onMarkerTap))
         .toList();

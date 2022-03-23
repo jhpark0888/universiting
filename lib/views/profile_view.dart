@@ -133,12 +133,18 @@ class ProfileView extends StatelessWidget {
                             style: kBodyStyle2),
                       ),
                       const SizedBox(height: 24),
-                      CustomButtonWidget(
-                        buttonTitle: '프로필 수정하기',
-                        buttonState: ButtonState.secondary,
-                        onTap: () {
-                          Get.to(() => ProfileUpdate());
-                        },
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomButtonWidget(
+                              buttonTitle: '프로필 수정하기',
+                              buttonState: ButtonState.secondary,
+                              onTap: () {
+                                Get.to(() => ProfileUpdate());
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 20),
                       Text('프로필 사진과 소개를 작성하면 더 좋지 않을까요?',

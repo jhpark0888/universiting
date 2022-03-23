@@ -7,6 +7,7 @@ import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/models/alarm_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/widgets/custom_button_widget.dart';
+import 'package:universiting/widgets/room_widget.dart';
 
 class AlarmWidget extends StatelessWidget {
   AlarmWidget({Key? key, required this.alarm}) : super(key: key);
@@ -35,18 +36,21 @@ class AlarmWidget extends StatelessWidget {
           if (alarm.type == 1)
             Expanded(
                 child: Text(
-              '${alarm.profile.nickname}님이 회원님을 ${alarm.content}방에 초대했어요',
+              '${alarm.profile.nickname}님이 회원님을 ${alarm.content.title}방에 초대했어요',
               maxLines: null,
               style: kSubtitleStyle2,
             )),
           if (alarm.type == 2)
             Expanded(
                 child: Text(
-                    '${alarm.profile.nickname}님이 회원님을 ${alarm.content}방에 참여하길 원해요',
+                    '${alarm.profile.nickname}님이 회원님을 ${alarm.content.title}방에 참여하길 원해요',
                     maxLines: null,
-                    style: kSubtitleStyle2))
+                    style: kSubtitleStyle2)),
+          
         ],
       ),
+      if(alarm.type == 3)
+          RoomWidget(room: alarm.content, hosts: StatusController.to.profileImage, isChief: false),
       const SizedBox(height: 12),
       Row(
         children: [
@@ -66,12 +70,12 @@ class AlarmWidget extends StatelessWidget {
                 buttonState: ButtonState.primary,
                 onTap: () async {
                   if (alarm.type == 1) {
-                    await hostMemberAlarm(alarm.targetId.toString(), 'join');
+                    await hostMemberAlarm(alarm.targetId.toString(), 'join').then((value) => deleteAlarm(alarm.id.toString()));
                   } else if (alarm.type == 2) {
                     await okJoinAlarm(alarm.targetId.toString(),
-                        alarm.profile.userId.toString(), 'join');
+                        alarm.profile.userId.toString(), 'join').then((value) => deleteAlarm(alarm.id.toString()));
                   }
-                  await deleteAlarm(alarm.id.toString());
+                  
                 }),
           ),
         ],

@@ -45,7 +45,7 @@ class SignupGenderView extends StatelessWidget {
                         child: RichText(
                             text: TextSpan(children: [
                           TextSpan(
-                              text: '${signupController.ageController.text}살, ',
+                              text: '${signupController.age}살, ',
                               style: kHeaderStyle1.copyWith(color: kPrimary)),
                           TextSpan(text: content, style: kHeaderStyle1)
                         ])),

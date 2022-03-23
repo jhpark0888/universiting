@@ -14,6 +14,7 @@ class RoomWidget extends StatelessWidget {
       required this.isChief})
       : super(key: key);
   Room room;
+
   List<ProfileImageWidget> hosts;
   bool isChief;
   @override
@@ -38,7 +39,18 @@ class RoomWidget extends StatelessWidget {
                   children: [
                     Row(children: hosts),
                     const SizedBox(height: 12),
+                    if(room.type != null)
                     Text(room.title, style: kSubtitleStyle2),
+                    if(room.type != null)
+                    const SizedBox(height: 12),
+                    if(room.type == null)
+                    Row(
+                      children: [
+                        Text('학교 ', style: kBodyStyle2.copyWith(color: kMainBlack.withOpacity(0.6)),),
+                        Text('dsds')
+                      ],
+                    ),
+                    if(room.type == null)
                     const SizedBox(height: 12),
                     Row(
                       children: [
@@ -64,6 +76,7 @@ class RoomWidget extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 12),
+                    if(room.type != null)
                     Row(
                       children: [
                         Text('인원수',
@@ -92,7 +105,15 @@ class RoomWidget extends StatelessWidget {
                                       textAlign: TextAlign.center),
                                 ))
                             : Container(),
-                        StateManagementWidget(state: room.type! ? StateManagement.roomActivated : StateManagement.waitingFriend)
+                            if(room.type != null) //받은 신청에 있는 roomWidget같은 경우에는 room.title,hosts이런것 밖에 없는데 myroom에는 type이 있어서 type가 null이면 받은 신청을 의미 null이 아니면 my room을 의미
+                        StateManagementWidget(
+                            state: room.type!
+                                ? StateManagement.roomActivated
+                                : room.isModify != null
+                                    ? room.isModify == 0
+                                        ? StateManagement.waitingFriend
+                                        : StateManagement.friendReject
+                                    : StateManagement.waitingFriend) 
                       ],
                     )
                   ]),
