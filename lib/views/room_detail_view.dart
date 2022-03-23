@@ -46,7 +46,7 @@ class RoomDetailView extends StatelessWidget {
                 const SizedBox(height: 12),
                 Column(children: roomDetailController.roomPersonList),
                 const SizedBox(height: 20),
-                GestureDetector(onTap: (){Get.to(()=> ParticiapteView(roomid: roomid,peopleNumber: roomDetailController.detailRoom.value.totalMember,));},child: PrimaryButton(text: '같이 갈 친구들 초대하기')),
+                GestureDetector(onTap: (){Get.to(()=> ParticiapteView(roomid: roomid,peopleNumber: roomDetailController.detailRoom.value.totalMember!,));},child: PrimaryButton(text: '같이 갈 친구들 초대하기')),
                 const SizedBox(height: 12),
                 Text('같이 갈 친구들을 초대하고, 친구들이 모두 수락을 하면 참여 신청이 완료돼요.', style:  kSmallCaptionStyle.copyWith(color: kMainBlack.withOpacity(0.6)),)
               ],

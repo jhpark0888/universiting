@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:universiting/api/status_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/models/alarm_model.dart';
@@ -15,21 +16,22 @@ class AlarmWidget extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Row(
         children: [
-          ClipOval(
-              child: alarm.profile.profileImage == ''
-                  ? SvgPicture.asset(
-                      'assets/illustrations/default_profile.svg',
-                      height: Get.width / 7.5,
-                      width: Get.width / 7.5,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.network(
-                      serverUrl + alarm.profile.profileImage,
-                      height: Get.width / 7.5,
-                      width: Get.width / 7.5,
-                      fit: BoxFit.cover,
-                    )),
-          const SizedBox(width: 12),
+          if (alarm.type == 1 || alarm.type == 2)
+            ClipOval(
+                child: alarm.profile.profileImage == ''
+                    ? SvgPicture.asset(
+                        'assets/illustrations/default_profile.svg',
+                        height: Get.width / 7.5,
+                        width: Get.width / 7.5,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        serverUrl + alarm.profile.profileImage,
+                        height: Get.width / 7.5,
+                        width: Get.width / 7.5,
+                        fit: BoxFit.cover,
+                      )),
+          if (alarm.type == 1 || alarm.type == 2) const SizedBox(width: 12),
           if (alarm.type == 1)
             Expanded(
                 child: Text(
@@ -52,15 +54,26 @@ class AlarmWidget extends StatelessWidget {
             child: CustomButtonWidget(
                 buttonTitle: '거절하기',
                 buttonState: ButtonState.negative,
-                onTap: () {}),
+                onTap: () {
+                  hostMemberAlarm(alarm.targetId.toString(), 'reject');
+                  deleteAlarm(alarm.id.toString());
+                }),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: CustomButtonWidget(
                 buttonTitle: '수락하기',
                 buttonState: ButtonState.primary,
-                onTap: () {}),
-          ), 
+                onTap: () async {
+                  if (alarm.type == 1) {
+                    await hostMemberAlarm(alarm.targetId.toString(), 'join');
+                  } else if (alarm.type == 2) {
+                    await okJoinAlarm(alarm.targetId.toString(),
+                        alarm.profile.userId.toString(), 'join');
+                  }
+                  await deleteAlarm(alarm.id.toString());
+                }),
+          ),
         ],
       ),
       const SizedBox(height: 24)

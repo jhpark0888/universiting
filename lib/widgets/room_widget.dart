@@ -92,7 +92,7 @@ class RoomWidget extends StatelessWidget {
                                       textAlign: TextAlign.center),
                                 ))
                             : Container(),
-                        StateManagementWidget(state: room.type ? StateManagement.roomActivated : StateManagement.waitingFriend)
+                        StateManagementWidget(state: room.type! ? StateManagement.roomActivated : StateManagement.waitingFriend)
                       ],
                     )
                   ]),

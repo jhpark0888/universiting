@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
+import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/profile_model.dart';
+import 'package:universiting/models/room_model.dart';
 
 class Alarm {
   int id;
   int userId;
   int type;
   int targetId;
-  String content;
+  Room content;
   Profile profile;
   DateTime date;
   bool isRead;
@@ -28,7 +30,7 @@ class Alarm {
       userId: json['user_id'],
       type: json['type'],
       targetId: json['target_id'],
-      content: json['content'].runtimeType == String ?  json['content'] :  '',
+      content: Room.fromJson(json['content']),
       profile: Profile.fromJson(json['profile']),
       date: DateTime.parse(json['date']),
       isRead: json['is_read']);

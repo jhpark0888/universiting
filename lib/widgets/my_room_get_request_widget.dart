@@ -24,27 +24,29 @@ class MyRoomGetRequestWidget extends StatelessWidget {
             completeText: "",
             idleText: "",
             refreshingIcon: Text('당기는 중입니다.')), onRefresh: statusController.onrefresh,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: statusController.allReceiveList.isEmpty ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      '아직 받은 신청이 없어요',
-                      style: kSubtitleStyle2.copyWith(
-                          color: kMainBlack.withOpacity(0.38)),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 30),      
-                  ],
-                ) : Column(children: statusController.allReceiveList.toList()),
-              )
-            ],
-          ),
+        child: Obx(
+          () => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: statusController.allReceiveList.isEmpty ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        '아직 받은 신청이 없어요',
+                        style: kSubtitleStyle2.copyWith(
+                            color: kMainBlack.withOpacity(0.38)),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 30),      
+                    ],
+                  ) : Column(children: statusController.allReceiveList.toList()),
+                )
+              ],
+            ),
+        ),
         );
   }
 }

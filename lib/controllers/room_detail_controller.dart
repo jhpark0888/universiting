@@ -14,13 +14,13 @@ class RoomDetailController extends GetxController{
   @override
   void onInit() async{
     detailRoom.value = await getDetailRoom(roomid);
-    makeRoomPersonList(detailRoom.value.hosts.length);
+    makeRoomPersonList(detailRoom.value.hosts!.length);
     super.onInit();
   }
 
   void makeRoomPersonList(int number){
     for(int i = 0; i < number; i ++){
-      roomPersonList.add(RoomPersonWidget(host: detailRoom.value.hosts[i],));
+      roomPersonList.add(RoomPersonWidget(host: detailRoom.value.hosts![i],));
       roomPersonList.add(SizedBox(height: 8));
     }
   }

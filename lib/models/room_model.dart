@@ -4,23 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:universiting/models/host_model.dart';
 
 class Room {
-  int id;
+  int? id;
   int? createrId;
   int? universityId;
   String? introduction;
   String title;
   double? avgAge;
-  List<Host> hosts;
-  int totalMember;
+  List<Host>? hosts;
+  int? totalMember;
   String? gender;
-  bool type;
+  bool? type;
 
   Room(
-      {required this.id,
+      { this.id,
       required this.title,
-      required this.hosts,
-      required this.totalMember,
-      required this.type,
+       this.hosts,
+       this.totalMember,
+      this.type,
       this.gender,
       this.avgAge,
       this.createrId,
