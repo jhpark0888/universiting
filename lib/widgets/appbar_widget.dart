@@ -25,7 +25,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
               onPressed: () {
                 Get.back();
               },
-              icon: SvgPicture.asset('assets/icons/arrow.svg')),
+              icon: SvgPicture.asset('assets/icons/back.svg')),
       actions: actions,
       backgroundColor: kMainWhite,
       elevation: 0,

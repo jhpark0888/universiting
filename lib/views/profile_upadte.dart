@@ -7,6 +7,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
+import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
 
 import '../widgets/background_textfield_widget.dart';
@@ -32,18 +33,11 @@ class ProfileUpdate extends StatelessWidget {
                 controller: profileController.nameController,
                 hinttext: '최대 8자',
               ),
-              SizedBox(height: 24),
-              Text('나이', style: kSubtitleStyle2),
+              const SizedBox(height: 24),
+              const Text('학과', style: kSubtitleStyle2),
               const SizedBox(height: 12),
-              BackgroundTextfieldWidget(
-                controller: profileController.ageController,
-                hinttext: '나이',
-              ),
-              SizedBox(height: 24),
-              Text('성별', style: kSubtitleStyle2),
-              const SizedBox(height: 12),
-              Row(children: [Text('남'), Text('여')]),
-              SizedBox(height: 24),
+              BackgroundTextfieldWidget(controller: profileController.departmentController, hinttext: 'SELECT'),
+              const SizedBox(height: 24),
               Text('간단한 소개', style: kSubtitleStyle2),
               const SizedBox(height: 12),
               BackgroundTextfieldWidget(
@@ -51,13 +45,13 @@ class ProfileUpdate extends StatelessWidget {
                 hinttext: '간단하게 자신을 소개해주세요',
               ),
               const SizedBox(height: 24),
-              GestureDetector(
-                  onTap: () {
-                    updateMyProfile(ProfileType.profile, File(''));
-                  },
-                  child: PrimaryButton(
-                    text: '저장하기',
-                  ))
+              CustomButtonWidget(
+                buttonTitle: '저장하기',
+                buttonState: ButtonState.primary,
+                onTap: () {
+                  updateMyProfile(ProfileType.profile, File(''));
+                },
+              )
             ],
           ),
         ),

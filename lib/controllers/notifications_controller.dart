@@ -72,7 +72,7 @@ class NotificationController extends GetxController {
 
   //register notification
   void registerNotification() async {
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
     messaging = FirebaseMessaging.instance;
 
     //instance type -- not determined(null), granted(true) and decline(false)

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 
 enum ButtonState {
@@ -25,6 +26,7 @@ class CustomButtonWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        width: Get.width,
         padding: const EdgeInsets.symmetric(
           vertical: 12,
           horizontal: 18,

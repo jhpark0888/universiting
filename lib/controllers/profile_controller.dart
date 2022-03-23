@@ -7,7 +7,7 @@ import 'package:universiting/models/profile_model.dart';
 class ProfileController extends GetxController{
   static ProfileController get to => Get.find(); 
   TextEditingController nameController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
+  TextEditingController departmentController = TextEditingController();
   TextEditingController introController = TextEditingController();
   
   final profile = Profile(age: 0, department: '0', gender: '', introduction: '', nickname: '', profileImage: '', university: '', userId: 0).obs;
@@ -16,7 +16,7 @@ class ProfileController extends GetxController{
   void onInit()async{
     await getMyProfile();
     nameController.text = profile.value.nickname;
-    ageController.text = profile.value.age.toString();
+    departmentController.text = profile.value.age.toString();
     introController.text = profile.value.introduction;
     print(profile);
     super.onInit();
@@ -25,7 +25,7 @@ class ProfileController extends GetxController{
   @override
   void onClose(){
     nameController.text = '';
-    ageController.text = '';
+    departmentController.text = '';
     introController.text = '';
   }
 }

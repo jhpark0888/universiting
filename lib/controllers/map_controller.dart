@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/home_controller.dart';
@@ -47,6 +50,8 @@ class MapController extends GetxController {
     isClick(false);
     super.onClose();
   }
+
+  
 
   
 }

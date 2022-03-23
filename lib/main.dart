@@ -25,9 +25,15 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  if (Firebase.apps.length == 0) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform, name: 'Universiting');
+    
+    // print(Firebase.apps.length);
+  }
+  else {
+    Firebase.app();
+  }
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   var token = await FirebaseMessaging.instance.getToken();

@@ -57,7 +57,6 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
 
       if (profileType != ProfileType.image) {
         request.fields['nickname'] = profileController.nameController.text;
-        request.fields['age'] = profileController.ageController.text;
         request.fields['introduction'] = profileController.introController.text;
       }
       if (profileType == ProfileType.image) {

@@ -4,17 +4,17 @@ class Profile {
   String profileImage;
   String gender;
   int age;
-  String university;
-  String department;
+  String? university;
+  String? department;
   String introduction;
   Profile(
       {required this.age,
-      required this.department,
+     this.department,
       required this.gender,
       required this.introduction,
       required this.nickname,
       required this.profileImage,
-      required this.university,
+       this.university,
       required this.userId});
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(

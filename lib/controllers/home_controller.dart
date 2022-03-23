@@ -19,7 +19,8 @@ import 'package:http/http.dart' as http;
 class HomeController extends GetxController {
   static HomeController get to => Get.find(tag: '첫 화면');
   MapController mapController = Get.put(MapController());
-  NotificationController notificationController = Get.put(NotificationController());
+  NotificationController notificationController =
+      Get.put(NotificationController());
   RxList<MainUniv> mainuniv = <MainUniv>[].obs;
   String? univId;
   RxString markerId = ''.obs;
@@ -27,13 +28,14 @@ class HomeController extends GetxController {
   RxBool isGuest = true.obs;
   RxBool islogin = false.obs;
   RxBool isDetailClick = false.obs;
-  late final OverlayImage image;
-  
-
+  final RxList<OverlayImage> image = <OverlayImage>[].obs;
+  // late final OverlayImage image; 
   @override
   void onInit() async {
-    OverlayImage.fromAssetImage(assetName: 'assets/icons/marker.png')
-        .then((value) => image = value);
+    // OverlayImage.fromAssetImage(
+    //         assetName: 'assets/icons/marker_unselected.png', size: Size(36, 45))
+    //     .then((value) => image = value);
+    await getOverlyImage();
     mainuniv.value = (await getMainUniv());
     createdMarker();
     super.onInit();
@@ -48,7 +50,7 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  void createdMarker() async{
+  void createdMarker() async {
     showcustomCustomDialog(1200);
     mainuniv.value = (await getMainUniv());
     mapController.markers.clear();
@@ -59,7 +61,8 @@ class HomeController extends GetxController {
             captionText: element.schoolname,
             captionColor: Colors.indigo,
             captionTextSize: 14.0,
-            icon: image,
+            icon: element.type ? image[0] : image[1],
+            // icon: image,
             iconTintColor: element.type ? kMainBlack : kPrimary,
             anchor: AnchorPoint(0.5, 1),
             width: 45,
@@ -68,6 +71,15 @@ class HomeController extends GetxController {
         .toList();
   }
 
+  Future<void> getOverlyImage() async {
+    
+    image.add(await OverlayImage.fromAssetImage(
+        assetName: 'assets/icons/marker_unselected.png', size: const Size(36, 42)));
+    
+       image.add(await OverlayImage.fromAssetImage(
+        assetName: 'assets/icons/marker_none_unselect.png', size: const Size(36, 42)));
+    
+  }
 
   Future<List<MainUniv>> getMainUniv() async {
     ConnectivityResult result = await checkConnectionStatus();
@@ -80,9 +92,8 @@ class HomeController extends GetxController {
       ].obs;
     } else {
       try {
-        
         var response = await http.get(url);
-        
+
         if (response.statusCode >= 200 && response.statusCode < 300) {
           Get.back();
           isLoading(false);

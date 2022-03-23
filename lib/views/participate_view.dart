@@ -43,7 +43,7 @@ class ParticiapteView extends StatelessWidget {
                       style: kBodyStyle2.copyWith(
                           color: kMainBlack.withOpacity(0.6))),
                   const SizedBox(width: 8),
-                  Text(ProfileController.to.profile.value.university)
+                  Text(ProfileController.to.profile.value.university!)
                 ],
               ),
               const SizedBox(height: 12),
