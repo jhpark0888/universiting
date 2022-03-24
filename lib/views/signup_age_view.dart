@@ -78,7 +78,7 @@ class SignupAgeView extends StatelessWidget {
                               position: _animationController.secondOffsetValue,
                               child: EmptyBackTextfieldWidget(
                                 textInputType: TextInputType.number,
-                                controller: signupController.ageController,
+                                controller: signupController.yearController,
                                 hinttext: '년',
                               ),
                             ),
@@ -91,7 +91,7 @@ class SignupAgeView extends StatelessWidget {
                               position: _animationController.secondOffsetValue,
                               child: EmptyBackTextfieldWidget(
                                 textInputType: TextInputType.number,
-                                controller: signupController.ageController,
+                                controller: signupController.monthController,
                                 hinttext: '월',
                               ),
                             ),
@@ -104,7 +104,7 @@ class SignupAgeView extends StatelessWidget {
                               position: _animationController.secondOffsetValue,
                               child: EmptyBackTextfieldWidget(
                                 textInputType: TextInputType.number,
-                                controller: signupController.ageController,
+                                controller: signupController.dayController,
                                 hinttext: '일',
                               ),
                             ),
@@ -136,7 +136,7 @@ class SignupAgeView extends StatelessWidget {
                 opacity: _animationController.loadValue,
                 child: CustomButtonWidget(
                   onTap: () async {
-                    if (signupController.ageController.text.isNotEmpty) {
+                    if (signupController.yearController.text.isNotEmpty) {
                       Get.to(
                           () => SignupGenderView(
                                 content: signupController.checkAge(),

@@ -154,7 +154,7 @@ Future<void> postProfile() async {
         signupController.uni.value.email,
     'nickname': signupController.nameController.text,
     'gender': signupController.isgender.value,
-    'age': int.parse(signupController.ageController.text),
+    'age': int.parse(signupController.yearController.text),
     // 'department_id': signupController.departId.value,
     'university_id': signupController.schoolId.value
   };

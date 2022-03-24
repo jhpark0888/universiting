@@ -26,7 +26,7 @@ Future<List<Alarm>> getReciveStatus() async {
           userId: 0,
           type: 0,
           targetId: 0,
-          content: Room(title: '', hosts: [Host(userId: 0, profileImage: '', gender: 'M')], totalMember: 0),
+          content: Room(title: '', hosts: [Host(userId: 0, profileImage: '', gender: 'M')]),
           profile: Profile(
               age: 0,
               gender: '',
@@ -54,7 +54,8 @@ Future<List<Alarm>> getReciveStatus() async {
               userId: 0,
               type: 0,
               targetId: 0,
-              content: Room(title: '', hosts: [Host(userId: 0, profileImage: '', gender: 'M')], totalMember: 0),
+              content: Room
+              (title: '', hosts: [Host(userId: 0, profileImage: '', gender: 'M')]),
               profile: Profile(
                   age: 0,
                   gender: '',
@@ -67,23 +68,23 @@ Future<List<Alarm>> getReciveStatus() async {
         ];
       }
   }
-  return [
-    Alarm(
-        id: 0,
-        userId: 0,
-        type: 0,
-        targetId: 0,
-        content: Room(title: '', hosts: [Host(userId: 0, profileImage: '', gender: 'M')], totalMember: 0),
-        profile: Profile(
-            age: 0,
-            gender: '',
-            introduction: '',
-            nickname: '',
-            profileImage: '',
-            userId: 0),
-        date: DateTime(2020),
-        isRead: false)
-  ];
+  // return [
+  //   Alarm(
+  //       id: 0,
+  //       userId: 0,
+  //       type: 0,
+  //       targetId: 0,
+  //       content: Room(title: '', hosts: [Host(userId: 0, profileImage: '', gender: 'M')], totalMember: 0),
+  //       profile: Profile(
+  //           age: 0,
+  //           gender: '',
+  //           introduction: '',
+  //           nickname: '',
+  //           profileImage: '',
+  //           userId: 0),
+  //       date: DateTime(2020),
+  //       isRead: false)
+  // ];
 }
 
 
