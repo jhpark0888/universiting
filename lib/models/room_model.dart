@@ -33,7 +33,7 @@ class Room {
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
       id: json['id'],
-
+      university: json['university'],
       title: json['title'],
       avgAge: json['avg_age'],
       hosts:json['hosts'] != null ? List<Map<String, dynamic>>.from(json['hosts'])

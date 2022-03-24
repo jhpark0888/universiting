@@ -7,13 +7,13 @@ import 'package:universiting/views/create_room_view.dart';
 import 'package:universiting/widgets/alarm_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
 
-class MyRoomGetRequestWidget extends StatelessWidget {
-  MyRoomGetRequestWidget({Key? key}) : super(key: key);
+class StatusViewReceivedView extends StatelessWidget {
+  StatusViewReceivedView({Key? key}) : super(key: key);
   StatusController statusController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-        controller: statusController.refreshController,
+        controller: statusController.receiveRefreshController,
         header: const ClassicHeader(
             spacing: 0.0,
             height: 60,
@@ -23,7 +23,7 @@ class MyRoomGetRequestWidget extends StatelessWidget {
             releaseText: "",
             completeText: "",
             idleText: "",
-            refreshingIcon: Text('당기는 중입니다.')), onRefresh: statusController.onrefresh,
+            refreshingIcon: Text('당기는 중입니다.')), onRefresh: statusController.onrefreshReceive,
         child: Obx(
           () => SingleChildScrollView(
             child: Column(

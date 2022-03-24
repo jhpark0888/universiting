@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/api/room_api.dart';
+import 'package:universiting/constant.dart';
 import 'package:universiting/models/my_room_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
@@ -40,10 +41,10 @@ class MyRoomController extends GetxController {
   void getRoom() {
     room.clear();
     for(Room i in chiefList){
-      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: true,));
+      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: true, roomType: RoomType.otherView,));
     }
     for(Room i in memberList){
-      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: false,));
+      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: false,roomType: RoomType.otherView));
     }
   }
 

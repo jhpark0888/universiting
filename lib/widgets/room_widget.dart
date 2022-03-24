@@ -10,28 +10,33 @@ class RoomWidget extends StatelessWidget {
   RoomWidget(
       {Key? key,
       required this.room,
+      this.joinmember,
       required this.hosts,
-      required this.isChief})
+      required this.isChief,
+      required this.roomType})
       : super(key: key);
   Room room;
-
+  List<ProfileImageWidget>? joinmember;
   List<ProfileImageWidget> hosts;
   bool isChief;
+  RoomType roomType;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            Get.to(() => RoomDetailView(
-                  roomid: room.id.toString(),
-                ));
+            if (roomType != RoomType.statusReceiveView) {
+              Get.to(() => RoomDetailView(
+                    roomid: room.id.toString(),
+                  ));
+            }
           },
           child: Container(
-            height: Get.width / 1.6,
-            width: double.infinity,
             decoration: BoxDecoration(
-                color: kLightGrey, borderRadius: BorderRadius.circular(20)),
+              color: kLightGrey,
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -39,19 +44,28 @@ class RoomWidget extends StatelessWidget {
                   children: [
                     Row(children: hosts),
                     const SizedBox(height: 12),
-                    if(room.type != null)
-                    Text(room.title, style: kSubtitleStyle2),
-                    if(room.type != null)
-                    const SizedBox(height: 12),
-                    if(room.type == null)
-                    Row(
-                      children: [
-                        Text('학교 ', style: kBodyStyle2.copyWith(color: kMainBlack.withOpacity(0.6)),),
-                        Text('dsds')
-                      ],
-                    ),
-                    if(room.type == null)
-                    const SizedBox(height: 12),
+                    if (roomType != RoomType.statusReceiveView)
+                      Text(room.title, style: kSubtitleStyle1),
+                    if (roomType == RoomType.otherView)
+                      const SizedBox(height: 12),
+                    // if (roomType == RoomType.statusView)
+                    //   Row(
+                    //     children: [
+                    //       Text(
+                    //         '학교',
+                    //         style: kBodyStyle2.copyWith(
+                    //             color: kMainBlack.withOpacity(0.6)),
+                    //       ),
+                    //       SizedBox(
+                    //         width: 4,
+                    //       ),
+                    //       if (roomType == RoomType.statusView)
+                    //       Text(room.university!)
+                    //     ],
+                    //   ),
+
+                    if (roomType != RoomType.otherView)
+                      const SizedBox(height: 12),
                     Row(
                       children: [
                         Text('평균 나이',
@@ -59,13 +73,14 @@ class RoomWidget extends StatelessWidget {
                                 color: kMainBlack.withOpacity(0.6))),
                         const SizedBox(width: 4),
                         Text(
-                          room.avgAge.toString(),
+                          room.avgAge.toString() + '세',
                           style: kSubtitleStyle3,
                         ),
                         const SizedBox(width: 4),
-                        const Text(
+                        Text(
                           '·',
-                          style: kInActiveButtonStyle,
+                          style: kBodyStyle2.copyWith(
+                              color: kMainBlack.withOpacity(0.6)),
                         ),
                         const SizedBox(width: 4),
                         Text('성별',
@@ -75,26 +90,35 @@ class RoomWidget extends StatelessWidget {
                         Text(room.gender!, style: kSubtitleStyle3)
                       ],
                     ),
-                    const SizedBox(height: 12),
-                    if(room.type != null)
-                    Row(
-                      children: [
-                        Text('인원수',
-                            style: kBodyStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
-                        const SizedBox(width: 4),
-                        Text('${room.totalMember} : ${room.totalMember}',
-                            style: kSubtitleStyle3)
-                      ],
-                    ),
+                    if (roomType == RoomType.statusSendView)
+                      const SizedBox(height: 16),
+                    if (roomType == RoomType.statusSendView)
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: joinmember!),
+                    if (roomType == RoomType.otherView)
+                      const SizedBox(height: 12),
+                    if (roomType == RoomType.otherView)
+                      Row(
+                        children: [
+                          Text('인원수',
+                              style: kBodyStyle2.copyWith(
+                                  color: kMainBlack.withOpacity(0.6))),
+                          const SizedBox(width: 4),
+                          Text('${room.totalMember} : ${room.totalMember}',
+                              style: kSubtitleStyle3)
+                        ],
+                      ),
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         isChief
                             ? Container(
-                                height: Get.width / 21,
-                                width: Get.width / 13,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                  vertical: 2,
+                                ),
                                 decoration: BoxDecoration(
                                     color: kMainBlack.withOpacity(0.6),
                                     borderRadius: BorderRadius.circular(4)),
@@ -104,23 +128,23 @@ class RoomWidget extends StatelessWidget {
                                           color: kMainWhite),
                                       textAlign: TextAlign.center),
                                 ))
-                            : Container(),
-                            if(room.type != null) //받은 신청에 있는 roomWidget같은 경우에는 room.title,hosts이런것 밖에 없는데 myroom에는 type이 있어서 type가 null이면 받은 신청을 의미 null이 아니면 my room을 의미
-                        StateManagementWidget(
-                            state: room.type!
-                                ? StateManagement.roomActivated
-                                : room.isModify != null
-                                    ? room.isModify == 0
-                                        ? StateManagement.waitingFriend
-                                        : StateManagement.friendReject
-                                    : StateManagement.waitingFriend) 
+                            : SizedBox.shrink(),
+                        if (roomType == RoomType.otherView)
+                          StateManagementWidget(
+                              state: room.type!
+                                  ? StateManagement.roomActivated
+                                  : room.isModify != null
+                                      ? room.isModify == 0
+                                          ? StateManagement.waitingFriend
+                                          : StateManagement.friendReject
+                                      : StateManagement.waitingFriend)
                       ],
                     )
                   ]),
             ),
           ),
         ),
-        const SizedBox(height: 16)
+        const SizedBox(height: 20)
       ],
     );
   }

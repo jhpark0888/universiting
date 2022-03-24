@@ -9,7 +9,12 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   List<Widget>? actions;
   Widget? leading;
   double? leadingwidth;
-  AppBarWidget({Key? key, required this.title, this.actions, this.leading, this.leadingwidth})
+  AppBarWidget(
+      {Key? key,
+      required this.title,
+      this.actions,
+      this.leading,
+      this.leadingwidth})
       : super(key: key);
 
   AppBar appbar = AppBar();
@@ -27,7 +32,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
               },
               icon: SvgPicture.asset('assets/icons/back.svg')),
       actions: actions,
-      backgroundColor: kMainWhite,
       elevation: 0,
     );
   }

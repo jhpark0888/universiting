@@ -16,6 +16,8 @@ class CustomAnimationController extends GetxController
   late Animation<double> loadValue;
   late Animation<Offset> offsetValue;
   late Animation<Offset> secondOffsetValue;
+  Rx<Offset> bnbOffsetValue = Offset(0.0, 0.0).obs;
+  final RxBool isRoomModalUp = false.obs;
 
   @override
   void onInit() {

@@ -5,7 +5,7 @@ import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/room_model.dart';
 
-class Alarm {
+class AlarmReceive {
   int id;
   int userId;
   int type;
@@ -15,7 +15,7 @@ class Alarm {
   DateTime date;
   bool isRead;
 
-  Alarm(
+  AlarmReceive(
       {required this.id,
       required this.userId,
       required this.type,
@@ -25,7 +25,7 @@ class Alarm {
       required this.date,
       required this.isRead});
 
-  factory Alarm.fromJson(Map<String, dynamic> json) => Alarm(
+  factory AlarmReceive.fromJson(Map<String, dynamic> json) => AlarmReceive(
       id: json['id'],
       userId: json['user_id'],
       type: json['type'],
@@ -36,7 +36,27 @@ class Alarm {
       isRead: json['is_read']);
 }
 
-List<Alarm> alarmParsed(String responsebody){
+List<AlarmReceive> alarmReceiveParsed(String responsebody) {
   List parse = jsonDecode(responsebody);
-  return parse.map<Alarm>((e) => Alarm.fromJson(e)).toList();
+  return parse.map<AlarmReceive>((e) => AlarmReceive.fromJson(e)).toList();
+}
+
+class AlarmSend {
+  int id;
+  Room room;
+  List<Host> joinmember;
+
+  AlarmSend({required this.id, required this.room, required this.joinmember});
+
+  factory AlarmSend.fromJson(Map<String, dynamic> json) => AlarmSend(
+      id: json['id'],
+      room: Room.fromJson(json['room']),
+      joinmember: List<Map<String, dynamic>>.from(json['joinmember'])
+          .map((host) => Host.fromJson(host))
+          .toList());
+}
+
+List<AlarmSend> alarmSendParsed(String responsebody){
+  List parse = jsonDecode(responsebody);
+  return parse.map((alarmsend) => AlarmSend.fromJson(alarmsend)).toList();
 }
