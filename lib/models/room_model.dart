@@ -9,6 +9,7 @@ class Room {
   int? universityId;
   String? introduction;
   String title;
+  String? university;
   double? avgAge;
   List<Host>? hosts;
   int? totalMember;
@@ -19,6 +20,7 @@ class Room {
   Room(
       {this.id,
       required this.title,
+      this.university,
       this.hosts,
       this.totalMember,
       this.type,
@@ -31,6 +33,7 @@ class Room {
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
       id: json['id'],
+
       title: json['title'],
       avgAge: json['avg_age'],
       hosts:json['hosts'] != null ? List<Map<String, dynamic>>.from(json['hosts'])
