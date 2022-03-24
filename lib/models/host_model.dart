@@ -4,7 +4,7 @@ class Host {
   int userId;
   String? nickname;
   String profileImage;
-  String gender;
+  String? gender;
   int? age;
   String? introduction;
   bool? hostType;
@@ -17,7 +17,7 @@ class Host {
       userId: json['user_id'],
       nickname: json['nickname'],
       profileImage: json['profile_image'] ?? '',
-      gender: json['gender'],
+      gender: json['gender']?? '',
       age: json['age'],
       introduction: json['introduction'] ?? '',
       hostType: json['host_type'],
