@@ -71,11 +71,11 @@ class HomeController extends GetxController {
   Future<void> getOverlyImage() async {
     image.add(await OverlayImage.fromAssetImage(
         assetName: 'assets/icons/marker_unselected.png',
-        size: const Size(36, 42)));
+        size: const Size(36, 45)));
 
     image.add(await OverlayImage.fromAssetImage(
         assetName: 'assets/icons/marker_none_unselect.png',
-        size: const Size(36, 42)));
+        size: const Size(36, 45)));
   }
 
   Future<List<MainUniv>> getMainUniv() async {

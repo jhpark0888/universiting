@@ -95,7 +95,23 @@ class _MyAppState extends State<MyApp> {
       //   Locale('ko'),
       // ],
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: kBackgroundWhite),
+      theme: ThemeData(
+        scaffoldBackgroundColor: kBackgroundWhite,
+        fontFamily: 'SUIT',
+        appBarTheme: const AppBarTheme(
+          backgroundColor: kBackgroundWhite,
+          foregroundColor: kMainBlack,
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            primary: kMainBlack,
+            splashFactory: NoSplash.splashFactory,
+          ),
+        ),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+      ),
       home: HomeView(
         login: false,
         tag: '첫 화면',

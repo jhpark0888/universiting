@@ -21,24 +21,19 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     print(profileController.profile.value.profileImage);
     return Scaffold(
-        appBar: AppBarWidget(
-          title: '',
-          leading: const Padding(
-              padding: EdgeInsets.fromLTRB(20, 13.5, 0, 13.5),
-              child: Text(
-                '프로필',
-                style: kHeaderStyle3,
-                textAlign: TextAlign.center,
-              )),
-          leadingwidth: 100,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 23.0),
-              child: SvgPicture.asset('assets/icons/setting.svg'),
-            )
-          ],
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: false,
+          elevation: 0,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 4.0),
+            child: Text(
+              '프로필',
+              style: kHeaderStyle3,
+            ),
+          ),
+          actions: [],
         ),
-        backgroundColor: kMainWhite,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 26, 20, 0),

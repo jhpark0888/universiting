@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/login_api.dart';
 import 'package:universiting/api/main_api.dart';
@@ -15,6 +16,8 @@ import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/state_management_widget.dart';
 import 'package:universiting/widgets/spinkit_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
+
+import '../controllers/custom_animation_controller.dart';
 
 class HomeView extends StatelessWidget {
   HomeView(
@@ -34,6 +37,8 @@ class HomeView extends StatelessWidget {
   MapController mapController = Get.put(MapController());
   late final HomeController homeController =
       Get.put(HomeController(), tag: tag);
+  final CustomAnimationController _animationController =
+      Get.put(CustomAnimationController(), tag: 'bottomnavigation');
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,7 @@ class HomeView extends StatelessWidget {
         Scaffold(
       extendBody: true,
       bottomSheet: login
-          ? Container(height: 0)
+          ? SizedBox.shrink()
           : Obx(
               () => homeController.islogin.value
                   ? homeController.isGuest.value
@@ -148,12 +153,24 @@ class HomeView extends StatelessWidget {
                         )
                       : const SizedBox.shrink(),
             ),
+      // floatingActionButton: homeController.islogin.value
+      //     ? SizedBox.shrink()
+      //     : FloatingActionButton(
+      //         backgroundColor: kBackgroundWhite,
+      //         onPressed: () {},
+      //         child: SvgPicture.asset(
+      //           'assets/icons/my_button.svg',
+      //           color: kMainBlack,
+      //         ),
+      //       ),
       body: Column(
         children: [
           Expanded(
             child: Stack(
               children: [
                 Obx(() => NaverMap(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 64, horizontal: 8),
                       initialCameraPosition:
                           CameraPosition(target: LatLng(lat, lng)),
                       onMapCreated: login ? null : mapController.onMapCreated,
@@ -175,38 +192,59 @@ class HomeView extends StatelessWidget {
                         homeController.createdMarker();
                       },
                       child: Container(
-                        height: Get.width / 9,
-                        width: Get.width / 9,
+                        height: 48,
+                        width: 48,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white),
-                        child: const Icon(Icons.restart_alt),
+                            borderRadius: BorderRadius.circular(24),
+                            color: kBackgroundWhite),
+                        child: Center(
+                            child:
+                                SvgPicture.asset('assets/icons/refresh.svg')),
                       ),
                     ),
-                    bottom: Get.width / 3,
-                    left: Get.width / 10),
+                    bottom: 20,
+                    left: 20),
                 Positioned(
                     child: GestureDetector(
-                      onTap: () async {},
+                      onTap: () {
+                        if (_animationController.bnbOffsetValue.value ==
+                            Offset(0.0, 0.0)) {
+                          _animationController.bnbOffsetValue.value =
+                              Offset(0.0, 1.0);
+                          _animationController.isRoomModalUp(true);
+                        } else {
+                          _animationController.bnbOffsetValue.value =
+                              Offset(0.0, 0.0);
+                          _animationController.isRoomModalUp(false);
+                        }
+                      },
                       child: Container(
-                        height: Get.width / 9,
-                        width: Get.width / 9,
+                        height: 48,
+                        width: 48,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: kMainBlack),
+                            borderRadius: BorderRadius.circular(24),
+                            color: kBackgroundWhite),
                         child: Center(
-                          child: Text(
-                            'MY',
-                            textAlign: TextAlign.center,
-                            style: kActiveButtonStyle.copyWith(
-                                color: Colors.white),
+                          child: SvgPicture.asset(
+                            'assets/icons/my_button.svg',
                           ),
                         ),
                       ),
                     ),
-                    bottom: Get.width / 3,
-                    right: Get.width / 10),
+                    bottom: 20,
+                    right: 20),
               ],
+            ),
+          ),
+          Obx(
+            () => AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              height:
+                  _animationController.bnbOffsetValue.value == Offset(0.0, 0.0)
+                      ? 0
+                      : 300,
+              color: Colors.red,
             ),
           ),
         ],

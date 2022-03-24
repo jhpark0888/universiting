@@ -16,24 +16,38 @@ class ProfileImageWidget extends StatelessWidget {
       children: [
         host != null
             ? host!.profileImage != ''
-                ? ClipOval(
-                    child: Image.network(
-                    serverUrl + host!.profileImage,
-                    width: width?? Get.width / 7,
-                    height: height ??Get.width / 7,
-                    fit: BoxFit.fill,
-                  ))
+                ? Stack(children: [
+                    ClipOval(
+                      child: Image.network(
+                        serverUrl + host!.profileImage,
+                        width: 48,
+                        height: 48,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    //todo: 유저 상태
+                    Positioned(
+                        top: 36,
+                        left: 36,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: kPrimary,
+                              borderRadius: BorderRadius.circular(6)),
+                          width: 12,
+                          height: 12,
+                        ))
+                  ])
                 : ClipOval(
-                  child: SvgPicture.asset(
-                          'assets/illustrations/default_profile.svg',
-                          height: Get.width / 7,
-                          width: Get.width / 7,
-                          fit: BoxFit.cover,
-                        ),
-                )
+                    child: SvgPicture.asset(
+                      'assets/illustrations/default_profile.svg',
+                      height: 48,
+                      width: 48,
+                      fit: BoxFit.cover,
+                    ),
+                  )
             : Container(
-                width: width ?? Get.width / 7,
-                height: height ?? Get.width / 7,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: kMainBlack.withOpacity(0.38)),
