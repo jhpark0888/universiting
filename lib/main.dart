@@ -6,9 +6,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -17,7 +14,6 @@ import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:universiting/constant.dart';
-import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/views/first_view.dart';
 import 'package:universiting/views/home_view.dart';
 
@@ -25,15 +21,9 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Firebase.apps.length == 0) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform, name: 'Universiting');
-    
-    // print(Firebase.apps.length);
-  }
-  else {
-    Firebase.app();
-  }
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   var token = await FirebaseMessaging.instance.getToken();

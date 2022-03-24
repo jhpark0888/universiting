@@ -29,7 +29,7 @@ class HomeController extends GetxController {
   RxBool islogin = false.obs;
   RxBool isDetailClick = false.obs;
   final RxList<OverlayImage> image = <OverlayImage>[].obs;
-  // late final OverlayImage image; 
+  // late final OverlayImage image;
   @override
   void onInit() async {
     // OverlayImage.fromAssetImage(
@@ -63,22 +63,21 @@ class HomeController extends GetxController {
             captionTextSize: 14.0,
             icon: element.type ? image[0] : image[1],
             // icon: image,
-            iconTintColor: element.type ? kMainBlack : kPrimary,
-            anchor: AnchorPoint(0.5, 1),
-            width: 45,
+
+            width: 36,
             height: 45,
             onMarkerTab: mapController.onMarkerTap))
         .toList();
   }
 
   Future<void> getOverlyImage() async {
-    
     image.add(await OverlayImage.fromAssetImage(
-        assetName: 'assets/icons/marker_unselected.png', size: const Size(36, 42)));
-    
-       image.add(await OverlayImage.fromAssetImage(
-        assetName: 'assets/icons/marker_none_unselect.png', size: const Size(36, 42)));
-    
+        assetName: 'assets/icons/marker_unselected.png',
+        size: const Size(36, 42)));
+
+    image.add(await OverlayImage.fromAssetImage(
+        assetName: 'assets/icons/marker_none_unselect.png',
+        size: const Size(36, 42)));
   }
 
   Future<List<MainUniv>> getMainUniv() async {
