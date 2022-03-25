@@ -19,11 +19,11 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
       age: json['age'],
-      department: json['department'].toString(),
+      department: json['department']?? '',
       gender: json['gender'] == 'M' ? '남자' : '여자',
-      introduction: json['introduction'] == null ? '' : json['introduction'],
+      introduction: json['introduction'] ?? '',
       nickname: json['nickname'],
-      profileImage: json['profile_image'] == null ? '' : json['profile_image'],
+      profileImage: json['profile_image'] ?? '',
       university: json['university'].toString(),
       userId: json['user_id']);
 }

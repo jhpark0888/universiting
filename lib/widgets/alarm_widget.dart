@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:universiting/api/status_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/status_controller.dart';
@@ -62,9 +63,17 @@ class AlarmReceiveWidget extends StatelessWidget {
             child: CustomButtonWidget(
                 buttonTitle: '거절하기',
                 buttonState: ButtonState.negative,
-                onTap: () {
-                  hostMemberAlarm(alarmreceive.targetId.toString(), 'reject');
-                  deleteAlarm(alarmreceive.id.toString());
+                onTap: () async{
+                  if (alarmreceive.type == 1) {
+                  hostMemberAlarm(alarmreceive.targetId.toString(), 'reject').then((value) => deleteAlarm(alarmreceive.id.toString()));
+                  }
+                  else if(alarmreceive.type == 2){
+                    okJoinAlarm(alarmreceive.targetId.toString(),
+                            alarmreceive.profile.userId.toString(), 'reject').then((value) => deleteAlarm(alarmreceive.id.toString()));
+                  }
+                  else if(alarmreceive.type == 3){
+                    await rejectToChat(alarmreceive).then((value) => deleteAlarm(alarmreceive.id.toString()));
+                  }
                 }),
           ),
           const SizedBox(width: 12),
@@ -81,6 +90,10 @@ class AlarmReceiveWidget extends StatelessWidget {
                             alarmreceive.profile.userId.toString(), 'join')
                         .then((value) => deleteAlarm(alarmreceive.id.toString()));
                   }
+                  else if(alarmreceive.type == 3){
+                    await joinToChat(alarmreceive).then((value) => deleteAlarm(alarmreceive.id.toString()));
+                  }
+                  print(alarmreceive.type);
                 }),
           ),
         ],

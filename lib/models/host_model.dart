@@ -23,7 +23,7 @@ class Host {
       age: json['age'],
       introduction: json['introduction'] ?? '',
       hostType: json['host_type'],
-      hostId: json['host_id'],
+      hostId: json['user_id'],
       joinType: json['join_type'],
       );
 }

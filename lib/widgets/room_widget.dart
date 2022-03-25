@@ -48,21 +48,21 @@ class RoomWidget extends StatelessWidget {
                       Text(room.title, style: kSubtitleStyle1),
                     if (roomType == RoomType.otherView)
                       const SizedBox(height: 12),
-                    // if (roomType == RoomType.statusView)
-                    //   Row(
-                    //     children: [
-                    //       Text(
-                    //         '학교',
-                    //         style: kBodyStyle2.copyWith(
-                    //             color: kMainBlack.withOpacity(0.6)),
-                    //       ),
-                    //       SizedBox(
-                    //         width: 4,
-                    //       ),
-                    //       if (roomType == RoomType.statusView)
-                    //       Text(room.university!)
-                    //     ],
-                    //   ),
+                    if (roomType != RoomType.otherView)
+                      Row(
+                        children: [
+                          Text(
+                            '학교',
+                            style: kBodyStyle2.copyWith(
+                                color: kMainBlack.withOpacity(0.6)),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          if (roomType != RoomType.otherView)
+                          Text(room.university!)
+                        ],
+                      ),
 
                     if (roomType != RoomType.otherView)
                       const SizedBox(height: 12),
@@ -133,10 +133,10 @@ class RoomWidget extends StatelessWidget {
                           StateManagementWidget(
                               state: room.type!
                                   ? StateManagement.roomActivated
-                                  : room.isModify != null
-                                      ? room.isModify == 0
-                                          ? StateManagement.waitingFriend
-                                          : StateManagement.friendReject
+                                  // : room.isModify != null
+                                  //     ? room.isModify == 0
+                                  //         ? StateManagement.waitingFriend
+                                  //         : StateManagement.friendReject
                                       : StateManagement.waitingFriend)
                       ],
                     )

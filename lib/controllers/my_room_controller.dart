@@ -58,7 +58,7 @@ class MyRoomController extends GetxController {
     }
     profileImage.clear();
     for(int i = 0; i < room.hosts!.length;i ++){
-      profileImage.add(ProfileImageWidget(host: room.hosts![i],));
+      profileImage.add(ProfileImageWidget(host: room.hosts![i],type: RoomType.otherView,));
     }
     return profileImage.toList();
   }

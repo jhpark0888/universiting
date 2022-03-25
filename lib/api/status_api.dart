@@ -186,3 +186,61 @@ Future<List<AlarmSend>> getSendStatus() async {
     return [AlarmSend(id: 0, room: Room(title: ''), joinmember: <Host>[])];
   }
 }
+
+Future<void> joinToChat(AlarmReceive alarmReceive) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/chat/make_group');
+
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  var body = {
+    'room_id' : alarmReceive.targetId.toString(),
+    'creater_id' : alarmReceive.profile.userId.toString()
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    var response =
+        await http.post(url, headers: headers, body: body);
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      print(responsebody);
+      print('${response.statusCode}삭제하기');
+
+    } else {
+     print('${response.statusCode}삭제가 안됐습니다');
+    }
+  }
+}
+
+Future<void> rejectToChat(AlarmReceive alarmReceive) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/chat/make_group');
+
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  var body = {
+    'room_id' : alarmReceive.targetId.toString(),
+    'creater_id' : alarmReceive.profile.userId.toString()
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    var response =
+        await http.delete(url, headers: headers, body: body);
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      print(responsebody);
+      print('${response.statusCode}삭제하기');
+
+    } else {
+     print('${response.statusCode}삭제가 안됐습니다');
+    }
+  }
+}

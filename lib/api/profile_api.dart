@@ -29,7 +29,6 @@ Future<void> getMyProfile() async {
         String responsebody = utf8.decode(response.bodyBytes);
         profileController.profile.value =
             Profile.fromJson(jsonDecode(responsebody));
-        print(responsebody);
         print(response.statusCode);
       } else {
         print(response.statusCode);
@@ -90,5 +89,54 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
       print(e);
       showCustomDialog('서버 점검중입니다.', 1200);
     }
+  }
+}
+
+Future<Profile> getOtherProfile(String id) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = const FlutterSecureStorage();
+
+  var url = Uri.parse('$serverUrl/user_api/profile_info?id=$id');
+  String? token = await storage.read(key: 'token');
+  Map<String, String> headers = {'Authorization': 'Token $token'};
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return Profile(
+        age: 0,
+        gender: '',
+        introduction: '',
+        nickname: '',
+        profileImage: '',
+        userId: 0);
+  } else {
+    try {
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+        String responsebody = utf8.decode(response.bodyBytes);
+        print(responsebody);
+        print(response.statusCode);
+        return Profile.fromJson(jsonDecode(responsebody));
+      } else {
+        print(response.statusCode);
+        return Profile(
+            age: 0,
+            gender: '',
+            introduction: '',
+            nickname: '',
+            profileImage: '',
+            userId: 0);
+      }
+    } catch (e) {
+      print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
+    }
+    return Profile(
+        age: 0,
+        gender: '',
+        introduction: '',
+        nickname: '',
+        profileImage: '',
+        userId: 0);
   }
 }
