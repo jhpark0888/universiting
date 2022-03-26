@@ -20,31 +20,32 @@ class ProfileUpdate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(title: '프로필 수정'),
-      backgroundColor: kMainWhite,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('이름 또는 닉네임', style: kSubtitleStyle2),
+              const Text('닉네임', style: kSubtitleStyle2),
               const SizedBox(height: 12),
               BackgroundTextfieldWidget(
                 controller: profileController.nameController,
                 hinttext: '최대 8자',
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
               const Text('학과', style: kSubtitleStyle2),
               const SizedBox(height: 12),
-              BackgroundTextfieldWidget(controller: profileController.departmentController, hinttext: 'SELECT'),
-              const SizedBox(height: 24),
+              BackgroundTextfieldWidget(
+                  controller: profileController.departmentController,
+                  hinttext: 'SELECT'),
+              const SizedBox(height: 20),
               Text('간단한 소개', style: kSubtitleStyle2),
               const SizedBox(height: 12),
               BackgroundTextfieldWidget(
                 controller: profileController.introController,
                 hinttext: '간단하게 자신을 소개해주세요',
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
               CustomButtonWidget(
                 buttonTitle: '저장하기',
                 buttonState: ButtonState.primary,

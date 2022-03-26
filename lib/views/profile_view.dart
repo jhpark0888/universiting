@@ -21,158 +21,128 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     print(profileController.profile.value.profileImage);
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-          elevation: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: Text(
-              '프로필',
-              style: kHeaderStyle3,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        elevation: 0,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 4.0),
+          child: Text(
+            '프로필',
+            style: kHeaderStyle3,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: IconButton(
+              onPressed: () {},
+              icon: SvgPicture.asset('assets/icons/setting.svg'),
             ),
           ),
-          actions: [],
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(
+          right: 20,
+          left: 20,
+          top: 16,
+          bottom: 40,
         ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 26, 20, 0),
-            child: Obx(
-              () => Stack(
+        child: Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      ClipOval(
-                        child:
-                            profileController.profile.value.profileImage == ''
-                                ? SvgPicture.asset(
-                                    'assets/illustrations/default_profile.svg',
-                                    height: Get.width / 4.5,
-                                    width: Get.width / 4.5,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.network(
-                                    serverUrl +
-                                        profileController
-                                            .profile.value.profileImage,
-                                    height: Get.width / 4.5,
-                                    width: Get.width / 4.5,
-                                    fit: BoxFit.cover,
-                                  ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        '${profileController.profile.value.nickname} / ${profileController.profile.value.age} / ${profileController.profile.value.gender}',
-                        style: kHeaderStyle1,
-                      ),
-                      // Row(
-                      //   children: [
-                      //     ClipOval(
-                      //       child:
-                      //           profileController.profile.value.profileImage ==
-                      //                   ''
-                      //               ? SvgPicture.asset(
-                      //                   'assets/icons/image.svg',
-                      //                   height: Get.width / 4.5,
-                      //                   width: Get.width / 4.5,
-                      //                   fit: BoxFit.cover,
-                      //                 )
-                      //               : Image.network(
-                      //                   serverUrl +
-                      //                       profileController
-                      //                           .profile.value.profileImage,
-                      //                   height: Get.width / 4.5,
-                      //                   width: Get.width / 4.5,
-                      //                   fit: BoxFit.cover,
-                      //                 ),
-                      //     ),
-                      //     const SizedBox(width: 12),
-                      //     Column(
-                      //       mainAxisAlignment: MainAxisAlignment.start,
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: [
-                      //         Text(
-                      //           '${profileController.profile.value.nickname} / ${profileController.profile.value.age.toString()} / ${profileController.profile.value.gender}',
-                      //           style: kHeaderStyle2,
-                      //         ),
-                      //         SizedBox(height: 8),
-                      //         Text(profileController.profile.value.university,
-                      //             style: kBodyStyle2.copyWith(
-                      //                 color: kMainBlack.withOpacity(0.6))),
-                      //         SizedBox(
-                      //           height: 4,
-                      //         ),
-                      //         Text(
-                      //           profileController.profile.value.department,
-                      //           style: kBodyStyle2.copyWith(
-                      //               color: kMainBlack.withOpacity(0.6)),
-                      //         )
-                      //       ],
-                      //     )
-                      //   ],
-                      // ),
-                      const SizedBox(height: 8),
-                      Text(profileController.profile.value.university!,
-                          style: kSubtitleStyle3.copyWith(
-                              color: kMainBlack.withOpacity(0.6))),
-                      const SizedBox(height: 4),
-                      if (profileController.profile.value.department != null)
-                        Text(profileController.profile.value.department!,
-                            style: kSubtitleStyle3.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
-                      const SizedBox(height: 16),
-                      Container(
-                        width: Get.width,
-                        child: Text(
-                            profileController.profile.value.introduction,
-                            style: kBodyStyle2),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: CustomButtonWidget(
-                              buttonTitle: '프로필 수정하기',
-                              buttonState: ButtonState.secondary,
-                              onTap: () {
-                                Get.to(() => ProfileUpdate());
-                              },
+                  Stack(children: [
+                    ClipOval(
+                      child: profileController.profile.value.profileImage == ''
+                          ? SvgPicture.asset(
+                              'assets/illustrations/default_profile.svg',
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              serverUrl +
+                                  profileController.profile.value.profileImage,
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Text('프로필 사진과 소개를 작성하면 더 좋지 않을까요?',
-                          style: kSmallCaptionStyle.copyWith(
-                              color: kMainBlack.withOpacity(0.6)))
-                    ],
+                    ),
+                    Positioned(
+                      child: GestureDetector(
+                          onTap: () {
+                            showCustomModalPopup(context,
+                                value1: '라이브러리에서 선택',
+                                value2: '기본 이미지로 변경',
+                                func1: changeProfileImage,
+                                func2: changeDefaultImage);
+                          },
+                          child: Container(
+                            width: 24,
+                            height: 24,
+                            child: Center(
+                              child: SvgPicture.asset(
+                                'assets/icons/image.svg',
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(0xffe7e7e7), width: 1),
+                                color: kBackgroundWhite,
+                                shape: BoxShape.circle),
+                          )),
+                      left: 56,
+                      top: 56,
+                    )
+                  ]),
+                  const SizedBox(height: 12),
+                  Text(
+                    '${profileController.profile.value.nickname} / ${profileController.profile.value.age}세 / ${profileController.profile.value.gender.replaceAll('자', '')}',
+                    style: kHeaderStyle1,
                   ),
-                  Positioned(
-                    child: GestureDetector(
-                        onTap: () {
-                          showCustomModalPopup(context,
-                              value1: '라이브러리에서 선택',
-                              value2: '기본 이미지로 변경',
-                              func1: changeProfileImage,
-                              func2: changeDefaultImage);
-                        },
-                        child: Container(
-                          width: 24,
-                          height: 24,
-                          child: SvgPicture.asset(
-                            'assets/icons/image.svg',
-                          ),
-                          decoration: BoxDecoration(
-                              color: kMainWhite, shape: BoxShape.circle),
-                        )),
-                    left: Get.width / 2,
-                    top: Get.width / 6,
-                  )
+                  const SizedBox(height: 8),
+                  Text(profileController.profile.value.university!,
+                      style: kSubtitleStyle2),
+                  const SizedBox(height: 4),
+                  if (profileController.profile.value.department != null)
+                    Text(profileController.profile.value.department!,
+                        style: kSubtitleStyle2),
+                  const SizedBox(height: 16),
                 ],
               ),
-            ),
+              Text(
+                profileController.profile.value.introduction,
+                style: kBodyStyle1,
+                textAlign: TextAlign.start,
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomButtonWidget(
+                      buttonTitle: '프로필 수정하기',
+                      buttonState: ButtonState.secondary,
+                      onTap: () {
+                        Get.to(() => ProfileUpdate());
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text('· 프로필 사진이나 학과, 소개를 작성하면 매칭에 도움이 될 거에요.',
+                  style: kSmallCaptionStyle.copyWith(
+                      color: kMainBlack.withOpacity(0.6)))
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   void changeProfileImage() async {

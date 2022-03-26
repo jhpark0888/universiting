@@ -18,6 +18,19 @@ class CustomAnimationController extends GetxController
   late Animation<Offset> secondOffsetValue;
   Rx<Offset> bnbOffsetValue = Offset(0.0, 0.0).obs;
   final RxBool isRoomModalUp = false.obs;
+  final TweenSequence<Offset> kTweenSequence =
+      TweenSequence(<TweenSequenceItem<Offset>>[
+    TweenSequenceItem<Offset>(
+      tween: Tween(begin: Offset(0.0, 5.0), end: Offset(0.0, -0.2))
+          .chain(CurveTween(curve: Curves.easeOut)),
+      weight: 80.0,
+    ),
+    TweenSequenceItem<Offset>(
+      tween: Tween(begin: Offset(0.0, -0.2), end: Offset(0.0, 0.0))
+          .chain(CurveTween(curve: Curves.easeIn)),
+      weight: 40.0,
+    )
+  ]);
 
   @override
   void onInit() {
