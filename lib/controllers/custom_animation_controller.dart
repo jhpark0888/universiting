@@ -18,6 +18,7 @@ class CustomAnimationController extends GetxController
   late Animation<Offset> secondOffsetValue;
   Rx<Offset> bnbOffsetValue = Offset(0.0, 0.0).obs;
   final RxBool isRoomModalUp = false.obs;
+  RxDouble modalHegiht = 300.0.obs;
   final TweenSequence<Offset> kTweenSequence =
       TweenSequence(<TweenSequenceItem<Offset>>[
     TweenSequenceItem<Offset>(

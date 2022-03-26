@@ -20,6 +20,7 @@ class BackgroundTextfieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: TextFormField(
+        autocorrect: false,
         controller: controller,
         cursorColor: kPrimary,
         maxLines: maxLine ?? 1,

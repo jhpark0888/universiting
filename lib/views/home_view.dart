@@ -215,7 +215,9 @@ class HomeView extends StatelessWidget {
                         } else {
                           _animationController.bnbOffsetValue.value =
                               Offset(0.0, 0.0);
-                          _animationController.isRoomModalUp(false);
+                          Future.delayed(Duration(milliseconds: 300), () {
+                            _animationController.isRoomModalUp(false);
+                          });
                         }
                       },
                       child: Container(
@@ -243,8 +245,23 @@ class HomeView extends StatelessWidget {
               height:
                   _animationController.bnbOffsetValue.value == Offset(0.0, 0.0)
                       ? 0
-                      : 300,
+                      : _animationController.modalHegiht.value,
               color: Colors.red,
+              child: Column(children: [
+                GestureDetector(
+                  onTap: () {
+                    if (_animationController.modalHegiht.value == 600.0) {
+                      _animationController.modalHegiht.value = 300.0;
+                    } else {
+                      _animationController.modalHegiht.value = 600.0;
+                    }
+                  },
+                  child: Container(
+                    height: 20,
+                    color: Colors.green,
+                  ),
+                )
+              ]),
             ),
           ),
         ],
