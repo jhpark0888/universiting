@@ -10,22 +10,27 @@ class RoomWidget extends StatelessWidget {
   RoomWidget(
       {Key? key,
       required this.room,
+      this.joinmember,
       required this.hosts,
-      required this.isChief})
+      required this.isChief,
+      required this.roomType})
       : super(key: key);
   Room room;
-
+  List<ProfileImageWidget>? joinmember;
   List<ProfileImageWidget> hosts;
   bool isChief;
+  RoomType roomType;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            Get.to(() => RoomDetailView(
-                  roomid: room.id.toString(),
-                ));
+            if (roomType != RoomType.statusReceiveView) {
+              Get.to(() => RoomDetailView(
+                    roomid: room.id.toString(),
+                  ));
+            }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -39,10 +44,11 @@ class RoomWidget extends StatelessWidget {
                   children: [
                     Row(children: hosts),
                     const SizedBox(height: 12),
-                    if (room.type != null)
+                    if (roomType != RoomType.statusReceiveView)
                       Text(room.title, style: kSubtitleStyle1),
-                    if (room.type != null) const SizedBox(height: 12),
-                    if (room.type == null)
+                    if (roomType == RoomType.otherView)
+                      const SizedBox(height: 12),
+                    if (roomType != RoomType.otherView)
                       Row(
                         children: [
                           Text(
@@ -53,10 +59,13 @@ class RoomWidget extends StatelessWidget {
                           SizedBox(
                             width: 4,
                           ),
-                          Text('UNIV FULL NAME')
+                          if (roomType != RoomType.otherView)
+                          Text(room.university!)
                         ],
                       ),
-                    if (room.type == null) const SizedBox(height: 12),
+
+                    if (roomType != RoomType.otherView)
+                      const SizedBox(height: 12),
                     Row(
                       children: [
                         Text('평균 나이',
@@ -81,8 +90,15 @@ class RoomWidget extends StatelessWidget {
                         Text(room.gender!, style: kSubtitleStyle3)
                       ],
                     ),
-                    const SizedBox(height: 12),
-                    if (room.type != null)
+                    if (roomType == RoomType.statusSendView)
+                      const SizedBox(height: 16),
+                    if (roomType == RoomType.statusSendView)
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: joinmember!),
+                    if (roomType == RoomType.otherView)
+                      const SizedBox(height: 12),
+                    if (roomType == RoomType.otherView)
                       Row(
                         children: [
                           Text('인원수',
@@ -113,15 +129,14 @@ class RoomWidget extends StatelessWidget {
                                       textAlign: TextAlign.center),
                                 ))
                             : SizedBox.shrink(),
-                        if (room.type !=
-                            null) //받은 신청에 있는 roomWidget같은 경우에는 room.title,hosts이런것 밖에 없는데 myroom에는 type이 있어서 type가 null이면 받은 신청을 의미 null이 아니면 my room을 의미
+                        if (roomType == RoomType.otherView)
                           StateManagementWidget(
                               state: room.type!
                                   ? StateManagement.roomActivated
-                                  : room.isModify != null
-                                      ? room.isModify == 0
-                                          ? StateManagement.waitingFriend
-                                          : StateManagement.friendReject
+                                  // : room.isModify != null
+                                  //     ? room.isModify == 0
+                                  //         ? StateManagement.waitingFriend
+                                  //         : StateManagement.friendReject
                                       : StateManagement.waitingFriend)
                       ],
                     )

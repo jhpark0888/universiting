@@ -14,7 +14,7 @@ class Room {
   List<Host>? hosts;
   int? totalMember;
   String? gender;
-  int? isModify;
+  // int? isModify;
   bool? type;
 
   Room(
@@ -28,12 +28,12 @@ class Room {
       this.avgAge,
       this.createrId,
       this.universityId,
-      this.isModify,
+      // this.isModify,
       this.introduction});
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
       id: json['id'],
-
+      university: json['university'],
       title: json['title'],
       avgAge: json['avg_age'],
       hosts:json['hosts'] != null ? List<Map<String, dynamic>>.from(json['hosts'])
@@ -45,7 +45,8 @@ class Room {
       createrId: json['creater_id'],
       universityId: json['university_id'],
       introduction: json['introduction'],
-      isModify: json['is_modify']);
+      // isModify: json['is_modify']
+      );
       
 }
 

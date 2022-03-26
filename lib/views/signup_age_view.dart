@@ -136,7 +136,7 @@ class SignupAgeView extends StatelessWidget {
                 opacity: _animationController.loadValue,
                 child: CustomButtonWidget(
                   onTap: () async {
-                    if (signupController.yearController.text.isNotEmpty) {
+                    if (signupController.yearController.text.isNotEmpty & signupController.monthController.text.isNotEmpty & signupController.dayController.text.isNotEmpty) {
                       Get.to(
                           () => SignupGenderView(
                                 content: signupController.checkAge(),

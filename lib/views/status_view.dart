@@ -5,7 +5,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
-import 'package:universiting/widgets/my_room_get_request_widget.dart';
+import 'package:universiting/views/status_view_received_view.dart';
+import 'package:universiting/views/status_view_send_view.dart';
 
 class StatusView extends StatelessWidget {
   StatusView({Key? key}) : super(key: key);
@@ -58,7 +59,8 @@ class StatusView extends StatelessWidget {
                   ),
                   Expanded(
                       child: TabBarView(
-                    children: [MyRoomGetRequestWidget(), Text('dsds')],
+                        physics: const NeverScrollableScrollPhysics(),
+                    children: [StatusViewReceivedView(), StatusViewSendView()],
                     controller: myRoomTabController.tapcontroller,
                   ))
                 ],

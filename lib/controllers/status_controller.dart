@@ -2,54 +2,92 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/api/status_api.dart';
+import 'package:universiting/constant.dart';
 import 'package:universiting/models/alarm_model.dart';
+import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/widgets/alarm_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 
-class StatusController extends GetxController{
+class StatusController extends GetxController {
   static StatusController get to => Get.find();
-  RefreshController refreshController = RefreshController();
-  final receiveList = <Alarm>[].obs;
-  final allReceiveList = <AlarmWidget>[].obs;
-  final profileImage = <ProfileImageWidget>[].obs;
+  RefreshController receiveRefreshController = RefreshController();
+  RefreshController sendRefreshController = RefreshController();
+  final receiveList = <AlarmReceive>[].obs;
+  final sendList = <AlarmSend>[].obs;
+  final allReceiveList = <AlarmReceiveWidget>[].obs;
+  final allSendList = <AlarmSendWidget>[].obs;
+  final receiveHostprofileImage = <ProfileImageWidget>[].obs;
+  final sendHostprofileImage = <ProfileImageWidget>[].obs;
+  final sendJoinMemberprofileImage = <ProfileImageWidget>[].obs;
   @override
-  void onInit() async{
-    receiveList.value = await getReciveStatus();
+  void onInit() async {
+    receiveList.value = await getReceiveStatus();
+    sendList.value = await getSendStatus();
     makeAllReceiveList();
-    print(allReceiveList.length);
+    makeAllSendList();
     super.onInit();
   }
-  void makeAllReceiveList(){
+
+  void makeAllReceiveList() {
     allReceiveList.clear();
-    for(var alarm in receiveList){
-      allReceiveList.add(AlarmWidget(alarm: alarm));
-      profileImage.value = getHostsList(alarm.content);
+    for (var alarmreceive in receiveList) {
+      allReceiveList.add(AlarmReceiveWidget(alarmreceive: alarmreceive));
+      receiveHostprofileImage.value = getHostsList(alarmreceive.content,RoomType.statusReceiveView);
     }
   }
-  void onrefresh()async{
-    receiveList.value = await getReciveStatus();
+
+  void makeAllSendList() {
+    allSendList.clear();
+    for (var alarmSend in sendList) {
+      sendHostprofileImage.value = getHostsList(alarmSend.room, RoomType.statusReceiveView);
+      sendJoinMemberprofileImage.value =
+          getJoinMemberList(alarmSend.joinmember, RoomType.statusSendView);
+      allSendList.add(AlarmSendWidget(
+        alarmSend: alarmSend,
+        joinMember: sendJoinMemberprofileImage,
+      ));
+    }
+  }
+
+  void onrefreshReceive() async {
+    receiveList.value = await getReceiveStatus();
     makeAllReceiveList();
-    print(allReceiveList.length);
-    refreshController.refreshCompleted();
+    receiveRefreshController.refreshCompleted();
     print('리프레시 완료');
   }
 
-  List<ProfileImageWidget> getHostsList(Room room){
-    if(room.hosts != null){
-    switch(room.totalMember){
-      case 2:
-      case 3:
-      case 4:
-      print(room);
-      break;
-    }
-    profileImage.clear();
-    for(int i = 0; i < room.hosts!.length;i ++){
-      profileImage.add(ProfileImageWidget(host: room.hosts![i],));
-    }
-    return profileImage.toList();
+  void onrefreshSend() async {
+    sendList.value = await getSendStatus();
+    makeAllSendList();
+    sendRefreshController.refreshCompleted();
+    print('리프레시 완료');
   }
-  return profileImage.toList();
+  List<ProfileImageWidget> getHostsList(Room room, RoomType type) {
+    List<ProfileImageWidget> imageList = <ProfileImageWidget>[];
+    if (room.hosts != null) {
+      switch (room.totalMember) {
+        case 2:
+        case 3:
+        case 4:
+          print(room);
+          break;
+      }
+      for (int i = 0; i < room.hosts!.length; i++) {
+        imageList.add(ProfileImageWidget(
+          host: room.hosts![i],  type: type,
+        ));
+      }
+      return imageList;
+    }
+    return imageList;
+  }
+
+  List<ProfileImageWidget> getJoinMemberList(List<Host> hosts,RoomType type) {
+    List<ProfileImageWidget> imageList = <ProfileImageWidget>[];
+    for (Host host in hosts) {
+      imageList.add(ProfileImageWidget(host: host, type: type,));
+    }
+    return imageList;
   }
 }
