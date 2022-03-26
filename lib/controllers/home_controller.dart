@@ -29,7 +29,7 @@ class HomeController extends GetxController {
   RxBool islogin = false.obs;
   RxBool isDetailClick = false.obs;
   final RxList<OverlayImage> image = <OverlayImage>[].obs;
-  // late final OverlayImage image; 
+  // late final OverlayImage image;
   @override
   void onInit() async {
     // OverlayImage.fromAssetImage(
@@ -69,13 +69,13 @@ class HomeController extends GetxController {
   }
 
   Future<void> getOverlyImage() async {
-    
     image.add(await OverlayImage.fromAssetImage(
-        assetName: 'assets/icons/marker_unselected.png', size: const Size(36, 42)));
-    
-       image.add(await OverlayImage.fromAssetImage(
-        assetName: 'assets/icons/marker_none_unselect.png', size: const Size(36, 42)));
-    
+        assetName: 'assets/icons/marker_unselected.png',
+        size: const Size(36, 45)));
+
+    image.add(await OverlayImage.fromAssetImage(
+        assetName: 'assets/icons/marker_none_unselect.png',
+        size: const Size(36, 45)));
   }
 
   Future<List<MainUniv>> getMainUniv() async {

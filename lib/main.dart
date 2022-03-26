@@ -25,13 +25,12 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Firebase.apps.length == 0) {
+  if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform, name: 'Universiting');
-    
+        options: DefaultFirebaseOptions.currentPlatform);
+
     // print(Firebase.apps.length);
-  }
-  else {
+  } else {
     Firebase.app();
   }
   SystemChrome.setPreferredOrientations(

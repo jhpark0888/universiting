@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
-import 'package:universiting/api/status_api.dart';
+import 'package:universiting/Api/status_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/models/alarm_model.dart';
@@ -10,6 +10,8 @@ import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 import 'package:universiting/widgets/room_widget.dart';
+
+import '../Api/status_api.dart';
 
 class AlarmReceiveWidget extends StatelessWidget {
   AlarmReceiveWidget({Key? key, required this.alarmreceive}) : super(key: key);
@@ -34,7 +36,8 @@ class AlarmReceiveWidget extends StatelessWidget {
                         width: Get.width / 7.5,
                         fit: BoxFit.cover,
                       )),
-          if (alarmreceive.type == 1 || alarmreceive.type == 2) const SizedBox(width: 12),
+          if (alarmreceive.type == 1 || alarmreceive.type == 2)
+            const SizedBox(width: 12),
           if (alarmreceive.type == 1)
             Expanded(
                 child: Text(
@@ -63,16 +66,19 @@ class AlarmReceiveWidget extends StatelessWidget {
             child: CustomButtonWidget(
                 buttonTitle: '거절하기',
                 buttonState: ButtonState.negative,
-                onTap: () async{
+                onTap: () async {
                   if (alarmreceive.type == 1) {
-                  hostMemberAlarm(alarmreceive.targetId.toString(), 'reject').then((value) => deleteAlarm(alarmreceive.id.toString()));
-                  }
-                  else if(alarmreceive.type == 2){
+                    hostMemberAlarm(alarmreceive.targetId.toString(), 'reject')
+                        .then(
+                            (value) => deleteAlarm(alarmreceive.id.toString()));
+                  } else if (alarmreceive.type == 2) {
                     okJoinAlarm(alarmreceive.targetId.toString(),
-                            alarmreceive.profile.userId.toString(), 'reject').then((value) => deleteAlarm(alarmreceive.id.toString()));
-                  }
-                  else if(alarmreceive.type == 3){
-                    await rejectToChat(alarmreceive).then((value) => deleteAlarm(alarmreceive.id.toString()));
+                            alarmreceive.profile.userId.toString(), 'reject')
+                        .then(
+                            (value) => deleteAlarm(alarmreceive.id.toString()));
+                  } else if (alarmreceive.type == 3) {
+                    await rejectToChat(alarmreceive).then(
+                        (value) => deleteAlarm(alarmreceive.id.toString()));
                   }
                 }),
           ),
@@ -83,15 +89,18 @@ class AlarmReceiveWidget extends StatelessWidget {
                 buttonState: ButtonState.primary,
                 onTap: () async {
                   if (alarmreceive.type == 1) {
-                    await hostMemberAlarm(alarmreceive.targetId.toString(), 'join')
-                        .then((value) => deleteAlarm(alarmreceive.id.toString()));
+                    await hostMemberAlarm(
+                            alarmreceive.targetId.toString(), 'join')
+                        .then(
+                            (value) => deleteAlarm(alarmreceive.id.toString()));
                   } else if (alarmreceive.type == 2) {
                     await okJoinAlarm(alarmreceive.targetId.toString(),
                             alarmreceive.profile.userId.toString(), 'join')
-                        .then((value) => deleteAlarm(alarmreceive.id.toString()));
-                  }
-                  else if(alarmreceive.type == 3){
-                    await joinToChat(alarmreceive).then((value) => deleteAlarm(alarmreceive.id.toString()));
+                        .then(
+                            (value) => deleteAlarm(alarmreceive.id.toString()));
+                  } else if (alarmreceive.type == 3) {
+                    await joinToChat(alarmreceive).then(
+                        (value) => deleteAlarm(alarmreceive.id.toString()));
                   }
                   print(alarmreceive.type);
                 }),
@@ -104,13 +113,20 @@ class AlarmReceiveWidget extends StatelessWidget {
 }
 
 class AlarmSendWidget extends StatelessWidget {
-  AlarmSendWidget({ Key? key, required this.alarmSend, required this.joinMember}) : super(key: key);
+  AlarmSendWidget({Key? key, required this.alarmSend, required this.joinMember})
+      : super(key: key);
   AlarmSend alarmSend;
   List<ProfileImageWidget> joinMember;
   @override
   Widget build(BuildContext context) {
-    return Column(
-     children :   [RoomWidget(hosts: StatusController.to.sendHostprofileImage, room: alarmSend.room,roomType: RoomType.statusSendView, isChief: false , joinmember: joinMember,)]
-    );
+    return Column(children: [
+      RoomWidget(
+        hosts: StatusController.to.sendHostprofileImage,
+        room: alarmSend.room,
+        roomType: RoomType.statusSendView,
+        isChief: false,
+        joinmember: joinMember,
+      )
+    ]);
   }
 }

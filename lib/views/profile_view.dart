@@ -108,10 +108,14 @@ class ProfileView extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(profileController.profile.value.university!,
                       style: kSubtitleStyle2),
-                  const SizedBox(height: 4),
-                  if (profileController.profile.value.department != null)
-                    Text(profileController.profile.value.department!,
-                        style: kSubtitleStyle2),
+                  const SizedBox(height: 8),
+                  (profileController.profile.value.department != '')
+                      ? Text(profileController.profile.value.department!,
+                          style: kSubtitleStyle3)
+                      : Text('아직 학과를 설정하지 않았어요',
+                          style: kSubtitleStyle3.copyWith(
+                            color: kMainBlack.withOpacity(0.38),
+                          )),
                   const SizedBox(height: 16),
                 ],
               ),
