@@ -61,7 +61,7 @@ class SignupUnivView extends StatelessWidget {
                   () => AnimatedContainer(
                     duration: Duration(milliseconds: 100),
                     curve: Curves.easeInOut,
-                    height: _keyboardController.isVisible.value ? 70 : 110,
+                    height: _keyboardController.isVisible.value ? 50 : 90,
                   ),
                 ),
                 Row(
@@ -135,7 +135,7 @@ class SignupUnivView extends StatelessWidget {
               duration: Duration(milliseconds: 400),
               curve: Curves.easeIn,
               bottom: _keyboardController.isVisible.value ? 20 : 60,
-              left: 20,
+              left: 30,
               child: FadeTransition(
                 opacity: _animationController.loadValue,
                 child: CustomButtonWidget(
@@ -143,7 +143,7 @@ class SignupUnivView extends StatelessWidget {
                     if (signupController.isUniv.value) {
                       signupController.selectuniv(
                           signupController.universityController.text);
-                      // print(signupController.uni.value.id);
+                      print(signupController.uni.value.email);
                       // await getDepartList(
                       //     signupController.uni.value.id);
                       Get.to(() => SignupNameView(),

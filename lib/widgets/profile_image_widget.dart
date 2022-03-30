@@ -18,13 +18,13 @@ class ProfileImageWidget extends StatelessWidget {
   double? width;
   double? height;
   Host? host;
-  RoomType type;
+  ViewType type;
   Profile? profile;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (type == RoomType.statusReceiveView)
+        if (type == ViewType.statusReceiveView)
           Get.to(OtherProfileView(id: host!.userId.toString()));
       },
       child: Row(mainAxisAlignment: MainAxisAlignment.center,

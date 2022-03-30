@@ -59,7 +59,7 @@ class AlarmReceiveWidget extends StatelessWidget {
         if (alarmreceive.type == 3)
           RoomWidget(
               room: alarmreceive.content,
-              roomType: RoomType.statusReceiveView,
+              roomType: ViewType.statusReceiveView,
               hosts: host,
               isChief: false),
         const SizedBox(height: 12),
@@ -128,7 +128,7 @@ class AlarmSendWidget extends StatelessWidget {
       RoomWidget(
         hosts: host,
         room: alarmSend.room,
-        roomType: RoomType.statusSendView,
+        roomType: ViewType.statusSendView,
         isChief: false,
         joinmember: joinMember,
       )

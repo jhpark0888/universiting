@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
-import 'package:universiting/controllers/create_room_controller.dart';
+import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
 import 'package:universiting/views/select_friend_view.dart';
 
@@ -34,8 +34,8 @@ class FriendToGoWithWidget extends StatelessWidget {
                   border: Border.all(),
                   borderRadius: BorderRadius.circular(30),
                   color: type == AddFriends.myRoom
-                      ? CreateRoomController.to.members != []
-                          ? CreateRoomController.to.members.length >= humanNum
+                      ? RoomInfoController.to.members != []
+                          ? RoomInfoController.to.members.length >= humanNum
                               ? kMainBlack.withOpacity(0.38)
                               : kMainWhite
                           : kMainWhite

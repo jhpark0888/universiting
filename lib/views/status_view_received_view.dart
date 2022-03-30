@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/status_controller.dart';
-import 'package:universiting/views/create_room_view.dart';
+import 'package:universiting/views/room_info_view.dart';
 import 'package:universiting/widgets/alarm_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
 

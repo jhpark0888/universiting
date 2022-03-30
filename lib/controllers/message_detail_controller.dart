@@ -28,8 +28,8 @@ class MessageDetailController extends GetxController {
     ),
     const SizedBox(height: 24),
   ].obs;
-  final messageDetail = MessageDetail(userType: '0', message: []).obs;
-
+  final messageDetail = MessageDetail(userType: '0', message: [], groupTitle: '', memberProfile : []).obs;
+  final memberProfile = <Profile>[].obs;
   @override
   void onInit() async {
     AppController.to.addPage();
@@ -37,10 +37,12 @@ class MessageDetailController extends GetxController {
     ChatListController.to.isInDetailMessage.value = true;
     messageDetail.value =
         await getMessageDetail(groupId, '0');
+    memberProfile.value = messageDetail.value.memberProfile;
     messageList.addAll(messageDetail.value.message
         .map((e) => ChatWidget(
               message: e,
               userType: messageDetail.value.userType,
+              profile: getFindProfile(e)[0],
             ))
         .toList());
     scrollToBottom();
@@ -63,5 +65,9 @@ class MessageDetailController extends GetxController {
         );
       }
     }
+  }
+
+  List<Profile> getFindProfile(Message message){
+    return memberProfile.where((profile) => message.sender == profile.userId).toList();
   }
 }

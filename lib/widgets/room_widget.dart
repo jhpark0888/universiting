@@ -19,14 +19,14 @@ class RoomWidget extends StatelessWidget {
   List<ProfileImageWidget>? joinmember;
   List<ProfileImageWidget> hosts;
   bool isChief;
-  RoomType roomType;
+  ViewType roomType;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            if (roomType != RoomType.statusReceiveView) {
+            if (roomType != ViewType.statusReceiveView) {
 
               Get.to(() => RoomDetailView(
                     roomid: room.id.toString(),
@@ -45,11 +45,11 @@ class RoomWidget extends StatelessWidget {
                   children: [
                     Row(children: hosts),
                     const SizedBox(height: 12),
-                    if (roomType != RoomType.statusReceiveView)
+                    if (roomType != ViewType.statusReceiveView)
                       Text(room.title, style: kSubtitleStyle1),
-                    if (roomType == RoomType.otherView)
+                    if (roomType == ViewType.otherView)
                       const SizedBox(height: 12),
-                    if (roomType != RoomType.otherView)
+                    if (roomType != ViewType.otherView)
                       Row(
                         children: [
                           Text(
@@ -60,12 +60,12 @@ class RoomWidget extends StatelessWidget {
                           SizedBox(
                             width: 4,
                           ),
-                          if (roomType != RoomType.otherView)
+                          if (roomType != ViewType.otherView)
                           Text(room.university!)
                         ],
                       ),
     
-                    if (roomType != RoomType.otherView)
+                    if (roomType != ViewType.otherView)
                       const SizedBox(height: 12),
                     Row(
                       children: [
@@ -91,15 +91,15 @@ class RoomWidget extends StatelessWidget {
                         Text(room.gender!, style: kSubtitleStyle3)
                       ],
                     ),
-                    if (roomType == RoomType.statusSendView)
+                    if (roomType == ViewType.statusSendView)
                       const SizedBox(height: 16),
-                    if (roomType == RoomType.statusSendView)
+                    if (roomType == ViewType.statusSendView)
                       Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: joinmember!),
-                    if (roomType == RoomType.otherView)
+                    if (roomType == ViewType.otherView)
                       const SizedBox(height: 12),
-                    if (roomType == RoomType.otherView)
+                    if (roomType == ViewType.otherView)
                       Row(
                         children: [
                           Text('인원수',
@@ -130,7 +130,7 @@ class RoomWidget extends StatelessWidget {
                                       textAlign: TextAlign.center),
                                 ))
                             : SizedBox.shrink(),
-                        if (roomType == RoomType.otherView)
+                        if (roomType == ViewType.otherView)
                           StateManagementWidget(
                               state: room.type!
                                   ? StateManagement.roomActivated

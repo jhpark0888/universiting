@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
-import 'package:universiting/controllers/create_room_controller.dart';
+import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/widgets/check_number_of_people_widget.dart';
 import 'package:universiting/widgets/friend_to_go_with_widget.dart';
 import 'package:universiting/widgets/room_manager_widget.dart';
@@ -56,9 +56,9 @@ class CheckPeopleController extends GetxController {
       ));
     }
     if (type == AddFriends.myRoom) {
-    if (CreateRoomController.to.seletedMembers.length > text) {
-      CreateRoomController.to.seletedMembers.removeLast();
-      CreateRoomController.to.members.removeLast();
+    if (RoomInfoController.to.seletedMembers.length > text) {
+      RoomInfoController.to.seletedMembers.removeLast();
+      RoomInfoController.to.members.removeLast();
     }
     }
   }

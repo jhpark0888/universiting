@@ -11,7 +11,7 @@ class RoomPersonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileImageWidget( host: host,type: RoomType.otherView,),
+        ProfileImageWidget( host: host,type: ViewType.otherView,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

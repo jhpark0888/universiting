@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/my_room_controller.dart';
-import 'package:universiting/views/create_room_view.dart';
+import 'package:universiting/views/room_info_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -39,7 +39,7 @@ class MyRoomView extends StatelessWidget {
               ),
               child: GestureDetector(
                   onTap: () {
-                    Get.to(() => CreateRoomView());
+                    Get.to(() => RoomInfoView());
                   },
                   child: Container(
                     decoration: BoxDecoration(

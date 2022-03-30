@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
-import 'package:universiting/controllers/create_room_controller.dart';
+import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
@@ -34,13 +34,13 @@ class SelectFriendView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '같이 갈 친구들 (${type == AddFriends.myRoom ? CreateRoomController.to.members.length + 1 : ParticipateController.to.members.length + 1} / ${text.toString()})',
+                '같이 갈 친구들 (${type == AddFriends.myRoom ? RoomInfoController.to.members.length + 1 : ParticipateController.to.members.length + 1} / ${text.toString()})',
                 style: kSubtitleStyle2,
               ),
               const SizedBox(height: 12),
               if (type == AddFriends.myRoom)
                 Row(
-                  children: CreateRoomController.to.seletedMembers,
+                  children: RoomInfoController.to.seletedMembers,
                 ),
               if (type == AddFriends.otherRoom)
                 Row(
@@ -55,19 +55,19 @@ class SelectFriendView extends StatelessWidget {
               GestureDetector(
                   onTap: () {
                     if (type == AddFriends.myRoom) {
-                      if (!CreateRoomController.to.members.contains(
+                      if (!RoomInfoController.to.members.contains(
                           selectFriendController.seletedMember.value.userId)) {
-                        if (text > CreateRoomController.to.members.length + 1) {
-                          CreateRoomController.to.members.add(
+                        if (text > RoomInfoController.to.members.length + 1) {
+                          RoomInfoController.to.members.add(
                               selectFriendController
                                   .seletedMember.value.userId);
-                          CreateRoomController.to.seletedMembers.add(
+                          RoomInfoController.to.seletedMembers.add(
                               SelectedNameWidget(
                                   name: selectFriendController
                                       .seletedMember.value.nickname));
                           print(selectFriendController
                               .seletedMember.value.nickname);
-                          print(CreateRoomController.to.members);
+                          print(RoomInfoController.to.members);
                         } else {
                           showCustomDialog('인원이 초과되었어요', 1200);
                         }

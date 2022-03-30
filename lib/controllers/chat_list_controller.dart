@@ -27,7 +27,7 @@ class ChatListController extends GetxController{
     List<ChatRoomWidget> list = <ChatRoomWidget>[];
     for(ChatRoom chatRoom in chatList){
       for(Host host in chatRoom.group.memberImages){
-        chatImageList.add(ProfileImageWidget(type: RoomType.otherView, host: host, width: 28,height: 28));
+        chatImageList.add(ProfileImageWidget(type: ViewType.otherView, host: host, width: 28,height: 28));
       }
       list.add(ChatRoomWidget(chatRoom: chatRoom, imageList: chatImageList.value));
     }

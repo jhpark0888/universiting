@@ -35,7 +35,7 @@ class StatusController extends GetxController {
     allReceiveList.clear();
     for (var alarmreceive in receiveList) {
             receiveHostprofileImage.value =
-          getHostsList(alarmreceive.content, RoomType.statusReceiveView);
+          getHostsList(alarmreceive.content, ViewType.statusReceiveView);
       allReceiveList.add(AlarmReceiveWidget(alarmreceive: alarmreceive, host: receiveHostprofileImage.toList()));
 
     }
@@ -45,9 +45,9 @@ class StatusController extends GetxController {
     allSendList.clear();
     for (var alarmSend in sendList) {
       sendHostprofileImage.value =
-          getHostsList(alarmSend.room, RoomType.statusReceiveView);
+          getHostsList(alarmSend.room, ViewType.statusReceiveView);
       sendJoinMemberprofileImage.value =
-          getJoinMemberList(alarmSend.joinmember, RoomType.statusSendView);
+          getJoinMemberList(alarmSend.joinmember, ViewType.statusSendView);
       allSendList.add(AlarmSendWidget(
         alarmSend: alarmSend,
         joinMember: sendJoinMemberprofileImage,
@@ -70,7 +70,7 @@ class StatusController extends GetxController {
     print('리프레시 완료');
   }
 
-  List<ProfileImageWidget> getHostsList(Room room, RoomType type) {
+  List<ProfileImageWidget> getHostsList(Room room, ViewType type) {
     List<ProfileImageWidget> imageList = <ProfileImageWidget>[];
     if (room.hosts != null) {
       switch (room.totalMember) {
@@ -91,7 +91,7 @@ class StatusController extends GetxController {
     return imageList;
   }
 
-  List<ProfileImageWidget> getJoinMemberList(List<Host> hosts, RoomType type) {
+  List<ProfileImageWidget> getJoinMemberList(List<Host> hosts, ViewType type) {
     List<ProfileImageWidget> imageList = <ProfileImageWidget>[];
     for (Host host in hosts) {
       imageList.add(ProfileImageWidget(

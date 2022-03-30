@@ -8,8 +8,8 @@ import 'package:universiting/widgets/friend_to_go_with_widget.dart';
 
 import '../widgets/participate_selected_name_widget.dart';
 
-class CreateRoomController extends GetxController {
-  static CreateRoomController get to => Get.find();
+class RoomInfoController extends GetxController {
+  static RoomInfoController get to => Get.find();
   TextEditingController roomTitleController = TextEditingController();
   TextEditingController introController = TextEditingController();
   final checkNumberPeopleList = <CheckNumberOfPeopleWidget>[].obs;

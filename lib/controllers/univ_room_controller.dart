@@ -13,7 +13,7 @@ class UnivRoomController extends GetxController{
   @override
   void onInit() async{
     await getUnivRoom();
-    room.value = univRoom.map((element) => RoomWidget(room: element, hosts: getHostsList(element),isChief: false,roomType: RoomType.otherView,)).toList();
+    room.value = univRoom.map((element) => RoomWidget(room: element, hosts: getHostsList(element),isChief: false,roomType: ViewType.otherView,)).toList();
     print(room.length);
     super.onInit();
   }
@@ -33,7 +33,7 @@ class UnivRoomController extends GetxController{
     }
     profileImage.clear();
     for(int i = 0; i < room.hosts!.length;i ++){
-      profileImage.add(ProfileImageWidget(host: room.hosts![i], type: RoomType.otherView,));
+      profileImage.add(ProfileImageWidget(host: room.hosts![i], type: ViewType.otherView,));
     }
     return profileImage.toList();
   }

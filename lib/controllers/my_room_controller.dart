@@ -13,8 +13,8 @@ class MyRoomController extends GetxController {
   static MyRoomController get to => Get.find();
   RefreshController refreshController = RefreshController();
   // final myRoomList = MyRoom(chiefList: [], memberList: []).obs;
-  final chiefList = [].obs;
-  final memberList = [].obs;
+  final chiefList = <Room>[].obs;
+  final memberList = <Room>[].obs;
   final room = <RoomWidget>[].obs;
   final profileImage = <ProfileImageWidget>[].obs;
   @override
@@ -41,10 +41,10 @@ class MyRoomController extends GetxController {
   void getRoom() {
     room.clear();
     for(Room i in chiefList){
-      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: true, roomType: RoomType.otherView,));
+      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: true, roomType: ViewType.otherView,));
     }
     for(Room i in memberList){
-      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: false,roomType: RoomType.otherView));
+      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: false,roomType: ViewType.otherView));
     }
   }
 
@@ -58,7 +58,7 @@ class MyRoomController extends GetxController {
     }
     profileImage.clear();
     for(int i = 0; i < room.hosts!.length;i ++){
-      profileImage.add(ProfileImageWidget(host: room.hosts![i],type: RoomType.otherView,));
+      profileImage.add(ProfileImageWidget(host: room.hosts![i],type: ViewType.otherView,));
     }
     return profileImage.toList();
   }

@@ -52,21 +52,21 @@ class NotificationController extends GetxController {
     super.onInit();
   }
 
-  void backgroundMessage(RemoteMessage message)async{
+  void backgroundMessage(RemoteMessage message) async {
     print(message.data['type']);
-    if(message.data['type'] == 'msg'){
+    if (message.data['type'] == 'msg') {
       Get.to(() => MessageDetailScreen(groupId: message.data['group_id']));
-    }else if(message.data['type'].contains('receive/')){
-       AppController.to.currentIndex.value = 2;
-       StatusRoomTabController.to.currentIndex.value = 0;
-       if(AppController.to.stackPage > 0){
-         AppController.to.getbacks();
-       }
-    }else if(message.data['type'] == 'okay_host'){
+    } else if (message.data['type'].contains('receive/')) {
       AppController.to.currentIndex.value = 2;
-      if(AppController.to.stackPage > 0){
-         AppController.to.getbacks();
-       }
+      StatusRoomTabController.to.currentIndex.value = 0;
+      if (AppController.to.stackPage > 0) {
+        AppController.to.getbacks();
+      }
+    } else if (message.data['type'] == 'okay_host') {
+      AppController.to.currentIndex.value = 2;
+      if (AppController.to.stackPage > 0) {
+        AppController.to.getbacks();
+      }
     }
   }
 
@@ -121,13 +121,19 @@ class NotificationController extends GetxController {
           if (ChatListController.to.isInDetailMessage.value == true) {
             MessageDetailController.to.messageList.add(ChatWidget(
                 message: Message(
+                  id: MessageDetailController
+                          .to.messageDetail.value.message.last.id +
+                      1,
+                  message: message.notification!.body!,
+                  date: DateTime.now(),
+                ),
+                userType: '1',
+                profile: MessageDetailController.to.getFindProfile(Message(
                     id: MessageDetailController
                             .to.messageDetail.value.message.last.id +
                         1,
                     message: message.notification!.body!,
-                    date: DateTime.now(),
-                    profile: ProfileController.to.profile.value),
-                userType: '1'));
+                    date: DateTime.now()))[0]));
 
             print(message.data);
           }
