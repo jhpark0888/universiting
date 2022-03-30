@@ -1,12 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:universiting/app.dart';
 import 'package:universiting/constant.dart';
-import 'package:universiting/main.dart';
+import 'package:universiting/controllers/app_controller.dart';
+import 'package:universiting/controllers/chat_list_controller.dart';
+import 'package:universiting/controllers/message_detail_controller.dart';
+import 'package:universiting/controllers/profile_controller.dart';
+import 'package:universiting/controllers/status_room_tab_controller.dart';
 import 'package:universiting/models/notifications_model.dart';
+import 'package:universiting/views/message_detail_screen.dart';
+import 'package:universiting/views/status_view.dart';
+import 'package:universiting/views/status_view_received_view.dart';
+import 'package:universiting/widgets/chat_widget.dart';
+import 'package:universiting/models/message_model.dart';
 
 class NotificationController extends GetxController {
   static NotificationController get to => Get.find();
@@ -37,22 +47,27 @@ class NotificationController extends GetxController {
     // });
     registerNotification();
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Notifications notification = Notifications(
-          title: message.notification?.title,
-          body: message.notification?.body,
-          dataTitle: message.data['title'],
-          dataBody: message.data['body']);
-      a.value++;
-      notificationInfo.value = notification;
-      print('바디: ${notificationInfo.value.body}');
-      print('title : ${notificationInfo.value.title}');
-
-      print('dataTitle : ${notificationInfo.value.dataTitle}');
-      print('dataBody : ${notificationInfo.value.dataBody}');
-    });
+    FirebaseMessaging.onMessageOpenedApp.listen(backgroundMessage);
 
     super.onInit();
+  }
+
+  void backgroundMessage(RemoteMessage message)async{
+    print(message.data['type']);
+    if(message.data['type'] == 'msg'){
+      Get.to(() => MessageDetailScreen(groupId: message.data['group_id']));
+    }else if(message.data['type'].contains('receive/')){
+       AppController.to.currentIndex.value = 2;
+       StatusRoomTabController.to.currentIndex.value = 0;
+       if(AppController.to.stackPage > 0){
+         AppController.to.getbacks();
+       }
+    }else if(message.data['type'] == 'okay_host'){
+      AppController.to.currentIndex.value = 2;
+      if(AppController.to.stackPage > 0){
+         AppController.to.getbacks();
+       }
+    }
   }
 
   Future<String?> getToken() async {
@@ -87,7 +102,6 @@ class NotificationController extends GetxController {
       print('user granted the permission');
 
       //main message
-
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         Notifications notification = Notifications(
             title: message.notification!.title,
@@ -98,8 +112,26 @@ class NotificationController extends GetxController {
         notificationInfo.value = notification;
         showCustomSnacbar(
             message.notification!.title, message.notification!.body);
-            print(message.notification!.title);
-            print(message.notification!.body);
+        print('메세지 받음');
+        print(message.notification!.title);
+        print(message.notification!.body);
+        print(message.data['type']);
+        if (message.data['type'] == 'msg') {
+          print(ChatListController.to.isInDetailMessage);
+          if (ChatListController.to.isInDetailMessage.value == true) {
+            MessageDetailController.to.messageList.add(ChatWidget(
+                message: Message(
+                    id: MessageDetailController
+                            .to.messageDetail.value.message.last.id +
+                        1,
+                    message: message.notification!.body!,
+                    date: DateTime.now(),
+                    profile: ProfileController.to.profile.value),
+                userType: '1'));
+
+            print(message.data);
+          }
+        }
       });
     } else {
       print('permission declined by user');
@@ -107,19 +139,16 @@ class NotificationController extends GetxController {
   }
 
   void showCustomSnacbar(String? title, String? body) {
-    Get.snackbar(
-      title!,
-      body!,
-      titleText: Text(
-        title,
-        style: kActiveButtonStyle,
-      ),
-      messageText: Text(
-        body,
-        style: kActiveButtonStyle,
-      ),
-      backgroundColor: kMainWhite
-    );
+    Get.snackbar(title!, body!,
+        titleText: Text(
+          title,
+          style: kActiveButtonStyle,
+        ),
+        messageText: Text(
+          body,
+          style: kActiveButtonStyle,
+        ),
+        backgroundColor: kMainWhite);
   }
 }
 

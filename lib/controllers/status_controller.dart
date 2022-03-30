@@ -34,9 +34,10 @@ class StatusController extends GetxController {
   void makeAllReceiveList() {
     allReceiveList.clear();
     for (var alarmreceive in receiveList) {
-      allReceiveList.add(AlarmReceiveWidget(alarmreceive: alarmreceive));
-      receiveHostprofileImage.value =
+            receiveHostprofileImage.value =
           getHostsList(alarmreceive.content, RoomType.statusReceiveView);
+      allReceiveList.add(AlarmReceiveWidget(alarmreceive: alarmreceive, host: receiveHostprofileImage.toList()));
+
     }
   }
 
@@ -50,6 +51,7 @@ class StatusController extends GetxController {
       allSendList.add(AlarmSendWidget(
         alarmSend: alarmSend,
         joinMember: sendJoinMemberprofileImage,
+        host: sendHostprofileImage.toList(),
       ));
     }
   }

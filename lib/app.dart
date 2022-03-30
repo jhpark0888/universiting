@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
+import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/views/chat_list_view.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/profile_view.dart';

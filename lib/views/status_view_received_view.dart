@@ -43,7 +43,7 @@ class StatusViewReceivedView extends StatelessWidget {
                         ),
                         const SizedBox(height: 30),      
                       ],
-                    ) : Column(children: statusController.allReceiveList.toList()),
+                    ) : Column(children: statusController.allReceiveList.reversed.toList()),
                   )
                 ],
               ),

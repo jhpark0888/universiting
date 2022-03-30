@@ -33,7 +33,8 @@ class MapController extends GetxController {
     clickedId.refresh();
     clickedUniv.refresh();
     isClick.refresh();
-    print('실행됐어요');
+    print('누름');
+    print(HomeController.to.isGuest.value);
     if(HomeController.to.isGuest.value == false){
     try {
       

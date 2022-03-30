@@ -22,7 +22,7 @@ Future<List<ChatRoom>> getChatList() async {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
     return [ChatRoom(group: Group(countMember: 0, id: 0, title: '', memberImages : <Host>[]), message: Message(date: DateTime.now(), id: 0, message: ''))];
   } else {
-    try {
+   
       var response = await http.get(url, headers: headers);
       print(response.statusCode);
       String responsebody = utf8.decode(response.bodyBytes);
@@ -33,10 +33,7 @@ Future<List<ChatRoom>> getChatList() async {
         print(response.statusCode);
         return [ChatRoom(group: Group(countMember: 0, id: 0, title: '', memberImages : <Host>[]), message: Message(date: DateTime.now(), id: 0, message: ''))];
       }
-    } catch (e) {
-      showCustomDialog('서버 점검중입니다.', 1200);
-      return [ChatRoom(group: Group(countMember: 0, id: 0, title: '', memberImages : <Host>[]), message: Message(date: DateTime.now(), id: 0, message: ''))];
-    }
+    
     
   }
 }

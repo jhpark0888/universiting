@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 
 import '../Api/profile_api.dart';
@@ -17,8 +18,16 @@ class OtherProfileController extends GetxController {
 
   @override
   void onInit() async {
-    print(id);
+    AppController.to.addPage();
+    print(AppController.to.stackPage);
     otherProfile.value = await getOtherProfile(id);
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    AppController.to.deletePage();
+    print(AppController.to.stackPage);
+    super.onClose();
   }
 }

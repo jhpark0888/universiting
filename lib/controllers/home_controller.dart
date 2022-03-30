@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 // import 'package:universiting/api/main_api.dart';
 import 'package:universiting/constant.dart';
@@ -17,7 +18,7 @@ import 'package:universiting/views/home_view.dart';
 import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
-  static HomeController get to => Get.find(tag: '첫 화면');
+  static HomeController get to => Get.find(tag: '다음 화면');
   MapController mapController = Get.put(MapController());
   NotificationController notificationController =
       Get.put(NotificationController());
@@ -32,9 +33,8 @@ class HomeController extends GetxController {
   // late final OverlayImage image;
   @override
   void onInit() async {
-    // OverlayImage.fromAssetImage(
-    //         assetName: 'assets/icons/marker_unselected.png', size: Size(36, 45))
-    //     .then((value) => image = value);
+    String? temptoken = await const FlutterSecureStorage().read(key: 'token');
+    if(temptoken != null){isGuest.value = false;}
     await getOverlyImage();
     mainuniv.value = (await getMainUniv());
     createdMarker();

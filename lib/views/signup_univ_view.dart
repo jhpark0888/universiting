@@ -32,8 +32,8 @@ class SignupUnivView extends StatelessWidget {
         body: Stack(children: [
           Padding(
             padding: const EdgeInsets.only(
-              right: 20,
-              left: 20,
+              right: 30,
+              left: 30,
               top: 64,
             ),
             child: Column(
@@ -45,24 +45,23 @@ class SignupUnivView extends StatelessWidget {
                   child: SlideTransition(
                     position: _animationController.offsetValue,
                     child: Text(
-                      '여긴 대학생들을 위한 공간이에요.',
+                      '유니버시팅은 대학생들을 위한 공간이에요.',
                       style: kHeaderStyle1,
                     ),
                   ),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 10),
                 FadeTransition(
                   opacity: _animationController.loadValue,
                   child: SlideTransition(
                       position: _animationController.secondOffsetValue,
-                      child:
-                          Text('현재 다니고 계시는 학교가 어디신가요?', style: kHeaderStyle1)),
+                      child: Text('현재 재학중인 대학이 어디신가요?', style: kHeaderStyle1)),
                 ),
                 Obx(
                   () => AnimatedContainer(
                     duration: Duration(milliseconds: 100),
                     curve: Curves.easeInOut,
-                    height: _keyboardController.isVisible.value ? 100 : 140,
+                    height: _keyboardController.isVisible.value ? 70 : 110,
                   ),
                 ),
                 Row(
@@ -74,7 +73,7 @@ class SignupUnivView extends StatelessWidget {
                           position: _animationController.secondOffsetValue,
                           child: EmptyBackTextfieldWidget(
                             controller: signupController.universityController,
-                            hinttext: '학교 이름',
+                            hinttext: '대학교 이름',
                           ),
                         ),
                       ),
@@ -101,12 +100,23 @@ class SignupUnivView extends StatelessWidget {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                          vertical: 16,
+                                          vertical: 20,
                                         ),
-                                        child: Text(
-                                          element,
-                                          style: kBodyStyle2,
-                                        ),
+                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
+                                          Text(
+                                            element,
+                                            style: kBodyStyle2,
+                                          ),
+                                          Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                                color:
+                                                    kMainBlack.withOpacity(0.6),
+                                                borderRadius:
+                                                    BorderRadius.circular(30)),
+                                          )
+                                        ]),
                                       ),
                                       const Divider(
                                         color: Color(0xffe7e7e7),
@@ -125,7 +135,7 @@ class SignupUnivView extends StatelessWidget {
               duration: Duration(milliseconds: 400),
               curve: Curves.easeIn,
               bottom: _keyboardController.isVisible.value ? 20 : 60,
-              right: 20,
+              left: 20,
               child: FadeTransition(
                 opacity: _animationController.loadValue,
                 child: CustomButtonWidget(
@@ -139,10 +149,10 @@ class SignupUnivView extends StatelessWidget {
                       Get.to(() => SignupNameView(),
                           transition: Transition.noTransition);
                     } else {
-                      showCustomDialog('다니고 계시는 학교를 선택해주세요', 1200);
+                      showCustomDialog('재학중인 대학을 선택해주세요', 1200);
                     }
                   },
-                  buttonState: ButtonState.primary,
+                  buttonState: ButtonState.enabled,
                   buttonTitle: '다음',
                 ),
               ),

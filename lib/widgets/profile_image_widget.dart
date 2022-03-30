@@ -35,14 +35,14 @@ class ProfileImageWidget extends StatelessWidget {
                       ClipOval(
                         child: Image.network(
                           serverUrl + host!.profileImage,
-                          width: 48,
-                          height: 48,
+                          width: width?? 48,
+                          height:width?? 48,
                           fit: BoxFit.cover,
                         ),
                       ),
                       //todo: 유저 상태
                       Positioned(
-                          top: 36,
+                          top:  36,
                           left: 36,
                           child: Container(
                             decoration: BoxDecoration(
@@ -55,8 +55,8 @@ class ProfileImageWidget extends StatelessWidget {
                   : ClipOval(
                       child: SvgPicture.asset(
                         'assets/illustrations/default_profile.svg',
-                        height: 48,
-                        width: 48,
+                        height: width?? 48,
+                        width: width?? 48,
                         fit: BoxFit.cover,
                       ),
                     )
@@ -72,8 +72,8 @@ class ProfileImageWidget extends StatelessWidget {
                   ClipOval(
                       child: SvgPicture.asset(
                         'assets/illustrations/default_profile.svg',
-                        height: 80,
-                        width: 80,
+                        height: width??80,
+                        width: width??80,
                         fit: BoxFit.cover,
                       ),
                     )
@@ -81,16 +81,16 @@ class ProfileImageWidget extends StatelessWidget {
                       ? ClipOval(
                           child: Image.network(
                             serverUrl + profile!.profileImage,
-                            height: 80,
-                            width: 80,
+                            height: width?? 80,
+                            width:width?? 80,
                             fit: BoxFit.cover,
                           ),
                         )
                       : ClipOval(
                           child: SvgPicture.asset(
                             'assets/illustrations/default_profile.svg',
-                            height: 80,
-                            width: 80,
+                            height: width?? 80,
+                            width: width?? 80,
                             fit: BoxFit.cover,
                           ),
                         ),

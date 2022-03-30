@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/widgets/check_number_of_people_widget.dart';
 import 'package:universiting/widgets/friend_to_go_with_widget.dart';
@@ -17,6 +18,8 @@ class CreateRoomController extends GetxController {
   final member_num = 0.obs;
   @override
   void onInit() {
+    AppController.to.addPage();
+    print(AppController.to.stackPage);
     super.onInit();
     for (int i = 2; i < 6; i++) {
       checkNumberPeopleList.add(CheckNumberOfPeopleWidget(text: i));
@@ -24,6 +27,8 @@ class CreateRoomController extends GetxController {
   }
   @override
   void onClose() {
+    AppController.to.deletePage();
+    print(AppController.to.stackPage);
     members.clear();
     print('삭제되었습니다.');
     super.onClose();

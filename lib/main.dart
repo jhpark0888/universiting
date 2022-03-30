@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:kakao_flutter_sdk/all.dart';
+import 'package:universiting/app.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/views/first_view.dart';
@@ -27,7 +28,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+        options: DefaultFirebaseOptions.currentPlatform, name: 'universiting');
 
     // print(Firebase.apps.length);
   } else {
@@ -45,10 +46,17 @@ void main() async {
   } catch (e) {
     print(e);
   }
-  runApp(MyApp());
+  String? temptoken = await const FlutterSecureStorage().read(key: 'token');
+  String? lat = await const FlutterSecureStorage().read(key: 'lat');
+  String? lng = await const FlutterSecureStorage().read(key: 'lng');
+  runApp(MyApp(token: temptoken, lat: lat, lng: lng,));
 }
 
 class MyApp extends StatefulWidget {
+  final String? token;
+  final String? lat;
+  final String? lng;
+  MyApp({required this.token, required this.lat, required this.lng});
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -121,12 +129,12 @@ class _MyAppState extends State<MyApp> {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
       ),
-      home: HomeView(
+      home: widget.token == null ? HomeView(
         login: false,
         tag: '첫 화면',
         lat: 37.563600,
         lng: 126.962370,
-      ),
+      ) : App(lat: double.parse(widget.lat!), lng: double.parse(widget.lng!)),
     );
   }
 }

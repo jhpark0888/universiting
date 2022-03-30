@@ -17,7 +17,7 @@ import '../widgets/empty_back_textfield_widget.dart';
 class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
   LoginController loginController = Get.put(LoginController());
-
+  HomeController homeController = Get.find(tag: '첫 화면');
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -47,7 +47,7 @@ class LoginView extends StatelessWidget {
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
-                      HomeController.to.islogin.value = false;
+                      homeController.islogin.value = false;
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8),

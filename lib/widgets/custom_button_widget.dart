@@ -34,7 +34,7 @@ class CustomButtonWidget extends StatelessWidget {
             color: buttonColor(buttonState),
             borderRadius: BorderRadius.circular(16),
             border:
-                Border.all(width: 1.6, color: buttonBorderColor(buttonState))),
+                Border.all(width: buttonState != ButtonState.enabled ? 1.6 : 0, color: buttonBorderColor(buttonState))),
         child: Text(
           buttonTitle,
           style: buttonTextStyle(buttonState),
@@ -55,7 +55,7 @@ class CustomButtonWidget extends StatelessWidget {
       case ButtonState.general:
         return kBackgroundWhite;
       case ButtonState.enabled:
-        return kLightGrey;
+        return kMainBlack.withOpacity(0.4);
       default:
         kMainBlack;
     }
@@ -74,7 +74,7 @@ class CustomButtonWidget extends StatelessWidget {
         return kActiveButtonStyle;
       case ButtonState.enabled:
         return kInActiveButtonStyle.copyWith(
-            color: kMainBlack.withOpacity(0.38));
+            color: kMainWhite);
       default:
         kActiveButtonStyle;
     }
@@ -92,7 +92,7 @@ class CustomButtonWidget extends StatelessWidget {
       case ButtonState.general:
         return kMainBlack;
       case ButtonState.enabled:
-        return kLightGrey;
+        return kMainBlack.withOpacity(0.4);
       default:
         kMainBlack;
     }

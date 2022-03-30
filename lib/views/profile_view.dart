@@ -7,9 +7,11 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:universiting/api/profile_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/views/profile_upadte.dart';
+import 'package:universiting/views/setting_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
 import 'package:universiting/widgets/custom_button_widget.dart';
@@ -36,7 +38,7 @@ class ProfileView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {Get.to(() => SettingView());},
               icon: SvgPicture.asset('assets/icons/setting.svg'),
             ),
           ),
@@ -132,6 +134,7 @@ class ProfileView extends StatelessWidget {
                       buttonTitle: '프로필 수정하기',
                       buttonState: ButtonState.secondary,
                       onTap: () {
+                        AppController.to.addPage();
                         Get.to(() => ProfileUpdate());
                       },
                     ),

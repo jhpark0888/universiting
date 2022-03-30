@@ -79,14 +79,11 @@ void showCustomDialog(String title, int duration) {
       elevation: 0,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(8.0),
+          Radius.circular(16.0),
         ),
       ),
       contentPadding: EdgeInsets.fromLTRB(
-        Get.width / 15,
-        Get.width / 30,
-        Get.width / 15,
-        Get.width / 30,
+        20,12,20,12
       ),
       backgroundColor: Colors.white,
       content: Text(

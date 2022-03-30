@@ -36,7 +36,7 @@ class  StatusViewSendView extends StatelessWidget {
                               style: kSubtitleStyle2.copyWith(
                                   color: kMainBlack.withOpacity(0.38)),
                               textAlign: TextAlign.center,
-                            )] : StatusController.to.allSendList,
+                            )] : StatusController.to.allSendList.reversed.toList(),
                           ) 
                         )
                       ],

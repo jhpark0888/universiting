@@ -27,10 +27,11 @@ class RoomWidget extends StatelessWidget {
         GestureDetector(
           onTap: () {
             if (roomType != RoomType.statusReceiveView) {
+
               Get.to(() => RoomDetailView(
                     roomid: room.id.toString(),
                   ));
-            }
+            }else{print(hosts);}
           },
           child: Container(
             decoration: BoxDecoration(
@@ -63,7 +64,7 @@ class RoomWidget extends StatelessWidget {
                           Text(room.university!)
                         ],
                       ),
-
+    
                     if (roomType != RoomType.otherView)
                       const SizedBox(height: 12),
                     Row(

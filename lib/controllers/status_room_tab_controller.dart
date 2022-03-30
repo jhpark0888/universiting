@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class StatusRoomTabController extends GetxController with GetSingleTickerProviderStateMixin{
+  static StatusRoomTabController get to => Get.find();
   late TabController tapcontroller;
   RxInt currentIndex = 0.obs;
   @override 
