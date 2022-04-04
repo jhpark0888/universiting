@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/profile_controller.dart';
 
 class RoomManagerWithWidget extends StatelessWidget {
   RoomManagerWithWidget({Key? key}) : super(key: key);
@@ -10,28 +13,35 @@ class RoomManagerWithWidget extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Container(
-              width: Get.width / 7,
-              height: Get.width / 7,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: kMainBlack.withOpacity(0.6)),
-            ),
-            Positioned.fill(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: Get.width / 10,
+            ClipOval(
+                  child: ProfileController.to.profile.value.profileImage != ''?
+                  CachedNetworkImage(
+                                imageUrl : ProfileController.to.profile.value.profileImage,
+                                width:  48,
+                                height:  48,
+                                fit: BoxFit.cover,
+                              ): SvgPicture.asset(
+                                'assets/illustrations/default_profile.svg',
+                                height: 48,
+                                width: 48,
+                                fit: BoxFit.cover,
+                              ))
+            ,
+            // Positioned.fill(
+            //   child: Align(
+            //       alignment: Alignment.bottomCenter,
+            //       child: Container(
+            //         width: Get.width / 10,
             
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: kMainBlack),
-                    child: Text(
-                      '방장',
-                      style: TextStyle(fontSize: 10, color: kMainWhite),textAlign: TextAlign.center,
-                    ),
-                  )),
-            )
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(10),
+            //             color: kMainBlack),
+            //         child: Text(
+            //           '방장',
+            //           style: TextStyle(fontSize: 10, color: kMainWhite),textAlign: TextAlign.center,
+            //         ),
+            //       )),
+            // )
           ],
         ),
         SizedBox(width: 8)

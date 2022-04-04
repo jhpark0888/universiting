@@ -42,7 +42,7 @@ class OtherProfileView extends StatelessWidget {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             ProfileImageWidget(
-              type: RoomType.otherView,
+              type: ViewType.otherView,
               profile: otherProfileController.otherProfile.value,
             ),
             const SizedBox(height: 12),

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:universiting/api/status_api.dart';
 import 'package:universiting/app.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/chat_list_controller.dart';
 import 'package:universiting/controllers/message_detail_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
+import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
 import 'package:universiting/models/notifications_model.dart';
 import 'package:universiting/views/message_detail_screen.dart';
@@ -52,21 +54,21 @@ class NotificationController extends GetxController {
     super.onInit();
   }
 
-  void backgroundMessage(RemoteMessage message)async{
+  void backgroundMessage(RemoteMessage message) async {
     print(message.data['type']);
-    if(message.data['type'] == 'msg'){
+    if (message.data['type'] == 'msg') {
       Get.to(() => MessageDetailScreen(groupId: message.data['group_id']));
-    }else if(message.data['type'].contains('receive/')){
-       AppController.to.currentIndex.value = 2;
-       StatusRoomTabController.to.currentIndex.value = 0;
-       if(AppController.to.stackPage > 0){
-         AppController.to.getbacks();
-       }
-    }else if(message.data['type'] == 'okay_host'){
+    } else if (message.data['type'].contains('receive/')) {
       AppController.to.currentIndex.value = 2;
-      if(AppController.to.stackPage > 0){
-         AppController.to.getbacks();
-       }
+      StatusRoomTabController.to.currentIndex.value = 0;
+      if (AppController.to.stackPage > 0) {
+        AppController.to.getbacks();
+      }
+    } else if (message.data['type'] == 'okay_host') {
+      AppController.to.currentIndex.value = 2;
+      if (AppController.to.stackPage > 0) {
+        AppController.to.getbacks();
+      }
     }
   }
 
@@ -102,7 +104,7 @@ class NotificationController extends GetxController {
       print('user granted the permission');
 
       //main message
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) async{
         Notifications notification = Notifications(
             title: message.notification!.title,
             body: message.notification!.body,
@@ -116,21 +118,40 @@ class NotificationController extends GetxController {
         print(message.notification!.title);
         print(message.notification!.body);
         print(message.data['type']);
+        print(message.data['title']);
+        print(message.data['body']);
         if (message.data['type'] == 'msg') {
           print(ChatListController.to.isInDetailMessage);
           if (ChatListController.to.isInDetailMessage.value == true) {
             MessageDetailController.to.messageList.add(ChatWidget(
                 message: Message(
+                  id: MessageDetailController
+                          .to.messageDetail.value.message.last.id +
+                      1,
+                  message: message.notification!.body!,
+                  date: DateTime.now(),
+                ),
+                userType: MessageDetailController.to.messageDetail.value.userType,
+                profile: MessageDetailController.to.getFindProfile(Message(
                     id: MessageDetailController
                             .to.messageDetail.value.message.last.id +
                         1,
                     message: message.notification!.body!,
-                    date: DateTime.now(),
-                    profile: ProfileController.to.profile.value),
-                userType: '1'));
-
+                    sender: int.parse(message.data['user_id']),
+                    date: DateTime.now()))[0]));
+            print(MessageDetailController.to.getFindProfile(Message(
+                    id: MessageDetailController
+                            .to.messageDetail.value.message.last.id +
+                        1,
+                    message: message.notification!.body!,
+                    sender: int.parse(message.data['user_id']),
+                    date: DateTime.now())));
             print(message.data);
           }
+        }else if(message.data['type'] == 'receive/host_invite'){
+         StatusController.to.receiveList.value = await getReceiveStatus();
+         StatusController.to.makeAllReceiveList();
+         print('완료');
         }
       });
     } else {

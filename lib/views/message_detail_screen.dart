@@ -22,7 +22,7 @@ class MessageDetailScreen extends StatelessWidget {
         Get.put(MessageDetailController(groupId));
     return Scaffold(
       appBar: AppBarWidget(
-        title: groupId,
+        title: messageDetailController.messageDetail.value.groupTitle,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
         ],
@@ -84,9 +84,9 @@ class MessageDetailScreen extends StatelessWidget {
                                 1,
                             message:
                                 messageDetailController.chatController.text,
-                            date: DateTime.now(),
-                            profile: ProfileController.to.profile.value),
-                        userType: '0'));
+                            date: DateTime.now(),),
+                        userType: '1',
+                        profile: messageDetailController.profile.value,));
                     FocusScope.of(context).unfocus();
                     messageDetailController.chatController.clear();
                   });

@@ -18,7 +18,7 @@ Future<MessageDetail> getMessageDetail(String groupId, String last) async {
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
-    return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now())]);
+    return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: []);
   } else {
     try {
       var response = await http.get(url, headers: headers);
@@ -26,15 +26,16 @@ Future<MessageDetail> getMessageDetail(String groupId, String last) async {
       if (response.statusCode <= 200 && response.statusCode < 300) {
         String responsebody = utf8.decode(response.bodyBytes);
         print(response.statusCode);
+        print(responsebody);
         return MessageDetail.fromJson(jsonDecode(responsebody));
       } else {
         print(response.statusCode);
-        return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now())]);
+        return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: []);
       }
     } catch (e) {
       print(e);
       showCustomDialog('서버 점검중입니다.', 1200);
-      return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now())]);
+      return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: []);
     }
   }
 }

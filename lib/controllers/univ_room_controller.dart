@@ -6,14 +6,14 @@ import 'package:universiting/models/room_model.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 import 'package:universiting/widgets/room_widget.dart';
 class UnivRoomController extends GetxController{
-  UnivRoomController get to =>Get.find();
+  static UnivRoomController get to =>Get.find();
   RxList<Room> univRoom = <Room>[].obs;
   RxList<RoomWidget> room = <RoomWidget>[].obs;
   RxList<ProfileImageWidget> profileImage = <ProfileImageWidget>[].obs;
   @override
   void onInit() async{
     await getUnivRoom();
-    room.value = univRoom.map((element) => RoomWidget(room: element, hosts: getHostsList(element),isChief: false,roomType: RoomType.otherView,)).toList();
+    room.value = univRoom.map((element) => RoomWidget(room: element, hosts: getHostsList(element),isChief: false,roomType: ViewType.otherView,)).toList();
     print(room.length);
     super.onInit();
   }
@@ -33,7 +33,7 @@ class UnivRoomController extends GetxController{
     }
     profileImage.clear();
     for(int i = 0; i < room.hosts!.length;i ++){
-      profileImage.add(ProfileImageWidget(host: room.hosts![i], type: RoomType.otherView,));
+      profileImage.add(ProfileImageWidget(host: room.hosts![i], type: ViewType.otherView,));
     }
     return profileImage.toList();
   }

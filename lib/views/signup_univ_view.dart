@@ -150,7 +150,7 @@ class SignupUnivView extends StatelessWidget {
                     if (signupController.isUniv.value) {
                       signupController.selectuniv(
                           signupController.universityController.text);
-                      // print(signupController.uni.value.id);
+                      print(signupController.uni.value.email);
                       // await getDepartList(
                       //     signupController.uni.value.id);
                       Get.to(() => SignupNameView(),

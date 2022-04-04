@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'package:flutter_naver_map/flutter_naver_map.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -47,6 +45,7 @@ void main() async {
     print(e);
   }
   String? temptoken = await const FlutterSecureStorage().read(key: 'token');
+  print(temptoken);
   String? lat = await const FlutterSecureStorage().read(key: 'lat');
   String? lng = await const FlutterSecureStorage().read(key: 'lng');
   runApp(MyApp(

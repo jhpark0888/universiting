@@ -20,8 +20,7 @@ import 'package:http/http.dart' as http;
 class HomeController extends GetxController {
   static HomeController get to => Get.find(tag: '다음 화면');
   MapController mapController = Get.put(MapController());
-  NotificationController notificationController =
-      Get.put(NotificationController());
+  RxList<Widget> univRoom = [Container()].obs;
   RxList<MainUniv> mainuniv = <MainUniv>[].obs;
   String? univId;
   RxString markerId = ''.obs;
@@ -34,7 +33,9 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     String? temptoken = await const FlutterSecureStorage().read(key: 'token');
-    if(temptoken != null){isGuest.value = false;}
+    if (temptoken != null) {
+      isGuest.value = false;
+    }
     await getOverlyImage();
     mainuniv.value = (await getMainUniv());
     createdMarker();
@@ -76,6 +77,20 @@ class HomeController extends GetxController {
     image.add(await OverlayImage.fromAssetImage(
         assetName: 'assets/icons/marker_none_unselect.png',
         size: const Size(36, 45)));
+  }
+
+  Future<void> getDetailOverlyImage(String count) async {
+    if (int.parse(count) == 0) {
+      image.add(await OverlayImage.fromAssetImage(
+          assetName: 'assets/icons/marker_none.png', size: const Size(36, 45)));
+    } else if (int.parse(count) <= 9) {
+      image.add(await OverlayImage.fromAssetImage(
+          assetName: 'assets/icons/marker_$count.png',
+          size: const Size(36, 45)));
+    } else if (int.parse(count) > 9) {
+      image.add(await OverlayImage.fromAssetImage(
+          assetName: 'assets/icons/marker_9.png', size: const Size(36, 45)));
+    }
   }
 
   Future<List<MainUniv>> getMainUniv() async {

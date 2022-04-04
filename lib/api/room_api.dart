@@ -6,13 +6,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
-import 'package:universiting/controllers/create_room_controller.dart';
+import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
 import 'package:universiting/controllers/room_detail_controller.dart';
 import 'package:universiting/controllers/select_member_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/my_room_model.dart';
+import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/models/select_member_model.dart';
 import 'package:universiting/utils/global_variable.dart';
@@ -68,7 +69,7 @@ Future<void> SearchMember() async {
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode <= 200 && response.statusCode < 300) {
         selectMemberController.seletedMember.value =
-            SelectMember.fromJson(jsonDecode(responsebody));
+            Profile.fromJson(jsonDecode(responsebody));
       } else {
         print(response.statusCode);
       }
@@ -79,7 +80,7 @@ Future<void> SearchMember() async {
 }
 
 Future<void> makeRoom() async {
-  CreateRoomController createRoomController = Get.find();
+  RoomInfoController createRoomController = Get.find();
   CheckPeopleController checkPeopleController = Get.find();
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
@@ -142,7 +143,7 @@ Future<Room> getDetailRoom(String id) async {
   }
 }
 
-// room_api/joinmember
+
 
 Future<void> roomJoin(String room_id) async {
 
@@ -163,6 +164,34 @@ Future<void> roomJoin(String room_id) async {
   } else {
     var response =
         await http.post(url, headers: headers, body: body);
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      print(responsebody);
+      print(response.statusCode);
+
+    } else {
+      print(response.statusCode);
+    }
+  }
+}
+
+
+Future<void> deleteMyRoom(String id) async {
+
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/room_api/room');
+
+  var body = {'id' : id};
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    var response =
+        await http.delete(url, headers: headers, body : body);
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(responsebody);

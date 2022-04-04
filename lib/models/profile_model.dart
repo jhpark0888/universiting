@@ -7,6 +7,7 @@ class Profile {
   String? university;
   String? department;
   String introduction;
+  String? type;
   Profile(
       {required this.age,
      this.department,
@@ -15,6 +16,7 @@ class Profile {
       required this.nickname,
       required this.profileImage,
        this.university,
+       this.type,
       required this.userId});
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
@@ -25,5 +27,6 @@ class Profile {
       nickname: json['nickname'],
       profileImage: json['profile_image'] ?? '',
       university: json['university'].toString(),
+      type: json['type'],
       userId: json['user_id']);
 }

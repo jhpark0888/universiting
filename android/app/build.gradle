@@ -79,7 +79,7 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile 'com.android.support:multidex:1.0.3'
-    implementation 'com.naver.maps:map-sdk:3.14.0'
+    implementation 'com.naver.maps:map-sdk:3.14.1'
     implementation platform('com.google.firebase:firebase-bom:29.2.0')
     implementation 'com.google.firebase:firebase-analytics'
 }

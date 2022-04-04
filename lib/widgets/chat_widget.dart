@@ -3,25 +3,27 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/message_detail_controller.dart';
 import 'package:universiting/models/message_detail_model.dart';
 import 'package:universiting/models/message_model.dart';
+import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/widgets/background_textfield_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 
 class ChatWidget extends StatelessWidget {
-  ChatWidget({Key? key, required this.message, required this.userType})
+  ChatWidget({Key? key, required this.message, required this.userType, required this.profile})
       : super(key: key);
   Message message;
   String userType;
+  Profile profile;
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      message.type.toString() != userType
+      profile.type != userType
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                   ProfileImageWidget(
-                    type: RoomType.otherView,
-                    profile: message.profile,
+                    type: ViewType.otherView,
+                    profile: profile,
                     width: 48,
                   ),
                   const SizedBox(width: 8),
@@ -29,7 +31,7 @@ class ChatWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          '${message.profile!.nickname} / ${message.profile!.age} / ${message.profile!.gender}',
+                          '${profile.nickname} / ${profile.age} / ${profile.gender}',
                           style: kSubtitleStyle3),
                       const SizedBox(height: 4),
                       Row(
@@ -63,7 +65,7 @@ class ChatWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                      '${message.profile!.nickname} / ${message.profile!.age} / ${message.profile!.gender}',
+                      '${profile.nickname} / ${profile.age} / ${profile.gender}',
                       style: kSubtitleStyle3),
                   const SizedBox(height: 4),
                   Row(
@@ -89,8 +91,8 @@ class ChatWidget extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               ProfileImageWidget(
-                type: RoomType.otherView,
-                profile: message.profile,
+                type: ViewType.otherView,
+                profile: profile,
                 width: 48,
               ),
             ]),

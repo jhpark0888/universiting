@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,7 +39,9 @@ class ProfileView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: IconButton(
-              onPressed: () {Get.to(() => SettingView());},
+              onPressed: () {
+                Get.to(() => SettingView());
+              },
               icon: SvgPicture.asset('assets/icons/setting.svg'),
             ),
           ),
@@ -67,9 +70,9 @@ class ProfileView extends StatelessWidget {
                               width: 80,
                               fit: BoxFit.cover,
                             )
-                          : Image.network(
-                              serverUrl +
-                                  profileController.profile.value.profileImage,
+                          : CachedNetworkImage(
+                            imageUrl:
+                              profileController.profile.value.profileImage,
                               height: 80,
                               width: 80,
                               fit: BoxFit.cover,

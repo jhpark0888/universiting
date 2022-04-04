@@ -28,6 +28,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
       leading: leading ??
           IconButton(
               onPressed: () {
+                FocusScope.of(context).unfocus();
                 Get.back();
               },
               icon: SvgPicture.asset('assets/icons/back.svg')),

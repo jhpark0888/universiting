@@ -14,6 +14,8 @@ class Room {
   List<Host>? hosts;
   int? totalMember;
   String? gender;
+  int? isCreater;
+  int? isJoin;
   // int? isModify;
   bool? type;
 
@@ -28,6 +30,8 @@ class Room {
       this.avgAge,
       this.createrId,
       this.universityId,
+      this.isCreater,
+      this.isJoin,
       // this.isModify,
       this.introduction});
 
@@ -45,6 +49,8 @@ class Room {
       createrId: json['creater_id'],
       universityId: json['university_id'],
       introduction: json['introduction'],
+      isCreater: json['is_creater'],
+      isJoin : json['is_join']
       // isModify: json['is_modify']
       );
       

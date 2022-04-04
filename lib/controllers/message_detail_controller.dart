@@ -6,6 +6,7 @@ import 'package:universiting/api/message_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/chat_list_controller.dart';
+import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/chat_list_model.dart';
 import 'package:universiting/models/message_detail_model.dart';
 import 'package:universiting/models/message_model.dart';
@@ -17,6 +18,7 @@ class MessageDetailController extends GetxController {
   MessageDetailController(this.groupId);
   TextEditingController chatController = TextEditingController();
   Rx<ScrollController> scrollController = ScrollController().obs;
+  Rx<Profile> profile = ProfileController.to.profile;
   RxDouble maxHeight = 0.0.obs;
   String groupId;
   RxBool isSend = false.obs;
@@ -28,21 +30,26 @@ class MessageDetailController extends GetxController {
     ),
     const SizedBox(height: 24),
   ].obs;
-  final messageDetail = MessageDetail(userType: '0', message: []).obs;
-
+  final messageDetail = MessageDetail(userType: '0', message: [], groupTitle: '', memberProfile : []).obs;
+  final memberProfile = <Profile>[].obs;
   @override
   void onInit() async {
     AppController.to.addPage();
     print(AppController.to.stackPage);
     ChatListController.to.isInDetailMessage.value = true;
+    profile.value.type = '1';
     messageDetail.value =
         await getMessageDetail(groupId, '0');
+    memberProfile.value = messageDetail.value.memberProfile;
     messageList.addAll(messageDetail.value.message
         .map((e) => ChatWidget(
               message: e,
               userType: messageDetail.value.userType,
+              profile: getFindProfile(e)[0],
             ))
         .toList());
+        // print(messageDetail.value.message.map((e) => getFindProfile(e)).toList());
+        // print(memberProfile.where((profile) => messageDetail.value.message[0].sender == profile.userId).toList());
     scrollToBottom();
     super.onInit();
   }
@@ -63,5 +70,9 @@ class MessageDetailController extends GetxController {
         );
       }
     }
+  }
+
+  List<Profile> getFindProfile(Message message){
+    return memberProfile.where((profile) => message.sender == profile.userId).toList();
   }
 }

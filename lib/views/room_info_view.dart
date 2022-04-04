@@ -3,21 +3,23 @@ import 'package:get/get.dart';
 import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
-import 'package:universiting/controllers/create_room_controller.dart';
+import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
 import 'package:universiting/widgets/check_number_of_people_widget.dart';
+import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/friend_to_go_with_widget.dart';
 import 'package:universiting/widgets/room_manager_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
 
 import '../widgets/background_textfield_widget.dart';
 
-class CreateRoomView extends StatelessWidget {
-  CreateRoomView({Key? key}) : super(key: key);
-  CreateRoomController createRoomController = Get.put(CreateRoomController());
+class RoomInfoView extends StatelessWidget {
+  RoomInfoView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    RoomInfoController createRoomController =
+        Get.put(RoomInfoController());
     return Scaffold(
       appBar: AppBarWidget(title: '방 만들기'),
       body: Obx(
@@ -68,12 +70,14 @@ class CreateRoomView extends StatelessWidget {
                     height: Get.height / 8,
                   ),
                   const SizedBox(height: 24),
+
                   GestureDetector(
-                      onTap: () {
-                        makeRoom();
-                        Get.back();
-                      },
-                      child: PrimaryButton(text: '방 만들기')),
+                          onTap: () {
+                            makeRoom();
+                            Get.back();
+                          },
+                          child: PrimaryButton(text: '방 만들기')),
+                     
                   SizedBox(height: 12),
                   Text(
                     '만든 방은 내가 속한 학교의 방 리스트에 추가돼요',
