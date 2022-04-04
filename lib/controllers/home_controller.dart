@@ -35,6 +35,7 @@ class HomeController extends GetxController {
     String? temptoken = await const FlutterSecureStorage().read(key: 'token');
     if (temptoken != null) {
       isGuest.value = false;
+      islogin.value = true;
     }
     await getOverlyImage();
     mainuniv.value = (await getMainUniv());

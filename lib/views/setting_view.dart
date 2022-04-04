@@ -19,7 +19,7 @@ class SettingView extends StatelessWidget {
         SettingList(title: '개인정보 처리방침', isIcon: true),
         SettingList(title: '문의하기', isIcon: true),
         SettingList(title: '비밀번호 변경', isIcon: true),
-        GestureDetector(onDoubleTap: (){logout();}, child: SettingList(title: '로그아웃', isIcon: false)),
+        GestureDetector(onTap: (){logout();}, child: SettingList(title: '로그아웃', isIcon: false)),
         SettingList(title: '회원탈퇴', isIcon: false)
       ]),
     );

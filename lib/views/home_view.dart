@@ -56,10 +56,7 @@ class HomeView extends StatelessWidget {
           : Obx(() => homeController.islogin.value
                   ? homeController.isGuest.value
                       ? LoginView()
-                      : Container(
-                          decoration: BoxDecoration(color: kMainBlack),
-                          height: 100,
-                        )
+                      : const SizedBox.shrink()
                   : homeController.isGuest.value
                       ? Container(
                           decoration: BoxDecoration(
@@ -199,13 +196,14 @@ class HomeView extends StatelessWidget {
                               ],
                         initLocationTrackingMode: LocationTrackingMode.Follow,
                       )),
+                   if(homeController.islogin.value)
                   Positioned(
                       top: 60,
                       left: 20,
                       child: Container(
                         height: 42,
                         decoration: BoxDecoration(
-                            color: kMainWhite,
+                            color: kBackgroundWhite,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(width: 0.5, color: kMainBlack.withOpacity(0.1))),
                         child: Padding(
@@ -233,10 +231,22 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                       )),
+                      if(homeController.islogin.value)
                   Positioned(
                       child: GestureDetector(
                         onTap: () {
-
+                           if (_animationController.bnbOffsetValue.value ==
+                              Offset(0.0, 0.0)) {
+                            _animationController.bnbOffsetValue.value =
+                                Offset(0.0, 1.0);
+                            _animationController.isRoomModalUp(true);
+                          } else {
+                            _animationController.bnbOffsetValue.value =
+                                Offset(0.0, 0.0);
+                            Future.delayed(Duration(milliseconds: 300), () {
+                              _animationController.isRoomModalUp(false);
+                            });
+                          }
                         },
                         child: Container(
                           height: 42,
@@ -249,6 +259,7 @@ class HomeView extends StatelessWidget {
                       ),
                       top: 60,
                       right: 20),
+                      if(homeController.islogin.value)
                   Positioned(
                       child: GestureDetector(
                         onTap: () {
@@ -267,6 +278,7 @@ class HomeView extends StatelessWidget {
                       ),
                       top: 120,
                       right: 20),
+                   if(homeController.islogin.value)
                   Positioned(
                       child: GestureDetector(
                         onTap: () async{
@@ -307,6 +319,7 @@ class HomeView extends StatelessWidget {
                       _animationController.modalHegiht.value == 300)
                     Positioned(
                       bottom: 30,
+                      left: 20,
                       child: GestureDetector(
                         onTap: () {
                           _animationController.isRoomModalUp(false);
@@ -343,7 +356,7 @@ class HomeView extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: kPrimary,
                               borderRadius: BorderRadius.circular(16)),
-                          padding: const EdgeInsets.fromLTRB(40,9.5,40,9.5),
+                          padding: const EdgeInsets.fromLTRB(40,10,40,10),
                           child: Center(
                             child: Text(
                               '방 만들기',
@@ -357,34 +370,34 @@ class HomeView extends StatelessWidget {
                 ],
               ),
             ),
-            // Obx(
-            //   () => AnimatedContainer(
-            //     duration: Duration(milliseconds: 100),
-            //     curve: Curves.easeInOut,
-            //     height: _animationController.bnbOffsetValue.value ==
-            //             Offset(0.0, 0.0)
-            //         ? 0
-            //         : _animationController.modalHegiht.value,
-            //     child: Column(children: [
-            //       GestureDetector(
-            //         onTap: () {
-            //           if (_animationController.modalHegiht.value ==
-            //               Get.height - 100) {
-            //             _animationController.modalHegiht.value = 300.0;
-            //           } else {
-            //             _animationController.modalHegiht.value =
-            //                 Get.height - 100;
-            //           }
-            //         },
-            //         child: Container(
-            //           height: 20,
-            //           color: Colors.green,
-            //         ),
-            //       ),
-            //       homeController.univRoom.last
-            //     ]),
-            //   ),
-            // ),
+            Obx(
+              () => AnimatedContainer(
+                duration: Duration(milliseconds: 100),
+                curve: Curves.easeInOut,
+                height: _animationController.bnbOffsetValue.value ==
+                        Offset(0.0, 0.0)
+                    ? 0
+                    : _animationController.modalHegiht.value,
+                child: Column(children: [
+                  GestureDetector(
+                    onTap: () {
+                      if (_animationController.modalHegiht.value ==
+                          Get.height - 100) {
+                        _animationController.modalHegiht.value = 300.0;
+                      } else {
+                        _animationController.modalHegiht.value =
+                            Get.height - 100;
+                      }
+                    },
+                    child: Container(
+                      height: 20,
+                      color: Colors.green,
+                    ),
+                  ),
+                  homeController.univRoom.last
+                ]),
+              ),
+            ),
           ],
         ),
       ),
