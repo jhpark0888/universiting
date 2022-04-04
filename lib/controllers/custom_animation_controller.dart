@@ -51,7 +51,7 @@ class CustomAnimationController extends GetxController
     )..repeat();
     fadeAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 3),
     );
     offsetAnimationController = AnimationController(
       vsync: this,

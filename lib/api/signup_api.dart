@@ -12,6 +12,7 @@ import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/login_view.dart';
 import 'package:universiting/views/signup_age_view.dart';
+import 'package:universiting/views/signup_success_view.dart';
 
 import '../constant.dart';
 import '../controllers/signup_controller.dart';
@@ -116,20 +117,26 @@ Future<void> checkEmail() async {
   };
   var headers = {'Content-Type': 'multipart/form-data'};
   if (result == ConnectionState.none) {
+    signupController.emailcheckstate(EmailCheckState.fill);
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
     try {
-      showcustomCustomDialog(1200);
-      await Future.delayed(const Duration(milliseconds: 1200));
-      signupController.isSendEmail.value = true;
-      showEmailCustomDialog(
-          '${signupController.emailController.text}@${signupController.uni.value.email}로 인증 메일을 보내드렸어요',
-          1200);
+      // showcustomCustomDialog(1200);
+      // await Future.delayed(const Duration(milliseconds: 1200));
+      // signupController.isSendEmail.value = true;
+      signupController.emailcheckstate(EmailCheckState.waiting);
+      showemailchecksnackbar(
+          '${signupController.emailController.text}@${signupController.uni.value.email}로 인증 메일을 보냈어요');
+      // showEmailCustomDialog(
+      //     '${signupController.emailController.text}@${signupController.uni.value.email}로 인증 메일을 보내드렸어요',
+      //     1200);
       var response = await http.post(url, body: signup);
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print(response.statusCode);
-        signupController.isEmailCheck.value = true;
+        signupController.emailcheckstate(EmailCheckState.success);
+        postProfile();
       } else if (response.statusCode == 400) {
+        signupController.emailcheckstate(EmailCheckState.fill);
         showCustomDialog('이미 가입된 회원입니다.', 1400);
       }
       {
@@ -137,6 +144,7 @@ Future<void> checkEmail() async {
       }
     } catch (e) {
       print(e);
+      signupController.emailcheckstate(EmailCheckState.fill);
       showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
@@ -163,9 +171,10 @@ Future<void> postProfile() async {
   if (result == ConnectionState.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-   try{
+    try {
       var response =
           await http.post(url, body: jsonEncode(signup), headers: headers);
+      print('postProfile :${response.statusCode}');
       if (response.statusCode >= 200 && response.statusCode < 300) {
         String responsebody = utf8.decode(response.bodyBytes);
         String id = jsonDecode(responsebody)['user_id'];
@@ -177,17 +186,18 @@ Future<void> postProfile() async {
                 '@' +
                 signupController.uni.value.email,
             value: signupController.schoolId.value.toString());
-        login();
+        _login();
       } else {
         print(response.statusCode);
       }
-   }catch(e){print(e);}
-      
-    
+    } catch (e) {
+      print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
+    }
   }
 }
 
-Future<void> login() async {
+Future<void> _login() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   // NotificationController controller = Get.put(NotificationController());
@@ -217,12 +227,16 @@ Future<void> login() async {
         String token = jsonDecode(responsebody)['token'];
         await storage.write(key: 'id', value: id);
         await storage.write(key: 'token', value: token);
-        await storage.write(key: 'lat', value: double.parse(jsonDecode(responsebody)['lat']).toString());
-        await storage.write(key: 'lng', value:  double.parse(jsonDecode(responsebody)['lng']).toString());
+        await storage.write(
+            key: 'lat',
+            value: double.parse(jsonDecode(responsebody)['lat']).toString());
+        await storage.write(
+            key: 'lng',
+            value: double.parse(jsonDecode(responsebody)['lng']).toString());
         print(response.statusCode);
         print(responsebody);
         homeController.isGuest(false);
-        Get.offAll(() => App(
+        Get.offAll(() => SignupSuccessView(
             lat: double.parse(jsonDecode(responsebody)['lat']),
             lng: double.parse(jsonDecode(responsebody)['lng'])));
       } else {

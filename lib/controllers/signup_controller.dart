@@ -14,10 +14,13 @@ class SignupController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
-  TextEditingController yearController = TextEditingController();
-TextEditingController monthController = TextEditingController();
-TextEditingController dayController = TextEditingController();
-  RxList<DateTime> datetime = <DateTime>[DateTime.now()].obs;
+  // TextEditingController yearController = TextEditingController();
+  // TextEditingController monthController = TextEditingController();
+  // TextEditingController dayController = TextEditingController();
+
+  // RxList<DateTime> datetime = <DateTime>[DateTime.now()].obs;
+
+  Rx<DateTime> birthdate = DateTime(DateTime.now().year - 17, 12, 31).obs;
   RxList<Univ> allUnivList = <Univ>[].obs;
   RxList<String> univList = <String>[].obs;
   RxList<String> univSearchList = <String>[].obs;
@@ -36,14 +39,16 @@ TextEditingController dayController = TextEditingController();
   RxBool isname = false.obs;
   RxBool isage = false.obs;
   RxBool isPasswordCheck = false.obs;
+  RxBool isPasswordlength = false.obs;
+  RxBool isPasswordchecklength = false.obs;
   RxBool isEmail = false.obs;
   RxBool isEmailPress = false.obs;
   RxBool isSendEmail = false.obs;
   RxBool isEmailCheck = false.obs;
+  Rx<EmailCheckState> emailcheckstate = EmailCheckState.empty.obs;
   @override
   void onInit() async {
     await getUniversityList();
-
     universityController.addListener(() {
       univSearchList.clear();
       for (String univ in univList) {
@@ -68,13 +73,29 @@ TextEditingController dayController = TextEditingController();
     //   }
     // });
 
-    // nameController.addListener(() {
-    //   if (nameController.text.isNotEmpty) {
-    //     isname.value = true;
-    //   } else if (nameController.text.isEmpty) {
-    //     isname.value = false;
-    //   }
-    // });
+    nameController.addListener(() {
+      if (nameController.text.isNotEmpty) {
+        isname.value = true;
+      } else if (nameController.text.isEmpty) {
+        isname.value = false;
+      }
+    });
+
+    passwordController.addListener(() {
+      if (passwordController.text.length >= 6) {
+        isPasswordlength.value = true;
+      } else {
+        isPasswordlength.value = false;
+      }
+    });
+
+    passwordCheckController.addListener(() {
+      if (passwordCheckController.text.length >= 6) {
+        isPasswordchecklength.value = true;
+      } else {
+        isPasswordchecklength.value = false;
+      }
+    });
 
     // ageController.addListener(() {
     //   if (ageController.text.isNotEmpty) {
@@ -86,9 +107,9 @@ TextEditingController dayController = TextEditingController();
 
     emailController.addListener(() {
       if (emailController.text.isNotEmpty) {
-        isEmail.value = true;
+        emailcheckstate(EmailCheckState.fill);
       } else if (emailController.text.isEmpty) {
-        isEmail.value = false;
+        emailcheckstate(EmailCheckState.empty);
       }
     });
     super.onInit();
@@ -143,7 +164,7 @@ TextEditingController dayController = TextEditingController();
   // }
 
   String checkAge() {
-    age.value = DateTime.now().year - int.parse(yearController.text) + 1;
+    age.value = DateTime.now().year - birthdate.value.year + 1;
     if (age <= 22) {
       return ageContents[0];
     } else if (age <= 26) {

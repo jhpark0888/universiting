@@ -19,7 +19,7 @@ class UnivRoomWidget extends StatelessWidget {
                 : Get.width / 1.5,
             duration: Duration(milliseconds: 100),
             decoration: const BoxDecoration(
-                color: Colors.transparent,
+                color: kBackgroundWhite,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20),
                   topLeft: Radius.circular(20),

@@ -41,8 +41,8 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
         textAlign: textalign ?? TextAlign.center,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 16,
+              horizontal: 0,
+              vertical: 10,
             ),
             isDense: true,
             border: InputBorder.none,

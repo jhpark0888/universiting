@@ -49,9 +49,13 @@ Future<void> login() async {
         String token = jsonDecode(responsebody)['token'];
         await storage.write(key: 'id', value: id);
         await storage.write(key: 'token', value: token);
-        await storage.write(key: 'lat', value: double.parse(jsonDecode(responsebody)['lat']).toString());
-        await storage.write(key: 'lng', value:  double.parse(jsonDecode(responsebody)['lng']).toString());
-        
+        await storage.write(
+            key: 'lat',
+            value: double.parse(jsonDecode(responsebody)['lat']).toString());
+        await storage.write(
+            key: 'lng',
+            value: double.parse(jsonDecode(responsebody)['lng']).toString());
+
         String? univId =
             await storage.read(key: loginController.emailController.text);
         print(response.statusCode);
@@ -97,12 +101,12 @@ Future<void> logout() async {
         Get.delete<ChatListController>();
         Get.delete<ProfileController>();
         Get.delete<MapController>();
-        Get.offAll(() =>HomeView(
-          login: false,
-          tag: '첫 화면',
-          lat: 37.563600,
-          lng: 126.962370,
-        ));
+        Get.offAll(() => HomeView(
+              login: false,
+              tag: '첫 화면',
+              lat: 37.563600,
+              lng: 126.962370,
+            ));
         AppController.to.currentIndex.value = 0;
       } else {
         print(response.statusCode);

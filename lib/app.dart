@@ -43,7 +43,7 @@ class App extends StatelessWidget {
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 300),
                 child: Obx(() => Container(
-                  height: 82,
+                      height: 82,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),

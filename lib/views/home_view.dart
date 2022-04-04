@@ -20,6 +20,7 @@ import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/state_management_widget.dart';
 import 'package:universiting/widgets/spinkit_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
+import 'package:universiting/widgets/white_circle_button_widget.dart';
 import 'package:universiting/widgets/univ_room_widget.dart';
 
 import '../controllers/custom_animation_controller.dart';
@@ -61,12 +62,26 @@ class HomeView extends StatelessWidget {
                       ? Container(
                           decoration: BoxDecoration(
                             color: kBackgroundWhite,
-                            border: Border(
-                              top: BorderSide(
-                                width: 1.6,
-                                color: Color(0xffe7e7e7),
+                            boxShadow: [
+                              BoxShadow(
+                                color: kMainBlack.withOpacity(0.1),
+                                blurRadius: 1,
+                                offset: const Offset(
+                                  0.0,
+                                  -1.0,
+                                ),
                               ),
+                            ],
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
                             ),
+                            // border: Border(
+                            //   top: BorderSide(
+                            //     width: 1.6,
+                            //     color: Color(0xffe7e7e7),
+                            //   ),
+                            // ),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(
@@ -104,7 +119,7 @@ class HomeView extends StatelessWidget {
                                     buttonTitle: '시작해볼까요?',
                                     buttonState: ButtonState.primary),
                                 const SizedBox(
-                                  height: 16,
+                                  height: 24,
                                 ),
                                 Center(
                                     child: GestureDetector(
@@ -112,17 +127,13 @@ class HomeView extends StatelessWidget {
                                   onTap: () {
                                     homeController.islogin.value = true;
                                   },
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(
-                                      '이미 계정이 있어요',
-                                      style: kInActiveButtonStyle.copyWith(
-                                          color: kMainBlack.withOpacity(0.6)),
-                                    ),
+                                  child: Text(
+                                    '이미 계정이 있어요',
+                                    style: kInActiveButtonStyle.copyWith(
+                                        color: kMainBlack.withOpacity(0.6)),
                                   ),
                                 )),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 24),
                                 RichText(
                                     text: TextSpan(children: [
                                   TextSpan(
@@ -196,7 +207,7 @@ class HomeView extends StatelessWidget {
                               ],
                         initLocationTrackingMode: LocationTrackingMode.Follow,
                       )),
-                   if(homeController.islogin.value)
+                   if(homeController.islogin.value && tag == '다음 화면')
                   Positioned(
                       top: 60,
                       left: 20,
@@ -231,7 +242,7 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                       )),
-                      if(homeController.islogin.value)
+                      if(homeController.islogin.value && tag == '다음 화면')
                   Positioned(
                       child: GestureDetector(
                         onTap: () {
@@ -259,7 +270,7 @@ class HomeView extends StatelessWidget {
                       ),
                       top: 60,
                       right: 20),
-                      if(homeController.islogin.value)
+                      if(homeController.islogin.value && tag == '다음 화면')
                   Positioned(
                       child: GestureDetector(
                         onTap: () {
@@ -278,10 +289,10 @@ class HomeView extends StatelessWidget {
                       ),
                       top: 120,
                       right: 20),
-                   if(homeController.islogin.value)
+                   if(homeController.islogin.value && tag == '다음 화면')
                   Positioned(
                       child: GestureDetector(
-                        onTap: () async{
+                        onTap: () async {
                           // if (_animationController.bnbOffsetValue.value ==
                           //     Offset(0.0, 0.0)) {
                           //   _animationController.bnbOffsetValue.value =
@@ -364,9 +375,7 @@ class HomeView extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  )),)
+                      ]))))
                 ],
               ),
             ),
