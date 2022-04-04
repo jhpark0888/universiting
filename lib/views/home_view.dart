@@ -16,6 +16,7 @@ import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/state_management_widget.dart';
 import 'package:universiting/widgets/spinkit_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
+import 'package:universiting/widgets/white_circle_button_widget.dart';
 
 import '../controllers/custom_animation_controller.dart';
 
@@ -58,12 +59,26 @@ class HomeView extends StatelessWidget {
                       ? Container(
                           decoration: BoxDecoration(
                             color: kBackgroundWhite,
-                            border: Border(
-                              top: BorderSide(
-                                width: 1.6,
-                                color: Color(0xffe7e7e7),
+                            boxShadow: [
+                              BoxShadow(
+                                color: kMainBlack.withOpacity(0.1),
+                                blurRadius: 1,
+                                offset: const Offset(
+                                  0.0,
+                                  -1.0,
+                                ),
                               ),
+                            ],
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
                             ),
+                            // border: Border(
+                            //   top: BorderSide(
+                            //     width: 1.6,
+                            //     color: Color(0xffe7e7e7),
+                            //   ),
+                            // ),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(
@@ -101,7 +116,7 @@ class HomeView extends StatelessWidget {
                                     buttonTitle: '시작해볼까요?',
                                     buttonState: ButtonState.primary),
                                 const SizedBox(
-                                  height: 16,
+                                  height: 24,
                                 ),
                                 Center(
                                     child: GestureDetector(
@@ -109,17 +124,13 @@ class HomeView extends StatelessWidget {
                                   onTap: () {
                                     homeController.islogin.value = true;
                                   },
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(
-                                      '이미 계정이 있어요',
-                                      style: kInActiveButtonStyle.copyWith(
-                                          color: kMainBlack.withOpacity(0.6)),
-                                    ),
+                                  child: Text(
+                                    '이미 계정이 있어요',
+                                    style: kInActiveButtonStyle.copyWith(
+                                        color: kMainBlack.withOpacity(0.6)),
                                   ),
                                 )),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 24),
                                 RichText(
                                     text: TextSpan(children: [
                                   TextSpan(
@@ -187,54 +198,125 @@ class HomeView extends StatelessWidget {
                       initLocationTrackingMode: LocationTrackingMode.Follow,
                     )),
                 Positioned(
-                    child: GestureDetector(
-                      onTap: () {
-                        homeController.createdMarker();
-                      },
-                      child: Container(
-                        height: 48,
-                        width: 48,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            color: kBackgroundWhite),
-                        child: Center(
-                            child:
-                                SvgPicture.asset('assets/icons/refresh.svg')),
-                      ),
-                    ),
-                    bottom: 20,
-                    left: 20),
-                Positioned(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (_animationController.bnbOffsetValue.value ==
-                            Offset(0.0, 0.0)) {
-                          _animationController.bnbOffsetValue.value =
-                              Offset(0.0, 1.0);
-                          _animationController.isRoomModalUp(true);
-                        } else {
-                          _animationController.bnbOffsetValue.value =
-                              Offset(0.0, 0.0);
-                          Future.delayed(Duration(milliseconds: 300), () {
-                            _animationController.isRoomModalUp(false);
-                          });
-                        }
-                      },
-                      child: Container(
-                        height: 48,
-                        width: 48,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            color: kBackgroundWhite),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            'assets/icons/my_button.svg',
+                    top: 20,
+                    child: Container(
+                      width: Get.width,
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        // crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  autocorrect: false,
+                                  controller: TextEditingController(),
+                                  cursorColor: kPrimary,
+                                  maxLines: 1,
+                                  readOnly: true,
+                                  style: kSubtitleStyle3,
+                                  obscureText: false,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 0, 10, 0),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/add.svg',
+                                      ),
+                                    ),
+                                    isDense: true,
+                                    contentPadding:
+                                        const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                    hintText: '지역 또는 대학 이름으로 검색',
+                                    hintStyle: kSubtitleStyle3.copyWith(
+                                        color: kMainBlack.withOpacity(0.38)),
+                                    fillColor: kBackgroundWhite,
+                                    filled: true,
+                                    border: InputBorder.none,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                        color: kBackgroundWhite,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                        color: kBackgroundWhite,
+                                      ),
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                        color: kBackgroundWhite,
+                                      ),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                        color: kBackgroundWhite,
+                                      ),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                        color: kBackgroundWhite,
+                                      ),
+                                    ),
+                                  ),
+                                  textInputAction: TextInputAction.newline,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              WhiteCircleButtonWidget(
+                                onTap: () {},
+                                icon: SvgPicture.asset(
+                                  'assets/icons/my_button.svg',
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              WhiteCircleButtonWidget(
+                                onTap: () {
+                                  if (_animationController
+                                          .bnbOffsetValue.value ==
+                                      Offset(0.0, 0.0)) {
+                                    _animationController.bnbOffsetValue.value =
+                                        Offset(0.0, 1.0);
+                                    _animationController.isRoomModalUp(true);
+                                  } else {
+                                    _animationController.bnbOffsetValue.value =
+                                        Offset(0.0, 0.0);
+                                    Future.delayed(Duration(milliseconds: 300),
+                                        () {
+                                      _animationController.isRoomModalUp(false);
+                                    });
+                                  }
+                                },
+                                icon: SvgPicture.asset(
+                                  'assets/icons/my_button.svg',
+                                ),
+                              ),
+                              WhiteCircleButtonWidget(
+                                onTap: () {
+                                  homeController.createdMarker();
+                                },
+                                icon: SvgPicture.asset(
+                                    'assets/icons/refresh.svg'),
+                              )
+                            ],
+                          )
+                        ],
                       ),
-                    ),
-                    bottom: 20,
-                    right: 20),
+                    ))
               ],
             ),
           ),

@@ -32,6 +32,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   flutter_keyboard_visibility: ^5.2.0
   modal_bottom_sheet: ^2.0.1
+  flutter_datetime_picker: ^1.5.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

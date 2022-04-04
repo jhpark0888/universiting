@@ -49,7 +49,11 @@ void main() async {
   String? temptoken = await const FlutterSecureStorage().read(key: 'token');
   String? lat = await const FlutterSecureStorage().read(key: 'lat');
   String? lng = await const FlutterSecureStorage().read(key: 'lng');
-  runApp(MyApp(token: temptoken, lat: lat, lng: lng,));
+  runApp(MyApp(
+    token: temptoken,
+    lat: lat,
+    lng: lng,
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -126,15 +130,20 @@ class _MyAppState extends State<MyApp> {
             splashFactory: NoSplash.splashFactory,
           ),
         ),
+        bottomSheetTheme:
+            BottomSheetThemeData(backgroundColor: Colors.transparent),
+        // bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.transparent),
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
       ),
-      home: widget.token == null ? HomeView(
-        login: false,
-        tag: '첫 화면',
-        lat: 37.563600,
-        lng: 126.962370,
-      ) : App(lat: double.parse(widget.lat!), lng: double.parse(widget.lng!)),
+      home: widget.token == null
+          ? HomeView(
+              login: false,
+              tag: '첫 화면',
+              lat: 37.563600,
+              lng: 126.962370,
+            )
+          : App(lat: double.parse(widget.lat!), lng: double.parse(widget.lng!)),
     );
   }
 }
