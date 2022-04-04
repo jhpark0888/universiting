@@ -10,7 +10,7 @@ import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/models/main_univ_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
+
 
 
 

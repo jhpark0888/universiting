@@ -16,7 +16,7 @@ Future<List<AlarmReceive>> getReceiveStatus() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/alarm_list?type=recive');
+  var url = Uri.parse('$serverUrl/room_api/alarm_list?type=receive');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
@@ -46,6 +46,8 @@ Future<List<AlarmReceive>> getReceiveStatus() async {
         print(response.statusCode);
         print(jsonDecode(responsebody).runtimeType);
         return alarmReceiveParsed(responsebody);
+      } else if(response.statusCode == 500){
+        return [];
       } else {
         print(response.statusCode);
         return [

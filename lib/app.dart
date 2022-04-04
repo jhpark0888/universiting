@@ -35,61 +35,75 @@ class App extends StatelessWidget {
     ];
 
     return Scaffold(
-      extendBody: false,
+      extendBody: true,
       bottomNavigationBar: Obx(
         () => _animationController.isRoomModalUp.value == false
             ? AnimatedSlide(
                 offset: _animationController.bnbOffsetValue.value,
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 300),
-                child: Obx(() => BottomNavigationBar(
-                        type: BottomNavigationBarType.fixed,
-                        currentIndex: appController.currentIndex.value,
-                        onTap: appController.changePageIndex,
-                        selectedItemColor: kMainBlack,
-                        selectedFontSize: 12,
-                        unselectedFontSize: 12,
-                        items: [
-                          BottomNavigationBarItem(
-                              icon: SvgPicture.asset(
-                                  'assets/icons/home_inactive.svg'),
-                              activeIcon: SvgPicture.asset(
-                                  'assets/icons/home_active.svg'),
-                              label: '홈',
-                              tooltip: ''),
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                                'assets/icons/room_inactive.svg'),
-                            activeIcon: SvgPicture.asset(
-                                'assets/icons/room_active.svg'),
-                            label: '내 방',
-                            tooltip: '',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                                'assets/icons/state_inactive.svg'),
-                            activeIcon: SvgPicture.asset(
-                                'assets/icons/state_active.svg'),
-                            label: '신청 현황',
-                            tooltip: '',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                                'assets/icons/chat_inactive.svg'),
-                            activeIcon: SvgPicture.asset(
-                                'assets/icons/chat_active.svg'),
-                            label: '채팅방',
-                            tooltip: '',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                                'assets/icons/profile_inactive.svg'),
-                            activeIcon: SvgPicture.asset(
-                                'assets/icons/profile_active.svg'),
-                            label: '프로필',
-                            tooltip: '',
-                          ),
-                        ])),
+                child: Obx(() => Container(
+                  height: 82,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(50),
+                            topRight: Radius.circular(50)),
+                        color: Colors.transparent
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(50),
+                            topRight: Radius.circular(50)),
+                        child: BottomNavigationBar(
+                            type: BottomNavigationBarType.fixed,
+                            currentIndex: appController.currentIndex.value,
+                            onTap: appController.changePageIndex,
+                            selectedItemColor: kMainBlack,
+                            selectedFontSize: 12,
+                            unselectedFontSize: 12,
+                            items: [
+                              BottomNavigationBarItem(
+                                  icon: SvgPicture.asset(
+                                      'assets/icons/home_inactive.svg'),
+                                  activeIcon: SvgPicture.asset(
+                                      'assets/icons/home_active.svg'),
+                                  label: '홈',
+                                  tooltip: ''),
+                              BottomNavigationBarItem(
+                                icon: SvgPicture.asset(
+                                    'assets/icons/room_inactive.svg'),
+                                activeIcon: SvgPicture.asset(
+                                    'assets/icons/room_active.svg'),
+                                label: '내 방',
+                                tooltip: '',
+                              ),
+                              BottomNavigationBarItem(
+                                icon: SvgPicture.asset(
+                                    'assets/icons/state_inactive.svg'),
+                                activeIcon: SvgPicture.asset(
+                                    'assets/icons/state_active.svg'),
+                                label: '신청 현황',
+                                tooltip: '',
+                              ),
+                              BottomNavigationBarItem(
+                                icon: SvgPicture.asset(
+                                    'assets/icons/chat_inactive.svg'),
+                                activeIcon: SvgPicture.asset(
+                                    'assets/icons/chat_active.svg'),
+                                label: '채팅방',
+                                tooltip: '',
+                              ),
+                              BottomNavigationBarItem(
+                                icon: SvgPicture.asset(
+                                    'assets/icons/profile_inactive.svg'),
+                                activeIcon: SvgPicture.asset(
+                                    'assets/icons/profile_active.svg'),
+                                label: '프로필',
+                                tooltip: '',
+                              ),
+                            ]),
+                      ),
+                    )),
               )
             : SizedBox.shrink(),
       ),

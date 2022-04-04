@@ -14,13 +14,16 @@ import 'package:universiting/widgets/room_widget.dart';
 import '../Api/status_api.dart';
 
 class AlarmReceiveWidget extends StatelessWidget {
-  AlarmReceiveWidget({Key? key, required this.alarmreceive,required this.host}) : super(key: key);
+  AlarmReceiveWidget({Key? key, required this.alarmreceive, required this.host})
+      : super(key: key);
   AlarmReceive alarmreceive;
   List<ProfileImageWidget> host;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){print(host);},
+      onTap: () {
+        print(host);
+      },
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Row(
           children: [
@@ -34,7 +37,7 @@ class AlarmReceiveWidget extends StatelessWidget {
                           fit: BoxFit.cover,
                         )
                       : Image.network(
-                          serverUrl + alarmreceive.profile.profileImage,
+                          alarmreceive.profile.profileImage,
                           height: Get.width / 7.5,
                           width: Get.width / 7.5,
                           fit: BoxFit.cover,
@@ -44,21 +47,21 @@ class AlarmReceiveWidget extends StatelessWidget {
             if (alarmreceive.type == 1)
               Expanded(
                   child: Text(
-                '${alarmreceive.profile.nickname}님이 회원님을 ${alarmreceive.content.title}방에 초대했어요',
+                '${alarmreceive.profile.nickname}님이 회원님을 ${alarmreceive.content!.title}방에 초대했어요',
                 maxLines: null,
                 style: kSubtitleStyle2,
               )),
             if (alarmreceive.type == 2)
               Expanded(
                   child: Text(
-                      '${alarmreceive.profile.nickname}님이 회원님을 ${alarmreceive.content.title}방에 참여하길 원해요',
+                      '${alarmreceive.profile.nickname}님이 회원님을 ${alarmreceive.content!.title}방에 참여하길 원해요',
                       maxLines: null,
                       style: kSubtitleStyle2)),
           ],
         ),
         if (alarmreceive.type == 3)
           RoomWidget(
-              room: alarmreceive.content,
+              room: alarmreceive.content!,
               roomType: ViewType.statusReceiveView,
               hosts: host,
               isChief: false),
@@ -71,18 +74,26 @@ class AlarmReceiveWidget extends StatelessWidget {
                   buttonState: ButtonState.negative,
                   onTap: () async {
                     if (alarmreceive.type == 1) {
-                      hostMemberAlarm(alarmreceive.targetId.toString(), 'reject')
-                          .then(
-                              (value) => deleteAlarm(alarmreceive.id.toString()));
+                      hostMemberAlarm(
+                              alarmreceive.targetId.toString(), 'reject')
+                          .then((value) {
+                        deleteAlarm(alarmreceive.id.toString());
+                      });
                     } else if (alarmreceive.type == 2) {
                       okJoinAlarm(alarmreceive.targetId.toString(),
                               alarmreceive.profile.userId.toString(), 'reject')
-                          .then(
-                              (value) => deleteAlarm(alarmreceive.id.toString()));
+                          .then((value) {
+                        deleteAlarm(alarmreceive.id.toString());
+                      });
                     } else if (alarmreceive.type == 3) {
-                      await rejectToChat(alarmreceive).then(
-                          (value) => deleteAlarm(alarmreceive.id.toString()));
+                      await rejectToChat(alarmreceive).then((value) {
+                        deleteAlarm(alarmreceive.id.toString());
+                      });
                     }
+                    StatusController.to.allReceiveList.value = StatusController
+                        .to.allReceiveList
+                        .where((widget) => widget.alarmreceive != alarmreceive)
+                        .toList();
                   }),
             ),
             const SizedBox(width: 12),
@@ -94,17 +105,21 @@ class AlarmReceiveWidget extends StatelessWidget {
                     if (alarmreceive.type == 1) {
                       await hostMemberAlarm(
                               alarmreceive.targetId.toString(), 'join')
-                          .then(
-                              (value) => deleteAlarm(alarmreceive.id.toString()));
+                          .then((value) =>
+                              deleteAlarm(alarmreceive.id.toString()));
                     } else if (alarmreceive.type == 2) {
                       await okJoinAlarm(alarmreceive.targetId.toString(),
                               alarmreceive.profile.userId.toString(), 'join')
-                          .then(
-                              (value) => deleteAlarm(alarmreceive.id.toString()));
+                          .then((value) =>
+                              deleteAlarm(alarmreceive.id.toString()));
                     } else if (alarmreceive.type == 3) {
                       await joinToChat(alarmreceive).then(
                           (value) => deleteAlarm(alarmreceive.id.toString()));
                     }
+                    StatusController.to.allReceiveList.value = StatusController
+                        .to.allReceiveList
+                        .where((widget) => widget.alarmreceive != alarmreceive)
+                        .toList();
                     print(alarmreceive.type);
                   }),
             ),
@@ -117,7 +132,11 @@ class AlarmReceiveWidget extends StatelessWidget {
 }
 
 class AlarmSendWidget extends StatelessWidget {
-  AlarmSendWidget({Key? key, required this.alarmSend,required this.host, required this.joinMember})
+  AlarmSendWidget(
+      {Key? key,
+      required this.alarmSend,
+      required this.host,
+      required this.joinMember})
       : super(key: key);
   AlarmSend alarmSend;
   List<ProfileImageWidget> host;

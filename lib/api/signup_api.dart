@@ -154,7 +154,7 @@ Future<void> postProfile() async {
         signupController.uni.value.email,
     'nickname': signupController.nameController.text,
     'gender': signupController.isgender.value,
-    'age': signupController.age,
+    'age': signupController.age.value,
     // 'department_id': signupController.departId.value,
     'university_id': signupController.schoolId.value
   };
@@ -163,7 +163,7 @@ Future<void> postProfile() async {
   if (result == ConnectionState.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    try {
+   try{
       var response =
           await http.post(url, body: jsonEncode(signup), headers: headers);
       if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -181,9 +181,9 @@ Future<void> postProfile() async {
       } else {
         print(response.statusCode);
       }
-    } catch (e) {
-      showCustomDialog('서버 점검중입니다.', 1200);
-    }
+   }catch(e){print(e);}
+      
+    
   }
 }
 
@@ -217,6 +217,8 @@ Future<void> login() async {
         String token = jsonDecode(responsebody)['token'];
         await storage.write(key: 'id', value: id);
         await storage.write(key: 'token', value: token);
+        await storage.write(key: 'lat', value: double.parse(jsonDecode(responsebody)['lat']).toString());
+        await storage.write(key: 'lng', value:  double.parse(jsonDecode(responsebody)['lng']).toString());
         print(response.statusCode);
         print(responsebody);
         homeController.isGuest(false);

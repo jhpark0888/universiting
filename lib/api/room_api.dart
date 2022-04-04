@@ -13,6 +13,7 @@ import 'package:universiting/controllers/room_detail_controller.dart';
 import 'package:universiting/controllers/select_member_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/my_room_model.dart';
+import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/models/select_member_model.dart';
 import 'package:universiting/utils/global_variable.dart';
@@ -68,7 +69,7 @@ Future<void> SearchMember() async {
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode <= 200 && response.statusCode < 300) {
         selectMemberController.seletedMember.value =
-            SelectMember.fromJson(jsonDecode(responsebody));
+            Profile.fromJson(jsonDecode(responsebody));
       } else {
         print(response.statusCode);
       }

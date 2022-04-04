@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
+import 'package:universiting/models/profile_model.dart';
+import 'package:universiting/models/select_member_model.dart';
 import 'package:universiting/widgets/check_number_of_people_widget.dart';
 import 'package:universiting/widgets/friend_to_go_with_widget.dart';
 
@@ -13,9 +15,14 @@ class RoomInfoController extends GetxController {
   TextEditingController roomTitleController = TextEditingController();
   TextEditingController introController = TextEditingController();
   final checkNumberPeopleList = <CheckNumberOfPeopleWidget>[].obs;
-    final seletedMembers = <SelectedNameWidget>[SelectedNameWidget(name: ProfileController.to.profile.value.nickname)]; 
-  final members = [].obs;
-  final member_num = 0.obs;
+  final seletedMembers = <SelectedNameWidget>[
+    SelectedNameWidget(
+        selectMember: ProfileController.to.profile.value,
+        roomManager: true,
+        type: AddFriends.myRoom)
+  ].obs;
+  final members = <int>[].obs;
+  final memberProfile = <Profile>[].obs;
   @override
   void onInit() {
     AppController.to.addPage();
@@ -25,6 +32,7 @@ class RoomInfoController extends GetxController {
       checkNumberPeopleList.add(CheckNumberOfPeopleWidget(text: i));
     }
   }
+
   @override
   void onClose() {
     AppController.to.deletePage();

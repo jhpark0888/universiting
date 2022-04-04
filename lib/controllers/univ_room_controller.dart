@@ -6,7 +6,7 @@ import 'package:universiting/models/room_model.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 import 'package:universiting/widgets/room_widget.dart';
 class UnivRoomController extends GetxController{
-  UnivRoomController get to =>Get.find();
+  static UnivRoomController get to =>Get.find();
   RxList<Room> univRoom = <Room>[].obs;
   RxList<RoomWidget> room = <RoomWidget>[].obs;
   RxList<ProfileImageWidget> profileImage = <ProfileImageWidget>[].obs;

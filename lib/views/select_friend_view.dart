@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/check_people_controller.dart';
 import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
@@ -10,6 +12,7 @@ import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/participate_selected_name_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
+import 'package:universiting/widgets/profile_image_widget.dart';
 
 import '../widgets/background_textfield_widget.dart';
 
@@ -54,6 +57,7 @@ class SelectFriendView extends StatelessWidget {
               const SizedBox(height: 48),
               GestureDetector(
                   onTap: () {
+                    print(type);
                     if (type == AddFriends.myRoom) {
                       if (!RoomInfoController.to.members.contains(
                           selectFriendController.seletedMember.value.userId)) {
@@ -61,10 +65,15 @@ class SelectFriendView extends StatelessWidget {
                           RoomInfoController.to.members.add(
                               selectFriendController
                                   .seletedMember.value.userId);
-                          RoomInfoController.to.seletedMembers.add(
-                              SelectedNameWidget(
-                                  name: selectFriendController
-                                      .seletedMember.value.nickname));
+                          RoomInfoController.to.seletedMembers
+                              .add(SelectedNameWidget(
+                            selectMember:
+                                selectFriendController.seletedMember.value,
+                            roomManager: false,
+                            type: AddFriends.myRoom,
+                          ));
+                          RoomInfoController.to.memberProfile[text - 2] =
+                              selectFriendController.seletedMember.value;
                           print(selectFriendController
                               .seletedMember.value.nickname);
                           print(RoomInfoController.to.members);
@@ -82,10 +91,16 @@ class SelectFriendView extends StatelessWidget {
                           ParticipateController.to.members.add(
                               selectFriendController
                                   .seletedMember.value.userId);
+
                           ParticipateController.to.selectedMembers.add(
                               SelectedNameWidget(
-                                  name: selectFriendController
-                                      .seletedMember.value.nickname));
+                                  selectMember: selectFriendController
+                                      .seletedMember.value,
+                                  roomManager: false,
+                                  type: AddFriends.otherRoom));
+
+                          ParticipateController.to.memberProfile[text - 2] =
+                              selectFriendController.seletedMember.value;
                         } else {
                           showCustomDialog('인원이 초과되었어요', 1200);
                         }
@@ -94,8 +109,49 @@ class SelectFriendView extends StatelessWidget {
                       }
                     }
                   },
-                  child:
-                      Text(selectFriendController.seletedMember.value.nickname))
+                  child: Obx(
+                      () => selectFriendController.seletedMember.value.age != 0
+                          ? Row(
+                              children: [
+                                ProfileImageWidget(
+                                  type: ViewType.otherView,
+                                  width: 48,
+                                  profile: selectFriendController
+                                      .seletedMember.value,
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  selectFriendController
+                                      .seletedMember.value.nickname,
+                                  style: kSubtitleStyle2,
+                                ),Expanded(child: Container()),
+                                type == AddFriends.myRoom
+                                    ? RoomInfoController.to.seletedMembers
+                                            .where((member) =>
+                                                member.selectMember ==
+                                                selectFriendController
+                                                    .seletedMember.value)
+                                            .toList()
+                                            .isEmpty
+                                        ? SvgPicture.asset(
+                                            'assets/icons/check_nactive.svg')
+                                        : SvgPicture.asset(
+                                            'assets/icons/check_active.svg')
+                                    : ParticipateController.to.selectedMembers
+                                            .where((member) =>
+                                                member.selectMember ==
+                                                selectFriendController
+                                                    .seletedMember.value)
+                                            .toList()
+                                            .isEmpty
+                                        ? SvgPicture.asset(
+                                            'assets/icons/check_nactive.svg')
+                                        : SvgPicture.asset(
+                                            'assets/icons/check_active.svg')
+                              ],
+                            )
+                          : const SizedBox.shrink()))
+              // Text(selectFriendController.seletedMember.value.nickname))
             ],
           ),
         ),

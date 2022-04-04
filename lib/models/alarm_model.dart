@@ -10,7 +10,7 @@ class AlarmReceive {
   int userId;
   int type;
   int targetId;
-  Room content;
+  Room? content;
   Profile profile;
   DateTime date;
   bool isRead;
@@ -20,7 +20,7 @@ class AlarmReceive {
       required this.userId,
       required this.type,
       required this.targetId,
-      required this.content,
+      this.content,
       required this.profile,
       required this.date,
       required this.isRead});
@@ -30,7 +30,7 @@ class AlarmReceive {
       userId: json['user_id'],
       type: json['type'],
       targetId: json['target_id'],
-      content: Room.fromJson(json['content']),
+      content: json['content'] != null ? Room.fromJson(json['content']) : Room(title: ''),
       profile: Profile.fromJson(json['profile']),
       date: DateTime.parse(json['date']),
       isRead: json['is_read']);

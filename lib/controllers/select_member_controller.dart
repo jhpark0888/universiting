@@ -8,23 +8,24 @@ import 'package:universiting/widgets/participate_selected_name_widget.dart';
 
 class SelectMemberController extends GetxController{
   TextEditingController nickNameController = TextEditingController();
-  Rx<SelectMember> seletedMember = SelectMember(userId: 0, nickname: '', age: 0, gender: 'M').obs;
+  Rx<Profile> seletedMember = Profile(age: 0, gender: '', introduction: '', nickname: '', profileImage: '', userId: 0).obs;
   RxString nickName = ''.obs;
   RxInt nicNameLength = 0.obs;
   @override
   void onInit(){
     nickNameController.addListener(() { 
+      nicNameLength.value = nickNameController.text.length;
       nickName.value = nickNameController.text;
-      if(nickName.value.isNotEmpty)
-      nicNameLength++;
-      print(nicNameLength);
+      if(nickName.value != ''){
+        print(nicNameLength);
+      }
     });
     debounce(nicNameLength, (callback) => SearchMember(), time: Duration(seconds: 1));
     super.onInit();
   }
   @override
   void onClose() {
-    seletedMember = SelectMember(userId: 0, nickname: '', age: 0, gender: 'M').obs;
+    seletedMember = Profile(age: 0, gender: '', introduction: '', nickname: '', profileImage: '', userId: 0).obs;
     super.onClose();
   }
 }

@@ -16,8 +16,6 @@ import '../widgets/background_textfield_widget.dart';
 
 class RoomInfoView extends StatelessWidget {
   RoomInfoView({Key? key}) : super(key: key);
-
-
   @override
   Widget build(BuildContext context) {
     RoomInfoController createRoomController =

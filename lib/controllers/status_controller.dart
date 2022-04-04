@@ -35,7 +35,7 @@ class StatusController extends GetxController {
     allReceiveList.clear();
     for (var alarmreceive in receiveList) {
             receiveHostprofileImage.value =
-          getHostsList(alarmreceive.content, ViewType.statusReceiveView);
+          getHostsList(alarmreceive.content!, ViewType.statusReceiveView);
       allReceiveList.add(AlarmReceiveWidget(alarmreceive: alarmreceive, host: receiveHostprofileImage.toList()));
 
     }

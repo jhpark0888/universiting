@@ -85,8 +85,8 @@ class MessageDetailScreen extends StatelessWidget {
                             message:
                                 messageDetailController.chatController.text,
                             date: DateTime.now(),),
-                        userType: '0',
-                        profile: ProfileController.to.profile.value,));
+                        userType: '1',
+                        profile: messageDetailController.profile.value,));
                     FocusScope.of(context).unfocus();
                     messageDetailController.chatController.clear();
                   });
