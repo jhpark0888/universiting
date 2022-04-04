@@ -7,6 +7,7 @@ import 'package:universiting/controllers/univ_room_controller.dart';
 
 void bottomSheetModal(Widget widget, RxBool a, int index) {
   showModalBottomSheet(
+      shape : RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       isScrollControlled: true,
       useRootNavigator: true,
       barrierColor: kMainWhite.withOpacity(0.1),

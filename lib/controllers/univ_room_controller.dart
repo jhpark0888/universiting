@@ -33,7 +33,7 @@ class UnivRoomController extends GetxController{
     }
     profileImage.clear();
     for(int i = 0; i < room.hosts!.length;i ++){
-      profileImage.add(ProfileImageWidget(host: room.hosts![i], type: ViewType.otherView,));
+      profileImage.add(ProfileImageWidget(host: room.hosts![i], type: ViewType.otherView,width: 40,));
     }
     return profileImage.toList();
   }

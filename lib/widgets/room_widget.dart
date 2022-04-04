@@ -44,11 +44,11 @@ class RoomWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(children: hosts),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 15),
                     if (roomType != ViewType.statusReceiveView)
                       Text(room.title, style: kSubtitleStyle1),
                     if (roomType == ViewType.otherView)
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 15),
                     if (roomType != ViewType.otherView)
                       Row(
                         children: [
@@ -70,25 +70,25 @@ class RoomWidget extends StatelessWidget {
                     Row(
                       children: [
                         Text('평균 나이',
-                            style: kBodyStyle2.copyWith(
+                            style: kBodyStyle1.copyWith(
                                 color: kMainBlack.withOpacity(0.6))),
                         const SizedBox(width: 4),
                         Text(
                           room.avgAge.toString() + '세',
-                          style: kSubtitleStyle3,
+                          style: kBodyStyle1,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           '·',
-                          style: kBodyStyle2.copyWith(
+                          style: kBodyStyle1.copyWith(
                               color: kMainBlack.withOpacity(0.6)),
                         ),
                         const SizedBox(width: 4),
                         Text('성별',
-                            style: kBodyStyle2.copyWith(
+                            style: kBodyStyle1.copyWith(
                                 color: kMainBlack.withOpacity(0.6))),
                         const SizedBox(width: 4),
-                        Text(room.gender!, style: kSubtitleStyle3)
+                        Text(room.gender!, style: kBodyStyle1)
                       ],
                     ),
                     if (roomType == ViewType.statusSendView)
@@ -98,16 +98,16 @@ class RoomWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: joinmember!),
                     if (roomType == ViewType.otherView)
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 15),
                     if (roomType == ViewType.otherView)
                       Row(
                         children: [
-                          Text('인원수',
-                              style: kBodyStyle2.copyWith(
+                          Text('인원',
+                              style: kBodyStyle1.copyWith(
                                   color: kMainBlack.withOpacity(0.6))),
                           const SizedBox(width: 4),
                           Text('${room.totalMember} : ${room.totalMember}',
-                              style: kSubtitleStyle3)
+                              style: kBodyStyle1)
                         ],
                       ),
                     const SizedBox(height: 16),

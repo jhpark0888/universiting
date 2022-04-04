@@ -204,13 +204,13 @@ class HomeView extends StatelessWidget {
                       left: 20,
                       child: Container(
                         height: 42,
-                        width: 250,
                         decoration: BoxDecoration(
                             color: kMainWhite,
-                            borderRadius: BorderRadius.circular(20)),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(width: 0.5, color: kMainBlack.withOpacity(0.1))),
                         child: Padding(
                           padding:
-                              const EdgeInsets.fromLTRB(20.0, 10.5, 20, 10.5),
+                              const EdgeInsets.fromLTRB(20.0, 10.5, 58, 10.5),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -220,13 +220,14 @@ class HomeView extends StatelessWidget {
                                       width: 20,
                                       child: Icon(Icons.search,
                                           color:
-                                              kMainBlack.withOpacity(0.38)))),
-                              SizedBox(width: 10),
+                                              kMainBlack.withOpacity(0.38), size: 14,))),
+                              const SizedBox(width: 10),
                               Text(
                                 '지역 또는 대학 이름으로 검색',
                                 textAlign: TextAlign.center,
-                                style: kBodyStyle2.copyWith(
-                                    color: kMainBlack.withOpacity(0.40)),
+                                style: kBodyStyle1.copyWith(
+                                    color: kMainBlack.withOpacity(0.40),
+                                    fontWeight: FontWeight.w500),
                               )
                             ],
                           ),

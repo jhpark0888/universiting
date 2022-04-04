@@ -46,14 +46,14 @@ class App extends StatelessWidget {
                   height: 82,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50)),
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
                         color: Colors.transparent
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50)),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
                         child: BottomNavigationBar(
                             type: BottomNavigationBarType.fixed,
                             currentIndex: appController.currentIndex.value,

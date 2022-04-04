@@ -103,7 +103,7 @@ class ProfileImageWidget extends StatelessWidget {
                             ),
                           ),
               ),
-              if(host != null)
+              if(host != null && width == null)
               Positioned(
                   top: 36,
                   left: 36,
