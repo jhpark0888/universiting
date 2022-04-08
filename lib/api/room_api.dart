@@ -5,13 +5,17 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:universiting/api/status_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
 import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
 import 'package:universiting/controllers/room_detail_controller.dart';
 import 'package:universiting/controllers/select_member_controller.dart';
+import 'package:universiting/controllers/status_controller.dart';
+import 'package:universiting/controllers/status_room_tab_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/my_room_model.dart';
 import 'package:universiting/models/profile_model.dart';
@@ -166,7 +170,7 @@ Future<void> roomJoin(String room_id) async {
   var body = {
     'room_id': room_id,
     'member_id': ParticipateController.to.members.toString(),
-    'introduction' : ParticipateController.to.introController.text
+    'introduction': ParticipateController.to.introController.text
   };
   var headers = {
     'Authorization': 'Token $token',
@@ -174,13 +178,28 @@ Future<void> roomJoin(String room_id) async {
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response = await http.post(url, headers: headers, body: body);
-    String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
-      print(responsebody);
-      print(response.statusCode);
-    } else {
-      print(response.statusCode);
+    try {
+      var response = await http.post(url, headers: headers, body: body);
+      String responsebody = utf8.decode(response.bodyBytes);
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+        print(responsebody);
+        print(response.statusCode);
+        AppController.to.getbacks();
+        AppController.to.currentIndex.value = 2;
+        Get.back();
+        StatusController.to.sendList.value = await getSendStatus();
+        StatusController.to.makeAllSendList();
+        StatusRoomTabController.to.currentIndex.value = 1;
+      } else {
+        print(response.statusCode);
+      }
+    } on SocketException {
+      Get.back();
+      showCustomDialog('서버 점검중입니다.', 1200);
+    } catch (e) {
+      Get.back();
+      print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }

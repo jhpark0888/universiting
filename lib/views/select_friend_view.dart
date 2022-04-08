@@ -31,6 +31,21 @@ class SelectFriendView extends StatelessWidget {
     return Scaffold(
       appBar: AppBarWidget(
         title: '함께 갈 친구 선택',
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(Icons.close)),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                '완료',
+                style: kSubtitleStyle2.copyWith(color: kPrimary),
+              ))
+        ],
       ),
       body: Obx(
         () => Padding(
@@ -108,7 +123,7 @@ class SelectFriendView extends StatelessWidget {
                             ParticipateController.to.memberProfile.add(
                                 selectmemberController.seletedMember.value);
                           } else {
-                            showCustomDialog('인원이 초과되었어요', 1200);
+                            showCustomDialog('이미 인원이 다 찼어요', 1200);
                           }
                         } else {
                           showCustomDialog('이미 등록되었어요', 1200);

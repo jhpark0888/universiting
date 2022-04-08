@@ -30,16 +30,24 @@ class RoomDetailView extends StatelessWidget {
               padding: EdgeInsets.only(right: 20),
               child: GestureDetector(
                 onTap: () {
-                  if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null) {
-                    showCustomModalPopup(context, value1: '이 방 신고하기', func1: () {
-                    Get.back();
-                    showRoomDialog(controller : roomDetailController.reportController,roomid : roomid,moretype : MoreType.report);
-                  }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
-                  }else{
+                  if (roomDetailController.detailRoom.value.isJoin == null &&
+                      roomDetailController.detailRoom.value.isCreater == null) {
+                    showCustomModalPopup(context, value1: '이 방 신고하기',
+                        func1: () {
+                      Get.back();
+                      showRoomDialog(
+                          controller: roomDetailController.reportController,
+                          roomid: roomid,
+                          moretype: MoreType.report);
+                    }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
+                  } else {
                     showCustomModalPopup(context, value1: '이 방 나가기', func1: () {
-                    Get.back();
-                    showRoomDialog(controller : roomDetailController.reportController,roomid: roomid,moretype : MoreType.delete);
-                  }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
+                      Get.back();
+                      showRoomDialog(
+                          controller: roomDetailController.reportController,
+                          roomid: roomid,
+                          moretype: MoreType.delete);
+                    }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
                   }
                 },
                 child: Icon(
@@ -76,34 +84,38 @@ class RoomDetailView extends StatelessWidget {
                 Text(roomDetailController.detailRoom.value.title,
                     style: kBodyStyle1),
                 const SizedBox(height: 30),
-                Text('구성원 ${roomDetailController.detailRoom.value.totalMember}명',
+                Text(
+                    '구성원 ${roomDetailController.detailRoom.value.totalMember}명',
                     style: kSubtitleStyle5),
                 const SizedBox(height: 17),
                 Column(children: roomDetailController.roomPersonList),
                 const SizedBox(height: 35),
-                if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null)
-                CustomButtonWidget(
-                                buttonTitle: '같이 갈 친구들 초대하기',
-                                buttonState: ButtonState.primary,
-                                onTap: () {
-                                  Get.to(() => ParticiapteView(
-                                        roomid: roomid,
-                                        peopleNumber: roomDetailController
-                                            .detailRoom.value.totalMember!,
-                                      ));
-                                },
-                              ),
-                if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null)              
-                const SizedBox(height: 12),
-                if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null)
-                Center(
-                  child: Text(
-                    '함께 갈 친구들을 초대하고,\n 친구들이 모두 수락하면 이 방에 참여 신청이 완료돼요.',
-                    style: kSmallCaptionStyle.copyWith(
-                        color: kMainBlack.withOpacity(0.4), height: 1.5),
-                    textAlign: TextAlign.center,
+                if (roomDetailController.detailRoom.value.isJoin == null &&
+                    roomDetailController.detailRoom.value.isCreater == null)
+                  CustomButtonWidget(
+                    buttonTitle: '이 방에 함께 갈 친구들 초대하기',
+                    buttonState: ButtonState.primary,
+                    onTap: () {
+                      Get.to(() => ParticiapteView(
+                            roomid: roomid,
+                            peopleNumber: roomDetailController
+                                .detailRoom.value.totalMember!,
+                          ));
+                    },
                   ),
-                )
+                if (roomDetailController.detailRoom.value.isJoin == null &&
+                    roomDetailController.detailRoom.value.isCreater == null)
+                  const SizedBox(height: 12),
+                if (roomDetailController.detailRoom.value.isJoin == null &&
+                    roomDetailController.detailRoom.value.isCreater == null)
+                  Center(
+                    child: Text(
+                      '함께 갈 친구들을 초대하고,\n 친구들이 모두 수락하면 이 방에 참여 신청이 완료돼요.',
+                      style: kSmallCaptionStyle.copyWith(
+                          color: kMainBlack.withOpacity(0.4), height: 1.5),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
               ],
             ),
           ),
