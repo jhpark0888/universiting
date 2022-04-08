@@ -15,13 +15,16 @@ class AlarmListView extends StatelessWidget {
       appBar: AppBarWidget(title: '알림'),
       body: SmartRefresher(
         enablePullDown: true,
+        enablePullUp: true,
         controller: alarmListController.refreshController,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20,10,20,10),
-            child: Obx(()=>Column(children: alarmListController.alarmList.toList())),
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Obx(
+                () => Column(children: alarmListController.alarmList.toList())),
           ),
-        ),header: const ClassicHeader(
+        ),
+        header: const ClassicHeader(
             spacing: 0.0,
             height: 60,
             completeDuration: Duration(milliseconds: 600),
@@ -30,26 +33,32 @@ class AlarmListView extends StatelessWidget {
             releaseText: "",
             completeText: "",
             idleText: "",
-            refreshingIcon: Text('당기는 중입니다.')), onRefresh: (){print('sdd');alarmListController.refreshController.refreshCompleted();},
+            refreshingIcon: Text('당기는 중입니다.')),
+        onRefresh: () {
+          alarmListController.refreshController.refreshCompleted();
+        },
         footer: ClassicFooter(
-                              completeDuration: Duration.zero,
-                              loadingText: "",
-                              canLoadingText: "",
-                              idleText: "",
-                              idleIcon: Container(),
-                              noMoreIcon: Container(
-                                child: Text('as'),
-                              ),
-                              loadingIcon: Image.asset(
-                                'assets/icons/loading.gif',
-                                scale: 6,
-                              ),
-                              canLoadingIcon: Image.asset(
-                                'assets/icons/loading.gif',
-                                scale: 6,
-                              ),
-                            ),
-                            onLoading: (){print('완료');alarmListController.refreshController.loadComplete();},
+          completeDuration: Duration.zero,
+          loadingText: "",
+          canLoadingText: "",
+          idleText: "",
+          idleIcon: Container(),
+          noMoreIcon: Container(
+            child: Text('as'),
+          ),
+          loadingIcon: Image.asset(
+            'assets/icons/loading.gif',
+            scale: 6,
+          ),
+          canLoadingIcon: Image.asset(
+            'assets/icons/loading.gif',
+            scale: 6,
+          ),
+        ),
+        onLoading: () {
+          print('완료');
+          alarmListController.refreshController.loadComplete();
+        },
       ),
     );
   }

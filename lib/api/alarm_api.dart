@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 
 Future<List<AlarmReceive>> getAlarmList(index) async {
   ConnectivityResult result = await checkConnectionStatus();
-  FlutterSecureStorage storage = FlutterSecureStorage();
+  FlutterSecureStorage storage = FlutterSecureStorage(); 
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/alarm?last=$index');
   // var url = Uri.parse('$serverUrl/room_api/test_alarm?last=$index');
