@@ -148,7 +148,8 @@ Future<void> roomJoin(String room_id) async {
 
   var body = {
     'room_id': room_id,
-    'member_id': ParticipateController.to.members.toString()
+    'member_id': ParticipateController.to.members.toString(),
+    'introduction' : ParticipateController.to.introController.text
   };
   var headers = {
     'Authorization': 'Token $token',

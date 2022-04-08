@@ -150,7 +150,7 @@ class UnivRoomWidget extends StatelessWidget {
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
-                                children: univRoomController.room,
+                                children: univRoomController.room.reversed.toList(),
                               ),
                             ),
                           )

@@ -35,7 +35,8 @@ Future<List<AlarmReceive>> getReceiveStatus() async {
               profileImage: '',
               userId: 0),
           date: DateTime(2020),
-          isRead: false)
+          isRead: false,
+          roomInformation: '')
     ];
   } else {
       var response = await http.get(url, headers: headers);
@@ -66,7 +67,8 @@ Future<List<AlarmReceive>> getReceiveStatus() async {
                   profileImage: '',
                   userId: 0),
               date: DateTime(2020),
-              isRead: false)
+              isRead: false,
+              roomInformation: '')
         ];
       }
   }

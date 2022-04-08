@@ -13,6 +13,7 @@ import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
+import 'package:universiting/views/alarm_list_view.dart';
 import 'package:universiting/views/login_view.dart';
 import 'package:universiting/views/room_info_view.dart';
 import 'package:universiting/views/signup_univ_view.dart';
@@ -246,18 +247,19 @@ class HomeView extends StatelessWidget {
                   Positioned(
                       child: GestureDetector(
                         onTap: () {
-                           if (_animationController.bnbOffsetValue.value ==
-                              Offset(0.0, 0.0)) {
-                            _animationController.bnbOffsetValue.value =
-                                Offset(0.0, 1.0);
-                            _animationController.isRoomModalUp(true);
-                          } else {
-                            _animationController.bnbOffsetValue.value =
-                                Offset(0.0, 0.0);
-                            Future.delayed(Duration(milliseconds: 300), () {
-                              _animationController.isRoomModalUp(false);
-                            });
-                          }
+                          //  if (_animationController.bnbOffsetValue.value ==
+                          //     Offset(0.0, 0.0)) {
+                          //   _animationController.bnbOffsetValue.value =
+                          //       Offset(0.0, 1.0);
+                          //   _animationController.isRoomModalUp(true);
+                          // } else {
+                          //   _animationController.bnbOffsetValue.value =
+                          //       Offset(0.0, 0.0);
+                          //   Future.delayed(Duration(milliseconds: 300), () {
+                          //     _animationController.isRoomModalUp(false);
+                          //   });
+                          // }
+                          Get.to(()=> AlarmListView());
                         },
                         child: Container(
                           height: 42,

@@ -14,7 +14,7 @@ class AlarmReceive {
   Profile profile;
   DateTime date;
   bool isRead;
-
+  String roomInformation;
   AlarmReceive(
       {required this.id,
       required this.userId,
@@ -23,7 +23,8 @@ class AlarmReceive {
       this.content,
       required this.profile,
       required this.date,
-      required this.isRead});
+      required this.isRead,
+      required this.roomInformation});
 
   factory AlarmReceive.fromJson(Map<String, dynamic> json) => AlarmReceive(
       id: json['id'],
@@ -33,7 +34,8 @@ class AlarmReceive {
       content: json['content'] != null ? Room.fromJson(json['content']) : Room(title: ''),
       profile: Profile.fromJson(json['profile']),
       date: DateTime.parse(json['date']),
-      isRead: json['is_read']);
+      isRead: json['is_read'],
+      roomInformation: json['room_information']);
 }
 
 List<AlarmReceive> alarmReceiveParsed(String responsebody) {

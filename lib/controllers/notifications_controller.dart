@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:universiting/api/chat_api.dart';
 import 'package:universiting/api/status_api.dart';
 import 'package:universiting/app.dart';
 import 'package:universiting/constant.dart';
@@ -100,12 +101,12 @@ class NotificationController extends GetxController {
       sound: true,
     );
 
-      print(settings.authorizationStatus);
+    print(settings.authorizationStatus);
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('user granted the permission');
       messaging.getToken();
       //main message
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) async{
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
         Notifications notification = Notifications(
             title: message.notification!.title,
             body: message.notification!.body,
@@ -132,7 +133,8 @@ class NotificationController extends GetxController {
                   message: message.notification!.body!,
                   date: DateTime.now(),
                 ),
-                userType: MessageDetailController.to.messageDetail.value.userType,
+                userType:
+                    MessageDetailController.to.messageDetail.value.userType,
                 profile: MessageDetailController.to.getFindProfile(Message(
                     id: MessageDetailController
                             .to.messageDetail.value.message.last.id +
@@ -141,18 +143,25 @@ class NotificationController extends GetxController {
                     sender: int.parse(message.data['user_id']),
                     date: DateTime.now()))[0]));
             print(MessageDetailController.to.getFindProfile(Message(
-                    id: MessageDetailController
-                            .to.messageDetail.value.message.last.id +
-                        1,
-                    message: message.notification!.body!,
-                    sender: int.parse(message.data['user_id']),
-                    date: DateTime.now())));
+                id: MessageDetailController
+                        .to.messageDetail.value.message.last.id +
+                    1,
+                message: message.notification!.body!,
+                sender: int.parse(message.data['user_id']),
+                date: DateTime.now())));
             print(message.data);
           }
-        }else if(message.data['type'] == 'receive/host_invite'){
-         StatusController.to.receiveList.value = await getReceiveStatus();
-         StatusController.to.makeAllReceiveList();
-         print('완료');
+        } else if (message.data['type'] == 'receive/host_invite') {
+          StatusController.to.receiveList.value = await getReceiveStatus();
+          StatusController.to.makeAllReceiveList();
+          print('완료');
+        } else if (message.data['type'] == 'chat_group') {
+          StatusController.to.receiveList.value = await getReceiveStatus();
+          StatusController.to.makeAllReceiveList();
+          StatusController.to.sendList.value = await getSendStatus();
+          StatusController.to.makeAllSendList();
+          ChatListController.to.chatList.value = await getChatList();
+    ChatListController.to.chatRoomList.value = ChatListController.to.getChatRoomList();
         }
       });
     } else {

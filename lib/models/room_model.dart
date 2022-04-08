@@ -18,7 +18,6 @@ class Room {
   int? isJoin;
   DateTime? date;
   bool? type;
-
   Room(
       {this.id,
       required this.title,
@@ -51,7 +50,7 @@ class Room {
       introduction: json['introduction'],
       isCreater: json['is_creater'],
       isJoin : json['is_join'],
-      date: json['date'] != null ? DateTime.parse(json['date']) : null
+      date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
       
 }

@@ -33,12 +33,12 @@ class RoomDetailView extends StatelessWidget {
                   if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null) {
                     showCustomModalPopup(context, value1: '이 방 신고하기', func1: () {
                     Get.back();
-                    showRoomDialog(roomDetailController.reportController, roomid,MoreType.report);
+                    showRoomDialog(controller : roomDetailController.reportController,roomid : roomid,moretype : MoreType.report);
                   }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
                   }else{
                     showCustomModalPopup(context, value1: '이 방 나가기', func1: () {
                     Get.back();
-                    showRoomDialog(roomDetailController.reportController, roomid,MoreType.delete);
+                    showRoomDialog(controller : roomDetailController.reportController,roomid: roomid,moretype : MoreType.delete);
                   }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
                   }
                 },

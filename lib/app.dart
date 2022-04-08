@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
+import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/views/chat_list_view.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:universiting/views/profile_view.dart';
@@ -17,6 +18,7 @@ class App extends StatelessWidget {
   double lat;
   double lng;
   AppController appController = Get.put(AppController());
+  MapController mapController = Get.put(MapController());
   final CustomAnimationController _animationController =
       Get.put(CustomAnimationController(), tag: 'bottomnavigation');
   @override

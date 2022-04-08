@@ -9,6 +9,7 @@ import 'package:universiting/widgets/participate_selected_name_widget.dart';
 
 class ParticipateController extends GetxController{
   static ParticipateController get to => Get.find();
+  TextEditingController introController = TextEditingController();
   final members = [].obs;
   final memberProfile = <Profile>[].obs;
   final ageAvg = ProfileController.to.profile.value.age.obs;
