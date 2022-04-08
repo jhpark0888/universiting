@@ -89,15 +89,21 @@ class RoomInfoView extends StatelessWidget {
                         Get.to(() => SelectFriendView(type: AddFriends.myRoom));
                       },
                       child: Row(
-                        children: const [
-                          Icon(
-                            Icons.add_circle_outline,
-                            size: 50,
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: kMainWhite,
+                              border: Border.all(width: 1),
+                            ),
+                            child: Icon(Icons.add),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
-                          Text(
+                          const Text(
                             '함께할 친구 초대하기',
                             style: kSubtitleStyle2,
                           ),
