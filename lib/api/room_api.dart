@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -60,18 +61,22 @@ Future<void> SearchMember() async {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
     try {
+      selectMemberController.searchtype(SearchType.loading);
       var response = await http.get(url, headers: headers);
-      print(response.statusCode);
+      print('친구 검색 : ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode <= 200 && response.statusCode < 300) {
+        selectMemberController.searchtype(SearchType.success);
         selectMemberController.seletedMember.value =
             Profile.fromJson(jsonDecode(responsebody));
       } else if (response.statusCode == 404) {
-        print(response.statusCode);
-      } else {
-        print(response.statusCode);
-      }
+        selectMemberController.searchtype(SearchType.empty);
+      } else {}
+    } on SocketException {
+      selectMemberController.searchtype(SearchType.error);
+      showCustomDialog('서버 점검중입니다.', 1200);
     } catch (e) {
+      selectMemberController.searchtype(SearchType.error);
       showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
@@ -79,7 +84,7 @@ Future<void> SearchMember() async {
 
 Future<void> makeRoom() async {
   RoomInfoController createRoomController = Get.find();
-  CheckPeopleController checkPeopleController = Get.find();
+  // CheckPeopleController checkPeopleController = Get.find();
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
@@ -87,7 +92,7 @@ Future<void> makeRoom() async {
 
   var body = {
     'title': createRoomController.roomTitleController.text,
-    'totalmember': checkPeopleController.peopleNumber.toString(),
+    'totalmember': (createRoomController.members.length + 1).toString(),
     'introduction': createRoomController.introController.text,
     'member_id': createRoomController.members.toString()
   };
@@ -95,16 +100,28 @@ Future<void> makeRoom() async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
+    Get.back();
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response = await http.post(url, headers: headers, body: body);
-    print(response.statusCode);
-    String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
-      print(responsebody);
-      print(response.statusCode);
-    } else {
-      print(response.statusCode);
+    try {
+      var response = await http.post(url, headers: headers, body: body);
+      print('방 만들기: ${response.statusCode}');
+      String responsebody = utf8.decode(response.bodyBytes);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        Get.back();
+        Get.back();
+        print(responsebody);
+        print(response.statusCode);
+      } else {
+        print(response.statusCode);
+      }
+    } on SocketException {
+      Get.back();
+      showCustomDialog('서버 점검중입니다.', 1200);
+    } catch (e) {
+      Get.back();
+      print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }
@@ -131,7 +148,7 @@ Future<Room> getDetailRoom(String id) async {
         return Room(
             id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
       }
-    }catch(e){
+    } catch (e) {
       print(e);
       showcustomCustomDialog(1200);
       return Room(
@@ -173,7 +190,7 @@ Future<void> deleteMyRoom(String id) async {
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/room');
 
-  var body = {'room_id' : id};
+  var body = {'room_id': id};
   var headers = {
     'Authorization': 'Token $token',
   };
@@ -192,29 +209,23 @@ Future<void> deleteMyRoom(String id) async {
 }
 
 Future<void> reportRoom(String roomId, String reason) async {
-
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/report_room');
 
-  var body = {
-    'id': roomId,
-    'reason' : reason
-  };
+  var body = {'id': roomId, 'reason': reason};
   var headers = {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.post(url, headers: headers, body: body);
+    var response = await http.post(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(responsebody);
       print(response.statusCode);
-
     } else {
       print(response.statusCode);
     }

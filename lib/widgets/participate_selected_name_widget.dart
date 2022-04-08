@@ -8,7 +8,11 @@ import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/select_member_model.dart';
 
 class SelectedNameWidget extends StatelessWidget {
-  SelectedNameWidget({Key? key, required this.selectMember, required this.roomManager, required this.type})
+  SelectedNameWidget(
+      {Key? key,
+      required this.selectMember,
+      required this.roomManager,
+      required this.type})
       : super(key: key);
   Profile selectMember;
   AddFriends type;
@@ -32,22 +36,38 @@ class SelectedNameWidget extends StatelessWidget {
                   if (!roomManager)
                     GestureDetector(
                         onTap: () {
-                          if(type == AddFriends.myRoom){
-                          RoomInfoController.to.seletedMembers.value =
-                              RoomInfoController.to.seletedMembers
-                                  .where((element) => element.selectMember != selectMember)
-                                  .toList();
-                          RoomInfoController.to.members.value = RoomInfoController.to.members.where((id) => id != selectMember.userId).toList();        
-                          }else{
+                          if (type == AddFriends.myRoom) {
+                            RoomInfoController.to.seletedMembers.value =
+                                RoomInfoController.to.seletedMembers
+                                    .where((element) =>
+                                        element.selectMember != selectMember)
+                                    .toList();
+                            RoomInfoController.to.members.value =
+                                RoomInfoController.to.members
+                                    .where((id) => id != selectMember.userId)
+                                    .toList();
+                            RoomInfoController.to.memberProfile.value =
+                                RoomInfoController.to.memberProfile
+                                    .where((profile) => profile != selectMember)
+                                    .toList();
+                          } else {
                             {
-                          ParticipateController.to.selectedMembers.value =
-                              ParticipateController.to.selectedMembers
-                                  .where((element) => element.selectMember != selectMember)
-                                  .toList();
-                          ParticipateController.to.members.value = ParticipateController.to.members.where((id) => id != selectMember.userId).toList();        
+                              ParticipateController.to.selectedMembers.value =
+                                  ParticipateController.to.selectedMembers
+                                      .where((element) =>
+                                          element.selectMember != selectMember)
+                                      .toList();
+                              ParticipateController.to.members.value =
+                                  ParticipateController.to.members
+                                      .where((id) => id != selectMember.userId)
+                                      .toList();
+                              ParticipateController.to.memberProfile.value =
+                                  ParticipateController.to.memberProfile
+                                      .where(
+                                          (profile) => profile != selectMember)
+                                      .toList();
+                            }
                           }
-                          }
-       
                         },
                         child: SvgPicture.asset(
                           'assets/icons/delete.svg',

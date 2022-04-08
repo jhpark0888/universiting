@@ -22,16 +22,12 @@ class RoomInfoController extends GetxController {
         roomManager: true,
         type: AddFriends.myRoom)
   ].obs;
-  final RxList<NewPersonTileWidget> allmembertile = <NewPersonTileWidget>[].obs;
   final members = <int>[].obs;
   final memberProfile = <Profile>[].obs;
   @override
   void onInit() {
     AppController.to.addPage();
     print(AppController.to.stackPage);
-    allmembertile.add(NewPersonTileWidget(
-      profile: ProfileController.to.profile.value,
-    ));
     super.onInit();
     // for (int i = 2; i < 6; i++) {
     //   checkNumberPeopleList.add(CheckNumberOfPeopleWidget(text: i));
