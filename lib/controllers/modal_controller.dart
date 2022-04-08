@@ -111,6 +111,7 @@ void showCustomDialog(String title, int duration) {
 }
 
 void showemailchecksnackbar(String message) {
+  Get.closeCurrentSnackbar();
   Get.snackbar(
     '',
     '',
