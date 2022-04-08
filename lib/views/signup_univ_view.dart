@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -96,9 +97,9 @@ class SignupUnivView extends StatelessWidget {
                                       onTap: () {
                                         signupController.universityController
                                             .text = element;
-                                        Get.to(() => SignupNameView(),
-                                            transition:
-                                                Transition.noTransition);
+                                        // Get.to(() => SignupNameView(),
+                                        //     transition:
+                                        //         Transition.noTransition);
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -119,16 +120,18 @@ class SignupUnivView extends StatelessWidget {
                                                     element,
                                                     style: kBodyStyle2,
                                                   ),
-                                                  Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    decoration: BoxDecoration(
-                                                        color: kMainBlack
-                                                            .withOpacity(0.6),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30)),
-                                                  )
+                                                  SvgPicture.asset(
+                                                      'assets/icons/check_nactive.svg'),
+                                                  // Container(
+                                                  //   height: 30,
+                                                  //   width: 30,
+                                                  //   decoration: BoxDecoration(
+                                                  //       color: kMainBlack
+                                                  //           .withOpacity(0.6),
+                                                  //       borderRadius:
+                                                  //           BorderRadius
+                                                  //               .circular(30)),
+                                                  // )
                                                 ]),
                                           ),
                                           const Divider(
@@ -165,6 +168,62 @@ class SignupUnivView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class UniversityWidget extends StatelessWidget {
+  UniversityWidget({Key? key, required this.univ}) : super(key: key);
+  String univ;
+  RxBool isselected = false.obs;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        SignupController.to.universityController.text = univ;
+        // Get.to(() => SignupNameView(),
+        //     transition:
+        //         Transition.noTransition);
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20,
+            ),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    univ,
+                    style: kBodyStyle2,
+                  ),
+                  Obx(
+                    () => isselected.value == false
+                        ? SvgPicture.asset('assets/icons/check_nactive.svg')
+                        : SvgPicture.asset('assets/icons/check_active.svg'),
+                  )
+                  // Container(
+                  //   height: 30,
+                  //   width: 30,
+                  //   decoration: BoxDecoration(
+                  //       color: kMainBlack
+                  //           .withOpacity(0.6),
+                  //       borderRadius:
+                  //           BorderRadius
+                  //               .circular(30)),
+                  // )
+                ]),
+          ),
+          const Divider(
+            color: Color(0xffe7e7e7),
+          ),
+        ],
       ),
     );
   }

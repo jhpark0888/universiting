@@ -58,16 +58,28 @@ class CheckPeopleController extends GetxController {
         humanNum: i + 1,
       ));
       if (type == AddFriends.myRoom) {
-        RoomInfoController.to.memberProfile.add(Profile(age: 0, gender: '', introduction: '', nickname: '', profileImage: '', userId: 0));
-      }else{
-        ParticipateController.to.memberProfile.add(Profile(age: 0, gender: '', introduction: '', nickname: '', profileImage: '', userId: 0));
+        RoomInfoController.to.memberProfile.add(Profile(
+            age: 0,
+            gender: '',
+            introduction: '',
+            nickname: '',
+            profileImage: '',
+            userId: 0));
+      } else {
+        ParticipateController.to.memberProfile.add(Profile(
+            age: 0,
+            gender: '',
+            introduction: '',
+            nickname: '',
+            profileImage: '',
+            userId: 0));
       }
     }
     if (type == AddFriends.myRoom) {
-    if (RoomInfoController.to.seletedMembers.length > number) {
-      RoomInfoController.to.seletedMembers.removeLast();
-      RoomInfoController.to.members.removeLast();
-    }
+      if (RoomInfoController.to.seletedMembers.length > number) {
+        RoomInfoController.to.seletedMembers.removeLast();
+        RoomInfoController.to.members.removeLast();
+      }
     }
   }
 
@@ -79,6 +91,7 @@ class CheckPeopleController extends GetxController {
     }
     super.onInit();
   }
+
   @override
   void onClose() {
     checkPeopleList.clear();

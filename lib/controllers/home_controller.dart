@@ -19,7 +19,7 @@ import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find(tag: '다음 화면');
-  MapController mapController = Get.put(MapController());
+  MapController mapController = Get.put(MapController(), permanent: true);
   RxList<Widget> univRoom = [Container()].obs;
   RxList<MainUniv> mainuniv = <MainUniv>[].obs;
   String? univId;

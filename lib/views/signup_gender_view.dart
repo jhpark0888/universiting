@@ -82,12 +82,6 @@ class SignupGenderView extends StatelessWidget {
                                     child: GestureDetector(
                                       onTap: () {
                                         signupController.isgender.value = 'M';
-                                        Future.delayed(
-                                            Duration(milliseconds: 200), () {
-                                          Get.to(() => SignupPasswordView(),
-                                              transition:
-                                                  Transition.noTransition);
-                                        });
                                       },
                                       child: SvgPicture.asset(
                                         signupController.isgender.value == 'M'
@@ -129,12 +123,6 @@ class SignupGenderView extends StatelessWidget {
                                       child: GestureDetector(
                                         onTap: () {
                                           signupController.isgender.value = 'F';
-                                          Future.delayed(
-                                              Duration(milliseconds: 200), () {
-                                            Get.to(() => SignupPasswordView(),
-                                                transition:
-                                                    Transition.noTransition);
-                                          });
                                         },
                                         child: SvgPicture.asset(
                                           signupController.isgender.value == 'F'

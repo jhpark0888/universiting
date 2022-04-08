@@ -10,25 +10,27 @@ import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/select_member_controller.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
+import 'package:universiting/widgets/new_person_widget.dart';
 import 'package:universiting/widgets/participate_selected_name_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
+import 'package:universiting/widgets/white_textfield_widget.dart';
 
 import '../widgets/background_textfield_widget.dart';
 
 class SelectFriendView extends StatelessWidget {
-  SelectFriendView({Key? key, required this.text, required this.type})
+  SelectFriendView({Key? key, this.peoplenum, required this.type})
       : super(key: key);
-  SelectMemberController selectFriendController =
+  SelectMemberController selectmemberController =
       Get.put(SelectMemberController());
-  int text;
+  int? peoplenum;
   AddFriends type;
   @override
   Widget build(BuildContext context) {
-    print(selectFriendController.seletedMember);
+    print(selectmemberController.seletedMember);
     return Scaffold(
       appBar: AppBarWidget(
-        title: '같이 갈 친구 선택',
+        title: '함께 갈 친구 선택',
       ),
       body: Obx(
         () => Padding(
@@ -37,44 +39,44 @@ class SelectFriendView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '같이 갈 친구들 (${type == AddFriends.myRoom ? RoomInfoController.to.members.length + 1 : ParticipateController.to.members.length + 1} / ${text.toString()})',
+                '함께 갈 친구들 ${type == AddFriends.myRoom ? '${RoomInfoController.to.members.length + 1}명' : '(${ParticipateController.to.members.length + 1} / ${peoplenum.toString()})'}',
                 style: kSubtitleStyle2,
               ),
-              const SizedBox(height: 12),
-              if (type == AddFriends.myRoom)
-                Row(
-                  children: RoomInfoController.to.seletedMembers,
+              const SizedBox(height: 20),
+              Row(
+                  children: type == AddFriends.myRoom
+                      ? RoomInfoController.to.seletedMembers
+                      : ParticipateController.to.selectedMembers),
+              const SizedBox(height: 20),
+              WhiteTextfieldWidget(
+                controller: selectmemberController.nickNameController,
+                hinttext: '같은 학교 친구의 닉네임을 입력해주세요',
+                prefixicon: Icon(
+                  Icons.search,
+                  color: kMainBlack.withOpacity(0.6),
                 ),
-              if (type == AddFriends.otherRoom)
-                Row(
-                  children: ParticipateController.to.selectedMembers,
-                ),
-              const SizedBox(height: 12),
-              BackgroundTextfieldWidget(
-                controller: selectFriendController.nickNameController,
-                hinttext: '친구 닉네임 검색',
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 20),
               GestureDetector(
                   onTap: () {
                     print(type);
                     if (type == AddFriends.myRoom) {
                       if (!RoomInfoController.to.members.contains(
-                          selectFriendController.seletedMember.value.userId)) {
-                        if (text > RoomInfoController.to.members.length + 1) {
+                          selectmemberController.seletedMember.value.userId)) {
+                        if (5 > RoomInfoController.to.members.length + 1) {
                           RoomInfoController.to.members.add(
-                              selectFriendController
+                              selectmemberController
                                   .seletedMember.value.userId);
                           RoomInfoController.to.seletedMembers
                               .add(SelectedNameWidget(
                             selectMember:
-                                selectFriendController.seletedMember.value,
+                                selectmemberController.seletedMember.value,
                             roomManager: false,
                             type: AddFriends.myRoom,
                           ));
-                          RoomInfoController.to.memberProfile[text - 2] =
-                              selectFriendController.seletedMember.value;
-                          print(selectFriendController
+                          RoomInfoController.to.memberProfile
+                              .add(selectmemberController.seletedMember.value);
+                          print(selectmemberController
                               .seletedMember.value.nickname);
                           print(RoomInfoController.to.members);
                         } else {
@@ -85,22 +87,22 @@ class SelectFriendView extends StatelessWidget {
                       }
                     } else {
                       if (!ParticipateController.to.members.contains(
-                          selectFriendController.seletedMember.value.userId)) {
-                        if (text >
+                          selectmemberController.seletedMember.value.userId)) {
+                        if (peoplenum! >
                             ParticipateController.to.members.length + 1) {
                           ParticipateController.to.members.add(
-                              selectFriendController
+                              selectmemberController
                                   .seletedMember.value.userId);
 
                           ParticipateController.to.selectedMembers.add(
                               SelectedNameWidget(
-                                  selectMember: selectFriendController
+                                  selectMember: selectmemberController
                                       .seletedMember.value,
                                   roomManager: false,
                                   type: AddFriends.otherRoom));
 
-                          ParticipateController.to.memberProfile[text - 2] =
-                              selectFriendController.seletedMember.value;
+                          ParticipateController.to.memberProfile
+                              .add(selectmemberController.seletedMember.value);
                         } else {
                           showCustomDialog('인원이 초과되었어요', 1200);
                         }
@@ -109,49 +111,13 @@ class SelectFriendView extends StatelessWidget {
                       }
                     }
                   },
-                  child: Obx(
-                      () => selectFriendController.seletedMember.value.age != 0
-                          ? Row(
-                              children: [
-                                ProfileImageWidget(
-                                  type: ViewType.otherView,
-                                  width: 48,
-                                  profile: selectFriendController
-                                      .seletedMember.value,
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  selectFriendController
-                                      .seletedMember.value.nickname,
-                                  style: kSubtitleStyle2,
-                                ),Expanded(child: Container()),
-                                type == AddFriends.myRoom
-                                    ? RoomInfoController.to.seletedMembers
-                                            .where((member) =>
-                                                member.selectMember ==
-                                                selectFriendController
-                                                    .seletedMember.value)
-                                            .toList()
-                                            .isEmpty
-                                        ? SvgPicture.asset(
-                                            'assets/icons/check_nactive.svg')
-                                        : SvgPicture.asset(
-                                            'assets/icons/check_active.svg')
-                                    : ParticipateController.to.selectedMembers
-                                            .where((member) =>
-                                                member.selectMember ==
-                                                selectFriendController
-                                                    .seletedMember.value)
-                                            .toList()
-                                            .isEmpty
-                                        ? SvgPicture.asset(
-                                            'assets/icons/check_nactive.svg')
-                                        : SvgPicture.asset(
-                                            'assets/icons/check_active.svg')
-                              ],
-                            )
+                  child: Obx(() =>
+                      selectmemberController.seletedMember.value.age != 0
+                          ? NewPersonTileWidget(
+                              profile:
+                                  selectmemberController.seletedMember.value)
                           : const SizedBox.shrink()))
-              // Text(selectFriendController.seletedMember.value.nickname))
+              // Text(selectmemberController.seletedMember.value.nickname))
             ],
           ),
         ),

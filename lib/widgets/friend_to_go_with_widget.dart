@@ -24,62 +24,84 @@ class FriendToGoWithWidget extends StatelessWidget {
       () => Row(
         children: [
           GestureDetector(
-            onTap: () {
-              Get.to(() => SelectFriendView(text: text + 2,type: type));
-              print('$humanNum입니다');
-              print('$text입니다');
-            },
-            child: Container(
-              child: type == AddFriends.myRoom
-                      ? RoomInfoController.to.members != []
-                          ? RoomInfoController.to.members.length == humanNum
-                              ? ClipOval(
-                                child: RoomInfoController.to.memberProfile[humanNum-1].profileImage != '' ?CachedNetworkImage(
-                                  imageUrl : RoomInfoController.to.memberProfile[humanNum-1].profileImage,
-                                  width: 48,
-                                  height: 48,
-                                  fit: BoxFit.cover,
-                                ) : SvgPicture.asset(
-                                'assets/illustrations/default_profile.svg',
-                                height:  48,
-                                width:  48,
-                                fit: BoxFit.cover,
-                              ),
+              onTap: () {
+                Get.to(() => SelectFriendView(peoplenum: text + 2, type: type));
+                print('$humanNum입니다');
+                print('$text입니다');
+              },
+              child: Container(
+                child: type == AddFriends.myRoom
+                    ? RoomInfoController.to.members != []
+                        ? RoomInfoController.to.members.length == humanNum
+                            ? ClipOval(
+                                child: RoomInfoController
+                                            .to
+                                            .memberProfile[humanNum - 1]
+                                            .profileImage !=
+                                        ''
+                                    ? CachedNetworkImage(
+                                        imageUrl: RoomInfoController
+                                            .to
+                                            .memberProfile[humanNum - 1]
+                                            .profileImage,
+                                        width: 48,
+                                        height: 48,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/illustrations/default_profile.svg',
+                                        height: 48,
+                                        width: 48,
+                                        fit: BoxFit.cover,
+                                      ),
                               )
-                              //  Text(RoomInfoController.to.memberProfile[humanNum-1].age.toString())
-                              : const Icon(Icons.add)
-                          : const Icon(Icons.add)
-                      : ParticipateController.to.members != []
-                      ? ParticipateController.to.members.length >= humanNum
-                      ? ClipOval(
-                                child: ParticipateController.to.memberProfile[humanNum-1].profileImage != '' ?CachedNetworkImage(
-                                  imageUrl : ParticipateController .to.memberProfile[humanNum-1].profileImage,
-                                  width: 48,
-                                  height: 48,
-                                  fit: BoxFit.cover,
-                                ) : SvgPicture.asset(
-                                'assets/illustrations/default_profile.svg',
-                                height:  48,
-                                width:  48,
-                                fit: BoxFit.cover,
-                              ),
-                              ):const Icon(Icons.add) : const Icon(Icons.add),
-              width: Get.width / 7,
-              height: Get.width / 7,
-              decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(30),
-                  color: type == AddFriends.myRoom
-                      ? RoomInfoController.to.members != []
-                          ? RoomInfoController.to.members.length >= humanNum
-                              ? kMainBlack.withOpacity(0.38)
-                              : kMainWhite
-                          : kMainWhite
-                      : ParticipateController.to.members != []
-                      ? ParticipateController.to.members.length >= humanNum
-                      ? kMainBlack.withOpacity(0.38):kMainWhite : kMainWhite),
-            )
-          ),
+                            //  Text(RoomInfoController.to.memberProfile[humanNum-1].age.toString())
+                            : const Icon(Icons.add)
+                        : const Icon(Icons.add)
+                    : ParticipateController.to.members != []
+                        ? ParticipateController.to.members.length >= humanNum
+                            ? ClipOval(
+                                child: ParticipateController
+                                            .to
+                                            .memberProfile[humanNum - 1]
+                                            .profileImage !=
+                                        ''
+                                    ? CachedNetworkImage(
+                                        imageUrl: ParticipateController
+                                            .to
+                                            .memberProfile[humanNum - 1]
+                                            .profileImage,
+                                        width: 48,
+                                        height: 48,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/illustrations/default_profile.svg',
+                                        height: 48,
+                                        width: 48,
+                                        fit: BoxFit.cover,
+                                      ),
+                              )
+                            : const Icon(Icons.add)
+                        : const Icon(Icons.add),
+                width: Get.width / 7,
+                height: Get.width / 7,
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(30),
+                    color: type == AddFriends.myRoom
+                        ? RoomInfoController.to.members != []
+                            ? RoomInfoController.to.members.length >= humanNum
+                                ? kMainBlack.withOpacity(0.38)
+                                : kMainWhite
+                            : kMainWhite
+                        : ParticipateController.to.members != []
+                            ? ParticipateController.to.members.length >=
+                                    humanNum
+                                ? kMainBlack.withOpacity(0.38)
+                                : kMainWhite
+                            : kMainWhite),
+              )),
           const SizedBox(width: 8)
         ],
       ),

@@ -6,12 +6,11 @@ import 'package:universiting/widgets/button_widget.dart';
 
 class CheckNumberOfPeopleWidget extends StatelessWidget {
   CheckNumberOfPeopleWidget({Key? key, required this.text}) : super(key: key);
-   CheckPeopleController checkPeopleController =
-        Get.put(CheckPeopleController(type: AddFriends.myRoom));
+  CheckPeopleController checkPeopleController =
+      Get.put(CheckPeopleController(type: AddFriends.myRoom));
   int text;
   @override
   Widget build(BuildContext context) {
- 
     return Obx(
       () => Row(
         children: [

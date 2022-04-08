@@ -24,11 +24,15 @@ class LoginView extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: kBackgroundWhite,
-          border: Border(
-            top: BorderSide(
-              width: 1.6,
-              color: Color(0xffe7e7e7),
-            ),
+          // border: Border(
+          //   top: BorderSide(
+          //     width: 1.6,
+          //     color: Color(0xffe7e7e7),
+          //   ),
+          // ),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
         ),
         child: Padding(

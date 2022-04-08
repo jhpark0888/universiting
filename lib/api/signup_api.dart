@@ -24,7 +24,7 @@ Future<void> getUniversityList() async {
   SignupController signupController = Get.find();
   var url = Uri.parse('$serverUrl/school_api/university_list');
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       var response = await http.get(url);
@@ -137,7 +137,7 @@ Future<void> checkEmail() async {
         postProfile();
       } else if (response.statusCode == 400) {
         signupController.emailcheckstate(EmailCheckState.fill);
-        showCustomDialog('이미 가입된 회원입니다.', 1400);
+        showemailchecksnackbar('이미 가입된 회원입니다');
       }
       {
         print(response.statusCode);

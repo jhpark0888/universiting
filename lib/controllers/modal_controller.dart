@@ -269,6 +269,7 @@ void showRoomDialog(
 }
 
 void showemailchecksnackbar(String message) {
+  Get.closeCurrentSnackbar();
   Get.snackbar(
     '',
     '',
