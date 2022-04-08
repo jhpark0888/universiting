@@ -153,6 +153,95 @@ void showCustomDialog(String title, int duration) {
   });
 }
 
+void showButtonDialog({
+  required String title,
+  required String content,
+  required Function() leftFunction,
+  required Function() rightFunction,
+  required String rightText,
+  required String leftText,
+}) {
+  Get.dialog(
+    AlertDialog(
+      // actionsAlignment: MainAxisAlignment.spaceBetween,
+      actions: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: leftFunction,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                    decoration: BoxDecoration(
+                      color: kMainBlack.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    height: 42,
+                    child: Center(
+                      child: Text(
+                        leftText,
+                        style: kInActiveButtonStyle.copyWith(
+                          color: kMainWhite,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: rightFunction,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: kPrimary,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    height: 42,
+                    child: Center(
+                      child: Text(
+                        rightText,
+                        style: kActiveButtonStyle.copyWith(color: kMainWhite),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      insetPadding: const EdgeInsets.all(20),
+      buttonPadding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
+      contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
+      backgroundColor: Colors.white,
+      title: Text(
+        title,
+        style: kSubtitleStyle1,
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        content,
+        style: kBodyStyle1,
+        textAlign: TextAlign.center,
+      ),
+    ),
+    barrierDismissible: false,
+    barrierColor: kMainBlack.withOpacity(0.1),
+  );
+}
+
 void showRoomDialog(
     {TextEditingController? controller,
     required String roomid,

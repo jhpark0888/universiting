@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/room_api.dart';
+import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/select_member_model.dart';
@@ -18,7 +19,7 @@ class SelectMemberController extends GetxController {
       .obs;
   RxString nickName = ''.obs;
   RxInt nicNameLength = 0.obs;
-  // RxBool emptymember = false.obs;
+  Rx<SearchType> searchtype = SearchType.empty.obs;
   @override
   void onInit() {
     nickNameController.addListener(() {
