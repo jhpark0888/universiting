@@ -16,17 +16,23 @@ class CustomButtonWidget extends StatelessWidget {
     required this.buttonTitle,
     required this.buttonState,
     required this.onTap,
-    this.contentPadding
+    this.contentPadding,
+    this.width,
+    this.height
   });
   final String buttonTitle;
   final ButtonState buttonState;
   final VoidCallback onTap;
   EdgeInsetsGeometry? contentPadding;
+  double? width;
+  double? height;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        width: width,
+        height: height,
         padding: contentPadding ??const EdgeInsets.symmetric(
           vertical: 12,
           horizontal: 18,
@@ -66,16 +72,16 @@ class CustomButtonWidget extends StatelessWidget {
   TextStyle buttonTextStyle(ButtonState buttonState) {
     switch (buttonState) {
       case ButtonState.primary:
-        return kActiveButtonStyle.copyWith(color: kMainWhite);
+        return kActiveButtonStyle.copyWith(color: kMainWhite,height: 1);
       case ButtonState.secondary:
-        return kActiveButtonStyle.copyWith(color: kPrimary);
+        return kActiveButtonStyle.copyWith(color: kPrimary,height: 1);
       case ButtonState.negative:
-        return kActiveButtonStyle.copyWith(color: kErrorColor);
+        return kActiveButtonStyle.copyWith(color: kErrorColor,height: 1);
       case ButtonState.general:
         return kActiveButtonStyle;
       case ButtonState.enabled:
         return kInActiveButtonStyle.copyWith(
-            color: kMainWhite);
+            color: kMainWhite,height: 1);
       default:
         kActiveButtonStyle;
     }
