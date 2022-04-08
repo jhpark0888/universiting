@@ -39,6 +39,8 @@ class HomeController extends GetxController {
     }
     await getOverlyImage();
     mainuniv.value = (await getMainUniv());
+    // showcustomCustomDialog(1200);
+    customDialog(1);
     createdMarker();
     super.onInit();
   }
@@ -53,7 +55,7 @@ class HomeController extends GetxController {
   }
 
   void createdMarker() async {
-    showcustomCustomDialog(1200);
+    // showcustomCustomDialog(1200);
     mainuniv.value = (await getMainUniv());
     mapController.markers.clear();
     mapController.markers.value = mainuniv

@@ -103,20 +103,20 @@ class ProfileImageWidget extends StatelessWidget {
                             ),
                           ),
               ),
-              if(host != null && width == null)
-              Positioned(
-                  top: 36,
-                  left: 36,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: host!.hostType! ? kPrimary : kMainWhite,
-                        borderRadius: BorderRadius.circular(8),
-                        border: host!.hostType!
-                            ? null
-                            : Border.all(color: kPrimary, width: 1.6)),
-                    width: 12,
-                    height: 12,
-                  ))
+              // if(host != null && width == null)
+              // Positioned(
+              //     top: 36,
+              //     left: 36,
+              //     child: Container(
+              //       decoration: BoxDecoration(
+              //           color: host!.hostType! ? kPrimary : kMainWhite,
+              //           borderRadius: BorderRadius.circular(8),
+              //           border: host!.hostType!
+              //               ? null
+              //               : Border.all(color: kPrimary, width: 1.6)),
+              //       width: 12,
+              //       height: 12,
+              //     ))
             ]),
             const SizedBox(
               width: 8,

@@ -5,6 +5,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/my_room_controller.dart';
 import 'package:universiting/controllers/room_detail_controller.dart';
+import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/views/participate_view.dart';
 import 'package:universiting/views/room_info_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
@@ -29,10 +30,17 @@ class RoomDetailView extends StatelessWidget {
               padding: EdgeInsets.only(right: 20),
               child: GestureDetector(
                 onTap: () {
-                  showCustomModalPopup(context,
-                      value1: '이 방 신고하기',
-                      func1: () {},
-                      textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
+                  if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null) {
+                    showCustomModalPopup(context, value1: '이 방 신고하기', func1: () {
+                    Get.back();
+                    showRoomDialog(roomDetailController.reportController, roomid,MoreType.report);
+                  }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
+                  }else{
+                    showCustomModalPopup(context, value1: '이 방 나가기', func1: () {
+                    Get.back();
+                    showRoomDialog(roomDetailController.reportController, roomid,MoreType.delete);
+                  }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
+                  }
                 },
                 child: Icon(
                   Icons.more_horiz,
@@ -44,74 +52,60 @@ class RoomDetailView extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text('간단한 방 소개', style: kSubtitleStyle2),
-              const SizedBox(height: 12),
-              Text(roomDetailController.detailRoom.value.title,
-                  style: kBodyStyle1),
-              const SizedBox(height: 20),
-              Text('구성원 ${roomDetailController.detailRoom.value.totalMember}명'),
-              const SizedBox(height: 12),
-              Column(children: roomDetailController.roomPersonList),
-              const SizedBox(height: 20),
-              roomDetailController.detailRoom.value.isCreater == null
-                  ? roomDetailController.detailRoom.value.isJoin != null
-                      ? roomDetailController.detailRoom.value.isJoin == 0
-                          ? CustomButtonWidget(
-                              buttonTitle: '같이 갈 친구들 초대하기',
-                              buttonState: ButtonState.primary,
-                              onTap: () {
-                                Get.to(() => ParticiapteView(
-                                      roomid: roomid,
-                                      peopleNumber: roomDetailController
-                                          .detailRoom.value.totalMember!,
-                                    ));
-                              },
-                            )
-                          : CustomButtonWidget(
-                              buttonTitle: '이 방 나가기',
-                              buttonState: ButtonState.negative,
-                              onTap: () {})
-                      : CustomButtonWidget(
-                          buttonTitle: '같이 갈 친구들 초대하기',
-                          buttonState: ButtonState.primary,
-                          onTap: () {
-                            Get.to(() => ParticiapteView(
-                                  roomid: roomid,
-                                  peopleNumber: roomDetailController
-                                      .detailRoom.value.totalMember!,
-                                ));
-                          },
-                        )
-                  : roomDetailController.detailRoom.value.isCreater == 1
-                      ? CustomButtonWidget(
-                          buttonTitle: '방 삭제하기',
-                          buttonState: ButtonState.negative,
-                          onTap: () {
-                            deleteMyRoom(roomid);
-                            Get.back();
-                            print(MyRoomController.to.room.length);
-                            MyRoomController.to.room.value = MyRoomController
-                                .to.room.value
-                                .where(
-                                    (room) => room.room.id.toString() != roomid)
-                                .toList();
-                            print(MyRoomController.to.room.length);
-                          })
-                      : CustomButtonWidget(
-                          buttonTitle: '이 방 나가기',
-                          buttonState: ButtonState.negative,
-                          onTap: () {deleteMyRoom(roomid);Get.back();}),
-              const SizedBox(height: 12),
-              Text(
-                '같이 갈 친구들을 초대하고, 친구들이 모두 수락을 하면 참여 신청이 완료돼요.',
-                style: kSmallCaptionStyle.copyWith(
-                    color: kMainBlack.withOpacity(0.6)),
-              )
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    const Text('방 소개', style: kSubtitleStyle5),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    getBoxColor(roomDetailController.detailRoom.value.date!),
+                    const SizedBox(width: 8),
+                    Text(
+                        calculateDate(
+                            roomDetailController.detailRoom.value.date!),
+                        style: kSmallCaptionStyle.copyWith(
+                            color: kMainBlack.withOpacity(0.4)))
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(roomDetailController.detailRoom.value.title,
+                    style: kBodyStyle1),
+                const SizedBox(height: 30),
+                Text('구성원 ${roomDetailController.detailRoom.value.totalMember}명',
+                    style: kSubtitleStyle5),
+                const SizedBox(height: 17),
+                Column(children: roomDetailController.roomPersonList),
+                const SizedBox(height: 35),
+                if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null)
+                CustomButtonWidget(
+                                buttonTitle: '같이 갈 친구들 초대하기',
+                                buttonState: ButtonState.primary,
+                                onTap: () {
+                                  Get.to(() => ParticiapteView(
+                                        roomid: roomid,
+                                        peopleNumber: roomDetailController
+                                            .detailRoom.value.totalMember!,
+                                      ));
+                                },
+                              ),
+                if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null)              
+                const SizedBox(height: 12),
+                if(roomDetailController.detailRoom.value.isJoin == null && roomDetailController.detailRoom.value.isCreater == null)
+                Center(
+                  child: Text(
+                    '함께 갈 친구들을 초대하고,\n 친구들이 모두 수락하면 이 방에 참여 신청이 완료돼요.',
+                    style: kSmallCaptionStyle.copyWith(
+                        color: kMainBlack.withOpacity(0.4), height: 1.5),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

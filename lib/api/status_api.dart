@@ -38,7 +38,6 @@ Future<List<AlarmReceive>> getReceiveStatus() async {
           isRead: false)
     ];
   } else {
- 
       var response = await http.get(url, headers: headers);
 
       String responsebody = utf8.decode(response.bodyBytes);
@@ -47,6 +46,7 @@ Future<List<AlarmReceive>> getReceiveStatus() async {
         print(jsonDecode(responsebody).runtimeType);
         return alarmReceiveParsed(responsebody);
       } else if(response.statusCode == 500){
+        print(response.statusCode);
         return [];
       } else {
         print(response.statusCode);

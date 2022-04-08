@@ -19,6 +19,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/views/first_view.dart';
 import 'package:universiting/views/home_view.dart';
+import 'package:universiting/views/univ_room_view.dart';
 
 import 'firebase_options.dart';
 
@@ -32,6 +33,8 @@ void main() async {
   } else {
     Firebase.app();
   }
+  NotificationController notificationController =
+      Get.put(NotificationController());
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   var token = await FirebaseMessaging.instance.getToken();
@@ -143,6 +146,20 @@ class _MyAppState extends State<MyApp> {
               lng: 126.962370,
             )
           : App(lat: double.parse(widget.lat!), lng: double.parse(widget.lng!)),
+      getPages: [
+        GetPage(
+            name: '/',
+            page: () => HomeView(
+                  login: false,
+                  tag: '첫 화면',
+                  lat: 37.563600,
+                  lng: 126.962370,
+                )),
+        GetPage(
+            name: '/first',
+            page: () => UnivRoomView(),
+            transition: Transition.downToUp )
+      ],
     );
   }
 }

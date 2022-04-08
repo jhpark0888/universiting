@@ -219,7 +219,7 @@ class HomeView extends StatelessWidget {
                             border: Border.all(width: 0.5, color: kMainBlack.withOpacity(0.1))),
                         child: Padding(
                           padding:
-                              const EdgeInsets.fromLTRB(20.0, 10.5, 58, 10.5),
+                              const EdgeInsets.fromLTRB(20.0, 10.5, 111, 10.5),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -232,7 +232,7 @@ class HomeView extends StatelessWidget {
                                               kMainBlack.withOpacity(0.38), size: 14,))),
                               const SizedBox(width: 10),
                               Text(
-                                '지역 또는 대학 이름으로 검색',
+                                '대학 이름으로 검색',
                                 textAlign: TextAlign.center,
                                 style: kBodyStyle1.copyWith(
                                     color: kMainBlack.withOpacity(0.40),
@@ -362,18 +362,22 @@ class HomeView extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: kPrimary,
-                              borderRadius: BorderRadius.circular(16)),
-                          padding: const EdgeInsets.fromLTRB(40,10,40,10),
-                          child: Center(
-                            child: Text(
-                              '방 만들기',
-                              style: kActiveButtonStyle.copyWith(color: kMainWhite),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: kPrimary,
+                                  borderRadius: BorderRadius.circular(16)),
+                              padding: const EdgeInsets.fromLTRB(30,14,30,14),
+                              child: Center(
+                                child: Text(
+                                  '방 만들기',
+                                  style: kBodyStyle2.copyWith(color: kMainWhite, height: 1),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ]))))
                 ],
@@ -407,6 +411,7 @@ class HomeView extends StatelessWidget {
                 ]),
               ),
             ),
+            
           ],
         ),
       ),

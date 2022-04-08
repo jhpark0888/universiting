@@ -33,3 +33,41 @@ Future<bool> resultOfConnection() async {
     return true;
   }
 }
+
+
+String calculateDate(DateTime date) {
+    if (DateTime.now().difference(date).inHours <= 24) {
+      return '최근 만들어진 방';
+    } else if (DateTime.now().difference(date).inDays <= 31) {
+      return '한 달 이내 만들어진 방';
+    } else if (DateTime.now().difference(date).inDays <= 365) {
+      return '일 년 이내 만들어진 방';
+    }
+    return '일 년 이전 만들어진 방';
+  }
+
+  Widget getBoxColor(DateTime date) {
+    if (DateTime.now().difference(date).inHours <= 24) {
+      return Container(
+          width: 5,
+          height: 5,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: const Color(0xFF00B933)));
+    } else if (DateTime.now().difference(date).inDays <= 31) {
+      return Container(
+          width: 5,
+          height: 5,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: const Color(0xFFEAEF00)));
+    } else if (DateTime.now().difference(date).inDays <= 365) {
+      return Container(
+          width: 5,
+          height: 5,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: const Color(0xFFFF6565)));
+    }
+    return Container();
+  }

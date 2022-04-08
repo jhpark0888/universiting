@@ -21,6 +21,7 @@ class MapController extends GetxController {
   RxString clickedId = ''.obs;
   RxBool isClick = false.obs;
   RxBool isDetailClick = false.obs;
+ 
   final CustomAnimationController _animationController =
       Get.put(CustomAnimationController(), tag: 'bottomnavigation');
   void onMapCreated(NaverMapController controller) {

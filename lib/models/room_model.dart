@@ -16,7 +16,7 @@ class Room {
   String? gender;
   int? isCreater;
   int? isJoin;
-  // int? isModify;
+  DateTime? date;
   bool? type;
 
   Room(
@@ -32,7 +32,7 @@ class Room {
       this.universityId,
       this.isCreater,
       this.isJoin,
-      // this.isModify,
+      this.date,
       this.introduction});
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
@@ -50,8 +50,8 @@ class Room {
       universityId: json['university_id'],
       introduction: json['introduction'],
       isCreater: json['is_creater'],
-      isJoin : json['is_join']
-      // isModify: json['is_modify']
+      isJoin : json['is_join'],
+      date: json['date'] != null ? DateTime.parse(json['date']) : null
       );
       
 }

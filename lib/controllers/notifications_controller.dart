@@ -100,9 +100,10 @@ class NotificationController extends GetxController {
       sound: true,
     );
 
+      print(settings.authorizationStatus);
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('user granted the permission');
-
+      messaging.getToken();
       //main message
       FirebaseMessaging.onMessage.listen((RemoteMessage message) async{
         Notifications notification = Notifications(

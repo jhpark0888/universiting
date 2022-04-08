@@ -16,17 +16,18 @@ class CustomButtonWidget extends StatelessWidget {
     required this.buttonTitle,
     required this.buttonState,
     required this.onTap,
+    this.contentPadding
   });
   final String buttonTitle;
   final ButtonState buttonState;
   final VoidCallback onTap;
-
+  EdgeInsetsGeometry? contentPadding;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(
+        padding: contentPadding ??const EdgeInsets.symmetric(
           vertical: 12,
           horizontal: 18,
         ),

@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
+import 'package:universiting/views/univ_room_view.dart';
 
 class UnivRoomWidget extends StatelessWidget {
   UnivRoomWidget({Key? key}) : super(key: key);
@@ -14,77 +17,183 @@ class UnivRoomWidget extends StatelessWidget {
     return Obx(
       () => SafeArea(
         child: AnimatedContainer(
-            height: mapController.isDetailClick.value
-                ? Get.height - 30
-                : Get.width / 1.5,
-            duration: Duration(milliseconds: 100),
-            decoration: const BoxDecoration(
-                color: kBackgroundWhite,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  topLeft: Radius.circular(20),
-                )),
+            height:
+                // mapController.isDetailClick.value ? Get.height : 220
+                univRoomController.changeHeight.value,
+            duration: const Duration(milliseconds: 500),
+            decoration: !mapController.isDetailClick.value
+                ? const BoxDecoration(
+                    color: kBackgroundWhite,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ))
+                : const BoxDecoration(color: kBackgroundWhite),
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0),
-              ),
+              borderRadius: !mapController.isDetailClick.value
+                  ? univRoomController.changeHeight.value == Get.height
+                      ? const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                        )
+                      : BorderRadius.zero
+                  : BorderRadius.zero,
               child: GestureDetector(
                 onTap: () {
-                  mapController.isDetailClick.value =
-                      !mapController.isDetailClick.value;
-                      print('눌렸다');
+                  // mapController.isDetailClick.value =
+                  //     !mapController.isDetailClick.value;
+
+                  // mapController.isDetailClick.value
+                  //     ? univRoomController.changeHeight.value = Get.height
+                  //     : univRoomController.changeHeight.value = 220;
+                },
+                onVerticalDragUpdate: (value) {
+                  mapController.isDetailClick(true);
+                  if (univRoomController.changeHeight.value <
+                      Get.height - value.globalPosition.dy) {
+                    univRoomController.changeHeight.value = Get.height;
+                  }
+                    if(Get.height - value.globalPosition.dy > Get.height - 100){
+                    if (univRoomController.changeHeight.value >
+                      Get.height - value.globalPosition.dy) {
+                      Get.back();
+                        }
+                  }
+                  
+
+                  // // if (univRoomController.changeHeight.value -
+                  // //         Get.height -
+                  // //         value.globalPosition.dy >
+                  // //     100) {
+                  // //   Get.back();
+                  // //   print('실행1');
+                  // // }
+                  // // if (univRoomController.changeHeight.value -
+                  // //         Get.height -
+                  // //         value.globalPosition.dy <
+                  // //     -100) {
+                  // //   univRoomController.changeHeight.value = Get.height;
+                  // //   print('실행2');
+                  // // }
+
+                  // // if (univRoomController.changeHeight.value == Get.height) {
+                  // //   univRoomController.changeHeight.value =
+                  // //       Get.height - value.globalPosition.dy;
+                  // //   print('실행3');
+                  // // }
+                  // // if (Get.height - value.globalPosition.dy < Get.height - 60 &&
+                  // //     Get.height - value.globalPosition.dy > 10) {
+                  // //   univRoomController.changeHeight.value =
+                  // //       Get.height - value.globalPosition.dy;
+                  // //   print('실행4');
+                  // // } else if (Get.height - value.globalPosition.dy >=
+                  // //     Get.height - 30) {
+                  // //   univRoomController.changeHeight.value = Get.height;
+                  // //   print('실행5');
+                  // // } else if (Get.height - value.globalPosition.dy <= 10) {
+                  // //   univRoomController.changeHeight.value = 0;
+                  // //   Get.back();
+                  // //   print('실행6');
+                  // // }
+
+                  // // if (univRoomController.changeHeight.value < 100) {
+                  // //   Get.back();
+                  // //   print('실행7');
+                  // }
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: Column(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Center(
-                            child: Container(
-                                height: 4, width: 28, color: kLightGrey),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Expanded(
-                        child: Column(children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Stack(children: [
+                    Column(
+                      children: [
+                        if (univRoomController.changeHeight.value != Get.height)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text(
-                                mapController.clickedUniv.value,
-                                style: kSubtitleStyle1,
+                              Center(
+                                child: Container(
+                                    height: 4, width: 28, color: kLightGrey),
                               ),
-                              Text(
-                                '방 ${univRoomController.univRoom.length}개',
-                                style: kSubtitleStyle2,
-                              )
                             ],
                           ),
-                          const SizedBox(height: 20),
-                          if (univRoomController.univRoom.isEmpty)
-                            Text(
-                              '아직 만들어진 방이 없어요',
-                              style: kSubtitleStyle2.copyWith(
-                                  color: kMainBlack.withOpacity(0.38)),
-                            ),
-                          if (univRoomController.univRoom.isNotEmpty)
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: univRoomController.room,
+                        const SizedBox(height: 20),
+                        GestureDetector(
+                          onTap: (){print('dsadas');},
+                          child: Container(
+                            color: kBackgroundWhite,
+                            width: Get.width,
+                            child: Row(
+                              children: [
+                                Text(
+                                  mapController.clickedUniv.value,
+                                  style: kSubtitleStyle1,
                                 ),
+                                Spacer(),
+                                Text(
+                                  '방 ${univRoomController.univRoom.length}개',
+                                  style: kSubtitleStyle2,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        if (univRoomController.univRoom.isEmpty)
+                          Text(
+                            '아직 만들어진 방이 없어요',
+                            style: kSubtitleStyle2.copyWith(
+                                color: kMainBlack.withOpacity(0.38)),
+                          ),
+                        if (univRoomController.univRoom.isNotEmpty)
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: univRoomController.room,
                               ),
-                            )
-                        ]),
+                            ),
+                          )
+                      ],
+                    ),
+                    if (mapController.isDetailClick.value)
+                      Positioned.fill(
+                        bottom: 20,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.back();
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: kPrimary,
+                                          borderRadius:
+                                              BorderRadius.circular(16)),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          30, 14, 30, 14),
+                                      child: Center(
+                                        child: Text(
+                                          '홈으로 돌아가기',
+                                          style: kBodyStyle2.copyWith(
+                                              color: kMainWhite, height: 1),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       )
-                    ],
-                  ),
+                  ]),
                 ),
               ),
             )),

@@ -10,6 +10,7 @@ class UnivRoomController extends GetxController{
   RxList<Room> univRoom = <Room>[].obs;
   RxList<RoomWidget> room = <RoomWidget>[].obs;
   RxList<ProfileImageWidget> profileImage = <ProfileImageWidget>[].obs;
+  RxDouble changeHeight = 220.0.obs;
   @override
   void onInit() async{
     await getUnivRoom();

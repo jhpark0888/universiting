@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:universiting/Api/status_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/my_room_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/models/alarm_model.dart';
 import 'package:universiting/models/profile_model.dart';
@@ -107,11 +108,13 @@ class AlarmReceiveWidget extends StatelessWidget {
                               alarmreceive.targetId.toString(), 'join')
                           .then((value) =>
                               deleteAlarm(alarmreceive.id.toString()));
+                      MyRoomController.to.getRoomList();
                     } else if (alarmreceive.type == 2) {
                       await okJoinAlarm(alarmreceive.targetId.toString(),
                               alarmreceive.profile.userId.toString(), 'join')
                           .then((value) =>
                               deleteAlarm(alarmreceive.id.toString()));
+                      MyRoomController.to.getRoomList();
                     } else if (alarmreceive.type == 3) {
                       await joinToChat(alarmreceive).then(
                           (value) => deleteAlarm(alarmreceive.id.toString()));

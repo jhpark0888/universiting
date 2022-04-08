@@ -29,13 +29,17 @@ class MyRoomController extends GetxController {
   }
 
   void onRefresh() async {
-   await getMyRoom().then((myRoomList) {
+   getRoomList();
+    refreshController.refreshCompleted();
+    print('리프레시 완료');
+  }
+
+  void getRoomList()async{
+    await getMyRoom().then((myRoomList) {
       chiefList.value = myRoomList.chiefList;
       memberList.value = myRoomList.memberList;
     });
     getRoom();
-    refreshController.refreshCompleted();
-    print('리프레시 완료');
   }
 
   void getRoom() {

@@ -137,6 +137,7 @@ Future<Room> getDetailRoom(String id) async {
         return Room(id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
       }
     }catch(e){
+      print(e);
       showcustomCustomDialog(1200);
       return Room(id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
     }
@@ -183,7 +184,7 @@ Future<void> deleteMyRoom(String id) async {
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/room');
 
-  var body = {'id' : id};
+  var body = {'room_id' : id};
   var headers = {
     'Authorization': 'Token $token',
   };
@@ -202,3 +203,40 @@ Future<void> deleteMyRoom(String id) async {
     }
   }
 }
+
+Future<void> reportRoom(String roomId, String reason) async {
+
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/room_api/report_room');
+
+  var body = {
+    'id': roomId,
+    'reason' : reason
+  };
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    var response =
+        await http.post(url, headers: headers, body: body);
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      print(responsebody);
+      print(response.statusCode);
+
+    } else {
+      print(response.statusCode);
+    }
+  }
+}
+
+
+
+// '$serverUrl/room_api/report_room
+//body{id(방 아이디),reason(text)}
+
+
