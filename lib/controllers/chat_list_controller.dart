@@ -23,16 +23,22 @@ class ChatListController extends GetxController{
     super.onInit();
   }
 
+  void getList()async{
+    chatList.value = await getChatList();
+    chatRoomList.value = getChatRoomList();
+  }
+
   List<ChatRoomWidget> getChatRoomList(){
     List<ChatRoomWidget> list = <ChatRoomWidget>[];
     for(ChatRoom chatRoom in chatList){
       for(Host host in chatRoom.group.memberImages){
         chatImageList.add(ProfileImageWidget(type: ViewType.otherView, host: host, width: 28,height: 28));
       }
-      list.add(ChatRoomWidget(chatRoom: chatRoom, imageList: chatImageList.value));
+      list.add(ChatRoomWidget(chatRoom: chatRoom.obs, imageList: chatImageList.value));
     }
     return list;
   }
+
 
   void onRefreshChatList()async{
     chatList.value = await getChatList();

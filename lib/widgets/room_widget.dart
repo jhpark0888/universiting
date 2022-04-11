@@ -124,25 +124,13 @@ class RoomWidget extends StatelessWidget {
                                   color: kMainBlack.withOpacity(0.4)))
                         ],
                       ),
-                    // const SizedBox(height: 16),
+                      if(isChief)
+                    const SizedBox(height: 20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         isChief
-                            ? Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 4,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                    color: kMainBlack.withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(4)),
-                                child: Center(
-                                  child: Text('방장',
-                                      style: kSmallBadgeStyle.copyWith(
-                                          color: kMainWhite),
-                                      textAlign: TextAlign.center),
-                                ))
+                            ? Text('회원님이 방장으로 신청 현황을 관리할 수 있어요', style: kSmallCaptionStyle.copyWith(color: kPrimary),)
                             : SizedBox.shrink(),
                         // if (roomType == ViewType.otherView)
                         //   StateManagementWidget(

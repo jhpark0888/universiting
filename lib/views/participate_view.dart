@@ -132,6 +132,8 @@ class ParticiapteView extends StatelessWidget {
                               leftText: '닫기',
                               rightFunction: () {
                                 roomJoin(roomid);
+                                Get.back();
+                                Get.back();
                               },
                               rightText: '신청하기');
                         } else {

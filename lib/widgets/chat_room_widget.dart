@@ -9,14 +9,15 @@ import 'package:universiting/widgets/profile_image_widget.dart';
 class ChatRoomWidget extends StatelessWidget {
   ChatRoomWidget({Key? key, required this.chatRoom, required this.imageList})
       : super(key: key);
-  ChatRoom chatRoom;
+  Rx<ChatRoom> chatRoom;
   List<ProfileImageWidget> imageList;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Get.to(
-            () => MessageDetailScreen(groupId: chatRoom.group.id.toString()));
+            () => MessageDetailScreen(groupId: chatRoom.value.group.id.toString()));
+            print(chatRoom.value.message.message);
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -37,12 +38,12 @@ class ChatRoomWidget extends StatelessWidget {
                         imageList[1],
                         const SizedBox(width: 12),
                         Text(
-                          chatRoom.group.title,
+                          chatRoom.value.group.title,
                           style: kSubtitleStyle2,
                         ),
                         Expanded(
                           child: Text(
-                              '${chatRoom.group.countMember.toString()}:${chatRoom.group.countMember.toString()}',
+                              '${chatRoom.value.group.countMember.toString()}:${chatRoom.value.group.countMember.toString()}',
                               textAlign: TextAlign.end,
                               style: kSubtitleStyle2.copyWith(
                                   color: kMainBlack.withOpacity(0.6))),
@@ -52,12 +53,15 @@ class ChatRoomWidget extends StatelessWidget {
                       Row(
                         children: [
                           imageList[2],
-                          imageList[3],
+                          imageList.length >3 ?
+                          imageList[3] : Container(width:30, height:30),
                           SizedBox(width: 12),
-                          Text(
-                            chatRoom.message.message,
-                            style: kBodyStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6)),
+                          Obx(
+                            () => Text(
+                              chatRoom.value.message.message,
+                              style: kBodyStyle2.copyWith(
+                                  color: kMainBlack.withOpacity(0.6)),
+                            ),
                           )
                         ],
                       )
