@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/message_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/chat_list_controller.dart';
 import 'package:universiting/controllers/message_detail_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/scroll_controller.dart';
@@ -10,18 +12,25 @@ import 'package:universiting/models/chat_list_model.dart';
 import 'package:universiting/models/message_model.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/background_textfield_widget.dart';
+import 'package:universiting/widgets/chat_room_widget.dart';
 import 'package:universiting/widgets/chat_widget.dart';
 
 class MessageDetailScreen extends StatelessWidget {
   MessageDetailScreen({Key? key, required this.groupId}) : super(key: key);
   String groupId;
-  
+
   @override
   Widget build(BuildContext context) {
     MessageDetailController messageDetailController =
         Get.put(MessageDetailController(groupId));
     return Scaffold(
       appBar: AppBarWidget(
+        leading: IconButton(
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Get.back();
+            },
+            icon: SvgPicture.asset('assets/icons/back.svg')),
         title: messageDetailController.messageDetail.value.groupTitle,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
@@ -60,12 +69,13 @@ class MessageDetailScreen extends StatelessWidget {
                 //     children: messageDetailController.messageList)),
                 child: Obx(
               () => GestureDetector(
-                onTap: (){},
+                onTap: () {},
                 child: ListView.builder(
                   reverse: true,
                   controller: messageDetailController.scrollController.value,
                   itemBuilder: (context, index) {
-                    return messageDetailController.messageList.reversed.toList()[index];
+                    return messageDetailController.messageList.reversed
+                        .toList()[index];
                   },
                   itemCount: messageDetailController.messageList.length,
                 ),
@@ -78,17 +88,38 @@ class MessageDetailScreen extends StatelessWidget {
                   messageDetailController.scrollToBottom();
                   await sendMessage(groupId).then((value) {
                     MessageDetailController.to.messageList.add(ChatWidget(
-                        message: Message(
-                            id: messageDetailController
-                                    .messageDetail.value.message.last.id +
-                                1,
-                            message:
-                                messageDetailController.chatController.text,
-                            date: DateTime.now(),),
-                        userType: '1',
-                        profile: messageDetailController.profile.value,));
+                      message: Message(
+                        id: messageDetailController
+                                .messageDetail.value.message.last.id +
+                            1,
+                        message: messageDetailController.chatController.text,
+                        date: DateTime.now(),
+                      ),
+                      userType: '1',
+                      profile: messageDetailController.profile.value,
+                    ));
+                    ChatListController
+                        .to
+                        .chatRoomList[ChatListController.to.chatRoomList
+                            .indexWhere((chatRoomWidget) =>
+                                chatRoomWidget.chatRoom.value.group.id
+                                    .toString() ==
+                                groupId)]
+                        .chatRoom
+                        .value
+                        .message
+                        .message = messageDetailController.chatController.text;
                     FocusScope.of(context).unfocus();
                     messageDetailController.chatController.clear();
+                    ChatListController
+                        .to
+                        .chatRoomList[ChatListController.to.chatRoomList
+                            .indexWhere((chatRoomWidget) =>
+                                chatRoomWidget.chatRoom.value.group.id
+                                    .toString() ==
+                                groupId)]
+                        .chatRoom
+                        .refresh();
                   });
                 })
           ],

@@ -89,7 +89,9 @@ class RoomDetailView extends StatelessWidget {
                     style: kSubtitleStyle5),
                 const SizedBox(height: 17),
                 Column(children: roomDetailController.roomPersonList),
-                const SizedBox(height: 35),
+                if (roomDetailController.detailRoom.value.isJoin == null &&
+                    roomDetailController.detailRoom.value.isCreater == null)
+                  const SizedBox(height: 35),
                 if (roomDetailController.detailRoom.value.isJoin == null &&
                     roomDetailController.detailRoom.value.isCreater == null)
                   CustomButtonWidget(
@@ -115,6 +117,23 @@ class RoomDetailView extends StatelessWidget {
                           color: kMainBlack.withOpacity(0.4), height: 1.5),
                       textAlign: TextAlign.center,
                     ),
+                  ),
+                if (roomDetailController.detailRoom.value.isCreater == 0 ||
+                    roomDetailController.detailRoom.value.isCreater == 1)
+                  const SizedBox(height: 26),
+                if (roomDetailController.detailRoom.value.isCreater == 1)
+                  Text(
+                    '회원님이 방장으로 신청 현황을 관리할 수 있어요',
+                    style: kSmallCaptionStyle.copyWith(
+                        height: 1.5, color: kPrimary),
+                    textAlign: TextAlign.center,
+                  ),
+                if (roomDetailController.detailRoom.value.isCreater == 0)
+                  Text(
+                    "'${roomDetailController.detailRoom.value.hosts!.first.nickname}'님이 방장이에요",
+                    style: kSmallCaptionStyle.copyWith(
+                        height: 1.5, color: kMainBlack.withOpacity(0.4)),
+                    textAlign: TextAlign.center
                   )
               ],
             ),

@@ -21,7 +21,7 @@ class MapController extends GetxController {
   RxString clickedId = ''.obs;
   RxBool isClick = false.obs;
   RxBool isDetailClick = false.obs;
- 
+
   final CustomAnimationController _animationController =
       Get.put(CustomAnimationController(), tag: 'bottomnavigation');
   void onMapCreated(NaverMapController controller) {
@@ -47,17 +47,7 @@ class MapController extends GetxController {
     print(HomeController.to.isGuest.value);
     if (HomeController.to.isGuest.value == false) {
       try {
-        bottomSheetModal(UnivRoomWidget(), isDetailClick, pos);
-        // HomeController.to.univRoom.add(UnivRoomWidget());
-        Timer(Duration(milliseconds: 500), () async{
-          await HomeController.to.getDetailOverlyImage(
-              UnivRoomController.to.univRoom.length.toString());
-              HomeController.to.image.refresh();
-              markers[pos].icon = HomeController.to.image.last;
-              
-markers.refresh();
-        });
-        
+        getUnivDetailRoom(pos);
       } catch (e) {
         print(e);
       }
@@ -69,5 +59,17 @@ markers.refresh();
     markers.clear();
     isClick(false);
     super.onClose();
+  }
+
+  void getUnivDetailRoom(int pos) {
+    bottomSheetModal(UnivRoomWidget(), isDetailClick, pos);
+    Timer(Duration(milliseconds: 500), () async {
+      await HomeController.to.getDetailOverlyImage(
+          UnivRoomController.to.univRoom.length.toString());
+      HomeController.to.image.refresh();
+      markers[pos].icon = HomeController.to.image.last;
+
+      markers.refresh();
+    });
   }
 }

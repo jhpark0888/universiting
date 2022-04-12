@@ -11,10 +11,10 @@ import 'package:http/http.dart' as http;
 
 Future<List<AlarmReceive>> getAlarmList(index) async {
   ConnectivityResult result = await checkConnectionStatus();
-  FlutterSecureStorage storage = FlutterSecureStorage(); 
+  FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
+  // var url = Uri.parse('$serverUrl/room_api/alarm?last=$index');
   var url = Uri.parse('$serverUrl/room_api/alarm?last=$index');
-  // var url = Uri.parse('$serverUrl/room_api/test_alarm?last=$index');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
@@ -42,8 +42,12 @@ Future<List<AlarmReceive>> getAlarmList(index) async {
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(response.statusCode);
-      print(jsonDecode(responsebody).runtimeType);
-      return alarmReceiveParsed(responsebody);
+      print(responsebody);
+      if (jsonDecode(responsebody).isNotEmpty) {
+        return alarmReceiveParsed(responsebody);
+      } else {
+        return [];
+      }
     } else if (response.statusCode == 500) {
       print(response.statusCode);
       return [];

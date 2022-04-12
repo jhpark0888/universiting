@@ -350,6 +350,10 @@ void showRoomDialog(
                                   .then((value) => Get.back())
                               : deleteMyRoom(roomid);
                       Get.back();
+                      if(moretype == MoreType.delete){
+                        // MyRoomController.to.getRoomList();/
+                        Get.back();
+                      }
                       print(MyRoomController.to.room.length);
                       MyRoomController.to.room.value = MyRoomController
                           .to.room.value

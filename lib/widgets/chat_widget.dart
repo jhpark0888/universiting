@@ -38,6 +38,7 @@ class ChatWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
+                            constraints: const BoxConstraints(maxWidth: 200),
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: kMainBlack.withOpacity(0.38)),
@@ -77,6 +78,7 @@ class ChatWidget extends StatelessWidget {
                           textAlign: TextAlign.end),
                       const SizedBox(width: 8),
                       Container(
+                        constraints: const BoxConstraints(maxWidth: 200),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   color: kMainBlack.withOpacity(0.38)),
