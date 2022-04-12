@@ -103,9 +103,13 @@ class RoomInfoView extends StatelessWidget {
                           const SizedBox(
                             width: 15,
                           ),
-                          const Text(
-                            '함께할 친구 초대하기',
-                            style: kSubtitleStyle2,
+                          Obx(
+                            () => Text(
+                              createRoomController.members.length + 1 == 5
+                                  ? '수정하기'
+                                  : '함께할 친구 초대하기',
+                              style: kSubtitleStyle2,
+                            ),
                           ),
                         ],
                       ),

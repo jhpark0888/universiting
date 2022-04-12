@@ -208,126 +208,141 @@ class HomeView extends StatelessWidget {
                               ],
                         initLocationTrackingMode: LocationTrackingMode.Follow,
                       )),
-                   if(homeController.islogin.value && tag == '다음 화면')
-                  Positioned(
+                  if (homeController.islogin.value && tag == '다음 화면')
+                    Positioned(
                       top: 60,
-                      left: 20,
                       child: Container(
-                        height: 42,
-                        decoration: BoxDecoration(
-                            color: kBackgroundWhite,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(width: 0.5, color: kMainBlack.withOpacity(0.1))),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(20.0, 10.5, 111, 10.5),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Center(
-                                  child: SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: Icon(Icons.search,
-                                          color:
-                                              kMainBlack.withOpacity(0.38), size: 14,))),
-                              const SizedBox(width: 10),
-                              Text(
-                                '대학 이름으로 검색',
-                                textAlign: TextAlign.center,
-                                style: kBodyStyle1.copyWith(
-                                    color: kMainBlack.withOpacity(0.40),
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        width: Get.width,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 48,
+                                decoration: BoxDecoration(
+                                    color: kBackgroundWhite,
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                        width: 0.5,
+                                        color: kMainBlack.withOpacity(0.1))),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      20.0, 10.5, 111, 10.5),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                          child: SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child: Icon(
+                                                Icons.search,
+                                                color: kMainBlack
+                                                    .withOpacity(0.38),
+                                                size: 15,
+                                              ))),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        '대학 이름으로 검색',
+                                        textAlign: TextAlign.center,
+                                        style: kBodyStyle1.copyWith(
+                                            color: kMainBlack.withOpacity(0.40),
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                //  if (_animationController.bnbOffsetValue.value ==
+                                //     Offset(0.0, 0.0)) {
+                                //   _animationController.bnbOffsetValue.value =
+                                //       Offset(0.0, 1.0);
+                                //   _animationController.isRoomModalUp(true);
+                                // } else {
+                                //   _animationController.bnbOffsetValue.value =
+                                //       Offset(0.0, 0.0);
+                                //   Future.delayed(Duration(milliseconds: 300), () {
+                                //     _animationController.isRoomModalUp(false);
+                                //   });
+                                // }
+                                Get.to(() => AlarmListView());
+                              },
+                              child: Container(
+                                height: 48,
+                                width: 48,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24),
+                                    color: kBackgroundWhite),
+                                child: Center(child: Icon(Icons.alarm)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  if (homeController.islogin.value && tag == '다음 화면')
+                    Positioned(
+                        child: GestureDetector(
+                          onTap: () {
+                            homeController.createdMarker();
+                          },
+                          child: Container(
+                            height: 48,
+                            width: 48,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                color: kBackgroundWhite),
+                            child: Center(
+                                child: SvgPicture.asset(
+                                    'assets/icons/refresh.svg')),
                           ),
                         ),
-                      )),
-                      if(homeController.islogin.value && tag == '다음 화면')
-                  Positioned(
-                      child: GestureDetector(
-                        onTap: () {
-                          //  if (_animationController.bnbOffsetValue.value ==
-                          //     Offset(0.0, 0.0)) {
-                          //   _animationController.bnbOffsetValue.value =
-                          //       Offset(0.0, 1.0);
-                          //   _animationController.isRoomModalUp(true);
-                          // } else {
-                          //   _animationController.bnbOffsetValue.value =
-                          //       Offset(0.0, 0.0);
-                          //   Future.delayed(Duration(milliseconds: 300), () {
-                          //     _animationController.isRoomModalUp(false);
-                          //   });
-                          // }
-                          Get.to(()=> AlarmListView());
-                        },
-                        child: Container(
-                          height: 42,
-                          width: 42,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              color: kBackgroundWhite),
-                          child: Center(child: Icon(Icons.alarm)),
-                        ),
-                      ),
-                      top: 60,
-                      right: 20),
-                      if(homeController.islogin.value && tag == '다음 화면')
-                  Positioned(
-                      child: GestureDetector(
-                        onTap: () {
-                          homeController.createdMarker();
-                        },
-                        child: Container(
-                          height: 42,
-                          width: 42,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              color: kBackgroundWhite),
-                          child: Center(
-                              child:
-                                  SvgPicture.asset('assets/icons/refresh.svg')),
-                        ),
-                      ),
-                      top: 120,
-                      right: 20),
-                   if(homeController.islogin.value && tag == '다음 화면')
-                  Positioned(
-                      child: GestureDetector(
-                        onTap: () async {
-                          // if (_animationController.bnbOffsetValue.value ==
-                          //     Offset(0.0, 0.0)) {
-                          //   _animationController.bnbOffsetValue.value =
-                          //       Offset(0.0, 1.0);
-                          //   _animationController.isRoomModalUp(true);
-                          // } else {
-                          //   _animationController.bnbOffsetValue.value =
-                          //       Offset(0.0, 0.0);
-                          //   Future.delayed(Duration(milliseconds: 300), () {
-                          //     _animationController.isRoomModalUp(false);
-                          //   });
-                          // }
-                          final controller =
-                              await mapController.nMapController.future;
-                          Timer(Duration(milliseconds: 500), () {
-                            controller.moveCamera(cameraUpdate);
-                          });
-                        },
-                        child: Container(
-                          height: 42,
-                          width: 42,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              color: kBackgroundWhite),
-                          child: Center(
-                            child: SvgPicture.asset(
-                              'assets/icons/my_button.svg',
+                        top: 120,
+                        right: 20),
+                  if (homeController.islogin.value && tag == '다음 화면')
+                    Positioned(
+                        child: GestureDetector(
+                          onTap: () async {
+                            // if (_animationController.bnbOffsetValue.value ==
+                            //     Offset(0.0, 0.0)) {
+                            //   _animationController.bnbOffsetValue.value =
+                            //       Offset(0.0, 1.0);
+                            //   _animationController.isRoomModalUp(true);
+                            // } else {
+                            //   _animationController.bnbOffsetValue.value =
+                            //       Offset(0.0, 0.0);
+                            //   Future.delayed(Duration(milliseconds: 300), () {
+                            //     _animationController.isRoomModalUp(false);
+                            //   });
+                            // }
+                            final controller =
+                                await mapController.nMapController.future;
+                            Timer(Duration(milliseconds: 500), () {
+                              controller.moveCamera(cameraUpdate);
+                            });
+                          },
+                          child: Container(
+                            height: 48,
+                            width: 48,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                color: kBackgroundWhite),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                'assets/icons/my_button.svg',
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      top: 120,
-                      left: 20),
+                        top: 120,
+                        left: 20),
                   if (_animationController.isRoomModalUp.value &&
                       _animationController.modalHegiht.value == 300)
                     Positioned(
@@ -355,33 +370,38 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Positioned.fill(bottom: 102,child: GestureDetector(
-                  onTap: () {
-                    Get.to(() => RoomInfoView());
-                  },
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: kPrimary,
-                                  borderRadius: BorderRadius.circular(16)),
-                              padding: const EdgeInsets.fromLTRB(30,14,30,14),
-                              child: Center(
-                                child: Text(
-                                  '방 만들기',
-                                  style: kBodyStyle2.copyWith(color: kMainWhite, height: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ]))))
+                  Positioned.fill(
+                      bottom: 94,
+                      child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => RoomInfoView());
+                          },
+                          child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: kPrimary,
+                                              borderRadius:
+                                                  BorderRadius.circular(16)),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              30, 13, 30, 13),
+                                          child: Center(
+                                            child: Text(
+                                              '방 만들기',
+                                              style: kBodyStyle2.copyWith(
+                                                  color: kMainWhite, height: 1),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ]))))
                 ],
               ),
             ),
@@ -413,7 +433,6 @@ class HomeView extends StatelessWidget {
                 ]),
               ),
             ),
-            
           ],
         ),
       ),

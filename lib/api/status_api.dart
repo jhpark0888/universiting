@@ -26,7 +26,9 @@ Future<List<AlarmReceive>> getReceiveStatus() async {
           userId: 0,
           type: 0,
           targetId: 0,
-          content: Room(title: '', hosts: [Host(userId: 0, profileImage: '', gender: 'M')]),
+          content: Room(
+              title: '',
+              hosts: [Host(userId: 0, profileImage: '', gender: 'M')]),
           profile: Profile(
               age: 0,
               gender: '',
@@ -39,97 +41,84 @@ Future<List<AlarmReceive>> getReceiveStatus() async {
           roomInformation: '')
     ];
   } else {
-      var response = await http.get(url, headers: headers);
+    var response = await http.get(url, headers: headers);
 
-      String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
-        print(response.statusCode);
-        print(jsonDecode(responsebody).runtimeType);
-        return alarmReceiveParsed(responsebody);
-      } else if(response.statusCode == 500){
-        print(response.statusCode);
-        return [];
-      } else {
-        print(response.statusCode);
-        return [
-          AlarmReceive(
-              id: 0,
-              userId: 0,
-              type: 0,
-              targetId: 0,
-              content: Room
-              (title: '', hosts: [Host(userId: 0, profileImage: '', gender: 'M')]),
-              profile: Profile(
-                  age: 0,
-                  gender: '',
-                  introduction: '',
-                  nickname: '',
-                  profileImage: '',
-                  userId: 0),
-              date: DateTime(2020),
-              isRead: false,
-              roomInformation: '')
-        ];
-      }
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      print(response.statusCode);
+      print(jsonDecode(responsebody).runtimeType);
+      return alarmReceiveParsed(responsebody);
+    } else if (response.statusCode == 500) {
+      print(response.statusCode);
+      return [];
+    } else {
+      print(response.statusCode);
+      return [
+        AlarmReceive(
+            id: 0,
+            userId: 0,
+            type: 0,
+            targetId: 0,
+            content: Room(
+                title: '',
+                hosts: [Host(userId: 0, profileImage: '', gender: 'M')]),
+            profile: Profile(
+                age: 0,
+                gender: '',
+                introduction: '',
+                nickname: '',
+                profileImage: '',
+                userId: 0),
+            date: DateTime(2020),
+            isRead: false,
+            roomInformation: '')
+      ];
+    }
   }
 }
 
-
 Future<void> hostMemberAlarm(String room_id, String type) async {
-
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/host_member');
 
-  var body = {
-    'room_id': room_id,
-    'type': type
-  };
+  var body = {'room_id': room_id, 'type': type};
   var headers = {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.put(url, headers: headers, body: body);
+    var response = await http.put(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode} 거절 또는 수락');
-
     } else {
       print('${response.statusCode} 거절 또는 수락');
     }
   }
 }
 
-Future<void> okJoinAlarm(String room_id,String from_id, String type) async {
-
+Future<void> okJoinAlarm(String room_id, String from_id, String type) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/join_member');
 
-  var body = {
-    'room_id': room_id,
-    'from_id' : from_id,
-    'type': type
-  };
+  var body = {'room_id': room_id, 'from_id': from_id, 'type': type};
   var headers = {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.put(url, headers: headers, body: body);
+    var response = await http.put(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode} 거절 또는 수락');
-
     } else {
       print('${response.statusCode} 거절 또는 수락');
     }
@@ -149,15 +138,13 @@ Future<void> deleteAlarm(String id) async {
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.delete(url, headers: headers);
+    var response = await http.delete(url, headers: headers);
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode}삭제하기');
-
     } else {
-     print('${response.statusCode}삭제가 안됐습니다');
+      print('${response.statusCode}삭제가 안됐습니다');
     }
   }
 }
@@ -166,8 +153,7 @@ Future<List<AlarmSend>> getSendStatus() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse(
-      '$serverUrl/room_api/alarm_list?type=send');
+  var url = Uri.parse('$serverUrl/room_api/alarm_list?type=send');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
@@ -201,21 +187,19 @@ Future<void> joinToChat(AlarmReceive alarmReceive) async {
     'Authorization': 'Token $token',
   };
   var body = {
-    'room_id' : alarmReceive.targetId.toString(),
-    'creater_id' : alarmReceive.profile.userId.toString()
+    'room_id': alarmReceive.targetId.toString(),
+    'creater_id': alarmReceive.profile.userId.toString()
   };
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.post(url, headers: headers, body: body);
+    var response = await http.post(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode}삭제하기');
-
     } else {
-     print('${response.statusCode}삭제가 안됐습니다');
+      print('${response.statusCode}삭제가 안됐습니다');
     }
   }
 }
@@ -230,21 +214,19 @@ Future<void> rejectToChat(AlarmReceive alarmReceive) async {
     'Authorization': 'Token $token',
   };
   var body = {
-    'room_id' : alarmReceive.targetId.toString(),
-    'creater_id' : alarmReceive.profile.userId.toString()
+    'room_id': alarmReceive.targetId.toString(),
+    'creater_id': alarmReceive.profile.userId.toString()
   };
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.delete(url, headers: headers, body: body);
+    var response = await http.delete(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode <= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode}삭제하기');
-
     } else {
-     print('${response.statusCode}삭제가 안됐습니다');
+      print('${response.statusCode}삭제가 안됐습니다');
     }
   }
 }
