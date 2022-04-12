@@ -70,6 +70,7 @@ class SignupPasswordView extends StatelessWidget {
                       Obx(
                         () => Form(
                           child: EmptyBackTextfieldWidget(
+                            maxLines: 1,
                             controller: signupController.isPasswordCheck.value
                                 ? signupController.passwordCheckController
                                 : signupController.passwordController,

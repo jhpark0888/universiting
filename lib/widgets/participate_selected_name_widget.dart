@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/participate_controller.dart';
+import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/select_member_model.dart';
@@ -66,6 +67,27 @@ class SelectedNameWidget extends StatelessWidget {
                                       .where(
                                           (profile) => profile != selectMember)
                                       .toList();
+
+                              ParticipateController.to.agesum -=
+                                  selectMember.age;
+
+                              ParticipateController.to.ageAvg(double.parse(
+                                  (ParticipateController.to.agesum /
+                                          (ParticipateController
+                                                  .to.memberProfile.length +
+                                              1))
+                                      .toStringAsFixed(1)));
+
+                              ParticipateController.to.gender(
+                                  ProfileController.to.profile.value.gender);
+
+                              for (var profile
+                                  in ParticipateController.to.memberProfile) {
+                                if (ParticipateController.to.gender.value !=
+                                    profile.gender) {
+                                  ParticipateController.to.gender('혼성');
+                                }
+                              }
                             }
                           }
                         },

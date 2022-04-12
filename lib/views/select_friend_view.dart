@@ -122,6 +122,22 @@ class SelectFriendView extends StatelessWidget {
 
                             ParticipateController.to.memberProfile.add(
                                 selectmemberController.seletedMember.value);
+
+                            ParticipateController.to.agesum +=
+                                selectmemberController.seletedMember.value.age;
+
+                            ParticipateController.to.ageAvg(double.parse(
+                                (ParticipateController.to.agesum /
+                                        (ParticipateController
+                                                .to.memberProfile.length +
+                                            1))
+                                    .toStringAsFixed(1)));
+
+                            if (ParticipateController.to.gender.value !=
+                                selectmemberController
+                                    .seletedMember.value.gender) {
+                              ParticipateController.to.gender('혼성');
+                            }
                           } else {
                             showCustomDialog('이미 인원이 다 찼어요', 1200);
                           }
