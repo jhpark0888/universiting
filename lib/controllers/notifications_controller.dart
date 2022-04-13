@@ -152,16 +152,30 @@ class NotificationController extends GetxController {
             print(message.data);
           }
         } else if (message.data['type'] == 'receive/host_invite') {
-          StatusController.to.receiveList.value = await getReceiveStatus();
+          await getReceiveStatus().then((httpresponse) {
+            if (httpresponse.isError == false) {
+              StatusController.to.receiveList(httpresponse.data);
+            }
+          });
           StatusController.to.makeAllReceiveList();
           print('완료');
         } else if (message.data['type'] == 'chat_group') {
-          StatusController.to.receiveList.value = await getReceiveStatus();
+          await getReceiveStatus().then((httpresponse) {
+            if (httpresponse.isError == false) {
+              StatusController.to.receiveList(httpresponse.data);
+            }
+          });
+
           StatusController.to.makeAllReceiveList();
-          StatusController.to.sendList.value = await getSendStatus();
+          await getSendStatus().then((httpresponse) {
+            if (httpresponse.isError == false) {
+              StatusController.to.sendList(httpresponse.data);
+            }
+          });
           StatusController.to.makeAllSendList();
           ChatListController.to.chatList.value = await getChatList();
-    ChatListController.to.chatRoomList.value = ChatListController.to.getChatRoomList();
+          ChatListController.to.chatRoomList.value =
+              ChatListController.to.getChatRoomList();
         }
       });
     } else {

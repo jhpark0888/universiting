@@ -340,8 +340,12 @@ void showRoomDialog(
                               AppController.to.getbacks();
                               AppController.to.currentIndex.value = 2;
                               Get.back();
-                              StatusController.to.sendList.value =
-                                  await getSendStatus();
+                              await getSendStatus().then((httpresponse) {
+                                if (httpresponse.isError == false) {
+                                  StatusController.to
+                                      .sendList(httpresponse.data);
+                                }
+                              });
                               StatusController.to.makeAllSendList();
                               StatusRoomTabController.to.currentIndex.value = 1;
                             })
@@ -350,7 +354,7 @@ void showRoomDialog(
                                   .then((value) => Get.back())
                               : deleteMyRoom(roomid);
                       Get.back();
-                      if(moretype == MoreType.delete){
+                      if (moretype == MoreType.delete) {
                         // MyRoomController.to.getRoomList();/
                         Get.back();
                       }
