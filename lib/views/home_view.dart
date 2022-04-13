@@ -227,7 +227,7 @@ class HomeView extends StatelessWidget {
                                         color: kMainBlack.withOpacity(0.1))),
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(
-                                      20.0, 10.5, 111, 10.5),
+                                      20.0, 10.5, 10, 10.5),
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,

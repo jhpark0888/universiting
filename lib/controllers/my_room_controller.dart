@@ -45,10 +45,10 @@ class MyRoomController extends GetxController {
   void getRoom() {
     room.clear();
     for(Room i in chiefList){
-      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: true, roomType: ViewType.otherView,));
+      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: true, roomType: ViewType.myRoom,));
     }
     for(Room i in memberList){
-      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: false,roomType: ViewType.otherView));
+      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: false,roomType: ViewType.myRoom));
     }
   }
 

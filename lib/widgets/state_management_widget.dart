@@ -34,8 +34,8 @@ class StateManagementWidget extends StatelessWidget {
                         scale: _fadeoutAniamtionController
                             .scaleAnimationController!,
                         child: Container(
-                          height: 13,
-                          width: 13,
+                          height: 5,
+                          width: 5,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: kPrimary),
@@ -48,8 +48,8 @@ class StateManagementWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(color: kPrimary, width: 1.6),
                       ),
-                      height: 12,
-                      width: 12,
+                      height: 5,
+                      width: 5,
                       child: const SizedBox.shrink(),
                     ),
                   ],
@@ -86,8 +86,8 @@ class StateManagementWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(color: kPrimary, width: 1.6),
                   ),
-                  height: 12,
-                  width: 12,
+                  height: 5,
+                  width: 5,
                   child: const SizedBox.shrink(),
                 ),
                 SizedBox(
@@ -95,7 +95,7 @@ class StateManagementWidget extends StatelessWidget {
                 ),
                 if (state == StateManagement.roomActivated)
                   Text(
-                    '현재 활성화 된 방이에요',
+                    '방이 완성되어 지도에 표시중이에요',
                     style: kSmallCaptionStyle.copyWith(
                       color: kMainBlack.withOpacity(0.6),
                     ),
@@ -143,8 +143,8 @@ class StateManagementWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(color: kErrorColor, width: 1.6),
                   ),
-                  height: 12,
-                  width: 12,
+                  height: 5,
+                  width: 5,
                   child: const SizedBox.shrink(),
                 ),
                 SizedBox(

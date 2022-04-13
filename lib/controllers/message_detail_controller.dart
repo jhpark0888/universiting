@@ -73,7 +73,7 @@ class MessageDetailController extends GetxController {
   }
 
   List<Profile> getFindProfile(Message message){
-    if(memberProfile.contains(memberProfile.where((profile) => message.sender == profile.userId))) {
+    if(memberProfile.where((p0) => p0.userId == message.sender).isNotEmpty) {
       return memberProfile.where((profile) => message.sender == profile.userId).toList();
     }else {
       return [Profile(age: 0,gender: 'M',introduction:'', nickname:'알수없음',profileImage: '',userId: 0)];
@@ -81,3 +81,5 @@ class MessageDetailController extends GetxController {
   
 }
 }
+
+//memberProfile.value.contains(memberProfile.value.where((profile) => message.sender == profile.userId))

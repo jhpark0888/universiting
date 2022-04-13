@@ -15,7 +15,9 @@ class ChatWidget extends StatelessWidget {
   Profile profile;
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return
+    message.sender != 1 ?
+     Column(children: [
       profile.type != userType
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +103,8 @@ class ChatWidget extends StatelessWidget {
       const SizedBox(
         height: 20,
       ),
-    ]);
+    ]) :
+    Text(message.message);
   }
 }
 

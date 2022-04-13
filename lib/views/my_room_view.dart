@@ -44,10 +44,8 @@ class MyRoomView extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                         color: kPrimary,
-                        borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                        borderRadius: BorderRadius.circular(16)),
+                    padding: const EdgeInsets.all(10
                     ),
                     child: Center(
                       child: Text(

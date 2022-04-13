@@ -57,7 +57,7 @@ class RoomWidget extends StatelessWidget {
                       Text(room.title, style: kBodyStyle1),
                     if (roomType == ViewType.otherView)
                       const SizedBox(height: 15),
-                    if (roomType != ViewType.otherView)
+                    if (roomType != ViewType.otherView && roomType != ViewType.myRoom)
                       Row(
                         children: [
                           Text(
@@ -105,9 +105,9 @@ class RoomWidget extends StatelessWidget {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: joinmember!),
-                    if (roomType == ViewType.otherView)
+                    if (roomType == ViewType.otherView || roomType == ViewType.myRoom)
                       const SizedBox(height: 15),
-                    if (roomType == ViewType.otherView)
+                    if (roomType == ViewType.otherView) 
                       Row(
                         children: [
                           Text('인원',
@@ -124,6 +124,26 @@ class RoomWidget extends StatelessWidget {
                                   color: kMainBlack.withOpacity(0.4)))
                         ],
                       ),
+                    if(roomType == ViewType.myRoom)
+                    Row(
+                        children: [
+                          Text('인원',
+                              style: kSmallCaptionStyle.copyWith(
+                                  color: kMainBlack.withOpacity(0.6))),
+                          const SizedBox(width: 4),
+                          Text('${room.totalMember} : ${room.totalMember}',
+                              style: kSmallCaptionStyle),
+                          const Spacer(),
+                          StateManagementWidget(
+                              state: room.type!
+                                  ? StateManagement.roomActivated
+                                  // : room.isModify != null
+                                  //     ? room.isModify == 0
+                                  //         ? StateManagement.waitingFriend
+                                  //         : StateManagement.friendReject
+                                      : StateManagement.waitingFriend)
+                        ],
+                      ),  
                       if(isChief)
                     const SizedBox(height: 20),
                     Row(

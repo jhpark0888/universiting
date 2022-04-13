@@ -26,16 +26,22 @@ class RoomPersonWidget extends StatelessWidget {
               style: kSubtitleStyle4,
             ),
             const SizedBox(height: 6),
-            host.introduction != ''
-                ? Text(
-                    '${host.introduction}',
+            // host.introduction != ''
+            //     ? Text(
+            //         '${host.hostType}',
+            //         style: kBodyStyle2,
+            //       )
+            //     : Text(
+            //         '${host.hostType}',
+            //         style: kBodyStyle2.copyWith(
+            //             color: kMainBlack.withOpacity(0.6)),
+            //       )
+            host.hostType! ? 
+            const Text(
+                    '친구가 수락했어요',
                     style: kBodyStyle2,
-                  )
-                : Text(
-                    '소개 글이 없어요',
-                    style: kBodyStyle2.copyWith(
-                        color: kMainBlack.withOpacity(0.6)),
-                  )
+                  ) :
+            const Text('친구가 수락을 기다리고 있어요',style: kBodyStyle2)
           ],
         )
       ],
