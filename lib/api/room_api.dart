@@ -187,7 +187,11 @@ Future<void> roomJoin(String room_id) async {
         AppController.to.getbacks();
         AppController.to.currentIndex.value = 2;
         Get.back();
-        StatusController.to.sendList.value = await getSendStatus();
+        await getSendStatus().then((httpresponse) {
+          if (httpresponse.isError == false) {
+            StatusController.to.sendList(httpresponse.data);
+          }
+        });
         StatusController.to.makeAllSendList();
         StatusRoomTabController.to.currentIndex.value = 1;
       } else {

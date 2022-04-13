@@ -24,8 +24,16 @@ class StatusController extends GetxController {
   final sendJoinMemberprofileImage = <ProfileImageWidget>[].obs;
   @override
   void onInit() async {
-    receiveList.value = await getReceiveStatus();
-    sendList.value = await getSendStatus();
+    await getReceiveStatus().then((httpresponse) {
+      if (httpresponse.isError == false) {
+        receiveList(httpresponse.data);
+      } else {}
+    });
+    await getSendStatus().then((httprespnse) {
+      if (httprespnse.isError == false) {
+        sendList(httprespnse.data);
+      }
+    });
     makeAllReceiveList();
     makeAllSendList();
     super.onInit();
@@ -34,10 +42,10 @@ class StatusController extends GetxController {
   void makeAllReceiveList() {
     allReceiveList.clear();
     for (var alarmreceive in receiveList) {
-            receiveHostprofileImage.value =
+      receiveHostprofileImage.value =
           getHostsList(alarmreceive.content!, ViewType.statusReceiveView);
-      allReceiveList.add(AlarmReceiveWidget(alarmreceive: alarmreceive, host: receiveHostprofileImage.toList()));
-
+      allReceiveList.add(AlarmReceiveWidget(
+          alarmreceive: alarmreceive, host: receiveHostprofileImage.toList()));
     }
   }
 
@@ -57,14 +65,22 @@ class StatusController extends GetxController {
   }
 
   void onrefreshReceive() async {
-    receiveList.value = await getReceiveStatus();
+    await getReceiveStatus().then((httpresponse) {
+      if (httpresponse.isError == false) {
+        receiveList(httpresponse.data);
+      } else {}
+    });
     makeAllReceiveList();
     receiveRefreshController.refreshCompleted();
     print('리프레시 완료');
   }
 
   void onrefreshSend() async {
-    sendList.value = await getSendStatus();
+    await getSendStatus().then((httprespnse) {
+      if (httprespnse.isError == false) {
+        sendList(httprespnse.data);
+      }
+    });
     makeAllSendList();
     sendRefreshController.refreshCompleted();
     print('리프레시 완료');

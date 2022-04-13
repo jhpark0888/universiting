@@ -21,6 +21,8 @@ class App extends StatelessWidget {
   MapController mapController = Get.put(MapController());
   final CustomAnimationController _animationController =
       Get.put(CustomAnimationController(), tag: 'bottomnavigation');
+
+  double bottomiconsize = 50;
   @override
   Widget build(BuildContext context) {
     List<Widget> views = [
@@ -47,11 +49,10 @@ class App extends StatelessWidget {
                 child: Obx(() => Container(
                       height: 82,
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20)),
-                        color: Colors.transparent
-                      ),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.transparent),
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(20),
@@ -59,47 +60,76 @@ class App extends StatelessWidget {
                         child: BottomNavigationBar(
                             type: BottomNavigationBarType.fixed,
                             currentIndex: appController.currentIndex.value,
+                            showSelectedLabels: false,
+                            showUnselectedLabels: false,
                             onTap: appController.changePageIndex,
-                            selectedItemColor: kMainBlack,
-                            selectedFontSize: 12,
-                            unselectedFontSize: 12,
                             items: [
                               BottomNavigationBarItem(
                                   icon: SvgPicture.asset(
-                                      'assets/icons/home_inactive.svg'),
+                                    'assets/icons/home_inactive.svg',
+                                    width: bottomiconsize,
+                                    height: bottomiconsize,
+                                  ),
                                   activeIcon: SvgPicture.asset(
-                                      'assets/icons/home_active.svg'),
+                                    'assets/icons/home_active.svg',
+                                    width: bottomiconsize,
+                                    height: bottomiconsize,
+                                  ),
                                   label: '홈',
                                   tooltip: ''),
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
-                                    'assets/icons/room_inactive.svg'),
+                                  'assets/icons/bell_inactive.svg',
+                                  width: bottomiconsize,
+                                  height: bottomiconsize,
+                                ),
                                 activeIcon: SvgPicture.asset(
-                                    'assets/icons/room_active.svg'),
-                                label: '내 방',
+                                  'assets/icons/bell_active.svg',
+                                  width: bottomiconsize,
+                                  height: bottomiconsize,
+                                ),
+                                label: '알람',
                                 tooltip: '',
                               ),
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
-                                    'assets/icons/state_inactive.svg'),
+                                  'assets/icons/manage_inactive.svg',
+                                  width: bottomiconsize,
+                                  height: bottomiconsize,
+                                ),
                                 activeIcon: SvgPicture.asset(
-                                    'assets/icons/state_active.svg'),
-                                label: '신청 현황',
+                                  'assets/icons/manage_active.svg',
+                                  width: bottomiconsize,
+                                  height: bottomiconsize,
+                                ),
+                                label: '관리',
                                 tooltip: '',
                               ),
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
-                                    'assets/icons/chat_inactive.svg'),
+                                  'assets/icons/chat_inactive.svg',
+                                  width: bottomiconsize,
+                                  height: bottomiconsize,
+                                ),
                                 activeIcon: SvgPicture.asset(
-                                    'assets/icons/chat_active.svg'),
+                                  'assets/icons/chat_active.svg',
+                                  width: bottomiconsize,
+                                  height: bottomiconsize,
+                                ),
                                 label: '채팅방',
                                 tooltip: '',
                               ),
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
-                                    'assets/icons/profile_inactive.svg'),
+                                  'assets/icons/profile_inactive.svg',
+                                  width: bottomiconsize,
+                                  height: bottomiconsize,
+                                ),
                                 activeIcon: SvgPicture.asset(
-                                    'assets/icons/profile_active.svg'),
+                                  'assets/icons/profile_active.svg',
+                                  width: bottomiconsize,
+                                  height: bottomiconsize,
+                                ),
                                 label: '프로필',
                                 tooltip: '',
                               ),
