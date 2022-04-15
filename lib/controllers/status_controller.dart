@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:universiting/Api/status_api.dart';
+import 'package:universiting/api/status_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/models/alarm_model.dart';
 import 'package:universiting/models/host_model.dart';
@@ -9,7 +9,6 @@ import 'package:universiting/models/room_model.dart';
 import 'package:universiting/widgets/alarm_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 
-import '../Api/status_api.dart';
 
 class StatusController extends GetxController {
   static StatusController get to => Get.find();

@@ -22,7 +22,7 @@ class App extends StatelessWidget {
   final CustomAnimationController _animationController =
       Get.put(CustomAnimationController(), tag: 'bottomnavigation');
 
-  double bottomiconsize = 50;
+  double bottomiconsize = 45;
   @override
   Widget build(BuildContext context) {
     List<Widget> views = [

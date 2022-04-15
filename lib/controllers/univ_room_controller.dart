@@ -4,17 +4,19 @@ import 'package:universiting/api/univ_room_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
+import 'package:universiting/widgets/room_final_widget.dart';
+import 'package:universiting/widgets/room_profile_image_widget.dart';
 import 'package:universiting/widgets/room_widget.dart';
 class UnivRoomController extends GetxController{
   static UnivRoomController get to =>Get.find();
   RxList<Room> univRoom = <Room>[].obs;
-  RxList<RoomWidget> room = <RoomWidget>[].obs;
-  RxList<ProfileImageWidget> profileImage = <ProfileImageWidget>[].obs;
+  RxList<RoomFinalWidget> room = <RoomFinalWidget>[].obs;
+  RxList<RoomProfileImageWidget> profileImage = <RoomProfileImageWidget>[].obs;
   RxDouble changeHeight = 220.0.obs;
   @override
   void onInit() async{
     await getUnivRoom();
-    room.value = univRoom.map((element) => RoomWidget(room: element, hosts: getHostsList(element),isChief: false,roomType: ViewType.otherView,)).toList();
+    room.value = univRoom.map((element) => RoomFinalWidget(room: element, roomMember: getHostsList(element),isChief: false,roomType: ViewType.otherView,)).toList();
     print(room.length);
     super.onInit();
   }
@@ -24,7 +26,7 @@ class UnivRoomController extends GetxController{
     getUnivRoom();
   }
 
-  List<ProfileImageWidget> getHostsList(Room room){
+  List<RoomProfileImageWidget> getHostsList(Room room){
     switch(room.totalMember){
       case 2:
       case 3:
@@ -34,7 +36,7 @@ class UnivRoomController extends GetxController{
     }
     profileImage.clear();
     for(int i = 0; i < room.hosts!.length;i ++){
-      profileImage.add(ProfileImageWidget(host: room.hosts![i], type: ViewType.otherView,width: 40,));
+      profileImage.add(RoomProfileImageWidget(host: room.hosts![i]));
     }
     return profileImage.toList();
   }

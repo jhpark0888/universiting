@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/map_controller.dart';
@@ -55,13 +56,12 @@ class UnivRoomWidget extends StatelessWidget {
                       Get.height - value.globalPosition.dy) {
                     univRoomController.changeHeight.value = Get.height;
                   }
-                    if(Get.height - value.globalPosition.dy > Get.height - 100){
+                  if (Get.height - value.globalPosition.dy > Get.height - 100) {
                     if (univRoomController.changeHeight.value >
-                      Get.height - value.globalPosition.dy) {
+                        Get.height - value.globalPosition.dy) {
                       Get.back();
-                        }
+                    }
                   }
-                  
 
                   // // if (univRoomController.changeHeight.value -
                   // //         Get.height -
@@ -104,7 +104,7 @@ class UnivRoomWidget extends StatelessWidget {
                   // }
                 },
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
                   child: Stack(children: [
                     Column(
                       children: [
@@ -114,30 +114,44 @@ class UnivRoomWidget extends StatelessWidget {
                             children: [
                               Center(
                                 child: Container(
-                                    height: 4, width: 28, color: kLightGrey),
+                                  height: 5,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: kIconColor),
+                                ),
                               ),
                             ],
                           ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 36),
                         GestureDetector(
-                          onTap: (){print('dsadas');},
+                          onTap: () {
+                            print('dsadas');
+                          },
                           child: Container(
-                            color: kBackgroundWhite,
-                            width: Get.width,
-                            child: Row(
-                              children: [
-                                Text(
-                                  mapController.clickedUniv.value,
-                                  style: kSubtitleStyle1,
-                                ),
-                                Spacer(),
-                                Text(
-                                  '방 ${univRoomController.univRoom.length}개',
-                                  style: kSubtitleStyle2,
-                                )
-                              ],
-                            ),
-                          ),
+                              padding: mapController.isDetailClick.value
+                                  ? EdgeInsets.only(top: 28)
+                                  : EdgeInsets.zero,
+                              color: kBackgroundWhite,
+                              width: Get.width,
+                              child:
+                                  // Row(
+                                  //   children: [
+                                  //     Text(
+                                  //       mapController.clickedUniv.value,
+                                  //       style: kSubtitleStyle1,
+                                  //     ),
+                                  //     Spacer(),
+                                  //     Text(
+                                  //       '방 ${univRoomController.univRoom.length}개',
+                                  //       style: kSubtitleStyle2,
+                                  //     )
+                                  //   ],
+                                  // ),
+                                  Text(
+                                mapController.clickedUniv.value,
+                                style: kBodyStyle6,
+                              )),
                         ),
                         const SizedBox(height: 20),
                         if (univRoomController.univRoom.isEmpty)
@@ -150,7 +164,8 @@ class UnivRoomWidget extends StatelessWidget {
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
-                                children: univRoomController.room.reversed.toList(),
+                                children:
+                                    univRoomController.room.reversed.toList(),
                               ),
                             ),
                           )

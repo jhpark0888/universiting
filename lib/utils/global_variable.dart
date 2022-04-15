@@ -37,7 +37,7 @@ Future<bool> resultOfConnection() async {
 
 String calculateDate(DateTime date) {
     if (DateTime.now().difference(date).inHours <= 24) {
-      return '최근 만들어진 방';
+      return '${DateTime.now().difference(date).inHours}시간 전';
     } else if (DateTime.now().difference(date).inDays <= 31) {
       return '한 달 이내 만들어진 방';
     } else if (DateTime.now().difference(date).inDays <= 365) {

@@ -5,6 +5,7 @@ import 'package:universiting/models/room_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/views/room_detail_view.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
+import 'package:universiting/widgets/room_profile_image_widget.dart';
 import 'package:universiting/widgets/state_management_widget.dart';
 
 class RoomWidget extends StatelessWidget {
@@ -12,13 +13,15 @@ class RoomWidget extends StatelessWidget {
       {Key? key,
       required this.room,
       this.joinmember,
-      required this.hosts,
+      this.roomMember,
+       this.hosts,
       required this.isChief,
       required this.roomType})
       : super(key: key);
   Room room;
+  List<RoomProfileImageWidget>? roomMember;
   List<ProfileImageWidget>? joinmember;
-  List<ProfileImageWidget> hosts;
+  List<ProfileImageWidget>? hosts;
   bool isChief;
   ViewType roomType;
   @override
@@ -51,7 +54,7 @@ class RoomWidget extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(children: hosts),
+                    SingleChildScrollView(child: Row(children: roomMember ?? hosts!), scrollDirection: Axis.horizontal,),
                     const SizedBox(height: 11),
                     if (roomType != ViewType.statusReceiveView)
                       Text(room.title, style: kBodyStyle1),
