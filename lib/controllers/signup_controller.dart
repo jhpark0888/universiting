@@ -24,6 +24,7 @@ class SignupController extends GetxController {
   RxList<Univ> allUnivList = <Univ>[].obs;
   RxList<String> univList = <String>[].obs;
   RxList<String> univSearchList = <String>[].obs;
+  RxString selecteduniv = ''.obs;
   // RxList<Depart> allDepartList = <Depart>[].obs;
   // RxList<String> departList = <String>[].obs;
   // RxList<String> departSearchList = <String>[].obs;
@@ -50,12 +51,16 @@ class SignupController extends GetxController {
   void onInit() async {
     await getUniversityList();
     universityController.addListener(() {
-      univSearchList.clear();
-      for (String univ in univList) {
-        if (universityController.text != "") {
-          if (univ.contains(universityController.text)) {
-            univSearchList.add(univ);
-            checkuniversity();
+      if (universityController.text != selecteduniv.value) {
+        selecteduniv('');
+        univSearchList.clear();
+        for (String univ in univList) {
+          if (universityController.text != "") {
+            if (univ.contains(universityController.text)) {
+              univSearchList.add(univ);
+              isUniv(false);
+              // checkuniversity();
+            }
           }
         }
       }
