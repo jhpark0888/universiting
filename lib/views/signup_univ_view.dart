@@ -13,6 +13,7 @@ import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/views/signup_name_view.dart';
 import 'package:universiting/widgets/bottombutton.dart';
 import 'package:universiting/widgets/custom_button_widget.dart';
+import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 import 'package:universiting/widgets/signup_bottombutton_widget.dart';
 import '../controllers/signup_controller.dart';
 import '../utils/global_variable.dart';
@@ -89,58 +90,73 @@ class SignupUnivView extends StatelessWidget {
                     )),
                     Expanded(
                       child: Obx(
-                        () => ListView(
-                            shrinkWrap: true,
-                            children: signupController.univSearchList
-                                .map((element) => GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {
-                                        signupController.universityController
-                                            .text = element;
-                                        // Get.to(() => SignupNameView(),
-                                        //     transition:
-                                        //         Transition.noTransition);
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 20,
+                        () => ScrollNoneffectWidget(
+                          child: ListView(
+                              shrinkWrap: true,
+                              children: signupController.univSearchList
+                                  .map((element) => GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onTap: () {
+                                          signupController.universityController
+                                              .text = element;
+                                          signupController
+                                              .selecteduniv(element);
+                                          signupController
+                                              .univSearchList([element]);
+                                          signupController.isUniv(true);
+
+                                          // Get.to(() => SignupNameView(),
+                                          //     transition:
+                                          //         Transition.noTransition);
+                                        },
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 20,
+                                              ),
+                                              child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      element,
+                                                      style: kBodyStyle2,
+                                                    ),
+                                                    Obx(
+                                                      () => signupController
+                                                              .isUniv.value
+                                                          ? SvgPicture.asset(
+                                                              'assets/icons/check_active.svg')
+                                                          : SvgPicture.asset(
+                                                              'assets/icons/check_inactive.svg'),
+                                                    ),
+                                                    // Container(
+                                                    //   height: 30,
+                                                    //   width: 30,
+                                                    //   decoration: BoxDecoration(
+                                                    //       color: kMainBlack
+                                                    //           .withOpacity(0.6),
+                                                    //       borderRadius:
+                                                    //           BorderRadius
+                                                    //               .circular(30)),
+                                                    // )
+                                                  ]),
                                             ),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    element,
-                                                    style: kBodyStyle2,
-                                                  ),
-                                                  SvgPicture.asset(
-                                                      'assets/icons/check_nactive.svg'),
-                                                  // Container(
-                                                  //   height: 30,
-                                                  //   width: 30,
-                                                  //   decoration: BoxDecoration(
-                                                  //       color: kMainBlack
-                                                  //           .withOpacity(0.6),
-                                                  //       borderRadius:
-                                                  //           BorderRadius
-                                                  //               .circular(30)),
-                                                  // )
-                                                ]),
-                                          ),
-                                          const Divider(
-                                            color: Color(0xffe7e7e7),
-                                          ),
-                                        ],
-                                      ),
-                                    ))
-                                .toList()),
+                                            const Divider(
+                                              color: Color(0xffe7e7e7),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  .toList()),
+                        ),
                       ),
                     ),
                   ],
@@ -151,8 +167,8 @@ class SignupUnivView extends StatelessWidget {
               () => SignupButtonWidget(
                   onTap: () async {
                     if (signupController.isUniv.value) {
-                      signupController.selectuniv(
-                          signupController.universityController.text);
+                      signupController
+                          .selectuniv(signupController.selecteduniv.value);
                       print(signupController.uni.value.email);
                       // await getDepartList(
                       //     signupController.uni.value.id);
@@ -177,13 +193,22 @@ class UniversityWidget extends StatelessWidget {
   UniversityWidget({Key? key, required this.univ}) : super(key: key);
   String univ;
   RxBool isselected = false.obs;
+  SignupController signupController = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        SignupController.to.universityController.text = univ;
+        if (signupController.isUniv.value == true) {
+          signupController.isUniv(false);
+          isselected(false);
+        } else {
+          signupController.universityController.text = univ;
+          signupController.isUniv(true);
+          isselected(true);
+        }
+
         // Get.to(() => SignupNameView(),
         //     transition:
         //         Transition.noTransition);
@@ -204,10 +229,10 @@ class UniversityWidget extends StatelessWidget {
                     style: kBodyStyle2,
                   ),
                   Obx(
-                    () => isselected.value == false
-                        ? SvgPicture.asset('assets/icons/check_nactive.svg')
-                        : SvgPicture.asset('assets/icons/check_active.svg'),
-                  )
+                    () => isselected.value
+                        ? SvgPicture.asset('assets/icons/check_active.svg')
+                        : SvgPicture.asset('assets/icons/check_inactive.svg'),
+                  ),
                   // Container(
                   //   height: 30,
                   //   width: 30,
