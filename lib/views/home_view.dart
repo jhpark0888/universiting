@@ -218,7 +218,7 @@ class HomeView extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Container(
-                                height: 40,
+                                height: 42,
                                 decoration: BoxDecoration(
                                     color: kBackgroundWhite,
                                     borderRadius: BorderRadius.circular(16),
@@ -280,7 +280,7 @@ class HomeView extends StatelessWidget {
                                 });
                               },
                               child: Container(
-                                height: 40,
+                                height: 42,
                                 width: 51,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(24),
@@ -419,6 +419,7 @@ class HomeView extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Container(
+                                          height: 42,
                                           decoration: BoxDecoration(
                                               color: kPrimary,
                                               borderRadius:

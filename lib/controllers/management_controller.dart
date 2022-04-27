@@ -9,9 +9,14 @@ import 'package:universiting/models/room_model.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 import 'package:universiting/widgets/room_widget.dart';
 
-class MyRoomController extends GetxController {
-  static MyRoomController get to => Get.find();
-  RefreshController refreshController = RefreshController();
+class ManagementController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  static ManagementController get to => Get.find();
+
+  late TabController managetabController;
+
+  RefreshController myroomrefreshController = RefreshController();
+  RefreshController requestrefreshController = RefreshController();
   // final myRoomList = MyRoom(chiefList: [], memberList: []).obs;
   final chiefList = <Room>[].obs;
   final memberList = <Room>[].obs;
@@ -19,6 +24,7 @@ class MyRoomController extends GetxController {
   final profileImage = <ProfileImageWidget>[].obs;
   @override
   void onInit() async {
+    managetabController = TabController(length: 2, vsync: this);
     // myRoomList.value = await getMyRoom();
     await getMyRoom().then((myRoomList) {
       chiefList.value = myRoomList.chiefList;
@@ -29,12 +35,12 @@ class MyRoomController extends GetxController {
   }
 
   void onRefresh() async {
-   getRoomList();
-    refreshController.refreshCompleted();
+    getRoomList();
+    myroomrefreshController.refreshCompleted();
     print('리프레시 완료');
   }
 
-  void getRoomList()async{
+  void getRoomList() async {
     await getMyRoom().then((myRoomList) {
       chiefList.value = myRoomList.chiefList;
       memberList.value = myRoomList.memberList;
@@ -44,25 +50,37 @@ class MyRoomController extends GetxController {
 
   void getRoom() {
     room.clear();
-    for(Room i in chiefList){
-      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: true, roomType: ViewType.myRoom,));
+    for (Room i in chiefList) {
+      room.add(RoomWidget(
+        room: i,
+        hosts: getHostsList(i),
+        isChief: true,
+        roomType: ViewType.myRoom,
+      ));
     }
-    for(Room i in memberList){
-      room.add(RoomWidget(room: i, hosts: getHostsList(i), isChief: false,roomType: ViewType.myRoom));
+    for (Room i in memberList) {
+      room.add(RoomWidget(
+          room: i,
+          hosts: getHostsList(i),
+          isChief: false,
+          roomType: ViewType.myRoom));
     }
   }
 
-  List<ProfileImageWidget> getHostsList(Room room){
-    switch(room.totalMember){
+  List<ProfileImageWidget> getHostsList(Room room) {
+    switch (room.totalMember) {
       case 2:
       case 3:
       case 4:
-      print(room);
-      break;
+        print(room);
+        break;
     }
     profileImage.clear();
-    for(int i = 0; i < room.hosts!.length;i ++){
-      profileImage.add(ProfileImageWidget(host: room.hosts![i],type: ViewType.otherView,));
+    for (int i = 0; i < room.hosts!.length; i++) {
+      profileImage.add(ProfileImageWidget(
+        host: room.hosts![i],
+        type: ViewType.otherView,
+      ));
     }
     return profileImage.toList();
   }

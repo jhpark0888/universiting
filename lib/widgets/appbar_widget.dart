@@ -9,9 +9,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   List<Widget>? actions;
   Widget? leading;
   double? leadingwidth;
+  Color? backgroundColor;
   AppBarWidget(
       {Key? key,
       required this.title,
+      this.backgroundColor,
       this.actions,
       this.leading,
       this.leadingwidth})
@@ -21,9 +23,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: backgroundColor,
       leadingWidth: leadingwidth,
       automaticallyImplyLeading: false,
-      title: Text(title, style: kSubtitleStyle2),
+      title: Text(title, style: k20SemiBold),
       centerTitle: true,
       leading: leading ??
           IconButton(

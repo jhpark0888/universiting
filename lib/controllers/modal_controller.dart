@@ -9,7 +9,7 @@ import 'package:universiting/api/room_api.dart';
 import 'package:universiting/api/status_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
-import 'package:universiting/controllers/my_room_controller.dart';
+import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/signup_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
@@ -165,56 +165,53 @@ void showButtonDialog({
     AlertDialog(
       // actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: leftFunction,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                    decoration: BoxDecoration(
-                      color: kMainBlack.withOpacity(0.4),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    height: 42,
-                    child: Center(
-                      child: Text(
-                        leftText,
-                        style: kInActiveButtonStyle.copyWith(
-                          color: kMainWhite,
-                        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: leftFunction,
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  decoration: BoxDecoration(
+                    color: kMainBlack.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  height: 42,
+                  child: Center(
+                    child: Text(
+                      leftText,
+                      style: k16Medium.copyWith(
+                        color: kMainWhite,
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 12,
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: rightFunction,
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: kPrimary,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    height: 42,
-                    child: Center(
-                      child: Text(
-                        rightText,
-                        style: kActiveButtonStyle.copyWith(color: kMainWhite),
-                      ),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: rightFunction,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: kPrimary,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  height: 42,
+                  child: Center(
+                    child: Text(
+                      rightText,
+                      style: k16Medium.copyWith(color: kMainWhite),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
       elevation: 0,
@@ -225,10 +222,10 @@ void showButtonDialog({
       buttonPadding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
       contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
-      backgroundColor: Colors.white,
+      backgroundColor: kBackgroundWhite,
       title: Text(
         title,
-        style: kSubtitleStyle1,
+        style: k16Normal,
         textAlign: TextAlign.center,
       ),
       content: Text(
@@ -358,8 +355,8 @@ void showRoomDialog(
                         // MyRoomController.to.getRoomList();/
                         Get.back();
                       }
-                      print(MyRoomController.to.room.length);
-                      MyRoomController.to.room.value = MyRoomController
+                      print(ManagementController.to.room.length);
+                      ManagementController.to.room.value = ManagementController
                           .to.room.value
                           .where((room) => room.room.id.toString() != roomid)
                           .toList();
