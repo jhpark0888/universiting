@@ -50,8 +50,8 @@ class App extends StatelessWidget {
                       height: 82,
                       decoration: BoxDecoration(
                           border: Border.all(
-                            width: 1,
-                            color: kMainBlack.withOpacity(0.3),
+                            width: 0.3,
+                            color: kMainBlack.withOpacity(0.2),
                           ),
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(20),
