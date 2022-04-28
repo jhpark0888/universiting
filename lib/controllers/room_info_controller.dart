@@ -22,8 +22,14 @@ class RoomInfoController extends GetxController {
         roomManager: true,
         type: AddFriends.myRoom)
   ].obs;
-  final members = <int>[].obs;
-  final memberProfile = <Profile>[].obs;
+  final members = <int>[ProfileController.to.profile.value.userId].obs;
+  final memberProfile = <Profile>[ProfileController.to.profile.value].obs;
+
+  RxDouble ageAvg =
+      double.parse(ProfileController.to.profile.value.age.toString()).obs;
+
+  int agesum = ProfileController.to.profile.value.age;
+  final gender = ProfileController.to.profile.value.gender.obs;
   @override
   void onInit() {
     AppController.to.addPage();

@@ -53,7 +53,6 @@ class UnivRoomWidget extends StatelessWidget {
                 },
                 onVerticalDragUpdate: (value) {
                   mapController.isDetailClick(true);
-                  print(';dsa');
                   if (univRoomController.changeHeight.value <
                       Get.height - value.globalPosition.dy) {
                     univRoomController.changeHeight.value = Get.height;
