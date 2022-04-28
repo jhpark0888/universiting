@@ -32,9 +32,8 @@ Future<MyRoom> getMyRoom() async {
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
-    return MyRoom(chiefList: [], memberList: []);
+    return MyRoom(chiefList: []);
   } else {
-    try {
       var response = await http.get(url, headers: headers);
       print(response.statusCode);
       String responsebody = utf8.decode(response.bodyBytes);
@@ -44,12 +43,9 @@ Future<MyRoom> getMyRoom() async {
         return MyRoom.fromJson(jsonDecode(responsebody));
       } else {
         print(response.statusCode);
-        return MyRoom(chiefList: [], memberList: []);
+        return MyRoom(chiefList: []);;
       }
-    } catch (e) {
-      showCustomDialog('서버 점검중입니다.', 1200);
-    }
-    return MyRoom(chiefList: [], memberList: []);
+    
   }
 }
 

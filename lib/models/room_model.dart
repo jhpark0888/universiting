@@ -18,6 +18,7 @@ class Room {
   int? isJoin;
   DateTime? date;
   bool? type;
+  int? views;
   Room(
       {this.id,
       required this.title,
@@ -32,6 +33,7 @@ class Room {
       this.isCreater,
       this.isJoin,
       this.date,
+      this.views,
       this.introduction});
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
@@ -43,16 +45,17 @@ class Room {
           .map((value) => Host.fromJson(value))
           .toList() : null,
       totalMember: json['totalmember'],
-      gender: json['gender'],
+      gender: json['gender'] == 'M' ? '남성' : json['gender'] == 'F' ? '여성' : '혼성',
       type: json['type'] ?? null,
       createrId: json['creater_id'],
       universityId: json['university_id'],
       introduction: json['introduction'],
       isCreater: json['is_creater'],
       isJoin : json['is_join'],
+      views : json['views'], 
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
-      
+  
 }
 
 // class AlarmRoom {

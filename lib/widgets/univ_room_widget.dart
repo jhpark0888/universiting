@@ -104,7 +104,7 @@ class UnivRoomWidget extends StatelessWidget {
                   // }
                 },
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                  padding: const EdgeInsets.only(top : 8),
                   child: Stack(children: [
                     Column(
                       children: [
@@ -148,12 +148,15 @@ class UnivRoomWidget extends StatelessWidget {
                                   //     )
                                   //   ],
                                   // ),
-                                  Text(
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20, right:20),
+                                    child: Text(
                                 mapController.clickedUniv.value,
                                 style: kBodyStyle6,
-                              )),
+                              ),
+                                  )),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 28),
                         if (univRoomController.univRoom.isEmpty)
                           Text(
                             '아직 만들어진 방이 없어요',

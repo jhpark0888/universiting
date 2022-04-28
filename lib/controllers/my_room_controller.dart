@@ -22,7 +22,7 @@ class MyRoomController extends GetxController {
     // myRoomList.value = await getMyRoom();
     await getMyRoom().then((myRoomList) {
       chiefList.value = myRoomList.chiefList;
-      memberList.value = myRoomList.memberList;
+      // memberList.value = myRoomList.memberList;
     });
     getRoom();
     super.onInit();
@@ -37,7 +37,7 @@ class MyRoomController extends GetxController {
   void getRoomList()async{
     await getMyRoom().then((myRoomList) {
       chiefList.value = myRoomList.chiefList;
-      memberList.value = myRoomList.memberList;
+      // memberList.value = myRoomList.memberList;
     });
     getRoom();
   }

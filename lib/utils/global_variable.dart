@@ -39,7 +39,7 @@ String calculateDate(DateTime date) {
     if (DateTime.now().difference(date).inHours <= 24) {
       return '${DateTime.now().difference(date).inHours}시간 전';
     } else if (DateTime.now().difference(date).inDays <= 31) {
-      return '한 달 이내 만들어진 방';
+      return '${DateTime.now().difference(date).inDays}일 전';
     } else if (DateTime.now().difference(date).inDays <= 365) {
       return '일 년 이내 만들어진 방';
     }
