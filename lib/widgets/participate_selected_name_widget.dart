@@ -51,6 +51,27 @@ class SelectedNameWidget extends StatelessWidget {
                                 RoomInfoController.to.memberProfile
                                     .where((profile) => profile != selectMember)
                                     .toList();
+
+                            RoomInfoController.to.agesum -=
+                                  selectMember.age;
+
+                              RoomInfoController.to.ageAvg(double.parse(
+                                  (RoomInfoController.to.agesum /
+                                          (RoomInfoController
+                                                  .to.memberProfile.length +
+                                              1))
+                                      .toStringAsFixed(1)));
+
+                              RoomInfoController.to.gender(
+                                  ProfileController.to.profile.value.gender);
+
+                              for (var profile
+                                  in RoomInfoController.to.memberProfile) {
+                                if (RoomInfoController.to.gender.value !=
+                                    profile.gender) {
+                                  RoomInfoController.to.gender('혼성');
+                                }
+                              }
                           } else {
                             {
                               ParticipateController.to.selectedMembers.value =

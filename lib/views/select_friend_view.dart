@@ -49,7 +49,7 @@ class SelectFriendView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '함께 갈 친구들 ${type == AddFriends.myRoom ? '${RoomInfoController.to.members.length + 1}명' : '(${ParticipateController.to.members.length + 1} / ${peoplenum.toString()})'}',
+                '함께 갈 친구들 ${type == AddFriends.myRoom ? '${RoomInfoController.to.members.length}명' : '(${ParticipateController.to.members.length + 1} / ${peoplenum.toString()})'}',
                 style: k16Medium,
               ),
               const SizedBox(height: 20),
@@ -89,6 +89,23 @@ class SelectFriendView extends StatelessWidget {
                             ));
                             RoomInfoController.to.memberProfile.add(
                                 selectmemberController.seletedMember.value);
+
+                            RoomInfoController.to.agesum +=
+                                selectmemberController.seletedMember.value.age;
+
+                            RoomInfoController.to.ageAvg(double.parse(
+                                (RoomInfoController.to.agesum /
+                                        RoomInfoController
+                                                .to.memberProfile.length
+                                            )
+                                    .toStringAsFixed(1)));
+
+                            if (RoomInfoController.to.gender.value !=
+                                selectmemberController
+                                    .seletedMember.value.gender) {
+                              RoomInfoController.to.gender('혼성');
+                            }
+
                             print(selectmemberController
                                 .seletedMember.value.nickname);
                             print(RoomInfoController.to.members);
