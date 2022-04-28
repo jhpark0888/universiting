@@ -23,8 +23,8 @@ class RoomProfileImageWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 150,
-            width: 150,
+            height: 130,
+            width: 130,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
                 image: host!.profileImage != '' ? DecorationImage(

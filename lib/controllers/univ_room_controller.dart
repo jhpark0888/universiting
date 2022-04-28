@@ -12,7 +12,6 @@ class UnivRoomController extends GetxController {
   static UnivRoomController get to => Get.find();
   RxList<Room> univRoom = <Room>[].obs;
   RxList<RoomFinalWidget> room = <RoomFinalWidget>[].obs;
-  RxList<RoomProfileImageWidget> profileImage = <RoomProfileImageWidget>[].obs;
   RxDouble changeHeight = 340.0.obs;
   @override
   void onInit() async {
@@ -34,7 +33,8 @@ class UnivRoomController extends GetxController {
     getUnivRoom();
   }
 
-  List<RoomProfileImageWidget> getHostsList(Room room) {
+  List<Widget> getHostsList(Room room) {
+    List<Widget> profileImage = [];
     switch (room.totalMember) {
       case 2:
       case 3:
@@ -46,6 +46,7 @@ class UnivRoomController extends GetxController {
     for (int i = 0; i < room.hosts!.length; i++) {
       profileImage.add(RoomProfileImageWidget(host: room.hosts![i]));
     }
+    profileImage.insert(0, const SizedBox(width: 20));
     return profileImage.toList();
   }
 }

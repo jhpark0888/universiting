@@ -20,7 +20,7 @@ class RoomFinalWidget extends StatelessWidget {
       required this.roomType})
       : super(key: key);
   Room room;
-  List<RoomProfileImageWidget>? roomMember;
+  List<Widget>? roomMember;
   List<ProfileImageWidget>? joinmember;
   List<ProfileImageWidget>? hosts;
   bool isChief;
