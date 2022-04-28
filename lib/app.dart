@@ -7,9 +7,9 @@ import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/views/chat_list_view.dart';
 import 'package:universiting/views/home_view.dart';
+import 'package:universiting/views/management_view.dart';
 import 'package:universiting/views/profile_view.dart';
 import 'package:universiting/views/status_view.dart';
-import 'package:universiting/views/my_room_view.dart';
 
 import 'controllers/custom_animation_controller.dart';
 
@@ -32,8 +32,8 @@ class App extends StatelessWidget {
         lat: lat,
         lng: lng,
       ),
-      MyRoomView(),
       StatusView(),
+      ManagementView(),
       ChatListView(),
       ProfileView(),
     ];
@@ -48,8 +48,12 @@ class App extends StatelessWidget {
                 duration: Duration(milliseconds: 300),
                 child: Obx(() => Container(
                       height: 82,
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: kMainBlack.withOpacity(0.3),
+                          ),
+                          borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20)),
                           color: Colors.transparent),
@@ -60,6 +64,7 @@ class App extends StatelessWidget {
                         child: BottomNavigationBar(
                             type: BottomNavigationBarType.fixed,
                             currentIndex: appController.currentIndex.value,
+                            backgroundColor: kBackgroundWhite,
                             showSelectedLabels: false,
                             showUnselectedLabels: false,
                             onTap: appController.changePageIndex,

@@ -144,7 +144,10 @@ class RoomInfoView extends StatelessWidget {
                             showCustomDialog('인원은 최소 2명 이상이어야 해요', 1200);
                           }
                         },
-                        child: PrimaryButton(text: '방 만들기')),
+                        child: PrimaryButton(
+                          text: '방 만들기',
+                          isactive: true.obs,
+                        )),
                     const SizedBox(height: 10),
                     Text(
                       '함께할 친구들이 모두 수락하면 방이 우리 학교 방 목록에 올라가요\n내 방 탭에서 내가 만든 방을 확인할 수 있어요',

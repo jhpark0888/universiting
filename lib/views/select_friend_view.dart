@@ -30,12 +30,7 @@ class SelectFriendView extends StatelessWidget {
     print(selectmemberController.seletedMember);
     return Scaffold(
       appBar: AppBarWidget(
-        title: '함께 갈 친구 선택',
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(Icons.close)),
+        title: '함께 갈 친구',
         actions: [
           TextButton(
               onPressed: () {
@@ -55,7 +50,7 @@ class SelectFriendView extends StatelessWidget {
             children: [
               Text(
                 '함께 갈 친구들 ${type == AddFriends.myRoom ? '${RoomInfoController.to.members.length + 1}명' : '(${ParticipateController.to.members.length + 1} / ${peoplenum.toString()})'}',
-                style: kSubtitleStyle2,
+                style: k16Medium,
               ),
               const SizedBox(height: 20),
               Row(

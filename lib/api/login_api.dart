@@ -11,7 +11,7 @@ import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
-import 'package:universiting/controllers/my_room_controller.dart';
+import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
@@ -96,7 +96,7 @@ Future<void> logout() async {
         const FlutterSecureStorage().delete(key: "lat");
         Get.delete<HomeController>(tag: '다음 화면');
         Get.delete<HomeController>(tag: '첫 화면');
-        Get.delete<MyRoomController>();
+        Get.delete<ManagementController>();
         Get.delete<StatusController>();
         Get.delete<ChatListController>();
         Get.delete<ProfileController>();

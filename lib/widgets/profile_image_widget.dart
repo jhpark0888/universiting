@@ -40,7 +40,8 @@ class ProfileImageWidget extends StatelessWidget {
                     ? host!.userId == ProfileController.to.profile.value.userId
                         ? ProfileController.to.profile.value.profileImage != ''
                             ? CachedNetworkImage(
-                                imageUrl : ProfileController.to.profile.value.profileImage,
+                                imageUrl: ProfileController
+                                    .to.profile.value.profileImage,
                                 width: width ?? 48,
                                 height: width ?? 48,
                                 fit: BoxFit.cover,
@@ -53,7 +54,7 @@ class ProfileImageWidget extends StatelessWidget {
                               )
                         : host!.profileImage != ''
                             ? CachedNetworkImage(
-                                imageUrl : host!.profileImage,
+                                imageUrl: host!.profileImage,
                                 width: width ?? 48,
                                 height: width ?? 48,
                                 fit: BoxFit.cover,
@@ -70,11 +71,12 @@ class ProfileImageWidget extends StatelessWidget {
                             ? ProfileController.to.profile.value.profileImage !=
                                     ''
                                 ? CachedNetworkImage(
-                                imageUrl : ProfileController.to.profile.value.profileImage,
-                                width: width ?? 48,
-                                height: width ?? 48,
-                                fit: BoxFit.cover,
-                              )
+                                    imageUrl: ProfileController
+                                        .to.profile.value.profileImage,
+                                    width: width ?? 48,
+                                    height: width ?? 48,
+                                    fit: BoxFit.cover,
+                                  )
                                 : SvgPicture.asset(
                                     'assets/illustrations/default_profile.svg',
                                     height: width ?? 80,
@@ -89,11 +91,11 @@ class ProfileImageWidget extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   )
                                 : CachedNetworkImage(
-                                imageUrl : profile!.profileImage,
-                                width: width ?? 48,
-                                height: width ?? 48,
-                                fit: BoxFit.cover,
-                              )
+                                    imageUrl: profile!.profileImage,
+                                    width: width ?? 48,
+                                    height: width ?? 48,
+                                    fit: BoxFit.cover,
+                                  )
                         : ClipOval(
                             child: SvgPicture.asset(
                               'assets/illustrations/default_profile.svg',

@@ -17,6 +17,7 @@ import 'package:universiting/controllers/select_member_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
 import 'package:universiting/models/host_model.dart';
+import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/models/my_room_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/room_model.dart';
@@ -126,7 +127,7 @@ Future<void> makeRoom() async {
   }
 }
 
-Future<Room> getDetailRoom(String id) async {
+Future<HTTPResponse> getDetailRoom(String id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
@@ -134,25 +135,24 @@ Future<Room> getDetailRoom(String id) async {
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
-    return Room(id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
+    return HTTPResponse.networkError();
   } else {
     try {
       var response = await http.get(url, headers: headers);
-      print(response.statusCode);
+      print('방 로드api : ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode <= 200 && response.statusCode < 300) {
         print(responsebody);
-        return Room.fromJson(jsonDecode(responsebody));
+        return HTTPResponse.success(Room.fromJson(jsonDecode(responsebody)));
       } else {
-        print(response.statusCode);
-        return Room(
-            id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
+        return HTTPResponse.apiError('', response.statusCode);
       }
+    } on SocketException {
+      return HTTPResponse.serverError();
     } catch (e) {
       print(e);
       showcustomCustomDialog(1200);
-      return Room(
-          id: 0, title: '', hosts: <Host>[], totalMember: 0, type: false);
+      return HTTPResponse.unexpectedError(e);
     }
   }
 }

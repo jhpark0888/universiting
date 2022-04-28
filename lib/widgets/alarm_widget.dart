@@ -7,7 +7,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/alarm_list_controller.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
-import 'package:universiting/controllers/my_room_controller.dart';
+import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
@@ -63,7 +63,6 @@ class AlarmReceiveWidget extends StatelessWidget {
                   Expanded(
                     child: CustomButtonWidget(
                         contentPadding: EdgeInsets.fromLTRB(40, 14, 40, 14),
-                        height: 42,
                         width: 129,
                         buttonTitle: '거절하기',
                         buttonState: ButtonState.enabled,
@@ -107,7 +106,6 @@ class AlarmReceiveWidget extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: CustomButtonWidget(
-                        height: 42,
                         width: 129,
                         buttonTitle: '수락하기',
                         buttonState: ButtonState.primary,
@@ -122,7 +120,7 @@ class AlarmReceiveWidget extends StatelessWidget {
                                     .where((element) =>
                                         element.alarmreceive != alarmreceive)
                                     .toList();
-                            MyRoomController.to.getRoomList();
+                            ManagementController.to.getRoomList();
                           } else if (alarmreceive.type == 2) {
                             await okJoinAlarm(
                                     alarmreceive.targetId.toString(),
@@ -135,7 +133,7 @@ class AlarmReceiveWidget extends StatelessWidget {
                                     .where((element) =>
                                         element.alarmreceive != alarmreceive)
                                     .toList();
-                            MyRoomController.to.getRoomList();
+                            ManagementController.to.getRoomList();
                           } else if (alarmreceive.type == 3) {
                             await joinToChat(alarmreceive).then((value) =>
                                 deleteAlarm(alarmreceive.id.toString()));

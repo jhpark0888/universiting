@@ -18,30 +18,30 @@ class CustomButtonWidget extends StatelessWidget {
     required this.onTap,
     this.contentPadding,
     this.width,
-    this.height
   });
   final String buttonTitle;
   final ButtonState buttonState;
   final VoidCallback onTap;
   EdgeInsetsGeometry? contentPadding;
   double? width;
-  double? height;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: width,
-        height: height,
-        padding: contentPadding ??const EdgeInsets.symmetric(
-          vertical: 12,
-          horizontal: 18,
-        ),
+        height: 42,
+        padding: contentPadding ??
+            const EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal: 18,
+            ),
         decoration: BoxDecoration(
             color: buttonColor(buttonState),
             borderRadius: BorderRadius.circular(16),
-            border:
-                Border.all(width: buttonState != ButtonState.enabled ? 1.6 : 0, color: buttonBorderColor(buttonState))),
+            border: Border.all(
+                width: buttonState != ButtonState.enabled ? 1.6 : 0,
+                color: buttonBorderColor(buttonState))),
         child: Text(
           buttonTitle,
           style: buttonTextStyle(buttonState),
@@ -72,16 +72,15 @@ class CustomButtonWidget extends StatelessWidget {
   TextStyle buttonTextStyle(ButtonState buttonState) {
     switch (buttonState) {
       case ButtonState.primary:
-        return kActiveButtonStyle.copyWith(color: kMainWhite,height: 1);
+        return kActiveButtonStyle.copyWith(color: kMainWhite, height: 1);
       case ButtonState.secondary:
-        return kActiveButtonStyle.copyWith(color: kPrimary,height: 1);
+        return kActiveButtonStyle.copyWith(color: kPrimary, height: 1);
       case ButtonState.negative:
-        return kActiveButtonStyle.copyWith(color: kErrorColor,height: 1);
+        return kActiveButtonStyle.copyWith(color: kErrorColor, height: 1);
       case ButtonState.general:
         return kActiveButtonStyle;
       case ButtonState.enabled:
-        return kInActiveButtonStyle.copyWith(
-            color: kMainWhite,height: 1);
+        return kInActiveButtonStyle.copyWith(color: kMainWhite, height: 1);
       default:
         kActiveButtonStyle;
     }

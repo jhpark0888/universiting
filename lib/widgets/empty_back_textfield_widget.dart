@@ -12,11 +12,13 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
       this.obsecuretext,
       this.hinttext,
       this.hintstyle,
+      this.hintMaxLines,
       this.textStyle,
       this.textalign,
       this.cursorHeight,
       this.cursorWidth,
       this.maxLines,
+      this.maxLength,
       this.contentPadding})
       : super(key: key);
   TextEditingController controller;
@@ -26,8 +28,10 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
   TextInputType? textInputType;
   String? Function(String?)? validator;
   String? hinttext;
-  bool? obsecuretext;
   int? maxLines;
+  bool? obsecuretext;
+  int? hintMaxLines;
+  int? maxLength;
   double? cursorWidth;
   double? cursorHeight;
   EdgeInsetsGeometry? contentPadding;
@@ -59,9 +63,11 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
               ),
           isDense: true,
           border: InputBorder.none,
+          counterText: '',
           hintText: hinttext ?? '',
           hintStyle: hintstyle ??
               kHeaderStyle2.copyWith(color: kMainBlack.withOpacity(0.38)),
+          hintMaxLines: hintMaxLines,
           focusedBorder: InputBorder.none,
           errorBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
@@ -70,6 +76,7 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
       validator: validator,
       obscureText: obsecuretext ?? false,
       maxLines: maxLines,
+      maxLength: maxLength,
     );
   }
 }

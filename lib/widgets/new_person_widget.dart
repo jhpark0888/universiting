@@ -13,31 +13,31 @@ class NewPersonTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 17),
+      padding: const EdgeInsets.only(top: 18),
       child: Row(
         children: [
           ProfileImageWidget(
             type: ViewType.otherView,
             profile: profile,
-            width: 50,
-            height: 50,
+            width: 60,
+            height: 60,
           ),
           const SizedBox(
-            width: 7,
+            width: 12,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 '${profile.nickname} / ${profile.age} / ${profile.gender}',
-                style: kSubtitleStyle2,
+                style: k16Medium,
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 8),
               Text(
                 profile.introduction != ''
                     ? profile.introduction
                     : '아직 소개글이 없어요',
-                style: kBodyStyle2.copyWith(color: kMainBlack.withOpacity(0.6)),
+                style: k16Light,
               )
             ],
           )

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/room_api.dart';
+import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/room_model.dart';
@@ -10,6 +13,12 @@ class RoomDetailController extends GetxController {
   static RoomDetailController get to => Get.find();
   RoomDetailController({required this.roomid});
   TextEditingController reportController = TextEditingController();
+  Rx<Screenstate> screenstate = Screenstate.loading.obs;
+  int currentPage = 0;
+  PageController pageController = PageController(
+    initialPage: 0,
+  );
+  Timer? timer;
   String roomid;
   final roomPersonList = <Widget>[].obs;
   final detailRoom = Room(
@@ -22,10 +31,22 @@ class RoomDetailController extends GetxController {
       .obs;
   @override
   void onInit() async {
-    detailRoom.value = await getDetailRoom(roomid);
-    makeRoomPersonList(detailRoom.value.hosts!.length);
-    AppController.to.addPage();
-    print(AppController.to.stackPage);
+    await getDetailRoom(roomid).then((httpresponse) {
+      if (httpresponse.isError == false) {
+        detailRoom(httpresponse.data);
+        AppController.to.addPage();
+        print(AppController.to.stackPage);
+        screenstate(Screenstate.success);
+        timerstart();
+      } else {
+        if (httpresponse.errorData!['statusCode'] == 59) {
+          screenstate(Screenstate.network);
+        } else {
+          screenstate(Screenstate.error);
+        }
+      }
+    });
+    // makeRoomPersonList(detailRoom.value.hosts!.length);
     super.onInit();
   }
 
@@ -33,7 +54,22 @@ class RoomDetailController extends GetxController {
   void onClose() {
     AppController.to.deletePage();
     print(AppController.to.stackPage);
+    if (timer != null) {
+      timer!.cancel();
+    }
     super.onClose();
+  }
+
+  void timerstart() {
+    timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      currentPage++;
+
+      pageController.animateToPage(
+        currentPage,
+        duration: Duration(milliseconds: 350),
+        curve: Curves.easeIn,
+      );
+    });
   }
 
   void makeRoomPersonList(int number) {

@@ -31,7 +31,7 @@ class SelectedNameWidget extends StatelessWidget {
                 children: [
                   Text(
                     selectMember.nickname,
-                    style: kInActiveButtonStyle,
+                    style: k16Medium,
                   ),
                   if (!roomManager) const SizedBox(width: 4),
                   if (!roomManager)
