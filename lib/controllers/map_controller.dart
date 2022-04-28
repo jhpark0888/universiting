@@ -31,9 +31,12 @@ class MapController extends GetxController {
 
   void onCameraChange(
       LatLng? latLng, CameraChangeReason reason, bool? isAnimated) {
-    // print('카메라 움직임 >>> 위치 : ${latLng!.latitude}, ${latLng.longitude}'
-    //     '\n원인: $reason'
-    //     '\n에니메이션 여부: $isAnimated');
+        print('$reason입니다.');
+    if(HomeController.to.searchedUniv.isNotEmpty){
+    HomeController.to.searchedUniv.clear();
+    HomeController.to.searchUniv.clear();
+    // FocusScope.of(context).unfocus();
+    }
   }
 
   Future<void> onMarkerTap(Marker? marker, Map<String, int?>? iconSize) async {

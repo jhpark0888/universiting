@@ -19,7 +19,9 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
       this.cursorWidth,
       this.maxLines,
       this.maxLength,
-      this.contentPadding})
+      this.contentPadding,
+      this.autofocus,
+      this.ontap})
       : super(key: key);
   TextEditingController controller;
   TextAlign? textalign;
@@ -30,16 +32,19 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
   String? hinttext;
   int? maxLines;
   bool? obsecuretext;
+  bool? autofocus;
   int? hintMaxLines;
   int? maxLength;
   double? cursorWidth;
   double? cursorHeight;
   EdgeInsetsGeometry? contentPadding;
+  void Function()? ontap;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: ontap,
       keyboardType: textInputType,
-      autofocus: true,
+      autofocus: autofocus?? true,
       toolbarOptions: const ToolbarOptions(
         copy: true,
         cut: true,

@@ -7,6 +7,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
 import 'package:universiting/views/univ_room_view.dart';
+import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 
 class UnivRoomWidget extends StatelessWidget {
   UnivRoomWidget({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class UnivRoomWidget extends StatelessWidget {
             height:
                 // mapController.isDetailClick.value ? Get.height : 220
                 univRoomController.changeHeight.value,
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 200),
             decoration: !mapController.isDetailClick.value
                 ? const BoxDecoration(
                     color: kBackgroundWhite,
@@ -52,6 +53,7 @@ class UnivRoomWidget extends StatelessWidget {
                 },
                 onVerticalDragUpdate: (value) {
                   mapController.isDetailClick(true);
+                  print(';dsa');
                   if (univRoomController.changeHeight.value <
                       Get.height - value.globalPosition.dy) {
                     univRoomController.changeHeight.value = Get.height;
@@ -104,7 +106,7 @@ class UnivRoomWidget extends StatelessWidget {
                   // }
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(top : 8),
+                  padding: const EdgeInsets.only(top: 8),
                   child: Stack(children: [
                     Column(
                       children: [
@@ -123,38 +125,25 @@ class UnivRoomWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                        const SizedBox(height: 36),
+                        const SizedBox(height: 28),
                         GestureDetector(
                           onTap: () {
                             print('dsadas');
                           },
                           child: Container(
-                              padding: mapController.isDetailClick.value
+                              padding: univRoomController.changeHeight.value == Get.height
                                   ? EdgeInsets.only(top: 28)
-                                  : EdgeInsets.zero,
+                                  : EdgeInsets.only(top: 0),
                               color: kBackgroundWhite,
                               width: Get.width,
-                              child:
-                                  // Row(
-                                  //   children: [
-                                  //     Text(
-                                  //       mapController.clickedUniv.value,
-                                  //       style: kSubtitleStyle1,
-                                  //     ),
-                                  //     Spacer(),
-                                  //     Text(
-                                  //       '방 ${univRoomController.univRoom.length}개',
-                                  //       style: kSubtitleStyle2,
-                                  //     )
-                                  //   ],
-                                  // ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20, right:20),
-                                    child: Text(
-                                mapController.clickedUniv.value,
-                                style: kBodyStyle6,
-                              ),
-                                  )),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                child: Text(
+                                  mapController.clickedUniv.value,
+                                  style: kBodyStyle6,
+                                ),
+                              )),
                         ),
                         const SizedBox(height: 28),
                         if (univRoomController.univRoom.isEmpty)
@@ -165,10 +154,17 @@ class UnivRoomWidget extends StatelessWidget {
                           ),
                         if (univRoomController.univRoom.isNotEmpty)
                           Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children:
-                                    univRoomController.room.reversed.toList(),
+                            child: ScrollNoneffectWidget(
+                              child: SingleChildScrollView(
+                                physics:
+                                    univRoomController.changeHeight.value ==
+                                            Get.height
+                                        ? null
+                                        : const NeverScrollableScrollPhysics(),
+                                child: Column(
+                                  children:
+                                      univRoomController.room.reversed.toList(),
+                                ),
                               ),
                             ),
                           )

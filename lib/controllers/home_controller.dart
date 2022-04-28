@@ -16,23 +16,29 @@ import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find(tag: '다음 화면');
+  TextEditingController searchUniv = TextEditingController();
   MapController mapController = Get.put(MapController(), permanent: true);
   RxList<Widget> univRoom = [Container()].obs;
   RxList<MainUniv> mainuniv = <MainUniv>[].obs;
+  RxList<MainUniv> searchedUniv = <MainUniv>[].obs;
   String? univId;
   RxString markerId = ''.obs;
   RxBool isLoading = true.obs;
   RxBool isGuest = true.obs;
   RxBool islogin = false.obs;
   RxBool isDetailClick = false.obs;
+  RxBool isSearch = false.obs;
+  RxBool iskeybord = false.obs;
   final RxList<OverlayImage> image = <OverlayImage>[].obs;
   // late final OverlayImage image;
   @override
   void onInit() async {
     String? temptoken = await const FlutterSecureStorage().read(key: 'token');
+    var keyboardVisibilityController = KeyboardVisibilityController();
     if (temptoken != null) {
       isGuest.value = false;
       islogin.value = true;
@@ -43,6 +49,26 @@ class HomeController extends GetxController {
     customDialog(1);
     createdMarker();
     super.onInit();
+
+    searchUniv.addListener(() {
+      searchedUniv.clear();
+      for (MainUniv univ in mainuniv) {
+        if (searchUniv.text != '') {
+          if (univ.schoolname.contains(searchUniv.text)) {
+            searchedUniv.add(
+              univ,
+
+            );
+          }
+        }
+      }
+    });
+  keyboardVisibilityController.onChange.listen((bool visible) {
+    iskeybord.value = visible;
+    if(iskeybord.value == false && isSearch.value == true){
+      isSearch(false);
+    }
+  });
   }
 
   @override
@@ -140,5 +166,33 @@ class HomeController extends GetxController {
         ].obs;
       }
     }
+  }
+
+  Widget searchListWidget(RxList<Widget> univ) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Container(
+        padding: EdgeInsets.only(left: 20, right: 20),
+        decoration: BoxDecoration(
+            color: kBackgroundWhite, borderRadius: BorderRadius.circular(16)),
+        child: ListView(
+            shrinkWrap: true,
+            children: univ
+                .map((e) => GestureDetector(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          e,
+                          const SizedBox(height: 20),
+                          Divider(
+                            thickness: 1,
+                            color: kMainBlack.withOpacity(0.05),
+                          )
+                        ],
+                      ),
+                    ))
+                .toList()),
+      ),
+    );
   }
 }

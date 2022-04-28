@@ -13,11 +13,13 @@ class WhiteTextfieldWidget extends StatelessWidget {
       this.height,
       this.prefixicon,
       this.obsecure,
-      this.ontap})
+      this.ontap,
+      this.hintstyle})
       : super(key: key);
   TextEditingController controller;
   bool? obsecure;
   String? hinttext;
+  TextStyle? hintstyle;
   int? maxLine;
   int? maxlenght;
   Widget? prefixicon;
@@ -39,7 +41,7 @@ class WhiteTextfieldWidget extends StatelessWidget {
         contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         prefixIcon: prefixicon,
         hintText: hinttext ?? '',
-        hintStyle:
+        hintStyle: hintstyle ??
             kSubtitleStyle3.copyWith(color: kMainBlack.withOpacity(0.38)),
         fillColor: Colors.transparent,
         filled: true,
