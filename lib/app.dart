@@ -39,6 +39,7 @@ class App extends StatelessWidget {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       bottomNavigationBar: Obx(
         () => _animationController.isRoomModalUp.value == false

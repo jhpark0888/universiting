@@ -47,6 +47,7 @@ class MapController extends GetxController {
     clickedId.refresh();
     clickedUniv.refresh();
     isClick.refresh();
+    HomeController.to.searchUniv.text = '';
     print(HomeController.to.isGuest.value);
     if (HomeController.to.isGuest.value == false) {
       try {
@@ -65,7 +66,7 @@ class MapController extends GetxController {
   }
 
   void getUnivDetailRoom(int pos) {
-    bottomSheetModal(UnivRoomWidget(), isDetailClick, pos);
+    bottomSheetModal(UnivRoomWidget(),isClick, isDetailClick, pos);
     Timer(Duration(milliseconds: 500), () async {
       await HomeController.to.getDetailOverlyImage(
           UnivRoomController.to.univRoom.length.toString());

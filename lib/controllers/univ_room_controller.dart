@@ -12,16 +12,18 @@ class UnivRoomController extends GetxController {
   static UnivRoomController get to => Get.find();
   RxList<Room> univRoom = <Room>[].obs;
   RxList<RoomFinalWidget> room = <RoomFinalWidget>[].obs;
+  ScrollController scrollController = ScrollController(initialScrollOffset: 0);
   RxDouble changeHeight = 340.0.obs;
   @override
   void onInit() async {
+    scrollController.addListener(() {print(scrollController.offset); });
     await getUnivRoom();
     room.value = univRoom
         .map((element) => RoomFinalWidget(
               room: element,
               roomMember: getHostsList(element),
               isChief: false,
-              roomType: ViewType.otherView,
+              roomType: ViewType.univRoom,
             ))
         .toList();
     print(room.length);
@@ -47,7 +49,7 @@ class UnivRoomController extends GetxController {
       profileImage.add(RoomProfileImageWidget(
         host: room.hosts![i],
         isname: false,
-      ));
+      )); 
     }
     // profileImage.insert(0, const SizedBox(width: 20));
     return profileImage.toList();
