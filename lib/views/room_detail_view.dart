@@ -10,7 +10,7 @@ import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/room_detail_controller.dart';
 import 'package:universiting/utils/global_variable.dart';
-import 'package:universiting/utils/ProfileClipper.dart';
+import 'package:universiting/utils/custom_profile.dart';
 import 'package:universiting/views/participate_view.dart';
 import 'package:universiting/views/room_info_view.dart';
 import 'package:universiting/views/room_profile_view.dart';
@@ -139,36 +139,7 @@ class RoomDetailView extends StatelessWidget {
                                   height: Get.width,
                                   fit: BoxFit.cover,
                                 ),
-                                ClipRect(
-                                  child: Container(
-                                    decoration: BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                        color: kMainBlack.withOpacity(0.7),
-                                        blurRadius: 80,
-                                        offset: Offset(0, -Get.width),
-                                        blurStyle: BlurStyle.normal,
-                                      ),
-                                      BoxShadow(
-                                        color: kMainBlack.withOpacity(0.7),
-                                        blurRadius: 80,
-                                        offset: Offset(-Get.width, 0),
-                                        blurStyle: BlurStyle.normal,
-                                      ),
-                                      BoxShadow(
-                                        color: kMainBlack.withOpacity(0.7),
-                                        blurRadius: 80,
-                                        offset: Offset(Get.width, 0),
-                                        blurStyle: BlurStyle.normal,
-                                      ),
-                                      BoxShadow(
-                                        color: kMainBlack.withOpacity(0.7),
-                                        blurRadius: 80,
-                                        offset: Offset(0, Get.width),
-                                        blurStyle: BlurStyle.normal,
-                                      ),
-                                    ]),
-                                  ),
-                                ),
+                                ClipRect(child: ProfileBlur()),
                                 Positioned(
                                     bottom: 0,
                                     child: Container(
@@ -180,7 +151,7 @@ class RoomDetailView extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            '${roomDetailController.detailRoom.value.hosts![index % roomDetailController.detailRoom.value.hosts!.length].nickname} / ${roomDetailController.detailRoom.value.hosts![index % roomDetailController.detailRoom.value.hosts!.length].age.toString()} / ${roomDetailController.detailRoom.value.hosts![index % roomDetailController.detailRoom.value.hosts!.length].gender}',
+                                            '${roomDetailController.detailRoom.value.hosts![index % roomDetailController.detailRoom.value.hosts!.length].nickname} / ${roomDetailController.detailRoom.value.hosts![index % roomDetailController.detailRoom.value.hosts!.length].age.toString()}세 / ${roomDetailController.detailRoom.value.hosts![index % roomDetailController.detailRoom.value.hosts!.length].gender}',
                                             style: k16Medium.copyWith(
                                                 color: kBackgroundWhite),
                                           ),
@@ -215,7 +186,7 @@ class RoomDetailView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '조회수',
+                                '조회수 ${roomDetailController.detailRoom.value.views}',
                                 style: k16Medium.copyWith(
                                     color: kMainBlack.withOpacity(0.4)),
                               ),
@@ -264,9 +235,8 @@ class RoomDetailView extends StatelessWidget {
                                   style: k16Medium.copyWith(
                                       color: kMainBlack.withOpacity(0.4))),
                               TextSpan(
-                                  text: roomDetailController
-                                      .detailRoom.value.avgAge
-                                      .toString(),
+                                  text:
+                                      '${roomDetailController.detailRoom.value.avgAge.toString()}세',
                                   style: k16Medium),
                               TextSpan(
                                   text: ' · 성별 ',

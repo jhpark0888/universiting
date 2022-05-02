@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:universiting/constant.dart';
 import 'package:universiting/models/host_model.dart';
 
 class Room {
@@ -18,6 +19,7 @@ class Room {
   int? isJoin;
   DateTime? date;
   bool? type;
+  StateManagement? roomstate;
   int? views;
   Room(
       {this.id,
@@ -26,6 +28,7 @@ class Room {
       this.hosts,
       this.totalMember,
       this.type,
+      this.roomstate,
       this.gender,
       this.avgAge,
       this.createrId,
@@ -37,25 +40,37 @@ class Room {
       this.introduction});
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
-      id: json['id'],
-      university: json['university'],
-      title: json['title'],
-      avgAge: json['avg_age'],
-      hosts:json['hosts'] != null ? List<Map<String, dynamic>>.from(json['hosts'])
-          .map((value) => Host.fromJson(value))
-          .toList() : null,
-      totalMember: json['totalmember'],
-      gender: json['gender'] == 'M' ? '남성' : json['gender'] == 'F' ? '여성' : '혼성',
-      type: json['type'] ?? null,
-      createrId: json['creater_id'],
-      universityId: json['university_id'],
-      introduction: json['introduction'],
-      isCreater: json['is_creater'],
-      isJoin : json['is_join'],
-      views : json['views'], 
-      date: json['date'] != null ? DateTime.parse(json['date']) : null,
+        id: json['id'],
+        university: json['university'],
+        title: json['title'],
+        avgAge: json['avg_age'],
+        hosts: json['hosts'] != null
+            ? List<Map<String, dynamic>>.from(json['hosts'])
+                .map((value) => Host.fromJson(value))
+                .toList()
+            : null,
+        totalMember: json['totalmember'],
+        gender: json['gender'] == 'M'
+            ? '남성'
+            : json['gender'] == 'F'
+                ? '여성'
+                : '혼성',
+        type: json['type'] ?? null,
+        roomstate: json['type'] == null
+            ? null
+            : json['type'] == true && json['state'] == 0
+                ? StateManagement.roomActivated
+                : json['type'] == false && json['state'] == 0
+                    ? StateManagement.waitingFriend
+                    : StateManagement.friendReject,
+        createrId: json['creater_id'],
+        universityId: json['university_id'],
+        introduction: json['introduction'],
+        isCreater: json['is_creater'],
+        isJoin: json['is_join'],
+        views: json['views'],
+        date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
-  
 }
 
 // class AlarmRoom {

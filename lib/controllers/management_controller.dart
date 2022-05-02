@@ -7,6 +7,8 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/models/my_room_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
+import 'package:universiting/widgets/room_final_widget.dart';
+import 'package:universiting/widgets/room_profile_image_widget.dart';
 import 'package:universiting/widgets/room_widget.dart';
 
 class ManagementController extends GetxController
@@ -20,14 +22,16 @@ class ManagementController extends GetxController
   // final myRoomList = MyRoom(chiefList: [], memberList: []).obs;
   final chiefList = <Room>[].obs;
   final memberList = <Room>[].obs;
-  final room = <RoomWidget>[].obs;
-  final profileImage = <ProfileImageWidget>[].obs;
+  final room = <RoomFinalWidget>[].obs;
+  final profileImage = <RoomProfileImageWidget>[].obs;
   @override
   void onInit() async {
     managetabController = TabController(length: 2, vsync: this);
     // myRoomList.value = await getMyRoom();
-    await getMyRoom().then((myRoomList) {
-      chiefList.value = myRoomList.chiefList;
+    await getMyRoom(0).then((httpresponse) {
+      if (httpresponse.isError == false) {
+        chiefList((httpresponse.data as MyRoom).chiefList);
+      }
       // memberList.value = myRoomList.memberList;
     });
     getRoom();
@@ -41,8 +45,11 @@ class ManagementController extends GetxController
   }
 
   void getRoomList() async {
-    await getMyRoom().then((myRoomList) {
-      chiefList.value = myRoomList.chiefList;
+    await getMyRoom(chiefList.isEmpty ? 0 : chiefList.first.id!)
+        .then((httpresponse) {
+      if (httpresponse.isError == false) {
+        chiefList((httpresponse.data as MyRoom).chiefList);
+      }
       // memberList.value = myRoomList.memberList;
     });
     getRoom();
@@ -51,23 +58,23 @@ class ManagementController extends GetxController
   void getRoom() {
     room.clear();
     for (Room i in chiefList) {
-      room.add(RoomWidget(
+      room.add(RoomFinalWidget(
         room: i,
-        hosts: getHostsList(i),
+        roomMember: getHostsList(i),
         isChief: true,
         roomType: ViewType.myRoom,
       ));
     }
     for (Room i in memberList) {
-      room.add(RoomWidget(
+      room.add(RoomFinalWidget(
           room: i,
-          hosts: getHostsList(i),
+          roomMember: getHostsList(i),
           isChief: false,
           roomType: ViewType.myRoom));
     }
   }
 
-  List<ProfileImageWidget> getHostsList(Room room) {
+  List<RoomProfileImageWidget> getHostsList(Room room) {
     switch (room.totalMember) {
       case 2:
       case 3:
@@ -77,9 +84,9 @@ class ManagementController extends GetxController
     }
     profileImage.clear();
     for (int i = 0; i < room.hosts!.length; i++) {
-      profileImage.add(ProfileImageWidget(
+      profileImage.add(RoomProfileImageWidget(
         host: room.hosts![i],
-        type: ViewType.otherView,
+        isname: false,
       ));
     }
     return profileImage.toList();

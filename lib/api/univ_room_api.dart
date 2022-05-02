@@ -17,6 +17,7 @@ Future<void> getUnivRoom() async {
   FlutterSecureStorage storage = FlutterSecureStorage();
   MapController mapController = Get.find();
   UnivRoomController univRoomController = Get.find();
+  print(mapController.clickedId);
   var url = Uri.parse(
       '$serverUrl/room_api/room?type=university&university_id=${mapController.clickedId}&last=0');
   String? token = await storage.read(key: 'token');

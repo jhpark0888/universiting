@@ -76,8 +76,8 @@ class CheckPeopleController extends GetxController {
       }
     }
     if (type == AddFriends.myRoom) {
-      if (RoomInfoController.to.seletedMembers.length > number) {
-        RoomInfoController.to.seletedMembers.removeLast();
+      if (RoomInfoController.to.selectedMembers.length > number) {
+        RoomInfoController.to.selectedMembers.removeLast();
         RoomInfoController.to.members.removeLast();
       }
     }

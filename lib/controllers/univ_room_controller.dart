@@ -44,9 +44,12 @@ class UnivRoomController extends GetxController {
     }
     profileImage.clear();
     for (int i = 0; i < room.hosts!.length; i++) {
-      profileImage.add(RoomProfileImageWidget(host: room.hosts![i]));
+      profileImage.add(RoomProfileImageWidget(
+        host: room.hosts![i],
+        isname: false,
+      ));
     }
-    profileImage.insert(0, const SizedBox(width: 20));
+    // profileImage.insert(0, const SizedBox(width: 20));
     return profileImage.toList();
   }
 }
