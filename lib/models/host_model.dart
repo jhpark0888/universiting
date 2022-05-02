@@ -23,9 +23,13 @@ class Host {
       this.joinType});
 
   factory Host.fromJson(Map<String, dynamic> json) => Host(
-        userId: json['user_id'],
-        nickname: json['nickname'],
-        profileImage: json['profile_image'] ?? '',
+        userId: json['user_id'] ?? json['profile']['user_id'],
+        nickname: json['nickname'] ?? json['profile']['nickname'],
+        profileImage: json['profile_image'] != null
+            ? json['profile_image']
+            : json['profile'] == null
+                ? ''
+                : json['profile']['profile_image'] ?? '',
         gender: json['gender'] ?? '',
         age: json['age'],
         introduction: json['introduction'] ?? '',

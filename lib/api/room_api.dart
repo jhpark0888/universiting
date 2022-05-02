@@ -25,28 +25,65 @@ import 'package:universiting/models/select_member_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 
-Future<MyRoom> getMyRoom() async {
+Future<HTTPResponse> getMyRoom(int last) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/my_room');
+  var url = Uri.parse(
+      '$serverUrl/room_api/my_room?view_type=all&last=${last.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
-    return MyRoom(chiefList: []);
+    return HTTPResponse.networkError();
   } else {
+    try {
       var response = await http.get(url, headers: headers);
-      print(response.statusCode);
+      print('내방 불러오기 : ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode <= 200 && response.statusCode < 300) {
         // selectMemberController.seletedMember.value =
         //     SelectMember.fromJson(jsonDecode(responsebody));
-        return MyRoom.fromJson(jsonDecode(responsebody));
+        return HTTPResponse.success(MyRoom.fromJson(jsonDecode(responsebody)));
       } else {
-        print(response.statusCode);
-        return MyRoom(chiefList: []);;
+        return HTTPResponse.apiError('', response.statusCode);
       }
-    
+    } on SocketException {
+      return HTTPResponse.serverError();
+    } catch (e) {
+      print(e);
+      return HTTPResponse.unexpectedError(e);
+    }
+  }
+}
+
+Future<HTTPResponse> getSendlist(int last) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse(
+      '$serverUrl/room_api/send_list?view_type=all&last=${last.toString()}');
+  var headers = {'Authorization': 'Token $token'};
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return HTTPResponse.networkError();
+  } else {
+    try {
+      var response = await http.get(url, headers: headers);
+      print('보낸신청 불러오기 : ${response.statusCode}');
+      String responsebody = utf8.decode(response.bodyBytes);
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+        // selectMemberController.seletedMember.value =
+        //     SelectMember.fromJson(jsonDecode(responsebody));
+        return HTTPResponse.success(MyRoom.fromJson(jsonDecode(responsebody)));
+      } else {
+        return HTTPResponse.apiError('', response.statusCode);
+      }
+    } on SocketException {
+      return HTTPResponse.serverError();
+    } catch (e) {
+      print(e);
+      return HTTPResponse.unexpectedError(e);
+    }
   }
 }
 
@@ -91,11 +128,14 @@ Future<void> makeRoom() async {
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/room');
 
+  List<int> memberid = createRoomController.members.value;
+  memberid.removeAt(0);
+
   var body = {
     'title': createRoomController.roomTitleController.text,
-    'totalmember': (createRoomController.members.length + 1).toString(),
+    'totalmember': (memberid.length + 1).toString(),
     'introduction': createRoomController.introController.text,
-    'member_id': createRoomController.members.toString()
+    'member_id': memberid.toString()
   };
   var headers = {
     'Authorization': 'Token $token',
@@ -151,7 +191,7 @@ Future<HTTPResponse> getDetailRoom(String id) async {
       return HTTPResponse.serverError();
     } catch (e) {
       print(e);
-      showcustomCustomDialog(1200);
+      // showcustomCustomDialog(1200);
       return HTTPResponse.unexpectedError(e);
     }
   }

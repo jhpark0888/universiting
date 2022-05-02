@@ -28,7 +28,7 @@ class MyRoomView extends StatelessWidget {
               // Text(myRoomController.myRoomList.value.chiefList[0].toString())
               SingleChildScrollView(
                   child: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 82),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 82),
             child: Column(
               children: _manageController.room.reversed.toList(),
             ),

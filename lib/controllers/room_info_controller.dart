@@ -16,7 +16,7 @@ class RoomInfoController extends GetxController {
   TextEditingController roomTitleController = TextEditingController();
   TextEditingController introController = TextEditingController();
   // final checkNumberPeopleList = <CheckNumberOfPeopleWidget>[].obs;
-  final seletedMembers = <SelectedNameWidget>[
+  final selectedMembers = <SelectedNameWidget>[
     SelectedNameWidget(
         selectMember: ProfileController.to.profile.value,
         roomManager: true,

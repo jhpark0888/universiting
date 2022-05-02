@@ -56,7 +56,7 @@ class ParticiapteView extends StatelessWidget {
           },
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -98,7 +98,7 @@ class ParticiapteView extends StatelessWidget {
                             participateController.members.length + 1 ==
                                     peopleNumber
                                 ? '함께 갈 친구 수정하기'
-                                : '함께 갈 ${peopleNumber.toString()}명의 친구 초대하기',
+                                : '함께 갈 ${(peopleNumber - 1).toString()}명의 친구 초대하기',
                             style: k16Medium.copyWith(color: kPrimary),
                           ),
                         ),
@@ -172,32 +172,42 @@ class ParticiapteView extends StatelessWidget {
                     ]),
                   ),
                   const SizedBox(height: 24),
-                  GestureDetector(
-                      onTap: () {
-                        if (peopleNumber ==
-                            participateController.members.length + 1) {
-                          showButtonDialog(
-                              title: '참여 신청하시겠어요?',
-                              content:
-                                  '친구들이 함께 가기를 모두 수락하면 \n신청이 완료되며,\n신청은 관리 - 신청 현황 탭에서 확인할 수 있어요',
-                              leftFunction: () => Get.back(),
-                              leftText: '닫기',
-                              rightFunction: () {
-                                roomJoin(roomid);
-                                Get.back();
-                                Get.back();
-                              },
-                              rightText: '신청하기');
-                        } else {
-                          showCustomDialog('인원수를 채워주세요', 1200);
-                        }
-                      },
-                      child: PrimaryButton(
-                        text: '참여 신청하기',
-                        isactive: (peopleNumber ==
-                                participateController.members.length + 1)
-                            .obs,
-                      )),
+                  Obx(
+                    () => GestureDetector(
+                        onTap: () {
+                          if (peopleNumber !=
+                              participateController.members.length + 1) {
+                            showCustomDialog('친구들 인원에 맞게 초대해 주세요', 1200);
+                          } else if (participateController.introController.text
+                                  .trim() ==
+                              '') {
+                            showCustomDialog('신청 메세지를 작성해 주세요', 1200);
+                          } else {
+                            showButtonDialog(
+                                title: '참여 신청하시겠어요?',
+                                content:
+                                    '친구들이 함께 가기를 모두 수락하면 \n신청이 완료되며,\n신청은 관리 - 신청 현황 탭에서 확인할 수 있어요',
+                                leftFunction: () => Get.back(),
+                                leftText: '닫기',
+                                rightFunction: () {
+                                  roomJoin(roomid);
+                                  Get.back();
+                                  Get.back();
+                                },
+                                rightText: '신청하기');
+                          }
+                        },
+                        child: PrimaryButton(
+                          text: '참여 신청하기',
+                          isactive: (peopleNumber ==
+                                      participateController.members.length +
+                                          1 &&
+                                  participateController.introController.text
+                                          .trim() !=
+                                      '')
+                              .obs,
+                        )),
+                  ),
                   const SizedBox(height: 10),
                   Text(
                     '친구들이 모두 수락하면 이 방에 참여 신청이 완료돼요\n관리 - 신청 현황 탭에서 내 신청을 확인할 수 있어요',

@@ -29,7 +29,7 @@ class NewPersonTileWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${profile.nickname} / ${profile.age} / ${profile.gender}',
+                '${profile.nickname} / ${profile.age}세 / ${profile.gender}',
                 style: k16Medium,
               ),
               const SizedBox(height: 8),

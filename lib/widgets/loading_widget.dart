@@ -7,10 +7,9 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: Get.width,
       height: Get.height,
-      color: Colors.transparent,
       child: Center(
         child: Image.asset(
           'assets/icons/loading.gif',

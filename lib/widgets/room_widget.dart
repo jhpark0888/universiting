@@ -14,7 +14,7 @@ class RoomWidget extends StatelessWidget {
       required this.room,
       this.joinmember,
       this.roomMember,
-       this.hosts,
+      this.hosts,
       required this.isChief,
       required this.roomType})
       : super(key: key);
@@ -31,9 +31,11 @@ class RoomWidget extends StatelessWidget {
         GestureDetector(
           onTap: () {
             if (roomType != ViewType.statusReceiveView) {
-              Get.to(() => RoomDetailView(
-                    roomid: room.id.toString(),
-                  ));
+              Get.to(
+                  () => RoomDetailView(
+                        roomid: room.id.toString(),
+                      ),
+                  opaque: false);
             } else {
               print(hosts);
             }
@@ -54,13 +56,17 @@ class RoomWidget extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SingleChildScrollView(child: Row(children: roomMember ?? hosts!), scrollDirection: Axis.horizontal,),
+                    SingleChildScrollView(
+                      child: Row(children: roomMember ?? hosts!),
+                      scrollDirection: Axis.horizontal,
+                    ),
                     const SizedBox(height: 11),
                     if (roomType != ViewType.statusReceiveView)
                       Text(room.title, style: kBodyStyle1),
                     if (roomType == ViewType.otherView)
                       const SizedBox(height: 15),
-                    if (roomType != ViewType.otherView && roomType != ViewType.myRoom)
+                    if (roomType != ViewType.otherView &&
+                        roomType != ViewType.myRoom)
                       Row(
                         children: [
                           Text(
@@ -75,7 +81,6 @@ class RoomWidget extends StatelessWidget {
                             Text(room.university!)
                         ],
                       ),
-
                     if (roomType != ViewType.otherView)
                       const SizedBox(height: 12),
                     Row(
@@ -108,9 +113,10 @@ class RoomWidget extends StatelessWidget {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: joinmember!),
-                    if (roomType == ViewType.otherView || roomType == ViewType.myRoom)
+                    if (roomType == ViewType.otherView ||
+                        roomType == ViewType.myRoom)
                       const SizedBox(height: 15),
-                    if (roomType == ViewType.otherView) 
+                    if (roomType == ViewType.otherView)
                       Row(
                         children: [
                           Text('인원',
@@ -127,8 +133,8 @@ class RoomWidget extends StatelessWidget {
                                   color: kMainBlack.withOpacity(0.4)))
                         ],
                       ),
-                    if(roomType == ViewType.myRoom)
-                    Row(
+                    if (roomType == ViewType.myRoom)
+                      Row(
                         children: [
                           Text('인원',
                               style: kSmallCaptionStyle.copyWith(
@@ -144,16 +150,19 @@ class RoomWidget extends StatelessWidget {
                                   //     ? room.isModify == 0
                                   //         ? StateManagement.waitingFriend
                                   //         : StateManagement.friendReject
-                                      : StateManagement.waitingFriend)
+                                  : StateManagement.waitingFriend)
                         ],
-                      ),  
-                      if(isChief)
-                    const SizedBox(height: 20),
+                      ),
+                    if (isChief) const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         isChief
-                            ? Text('회원님이 방장으로 신청 현황을 관리할 수 있어요', style: kSmallCaptionStyle.copyWith(color: kPrimary),)
+                            ? Text(
+                                '회원님이 방장으로 신청 현황을 관리할 수 있어요',
+                                style: kSmallCaptionStyle.copyWith(
+                                    color: kPrimary),
+                              )
                             : SizedBox.shrink(),
                         // if (roomType == ViewType.otherView)
                         //   StateManagementWidget(

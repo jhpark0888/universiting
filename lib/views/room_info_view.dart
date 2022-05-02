@@ -64,12 +64,13 @@ class RoomInfoView extends StatelessWidget {
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.only(left: 20, right: 20),
-                        itemCount:
-                            createRoomController.memberProfile.length + 1,
+                        itemCount: createRoomController.memberProfile.length > 1
+                            ? createRoomController.memberProfile.length
+                            : createRoomController.memberProfile.length + 1,
                         itemBuilder: (BuildContext context, int index) {
-                          print(createRoomController
-                              .memberProfile[0].profileImage);
-                          return index == 0
+                          return createRoomController.memberProfile.length ==
+                                      1 &&
+                                  index == 0
                               ? GestureDetector(
                                   onTap: () {
                                     Get.to(() => SelectFriendView(
@@ -110,8 +111,13 @@ class RoomInfoView extends StatelessWidget {
                                   ),
                                 )
                               : RoomProfileImageWidget(
-                                  profile: createRoomController
-                                      .memberProfile[index - 1],
+                                  profile: createRoomController.memberProfile[
+                                      createRoomController
+                                                  .memberProfile.length >
+                                              1
+                                          ? index
+                                          : index - 1],
+                                  isname: true,
                                 );
                         },
                         separatorBuilder: (BuildContext context, int index) {
@@ -123,11 +129,29 @@ class RoomInfoView extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 28,
+                Obx(
+                  () => createRoomController.memberProfile.length > 1
+                      ? Column(
+                          children: [
+                            const SizedBox(
+                              height: 18,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() =>
+                                    SelectFriendView(type: AddFriends.myRoom));
+                              },
+                              child: Text(
+                                '함께 할 친구 수정하기',
+                                style: k16Medium.copyWith(color: kPrimary),
+                              ),
+                            )
+                          ],
+                        )
+                      : Container(),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 28, 20, 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -223,30 +247,51 @@ class RoomInfoView extends StatelessWidget {
                       //   children: CheckPeopleController.to.checkPeopleList,
                       // ),
                       const SizedBox(height: 10),
-                      GestureDetector(
-                          onTap: () {
-                            if (createRoomController.memberProfile.length > 1) {
-                              showButtonDialog(
-                                  title: '방을 만드시겠어요?',
-                                  content:
-                                      '친구들이 초대를 모두 수락하면 방이 완성되며,\n내 방 탭에서 만든 방을 확인할 수 있어요',
-                                  leftFunction: () => Get.back(),
-                                  leftText: '닫기',
-                                  rightFunction: () {
-                                    makeRoom();
-                                  },
-                                  rightText: '방 만들기');
-                            } else {
-                              showCustomDialog('인원은 최소 2명 이상이어야 해요', 1200);
-                            }
-                          },
-                          child: PrimaryButton(
-                            text: '방 만들기',
-                            isactive:
-                                createRoomController.memberProfile.length > 1
-                                    ? true.obs
-                                    : false.obs,
-                          )),
+                      Obx(
+                        () => GestureDetector(
+                            onTap: () {
+                              if (createRoomController.memberProfile.length ==
+                                  1) {
+                                showCustomDialog('친구를 초대해주세요', 1200);
+                              } else if (createRoomController
+                                      .roomTitleController.text
+                                      .trim() ==
+                                  '') {
+                                showCustomDialog('방 제목을 입력해주세요', 1200);
+                              } else if (createRoomController
+                                      .introController.text
+                                      .trim() ==
+                                  '') {
+                                showCustomDialog('방 소개를 입력해주세요', 1200);
+                              } else {
+                                showButtonDialog(
+                                    title: '방을 만드시겠어요?',
+                                    content:
+                                        '친구들이 함께 하기를 모두 수락하면\n방 만들기가 완료되며 지도에 표시돼요\n신청은 관리 - 내 방 탭에서 방을 확인할 수 있어요',
+                                    leftFunction: () => Get.back(),
+                                    leftText: '닫기',
+                                    rightFunction: () {
+                                      makeRoom();
+                                    },
+                                    rightText: '방 만들기');
+                              }
+                            },
+                            child: PrimaryButton(
+                              text: '방 만들기',
+                              isactive: createRoomController
+                                              .memberProfile.length >
+                                          1 &&
+                                      createRoomController
+                                              .roomTitleController.text
+                                              .trim() !=
+                                          '' &&
+                                      createRoomController.introController.text
+                                              .trim() !=
+                                          ''
+                                  ? true.obs
+                                  : false.obs,
+                            )),
+                      ),
                       const SizedBox(height: 10),
                       Center(
                         child: Text(
