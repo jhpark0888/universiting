@@ -171,7 +171,6 @@ class HomeView extends StatelessWidget {
           () => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              
               Expanded(
                 child: Stack(
                   children: [
@@ -212,8 +211,7 @@ class HomeView extends StatelessWidget {
                                       markerId: '-1',
                                       position: LatLng(37.563600, 126.962370))
                                 ],
-                          initLocationTrackingMode:
-                              LocationTrackingMode.Follow,
+                          initLocationTrackingMode: LocationTrackingMode.Follow,
                         )),
                     if (homeController.islogin.value && tag == '다음 화면')
                       Positioned(
@@ -231,8 +229,7 @@ class HomeView extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
                                           width: 0.5,
-                                          color:
-                                              kMainBlack.withOpacity(0.1))),
+                                          color: kMainBlack.withOpacity(0.1))),
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         20.0, 10.5, 10, 10.5),
@@ -254,13 +251,12 @@ class HomeView extends StatelessWidget {
                                         const SizedBox(width: 10),
                                         Expanded(
                                             child: EmptyBackTextfieldWidget(
-                                          controller:
-                                              homeController.searchUniv,
+                                          controller: homeController.searchUniv,
                                           textStyle: kSubtitleStyle3,
                                           hinttext: '대학 이름으로 검색',
                                           hintstyle: kBodyStyle2.copyWith(
-                                              color: kMainBlack
-                                                  .withOpacity(0.40),
+                                              color:
+                                                  kMainBlack.withOpacity(0.40),
                                               fontWeight: FontWeight.w500,
                                               height: 1),
                                           autofocus: false,
@@ -291,8 +287,8 @@ class HomeView extends StatelessWidget {
                                   //     _animationController.isRoomModalUp(false);
                                   //   });
                                   // }
-                                  final controller = await mapController
-                                      .nMapController.future;
+                                  final controller =
+                                      await mapController.nMapController.future;
                                   Timer(Duration(milliseconds: 500), () {
                                     controller.moveCamera(cameraUpdate);
                                   });
@@ -343,8 +339,7 @@ class HomeView extends StatelessWidget {
                       Positioned(
                           top: 114,
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20, right: 20),
+                            padding: const EdgeInsets.only(left: 20, right: 20),
                             child: Container(
                               height: homeController.searchedUniv.length > 3
                                   ? 200
@@ -363,9 +358,8 @@ class HomeView extends StatelessWidget {
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () async {
-                                          final controller =
-                                              await mapController
-                                                  .nMapController.future;
+                                          final controller = await mapController
+                                              .nMapController.future;
                                           Timer(Duration(milliseconds: 500),
                                               () {
                                             controller.moveCamera(
@@ -384,23 +378,20 @@ class HomeView extends StatelessWidget {
                                           children: [
                                             Divider(
                                               thickness: 1,
-                                              color: kMainBlack
-                                                  .withOpacity(0.05),
+                                              color:
+                                                  kMainBlack.withOpacity(0.05),
                                             ),
                                             const SizedBox(height: 20),
                                             Text(
-                                              homeController
-                                                  .searchedUniv[index]
+                                              homeController.searchedUniv[index]
                                                   .schoolname,
                                               style: kSubtitleStyle3,
                                             ),
                                             const SizedBox(height: 20),
                                             KeyboardVisibilityBuilder(
                                                 builder: (context, visible) {
-                                                  print(visible);
-                                              if (visible == false) {
-                                                
-                                              }
+                                              print(visible);
+                                              if (visible == false) {}
                                               return SizedBox.shrink();
                                             })
                                           ],
