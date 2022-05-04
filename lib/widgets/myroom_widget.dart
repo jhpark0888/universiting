@@ -1,58 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:matrix4_transform/matrix4_transform.dart';
+import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/views/room_detail_view.dart';
+import 'package:universiting/widgets/button_widget.dart';
+import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
+import 'package:universiting/widgets/reject_button.dart';
 import 'package:universiting/widgets/room_profile_image_widget.dart';
 import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 import 'package:universiting/widgets/state_management_widget.dart';
 
-class RoomFinalWidget extends StatelessWidget {
-  RoomFinalWidget(
-      {Key? key,
-      required this.room,
-      this.joinmember,
-      this.roomMember,
-      this.hosts,
-      required this.isChief,
-      required this.roomType})
-      : super(key: key);
+class MyRoomWidget extends StatelessWidget {
+  MyRoomWidget({
+    Key? key,
+    required this.room,
+    this.joinmember,
+    this.roomMember,
+    this.hosts,
+    required this.isChief,
+  }) : super(key: key);
   Room room;
   List<Widget>? roomMember;
   List<ProfileImageWidget>? joinmember;
   List<ProfileImageWidget>? hosts;
   bool isChief;
-  ViewType roomType;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          if (roomType != ViewType.statusReceiveView) {
-           if (roomType == ViewType.univRoom) {
-            if (MapController.to.isDetailClick.value == true) {
-              Get.to(
-                  () => RoomDetailView(
-                        roomid: room.id.toString(),
-                      ),
-                  opaque: false);
-            }else{
-              UnivRoomController.to.changeHeight.value = Get.height;
-              MapController.to.isDetailClick(true);
-            }
-          } else if (roomType != ViewType.statusReceiveView) {
-            Get.to(
-                () => RoomDetailView(
-                      roomid: room.id.toString(),
-                    ),
-                opaque: false);
-          }
-          } else {
-            print(hosts);
-          }
+          Get.to(
+              () => RoomDetailView(
+                    roomid: room.id.toString(),
+                  ),
+              opaque: false);
         },
         behavior: HitTestBehavior.translucent,
         child:
@@ -83,29 +70,9 @@ class RoomFinalWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 18),
-                    if (roomType != ViewType.statusReceiveView)
-                      Text(room.title,
-                          style: kSubtitleStyle5.copyWith(height: 1.5)),
-                    if (roomType == ViewType.otherView)
-                      const SizedBox(height: 12),
-                    if (roomType != ViewType.otherView &&
-                        roomType != ViewType.myRoom)
-                      Row(
-                        children: [
-                          Text(
-                            '학교',
-                            style: kBodyStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6)),
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          if (roomType != ViewType.otherView)
-                            Text(room.university!)
-                        ],
-                      ),
-                    if (roomType != ViewType.otherView)
-                      const SizedBox(height: 12),
+                    Text(room.title,
+                        style: kSubtitleStyle5.copyWith(height: 1.5)),
+                    const SizedBox(height: 12),
                     Row(
                       children: [
                         Text('평균 나이',
@@ -143,44 +110,119 @@ class RoomFinalWidget extends StatelessWidget {
                             style: kSubtitleStyle2),
                       ],
                     ),
-                    if (roomType == ViewType.univRoom ||
-                        roomType == ViewType.myRoom)
-                      const SizedBox(height: 12),
-                    if (roomType == ViewType.univRoom ||
-                        roomType == ViewType.myRoom)
-                      Row(
+                    if (room.roomstate != StateManagement.sendme)
+                      Column(
                         children: [
-                          Text('조회수',
-                              style: kSubtitleStyle2.copyWith(
-                                  color: kMainBlack.withOpacity(0.6))),
-                          const SizedBox(width: 4),
-                          Text('${room.views}',
-                              style: kSubtitleStyle2.copyWith(
-                                  color: kMainBlack.withOpacity(0.6))),
-                          const Spacer(),
-                          Text(calculateDate(room.date!),
-                              style: kSubtitleStyle2.copyWith(
-                                  color: kMainBlack.withOpacity(0.4)))
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Text('조회수',
+                                  style: kSubtitleStyle2.copyWith(
+                                      color: kMainBlack.withOpacity(0.6))),
+                              const SizedBox(width: 4),
+                              Text('${room.views}',
+                                  style: kSubtitleStyle2.copyWith(
+                                      color: kMainBlack.withOpacity(0.6))),
+                              const Spacer(),
+                              Text(calculateDate(room.date!),
+                                  style: kSubtitleStyle2.copyWith(
+                                      color: kMainBlack.withOpacity(0.4)))
+                            ],
+                          ),
+                          const SizedBox(height: 18),
+                          StateManagementWidget(state: room.roomstate!),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          Divider(
+                            thickness: 0.5,
+                            color: kMainBlack.withOpacity(0.1),
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
                         ],
                       ),
-                    if (roomType == ViewType.myRoom)
+                    if (room.roomstate == StateManagement.sendme)
                       Column(
                         children: [
                           const SizedBox(height: 18),
-                          StateManagementWidget(state: room.roomstate!),
+                          RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: '\'${room.hosts!.first.nickname}\'',
+                                style: k16Medium.copyWith(
+                                    color: kPrimary, height: 1.5)),
+                            const TextSpan(
+                                text: '님이 방에 초대했어요', style: k16Medium),
+                            const TextSpan(
+                                text: '\n초대를 수락하고 방에 참여해 주세요', style: k16Medium)
+                          ])),
+                          const SizedBox(height: 18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        roomparticipate(
+                                            room.id.toString(), 'reject');
+                                      },
+                                      child: const RejectButton())),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    roomparticipate(room.id.toString(), 'join');
+                                  },
+                                  child: PrimaryButton(
+                                      text: '수락하기', isactive: true.obs),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          Divider(
+                            thickness: 2.5,
+                            color: kMainBlack.withOpacity(0.1),
+                          ),
+                          const SizedBox(height: 18),
                         ],
                       ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Divider(
-                      thickness: 1.5,
-                      color: kMainBlack.withOpacity(0.05),
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                  ]))
+                    if (room.requestcount != 0)
+                      Center(
+                        child: Column(
+                          children: [
+                            RichText(
+                                text: TextSpan(children: [
+                              const TextSpan(
+                                  text: '이 방이 받은 신청 ', style: k16Medium),
+                              TextSpan(
+                                  text: '${room.requestcount}개',
+                                  style: k16Medium.copyWith(color: kPrimary)),
+                              const TextSpan(text: ' 확인하기', style: k16Medium)
+                            ])),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            SvgPicture.asset(
+                              'assets/icons/down_arrow.svg',
+                            ),
+                            const SizedBox(
+                              height: 18,
+                            ),
+                            Divider(
+                              thickness: 2.5,
+                              color: kMainBlack.withOpacity(0.1),
+                            )
+                          ],
+                        ),
+                      )
+                  ])),
         ]));
   }
 }

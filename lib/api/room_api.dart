@@ -29,30 +29,30 @@ Future<HTTPResponse> getMyRoom(int last) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse(
-      '$serverUrl/room_api/my_room?view_type=all&last=${last.toString()}');
+  var url =
+      Uri.parse('$serverUrl/room_api/my_room?type=all&last=${last.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
     return HTTPResponse.networkError();
   } else {
-    try {
-      var response = await http.get(url, headers: headers);
-      print('내방 불러오기 : ${response.statusCode}');
-      String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
-        // selectMemberController.seletedMember.value =
-        //     SelectMember.fromJson(jsonDecode(responsebody));
-        return HTTPResponse.success(MyRoom.fromJson(jsonDecode(responsebody)));
-      } else {
-        return HTTPResponse.apiError('', response.statusCode);
-      }
-    } on SocketException {
-      return HTTPResponse.serverError();
-    } catch (e) {
-      print(e);
-      return HTTPResponse.unexpectedError(e);
+    // try {
+    var response = await http.get(url, headers: headers);
+    print('내방 불러오기 : ${response.statusCode}');
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      // selectMemberController.seletedMember.value =
+      //     SelectMember.fromJson(jsonDecode(responsebody));
+      return HTTPResponse.success(MyRoom.fromJson(jsonDecode(responsebody)));
+    } else {
+      return HTTPResponse.apiError('', response.statusCode);
     }
+    // } on SocketException {
+    //   return HTTPResponse.serverError();
+    // } catch (e) {
+    //   print(e);
+    //   return HTTPResponse.unexpectedError(e);
+    // }
   }
 }
 
@@ -193,6 +193,41 @@ Future<HTTPResponse> getDetailRoom(String id) async {
       print(e);
       // showcustomCustomDialog(1200);
       return HTTPResponse.unexpectedError(e);
+    }
+  }
+}
+
+Future<void> roomparticipate(String roomId, String type) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/room_api/host_member');
+
+  var body = {
+    'room_id': roomId,
+    'type': type,
+  };
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    try {
+      var response = await http.put(url, headers: headers, body: body);
+      String responsebody = utf8.decode(response.bodyBytes);
+      print('방 참가 or 거절 : ${response.statusCode}');
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+      } else {
+        print(response.statusCode);
+      }
+    } on SocketException {
+      Get.back();
+      showCustomDialog('서버 점검중입니다.', 1200);
+    } catch (e) {
+      Get.back();
+      print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
     }
   }
 }

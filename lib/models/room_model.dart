@@ -21,6 +21,7 @@ class Room {
   bool? type;
   StateManagement? roomstate;
   int? views;
+  int? requestcount;
   Room(
       {this.id,
       required this.title,
@@ -37,6 +38,7 @@ class Room {
       this.isJoin,
       this.date,
       this.views,
+      this.requestcount,
       this.introduction});
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
@@ -44,8 +46,8 @@ class Room {
         university: json['university'],
         title: json['title'],
         avgAge: json['avg_age'],
-        hosts: json['hosts'] != null
-            ? List<Map<String, dynamic>>.from(json['hosts'])
+        hosts: json['member'] != null
+            ? List<Map<String, dynamic>>.from(json['member'])
                 .map((value) => Host.fromJson(value))
                 .toList()
             : null,
@@ -56,19 +58,24 @@ class Room {
                 ? '여성'
                 : '혼성',
         type: json['type'] ?? null,
-        roomstate: json['type'] == null
+        roomstate: json['state'] == null
             ? null
-            : json['type'] == true && json['state'] == 0
+            : json['state'] == 1
                 ? StateManagement.roomActivated
-                : json['type'] == false && json['state'] == 0
-                    ? StateManagement.waitingFriend
-                    : StateManagement.friendReject,
+                : json['state'] == 2
+                    ? StateManagement.friendReject
+                    : json['state'] == 3
+                        ? StateManagement.friendLeave
+                        : json['type'] == true
+                            ? StateManagement.waitingFriend
+                            : StateManagement.sendme,
         createrId: json['creater_id'],
         universityId: json['university_id'],
         introduction: json['introduction'],
         isCreater: json['is_creater'],
         isJoin: json['is_join'],
         views: json['views'],
+        requestcount: json['request'],
         date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
 }

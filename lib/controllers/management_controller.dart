@@ -6,6 +6,7 @@ import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/models/my_room_model.dart';
 import 'package:universiting/models/room_model.dart';
+import 'package:universiting/widgets/myroom_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 import 'package:universiting/widgets/room_final_widget.dart';
 import 'package:universiting/widgets/room_profile_image_widget.dart';
@@ -22,7 +23,7 @@ class ManagementController extends GetxController
   // final myRoomList = MyRoom(chiefList: [], memberList: []).obs;
   final chiefList = <Room>[].obs;
   final memberList = <Room>[].obs;
-  final room = <RoomFinalWidget>[].obs;
+  final room = <MyRoomWidget>[].obs;
   final profileImage = <RoomProfileImageWidget>[].obs;
   @override
   void onInit() async {
@@ -58,19 +59,18 @@ class ManagementController extends GetxController
   void getRoom() {
     room.clear();
     for (Room i in chiefList) {
-      room.add(RoomFinalWidget(
+      room.add(MyRoomWidget(
         room: i,
         roomMember: getHostsList(i),
         isChief: true,
-        roomType: ViewType.myRoom,
       ));
     }
     for (Room i in memberList) {
-      room.add(RoomFinalWidget(
-          room: i,
-          roomMember: getHostsList(i),
-          isChief: false,
-          roomType: ViewType.myRoom));
+      room.add(MyRoomWidget(
+        room: i,
+        roomMember: getHostsList(i),
+        isChief: false,
+      ));
     }
   }
 

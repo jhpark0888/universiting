@@ -35,10 +35,12 @@ class StateManagementWidget extends StatelessWidget {
           Text(state == StateManagement.roomActivated
               ? '친구들이 모두 수락하여 지도에 표시중이에요'
               : state == StateManagement.waitingFriend
-                  ? '내 친구들의 수락을 기다리는 중이에요...'
+                  ? '친구들의 수락을 기다리는 중이에요'
                   : state == StateManagement.friendReject
                       ? '친구가 함께 하기를 거절했어요'
-                      : '친구가 방을 나갔어요')
+                      : state == StateManagement.friendLeave
+                          ? '친구가 방을 나갔어요'
+                          : ''),
         ],
       ),
     );
