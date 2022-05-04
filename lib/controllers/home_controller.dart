@@ -27,6 +27,8 @@ class HomeController extends GetxController {
   RxList<MainUniv> searchedUniv = <MainUniv>[].obs;
   String? univId;
   RxString markerId = ''.obs;
+  RxDouble searchPadding = 70.0.obs;
+  RxDouble statusBarHeight = 0.0.obs;
   RxBool isLoading = true.obs;
   RxBool isGuest = true.obs;
   RxBool islogin = false.obs;
@@ -39,6 +41,7 @@ class HomeController extends GetxController {
   void onInit() async {
     String? temptoken = await const FlutterSecureStorage().read(key: 'token');
     var keyboardVisibilityController = KeyboardVisibilityController();
+    statusBarHeight.value = MediaQuery.of(Get.context!).padding.top;
     if (temptoken != null) {
       isGuest.value = false;
       islogin.value = true;
@@ -57,7 +60,6 @@ class HomeController extends GetxController {
           if (univ.schoolname.contains(searchUniv.text)) {
             searchedUniv.add(
               univ,
-
             );
           }
         }
@@ -67,6 +69,11 @@ class HomeController extends GetxController {
     iskeybord.value = visible;
     if(iskeybord.value == false && isSearch.value == true){
       isSearch(false);
+    }
+    if(iskeybord.value == true){
+      searchPadding.value = MediaQuery.of(Get.context!).viewInsets.bottom;
+    }else if(iskeybord.value == false){
+      searchPadding.value = 70.0;
     }
   });
   }

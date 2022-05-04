@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
 import 'package:universiting/views/univ_room_view.dart';
@@ -44,22 +45,24 @@ class UnivRoomWidget extends StatelessWidget {
                   : BorderRadius.zero,
               child: GestureDetector(
                 onTap: () {
-                  // mapController.isDetailClick.value =
-                  //     !mapController.isDetailClick.value;
-
-                  // mapController.isDetailClick.value
-                  //     ? univRoomController.changeHeight.value = Get.height
-                  //     : univRoomController.changeHeight.value = 220;
+                  print('object');
+                  if(mapController.isDetailClick.value == false){
+                    univRoomController.changeHeight.value = Get.height;
+                    mapController.isDetailClick(true);
+                  }
                 },
                 onVerticalDragUpdate: (value) {
-                  mapController.isDetailClick(true);
+                  
+                  // print(value.globalPosition.dy);
                   if (univRoomController.changeHeight.value <
                       Get.height - value.globalPosition.dy) {
                     univRoomController.changeHeight.value = Get.height;
+                    mapController.isDetailClick(true);
                   }
                   if (Get.height - value.globalPosition.dy > Get.height - 100) {
                     if (univRoomController.changeHeight.value >
                         Get.height - value.globalPosition.dy) {
+                          mapController.isDetailClick(false);
                       Get.back();
                     }
                   }
@@ -105,7 +108,7 @@ class UnivRoomWidget extends StatelessWidget {
                   // }
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8),
+                  padding: mapController.isDetailClick.value ? EdgeInsets.only(top: HomeController.to.statusBarHeight.value) : const EdgeInsets.only(top: 8),
                   child: Stack(children: [
                     Column(
                       children: [
@@ -124,10 +127,10 @@ class UnivRoomWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                        const SizedBox(height: 28),
+                        // const SizedBox(height: 28),
                         GestureDetector(
                           onTap: () {
-                            print('dsadas');
+                            print('여기');
                           },
                           child: Container(
                               padding: univRoomController.changeHeight.value == Get.height
@@ -155,6 +158,7 @@ class UnivRoomWidget extends StatelessWidget {
                           Expanded(
                             child: ScrollNoneffectWidget(
                               child: SingleChildScrollView(
+                                controller: univRoomController.scrollController,
                                 physics:
                                     univRoomController.changeHeight.value ==
                                             Get.height
@@ -183,6 +187,7 @@ class UnivRoomWidget extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () {
                                       Get.back();
+                                      mapController.isDetailClick(false);
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(

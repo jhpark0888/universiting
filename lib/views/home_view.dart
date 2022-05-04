@@ -52,6 +52,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       bottomSheet: login
           ? const SizedBox.shrink()
@@ -175,7 +176,9 @@ class HomeView extends StatelessWidget {
                 child: Stack(
                   children: [
                     Obx(() => NaverMap(
-                          contentPadding: const EdgeInsets.only(bottom: 70),
+                          contentPadding: mapController.isClick.value
+                              ? const EdgeInsets.only(bottom: 340)
+                              : EdgeInsets.only(bottom: homeController.searchPadding.value) ,
                           initialCameraPosition:
                               CameraPosition(target: LatLng(lat, lng)),
                           onMapCreated: mapController.onMapCreated,
@@ -185,6 +188,7 @@ class HomeView extends StatelessWidget {
                               if (homeController.searchedUniv.isNotEmpty) {
                                 homeController.searchedUniv.clear();
                                 homeController.searchUniv.clear();
+                                FocusScope.of(context).unfocus();
                               }
                               if (homeController.isSearch.value == true) {
                                 FocusScope.of(context).unfocus();
@@ -251,20 +255,22 @@ class HomeView extends StatelessWidget {
                                         const SizedBox(width: 10),
                                         Expanded(
                                             child: EmptyBackTextfieldWidget(
-                                          controller: homeController.searchUniv,
-                                          textStyle: kSubtitleStyle3,
-                                          hinttext: '대학 이름으로 검색',
-                                          hintstyle: kBodyStyle2.copyWith(
-                                              color:
-                                                  kMainBlack.withOpacity(0.40),
-                                              fontWeight: FontWeight.w500,
-                                              height: 1),
-                                          autofocus: false,
-                                          contentPadding: EdgeInsets.zero,
-                                          textalign: TextAlign.start,
-                                          ontap: () =>
-                                              homeController.isSearch(true),
-                                        ))
+                                                controller:
+                                                    homeController.searchUniv,
+                                                textStyle: kSubtitleStyle3,
+                                                hinttext: '대학 이름으로 검색',
+                                                hintstyle: kBodyStyle2.copyWith(
+                                                    color: kMainBlack
+                                                        .withOpacity(0.40),
+                                                    fontWeight: FontWeight.w500,
+                                                    height: 1),
+                                                autofocus: false,
+                                                contentPadding: EdgeInsets.zero,
+                                                textalign: TextAlign.start,
+                                                ontap: () {homeController
+                                                    .isSearch(true);
+                                                    Timer(Duration(milliseconds: 1000), (){homeController.searchPadding.value = MediaQuery.of(context).viewInsets.bottom;});
+                                                    }))
                                       ],
                                     ),
                                   ),
@@ -362,6 +368,10 @@ class HomeView extends StatelessWidget {
                                               .nMapController.future;
                                           Timer(Duration(milliseconds: 500),
                                               () {
+                                            homeController.searchUniv.text =
+                                                homeController
+                                                    .searchedUniv[index]
+                                                    .schoolname;
                                             controller.moveCamera(
                                                 CameraUpdate.scrollTo(LatLng(
                                                     homeController
@@ -370,6 +380,9 @@ class HomeView extends StatelessWidget {
                                                     homeController
                                                         .searchedUniv[index]
                                                         .lng)));
+                                            print(
+                                                homeController.searchUniv.text);
+                                            homeController.searchedUniv.clear();
                                           });
                                         },
                                         child: Column(

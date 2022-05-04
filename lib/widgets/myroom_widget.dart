@@ -32,24 +32,24 @@ class RoomFinalWidget extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           if (roomType != ViewType.statusReceiveView) {
-            if (roomType == ViewType.univRoom) {
-              if (MapController.to.isDetailClick.value == true) {
-                Get.to(
-                    () => RoomDetailView(
-                          roomid: room.id.toString(),
-                        ),
-                    opaque: false);
-              } else {
-                UnivRoomController.to.changeHeight.value = Get.height;
-                MapController.to.isDetailClick(true);
-              }
-            } else if (roomType != ViewType.statusReceiveView) {
+           if (roomType == ViewType.univRoom) {
+            if (MapController.to.isDetailClick.value == true) {
               Get.to(
                   () => RoomDetailView(
                         roomid: room.id.toString(),
                       ),
                   opaque: false);
+            }else{
+              UnivRoomController.to.changeHeight.value = Get.height;
+              MapController.to.isDetailClick(true);
             }
+          } else if (roomType != ViewType.statusReceiveView) {
+            Get.to(
+                () => RoomDetailView(
+                      roomid: room.id.toString(),
+                    ),
+                opaque: false);
+          }
           } else {
             print(hosts);
           }
@@ -83,9 +83,29 @@ class RoomFinalWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 18),
-                    Text(room.title,
-                        style: kSubtitleStyle5.copyWith(height: 1.5)),
-                    const SizedBox(height: 12),
+                    if (roomType != ViewType.statusReceiveView)
+                      Text(room.title,
+                          style: kSubtitleStyle5.copyWith(height: 1.5)),
+                    if (roomType == ViewType.otherView)
+                      const SizedBox(height: 12),
+                    if (roomType != ViewType.otherView &&
+                        roomType != ViewType.myRoom)
+                      Row(
+                        children: [
+                          Text(
+                            '학교',
+                            style: kBodyStyle2.copyWith(
+                                color: kMainBlack.withOpacity(0.6)),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          if (roomType != ViewType.otherView)
+                            Text(room.university!)
+                        ],
+                      ),
+                    if (roomType != ViewType.otherView)
+                      const SizedBox(height: 12),
                     Row(
                       children: [
                         Text('평균 나이',
@@ -123,22 +143,26 @@ class RoomFinalWidget extends StatelessWidget {
                             style: kSubtitleStyle2),
                       ],
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Text('조회수',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
-                        const SizedBox(width: 4),
-                        Text('${room.views}',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
-                        const Spacer(),
-                        Text(calculateDate(room.date!),
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.4)))
-                      ],
-                    ),
+                    if (roomType == ViewType.univRoom ||
+                        roomType == ViewType.myRoom)
+                      const SizedBox(height: 12),
+                    if (roomType == ViewType.univRoom ||
+                        roomType == ViewType.myRoom)
+                      Row(
+                        children: [
+                          Text('조회수',
+                              style: kSubtitleStyle2.copyWith(
+                                  color: kMainBlack.withOpacity(0.6))),
+                          const SizedBox(width: 4),
+                          Text('${room.views}',
+                              style: kSubtitleStyle2.copyWith(
+                                  color: kMainBlack.withOpacity(0.6))),
+                          const Spacer(),
+                          Text(calculateDate(room.date!),
+                              style: kSubtitleStyle2.copyWith(
+                                  color: kMainBlack.withOpacity(0.4)))
+                        ],
+                      ),
                     if (roomType == ViewType.myRoom)
                       Column(
                         children: [

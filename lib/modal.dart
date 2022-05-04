@@ -5,7 +5,7 @@ import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
 
-void bottomSheetModal(Widget widget, RxBool a, int index) {
+void bottomSheetModal(Widget widget,RxBool isClick, RxBool isDetailClick, int index) {
   showModalBottomSheet(
       shape: !MapController.to.isDetailClick.value
           ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
@@ -19,7 +19,8 @@ void bottomSheetModal(Widget widget, RxBool a, int index) {
       builder: (context) {
         return widget;
       }).whenComplete(() {
-    a.value = false;
+    isDetailClick.value = false;
+    isClick.value = false;
     UnivRoomController.to.univRoom.isEmpty
         ? MapController.to.markers[index].icon = HomeController.to.image[1]
         : MapController.to.markers[index].icon = HomeController.to.image[0];
