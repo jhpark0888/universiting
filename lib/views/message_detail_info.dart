@@ -58,15 +58,16 @@ class MessageDetailInfoView extends StatelessWidget {
                     const SizedBox(height: 26),
                     messageDetailController.messageDetail.value.userType != 0
                         ? Text(messageDetailController
-                            .messageDetail.value.university)
+                            .messageDetail.value.university, style: kSubtitleStyle1,)
                         : Text(
-                            messageDetailController.profile.value.university!),
+                            messageDetailController.profile.value.university!, style: kSubtitleStyle1),
                     Column(children: hostMember),
+                    const SizedBox(height: 24),
                     messageDetailController.messageDetail.value.userType == 0
                         ? Text(messageDetailController
-                            .messageDetail.value.university)
+                            .messageDetail.value.university, style: kSubtitleStyle1)
                         : Text(
-                            messageDetailController.profile.value.university!),
+                            messageDetailController.profile.value.university!, style: kSubtitleStyle1),
                     Column(children: joinMember)
                   ]),
             )));

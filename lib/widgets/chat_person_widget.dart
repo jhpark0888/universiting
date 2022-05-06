@@ -14,6 +14,7 @@ class ChatPersonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 18),
         Row(
           children: [
             ProfileImageWidget(
@@ -21,6 +22,7 @@ class ChatPersonWidget extends StatelessWidget {
               type: ViewType.otherView,
               width: width,
             ),
+            const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -29,7 +31,10 @@ class ChatPersonWidget extends StatelessWidget {
                   style: k16Medium,
                 ),
                 const SizedBox(height: 8),
-                Text(profile.introduction)
+                Text(
+                  profile.introduction.isEmpty ? '소개글이 없습니다.' : profile.introduction,
+                  style: k16Light,
+                )
               ],
             )
           ],
