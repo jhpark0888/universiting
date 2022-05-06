@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/host_model.dart';
+import 'package:universiting/models/myroom_request_model.dart';
 
 class Room {
   int? id;
@@ -19,8 +22,10 @@ class Room {
   int? isJoin;
   DateTime? date;
   bool? type;
-  StateManagement? roomstate;
+  Rx<StateManagement>? roomstate;
   int? views;
+  int? requestcount;
+  List<MyRoomRequest>? requestlist = [];
   Room(
       {this.id,
       required this.title,
@@ -37,6 +42,7 @@ class Room {
       this.isJoin,
       this.date,
       this.views,
+      this.requestcount,
       this.introduction});
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
@@ -56,19 +62,36 @@ class Room {
                 ? '여성'
                 : '혼성',
         type: json['type'] ?? null,
-        roomstate: json['type'] == null
+        roomstate: json['state'] == null
             ? null
-            : json['type'] == true && json['state'] == 0
-                ? StateManagement.roomActivated
-                : json['type'] == false && json['state'] == 0
-                    ? StateManagement.waitingFriend
-                    : StateManagement.friendReject,
+            : json['state'] == 1
+                ? StateManagement.roomActivated.obs
+                : json['state'] == 2
+                    ? StateManagement.friendReject.obs
+                    : json['state'] == 3
+                        ? StateManagement.friendLeave.obs
+                        : List<Map<String, dynamic>>.from(json['member'])
+                                .where((element) =>
+                                    element['user_id'] ==
+                                    ProfileController.to.profile.value.userId)
+                                .isEmpty
+                            ? StateManagement.roomActivated.obs
+                            : List<Map<String, dynamic>>.from(json['member'])
+                                        .where((element) =>
+                                            element['user_id'] ==
+                                            ProfileController
+                                                .to.profile.value.userId)
+                                        .first['type'] ==
+                                    true
+                                ? StateManagement.waitingFriend.obs
+                                : StateManagement.sendme.obs,
         createrId: json['creater_id'],
         universityId: json['university_id'],
         introduction: json['introduction'],
         isCreater: json['is_creater'],
         isJoin: json['is_join'],
         views: json['views'],
+        requestcount: json['request'],
         date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
 }

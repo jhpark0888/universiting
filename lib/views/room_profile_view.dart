@@ -7,9 +7,7 @@ import 'package:universiting/models/host_model.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 
 class RoomProfileView extends StatelessWidget {
-  RoomProfileView({Key? key, required this.roomid, required this.profile})
-      : super(key: key);
-  String roomid;
+  RoomProfileView({Key? key, required this.profile}) : super(key: key);
   Host profile;
 
   @override

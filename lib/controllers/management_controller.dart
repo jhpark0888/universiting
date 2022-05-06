@@ -6,10 +6,13 @@ import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/models/my_room_model.dart';
 import 'package:universiting/models/room_model.dart';
+import 'package:universiting/models/send_request_model.dart';
+import 'package:universiting/widgets/myroom_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 import 'package:universiting/widgets/room_final_widget.dart';
 import 'package:universiting/widgets/room_profile_image_widget.dart';
 import 'package:universiting/widgets/room_widget.dart';
+import 'package:universiting/widgets/send_request_widget.dart';
 
 class ManagementController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -20,57 +23,124 @@ class ManagementController extends GetxController
   RefreshController myroomrefreshController = RefreshController();
   RefreshController requestrefreshController = RefreshController();
   // final myRoomList = MyRoom(chiefList: [], memberList: []).obs;
+  Rx<Screenstate> myroomstate = Screenstate.loading.obs;
+  Rx<Screenstate> requeststate = Screenstate.loading.obs;
+
   final chiefList = <Room>[].obs;
   final memberList = <Room>[].obs;
-  final room = <RoomFinalWidget>[].obs;
+  final room = <MyRoomWidget>[].obs;
+
+  final sendRequestWidgetList = <SendRequestWidget>[].obs;
   final profileImage = <RoomProfileImageWidget>[].obs;
+
+  RxBool enablepullupMyRoom = true.obs;
+  RxBool enablepulluprequest = true.obs;
+
   @override
   void onInit() async {
     managetabController = TabController(length: 2, vsync: this);
     // myRoomList.value = await getMyRoom();
-    await getMyRoom(0).then((httpresponse) {
-      if (httpresponse.isError == false) {
-        chiefList((httpresponse.data as MyRoom).chiefList);
-      }
-      // memberList.value = myRoomList.memberList;
-    });
-    getRoom();
+    getRoomList(0);
+    getrequestlist(0);
     super.onInit();
   }
 
-  void onRefresh() async {
-    getRoomList();
+  void onRoomRefresh() async {
+    await getRoomList(0);
+    enablepullupMyRoom(true);
     myroomrefreshController.refreshCompleted();
     print('리프레시 완료');
   }
 
-  void getRoomList() async {
-    await getMyRoom(chiefList.isEmpty ? 0 : chiefList.first.id!)
-        .then((httpresponse) {
+  void onRoomLoading() async {
+    await getRoomList(chiefList.first.id!);
+    myroomrefreshController.loadComplete();
+    print('로딩 완료');
+  }
+
+  void onRequestRefresh() async {
+    await getrequestlist(0);
+    enablepulluprequest(true);
+    requestrefreshController.refreshCompleted();
+    print('리프레시 완료');
+  }
+
+  void onRequestLoading() async {
+    await getrequestlist(sendRequestWidgetList.first.request.id);
+    requestrefreshController.loadComplete();
+    print('로딩 완료');
+  }
+
+  Future getRoomList(int last) async {
+    await getMyRoom(last).then((httpresponse) {
       if (httpresponse.isError == false) {
-        chiefList((httpresponse.data as MyRoom).chiefList);
+        List<Room> tempRoomList = (httpresponse.data as MyRoom).chiefList;
+        if (tempRoomList.isEmpty) {
+          enablepullupMyRoom(false);
+        }
+        if (last == 0) {
+          chiefList(tempRoomList);
+        } else {
+          for (Room room in tempRoomList.reversed) {
+            chiefList.insert(0, room);
+          }
+        }
+        myroomstate(Screenstate.success);
+      } else {
+        myroomstate(Screenstate.error);
       }
       // memberList.value = myRoomList.memberList;
     });
     getRoom();
+  }
+
+  Future getrequestlist(int last) async {
+    print(last);
+    await getSendlist('all', last).then((httpresponse) {
+      if (httpresponse.isError == false) {
+        List<SendRequest> temprequestlist =
+            httpresponse.data as List<SendRequest>;
+        if (temprequestlist.isEmpty) {
+          enablepulluprequest(false);
+        }
+        if (last == 0) {
+          sendRequestWidgetList(temprequestlist
+              .map((joinrequest) => SendRequestWidget(
+                    request: joinrequest,
+                  ))
+              .toList());
+        } else {
+          for (SendRequest request in temprequestlist.reversed) {
+            sendRequestWidgetList.insert(
+                0,
+                SendRequestWidget(
+                  request: request,
+                ));
+          }
+        }
+        myroomstate(Screenstate.success);
+      } else {
+        myroomstate(Screenstate.error);
+      }
+      // memberList.value = myRoomList.memberList;
+    });
   }
 
   void getRoom() {
     room.clear();
     for (Room i in chiefList) {
-      room.add(RoomFinalWidget(
+      room.add(MyRoomWidget(
         room: i,
         roomMember: getHostsList(i),
         isChief: true,
-        roomType: ViewType.myRoom,
       ));
     }
     for (Room i in memberList) {
-      room.add(RoomFinalWidget(
-          room: i,
-          roomMember: getHostsList(i),
-          isChief: false,
-          roomType: ViewType.myRoom));
+      room.add(MyRoomWidget(
+        room: i,
+        roomMember: getHostsList(i),
+        isChief: false,
+      ));
     }
   }
 

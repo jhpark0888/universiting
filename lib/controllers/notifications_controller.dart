@@ -278,6 +278,8 @@ class NotificationController extends GetxController {
                       message.data['group_id'])]
               .chatRoom
               .refresh();
+        }else if(message.data['type'] == 'exit/msg'){
+          
         } else if (message.data['type'] == 'receive/host_invite') {
           await getReceiveStatus().then((httpresponse) {
             if (httpresponse.isError == false) {

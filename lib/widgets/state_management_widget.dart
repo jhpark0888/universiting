@@ -4,11 +4,12 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/custom_animation_controller.dart';
 
 class StateManagementWidget extends StatelessWidget {
-  StateManagementWidget({required this.state});
+  StateManagementWidget({required this.state, required this.type});
   final CustomAnimationController _fadeoutAniamtionController =
       Get.put(CustomAnimationController());
 
   final StateManagement state;
+  String type;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +19,17 @@ class StateManagementWidget extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: state == StateManagement.roomActivated
-                  ? kGreen
-                  : state == StateManagement.waitingFriend
-                      ? kyellow
-                      : kred,
+              color: type == 'MyRoom'
+                  ? state == StateManagement.roomActivated
+                      ? kGreen
+                      : state == StateManagement.waitingFriend
+                          ? kyellow
+                          : kred
+                  : state == StateManagement.waitingThey
+                      ? kGreen
+                      : state == StateManagement.waitingFriend
+                          ? kyellow
+                          : kred,
               borderRadius: BorderRadius.circular(6),
             ),
             height: 8,
@@ -32,13 +39,25 @@ class StateManagementWidget extends StatelessWidget {
           const SizedBox(
             width: 8,
           ),
-          Text(state == StateManagement.roomActivated
-              ? '친구들이 모두 수락하여 지도에 표시중이에요'
-              : state == StateManagement.waitingFriend
-                  ? '내 친구들의 수락을 기다리는 중이에요...'
-                  : state == StateManagement.friendReject
-                      ? '친구가 함께 하기를 거절했어요'
-                      : '친구가 방을 나갔어요')
+          type == 'MyRoom'
+              ? Text(state == StateManagement.roomActivated
+                  ? '친구들이 모두 수락하여 지도에 표시중이에요'
+                  : state == StateManagement.waitingFriend
+                      ? '친구들의 수락을 기다리는 중이에요'
+                      : state == StateManagement.friendReject
+                          ? '친구가 함께 하기를 거절했어요'
+                          : state == StateManagement.friendLeave
+                              ? '친구가 방을 나갔어요'
+                              : '')
+              : Text(state == StateManagement.waitingThey
+                  ? '상대방의 수락을 기다리고 있어요'
+                  : state == StateManagement.waitingFriend
+                      ? '친구들의 수락을 기다리는 중이에요'
+                      : state == StateManagement.friendReject
+                          ? '친구가 함께 하기를 거절했어요'
+                          : state == StateManagement.friendLeave
+                              ? '친구가 신청을 취소했어요'
+                              : ''),
         ],
       ),
     );

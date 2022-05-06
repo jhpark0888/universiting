@@ -120,7 +120,8 @@ class AlarmReceiveWidget extends StatelessWidget {
                                     .where((element) =>
                                         element.alarmreceive != alarmreceive)
                                     .toList();
-                            ManagementController.to.getRoomList();
+                            ManagementController.to.getRoomList(
+                                ManagementController.to.chiefList.last.id!);
                           } else if (alarmreceive.type == 2) {
                             await okJoinAlarm(
                                     alarmreceive.targetId.toString(),
@@ -133,7 +134,8 @@ class AlarmReceiveWidget extends StatelessWidget {
                                     .where((element) =>
                                         element.alarmreceive != alarmreceive)
                                     .toList();
-                            ManagementController.to.getRoomList();
+                            ManagementController.to.getRoomList(
+                                ManagementController.to.chiefList.last.id!);
                           } else if (alarmreceive.type == 3) {
                             await joinToChat(alarmreceive).then((value) =>
                                 deleteAlarm(alarmreceive.id.toString()));

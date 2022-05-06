@@ -31,7 +31,9 @@ class AlarmReceive {
       userId: json['user_id'],
       type: json['type'],
       targetId: json['target_id'],
-      content: json['content'] != null ? Room.fromJson(json['content']) : Room(title: ''),
+      content: json['content'] != null
+          ? Room.fromJson(json['content'])
+          : Room(title: ''),
       profile: Profile.fromJson(json['profile']),
       date: DateTime.parse(json['date']),
       isRead: json['is_read'],
@@ -58,7 +60,7 @@ class AlarmSend {
           .toList());
 }
 
-List<AlarmSend> alarmSendParsed(String responsebody){
+List<AlarmSend> alarmSendParsed(String responsebody) {
   List parse = jsonDecode(responsebody);
   return parse.map((alarmsend) => AlarmSend.fromJson(alarmsend)).toList();
 }
