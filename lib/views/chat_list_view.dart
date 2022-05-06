@@ -37,7 +37,7 @@ class ChatListView extends StatelessWidget {
               idleText: "",
               refreshingIcon: Text('당기는 중입니다.')),
           onRefresh: chatListController.onRefreshChatList,
-          child: Obx(() => Column(children: chatListController.chatRoomList))),
+          child: Obx(() => Column(children: chatListController.chatRoomList != [] ? chatListController.chatRoomList : []))),
     );
   }
 }

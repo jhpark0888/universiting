@@ -44,8 +44,8 @@ class Room {
         university: json['university'],
         title: json['title'],
         avgAge: json['avg_age'],
-        hosts: json['hosts'] != null
-            ? List<Map<String, dynamic>>.from(json['hosts'])
+        hosts: json['member'] != null
+            ? List<Map<String, dynamic>>.from(json['member'])
                 .map((value) => Host.fromJson(value))
                 .toList()
             : null,

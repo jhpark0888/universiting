@@ -12,7 +12,8 @@ class BackgroundTextfieldWidget extends StatelessWidget {
       this.height,
       this.obsecure,
       this.ischat,
-      this.ontap})
+      this.ontap,
+      this.style})
       : super(key: key);
   TextEditingController controller;
   bool? obsecure;
@@ -21,6 +22,7 @@ class BackgroundTextfieldWidget extends StatelessWidget {
   double? height;
   bool? ischat;
   VoidCallback? ontap;
+  TextStyle? style;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +31,7 @@ class BackgroundTextfieldWidget extends StatelessWidget {
         controller: controller,
         cursorColor: kPrimary,
         maxLines: maxLine ?? 1,
-        style: kSubtitleStyle3,
+        style: style ?? kSubtitleStyle3,
         obscureText: obsecure ?? false,
         decoration: InputDecoration(
           suffixIcon:ischat != null ? Column(

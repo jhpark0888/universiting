@@ -84,68 +84,61 @@ class RoomFinalWidget extends StatelessWidget {
                   children: [
                     const SizedBox(height: 18),
                     Text(room.title,
-                        style: kSubtitleStyle5.copyWith(height: 1.5)),
+                        style: k16Medium.copyWith(height: 1.5)),
                     const SizedBox(height: 12),
                     Row(
                       children: [
                         Text('평균 나이',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
+                            style: k16Medium.copyWith(
+                                color: kMainBlack.withOpacity(0.4))),
                         const SizedBox(width: 4),
                         Text(
                           room.avgAge.toString() + '세',
-                          style: kSubtitleStyle2,
+                          style: k16Medium,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           '·',
-                          style: kSubtitleStyle2.copyWith(
-                              color: kMainBlack.withOpacity(0.6)),
+                          style: k16Medium.copyWith(
+                              color: kMainBlack.withOpacity(0.4)),
                         ),
                         const SizedBox(width: 4),
                         Text('성별',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
+                            style: k16Medium.copyWith(
+                                color: kMainBlack.withOpacity(0.4))),
                         const SizedBox(width: 4),
-                        Text(room.gender!, style: kSubtitleStyle2),
+                        Text(room.gender!, style: k16Medium),
                         const SizedBox(width: 4),
                         Text(
                           '·',
-                          style: kSubtitleStyle2.copyWith(
-                              color: kMainBlack.withOpacity(0.6)),
+                          style: k16Medium.copyWith(
+                              color: kMainBlack.withOpacity(0.4)),
                         ),
                         const SizedBox(width: 4),
                         Text('인원',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
+                            style: k16Medium.copyWith(
+                                color: kMainBlack.withOpacity(0.4))),
                         const SizedBox(width: 4),
                         Text('${room.totalMember} : ${room.totalMember}',
-                            style: kSubtitleStyle2),
+                            style: k16Medium),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Row(
                       children: [
                         Text('조회수',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
+                            style: k16Medium.copyWith(
+                                color: kMainBlack.withOpacity(0.4))),
                         const SizedBox(width: 4),
                         Text('${room.views}',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6))),
+                            style: k16Medium.copyWith(
+                                color: kMainBlack.withOpacity(0.4))),
                         const Spacer(),
                         Text(calculateDate(room.date!),
-                            style: kSubtitleStyle2.copyWith(
+                            style: k16Medium.copyWith(
                                 color: kMainBlack.withOpacity(0.4)))
                       ],
                     ),
-                    if (roomType == ViewType.myRoom)
-                      Column(
-                        children: [
-                          const SizedBox(height: 18),
-                          StateManagementWidget(state: room.roomstate!),
-                        ],
-                      ),
                     const SizedBox(
                       height: 18,
                     ),

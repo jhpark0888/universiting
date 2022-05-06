@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/message_detail_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
@@ -18,9 +19,9 @@ Future<MessageDetail> getMessageDetail(String groupId, String last) async {
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
-    return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: []);
+    return MessageDetail(userType: 0, message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: [],university: '');
   } else {
-    try {
+    
       var response = await http.get(url, headers: headers);
 
       if (response.statusCode <= 200 && response.statusCode < 300) {
@@ -30,13 +31,10 @@ Future<MessageDetail> getMessageDetail(String groupId, String last) async {
         return MessageDetail.fromJson(jsonDecode(responsebody));
       } else {
         print(response.statusCode);
-        return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: []);
+        return MessageDetail(userType: 0, message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: [], university: '');
       }
-    } catch (e) {
-      print(e);
-      showCustomDialog('서버 점검중입니다.', 1200);
-      return MessageDetail(userType: '0', message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: []);
-    }
+    
+    
   }
 }
 
@@ -65,6 +63,60 @@ Future<void> sendMessage(String groupId) async {
 
     } else {
       print(response.statusCode);
+    }
+  }
+}
+
+Future<void> updateTime(String groupId, DateTime dateTime) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/chat/chatting');
+
+  var body = {
+    'id': groupId,
+    'new_date': DateFormat('yyyy-MM-dd HH:mm:ss').format(
+          dateTime),
+  };
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    var response =
+        await http.put(url, headers: headers, body: body);
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      print(response.statusCode);
+
+    } else {
+      print('${response.statusCode}입니다.');
+    }
+  }
+}
+
+
+Future<void> exitChat(String groupId) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/chat/chatting?group_id=$groupId');
+
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+  } else {
+    var response =
+        await http.delete(url, headers: headers);
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      print(response.statusCode);
+
+    } else {
+      print('${response.statusCode}입니다.');
     }
   }
 }

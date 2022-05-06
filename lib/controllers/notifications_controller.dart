@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:intl/intl.dart';
 import 'package:universiting/api/chat_api.dart';
 import 'package:universiting/api/status_api.dart';
 import 'package:universiting/app.dart';
@@ -57,7 +58,7 @@ class NotificationController extends GetxController {
 
   void backgroundMessage(RemoteMessage message) async {
     print(message.data['type']);
-    if (message.data['type'] == 'msg') {
+    if (message.data['type'].contain('msg')) {
       Get.to(() => MessageDetailScreen(groupId: message.data['group_id']));
     } else if (message.data['type'].contains('receive/')) {
       AppController.to.currentIndex.value = 2;
@@ -114,16 +115,42 @@ class NotificationController extends GetxController {
             dataBody: message.data['body']);
         a.value++;
         notificationInfo.value = notification;
+        if(ChatListController.to.isInDetailMessage.value == false){
         showCustomSnacbar(
-            message.notification!.title, message.notification!.body);
+            message.notification!.title, message.notification!.body, (a) {
+          if (message.data['type'].contains('msg')) {
+            Get.to(
+                () => MessageDetailScreen(groupId: message.data['group_id']));
+            postTime(int.parse(message.data['group_id']),
+                ProfileController.to.profile.value.userId);
+            AppController.to.currentIndex.value = 3;
+            ChatListController
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg = 0;
+            ChatListController
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .refresh();
+          }
+        });}
         print('메세지 받음');
         print(message.notification!.title);
         print(message.notification!.body);
         print(message.data['type']);
         print(message.data['title']);
         print(message.data['body']);
+        print(message.data);
         if (message.data['type'] == 'msg') {
-          print(ChatListController.to.isInDetailMessage);
           if (ChatListController.to.isInDetailMessage.value == true) {
             MessageDetailController.to.messageList.add(ChatWidget(
                 message: Message(
@@ -149,8 +176,108 @@ class NotificationController extends GetxController {
                 message: message.notification!.body!,
                 sender: int.parse(message.data['user_id']),
                 date: DateTime.now())));
+            postTime(int.parse(message.data['group_id']),
+                ProfileController.to.profile.value.userId);
             print(message.data);
+            ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .newMsg = 0;
+          }else{
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .newMsg += 1;
           }
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .message
+              .message = message.notification!.body!;
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .refresh();
+        } else if (message.data['type'] == 'time_update/msg') {
+          if (ChatListController.to.isInDetailMessage.value == true) {
+            MessageDetailController.to.messageList.add(ChatWidget(
+                message: Message(
+                  sender: 1,
+                  id: MessageDetailController
+                          .to.messageDetail.value.message.last.id +
+                      1,
+                  message: message.notification!.body!,
+                  date: DateTime.now(),
+                ),
+                userType:
+                    MessageDetailController.to.messageDetail.value.userType,
+                profile: MessageDetailController.to.getFindProfile(Message(
+                    id: MessageDetailController
+                            .to.messageDetail.value.message.last.id +
+                        1,
+                    message: message.notification!.body!,
+                    sender: int.parse(message.data['user_id']),
+                    date: DateTime.now()))[0]));
+            postTime(int.parse(message.data['group_id']),
+                ProfileController.to.profile.value.userId);
+          }else{
+            ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .newMsg += 1;
+          }
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .group
+              .date = DateTime.parse(message.data['time']);
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .message
+              .message = message.notification!.body!;
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .refresh();
         } else if (message.data['type'] == 'receive/host_invite') {
           await getReceiveStatus().then((httpresponse) {
             if (httpresponse.isError == false) {
@@ -183,7 +310,8 @@ class NotificationController extends GetxController {
     }
   }
 
-  void showCustomSnacbar(String? title, String? body) {
+  void showCustomSnacbar(
+      String? title, String? body, void Function(GetSnackBar)? ontap) {
     Get.snackbar(title!, body!,
         titleText: Text(
           title,
@@ -193,7 +321,8 @@ class NotificationController extends GetxController {
           body,
           style: kActiveButtonStyle,
         ),
-        backgroundColor: kMainWhite);
+        backgroundColor: kMainWhite,
+        onTap: ontap);
   }
 }
 

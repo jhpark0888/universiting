@@ -241,7 +241,7 @@ void showButtonDialog({
 
 void showRoomDialog(
     {TextEditingController? controller,
-    required String roomid,
+    String? roomid,
     required MoreType moretype}) {
   Get.dialog(
     AlertDialog(
@@ -333,7 +333,7 @@ void showRoomDialog(
                   GestureDetector(
                     onTap: () async {
                       moretype == MoreType.participate
-                          ? roomJoin(roomid).then((value) async {
+                          ? roomJoin(roomid!).then((value) async {
                               AppController.to.getbacks();
                               AppController.to.currentIndex.value = 2;
                               Get.back();
@@ -347,9 +347,9 @@ void showRoomDialog(
                               StatusRoomTabController.to.currentIndex.value = 1;
                             })
                           : moretype == MoreType.report
-                              ? reportRoom(roomid, controller!.text)
+                              ? reportRoom(roomid!, controller!.text)
                                   .then((value) => Get.back())
-                              : deleteMyRoom(roomid);
+                              : deleteMyRoom(roomid!);
                       Get.back();
                       if (moretype == MoreType.delete) {
                         // MyRoomController.to.getRoomList();/

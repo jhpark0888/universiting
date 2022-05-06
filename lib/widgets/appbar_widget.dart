@@ -10,19 +10,22 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   Widget? leading;
   double? leadingwidth;
   Color? backgroundColor;
+  double? titlespacing;
   AppBarWidget(
       {Key? key,
       required this.title,
       this.backgroundColor,
       this.actions,
       this.leading,
-      this.leadingwidth})
+      this.leadingwidth,
+      this.titlespacing})
       : super(key: key);
 
   AppBar appbar = AppBar();
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      titleSpacing: titlespacing,
       backgroundColor: backgroundColor,
       leadingWidth: leadingwidth,
       automaticallyImplyLeading: false,

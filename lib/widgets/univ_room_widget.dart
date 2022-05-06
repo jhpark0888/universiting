@@ -127,15 +127,16 @@ class UnivRoomWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                        // const SizedBox(height: 28),
+                          // if(mapController.isDetailClick.value == false)
+                        const SizedBox(height: 28),
                         GestureDetector(
                           onTap: () {
                             print('여기');
                           },
                           child: Container(
-                              padding: univRoomController.changeHeight.value == Get.height
-                                  ? EdgeInsets.only(top: 28)
-                                  : EdgeInsets.only(top: 0),
+                              // padding: univRoomController.changeHeight.value == Get.height
+                              //     ? EdgeInsets.only(top: 28)
+                              //     : EdgeInsets.only(top: 0),
                               color: kBackgroundWhite,
                               width: Get.width,
                               child: Padding(

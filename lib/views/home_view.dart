@@ -52,8 +52,8 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       extendBody: true,
+      resizeToAvoidBottomInset: tag == '다음 화면' ? false : true,
       bottomSheet: login
           ? const SizedBox.shrink()
           : Obx(() => homeController.islogin.value
@@ -219,7 +219,7 @@ class HomeView extends StatelessWidget {
                         )),
                     if (homeController.islogin.value && tag == '다음 화면')
                       Positioned(
-                        top: 60,
+                        top: 18 + homeController.statusBarHeight.value,
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                           width: Get.width,
@@ -446,7 +446,7 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (!homeController.isSearch.value)
+                    // if (!homeController.isSearch.value)
                       Positioned.fill(
                           bottom: 100,
                           child: GestureDetector(

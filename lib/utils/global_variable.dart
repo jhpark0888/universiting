@@ -71,3 +71,9 @@ String calculateDate(DateTime date) {
     }
     return Container();
   }
+
+  void getbacks(int number){
+    for(int i = 0 ; i < number; i ++){
+      Get.back();
+    }
+  }

@@ -7,7 +7,7 @@ class Profile {
   String? university;
   String? department;
   String introduction;
-  String? type;
+  int? type;
   Profile(
       {required this.age,
      this.department,
