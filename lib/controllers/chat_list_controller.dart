@@ -40,7 +40,7 @@ class ChatListController extends GetxController{
       for(Host host in chatRoom.group.member){
         chatImageList.add(ProfileImageWidget(type: ViewType.otherView, host: host, width: 50,height: 50));
       }
-      list.add(ChatRoomWidget(chatRoom: chatRoom.obs, imageList: StackedImages(chatImageList.value)));
+      list.add(ChatRoomWidget(chatRoom: chatRoom.obs, imageList: StackedImages(chatImageList.value).obs));
     }
     return list;
   }

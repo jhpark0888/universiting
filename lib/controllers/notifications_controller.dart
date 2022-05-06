@@ -279,7 +279,58 @@ class NotificationController extends GetxController {
               .chatRoom
               .refresh();
         }else if(message.data['type'] == 'exit/msg'){
-          
+          print(ChatListController.to.isInDetailMessage.value);
+          if (ChatListController.to.isInDetailMessage.value == true) {
+            MessageDetailController.to.messageList.add(ChatWidget(
+                message: Message(
+                  sender: 1,
+                  id: MessageDetailController
+                          .to.messageDetail.value.message.last.id +
+                      1,
+                  message: message.notification!.body!,
+                  date: DateTime.now(),
+                ),
+                userType:
+                    MessageDetailController.to.messageDetail.value.userType,
+                profile: MessageDetailController.to.getFindProfile(Message(
+                    id: MessageDetailController
+                            .to.messageDetail.value.message.last.id +
+                        1,
+                    message: message.notification!.body!,
+                    sender: int.parse(message.data['user_id']),
+                    date: DateTime.now()))[0]));
+            postTime(int.parse(message.data['group_id']),
+                ProfileController.to.profile.value.userId);
+          }else{
+            ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .newMsg += 1;
+          }
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .message
+              .message = message.notification!.body!;
+              ChatListController.to.getList();
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .refresh();
         } else if (message.data['type'] == 'receive/host_invite') {
           await getReceiveStatus().then((httpresponse) {
             if (httpresponse.isError == false) {

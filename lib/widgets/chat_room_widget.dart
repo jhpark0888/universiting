@@ -88,6 +88,7 @@ class ChatRoomWidget extends StatelessWidget {
   List<Widget> imageList;
   @override
   Widget build(BuildContext context) {
+    print('이미지 리스트 런타입은 ? : ${imageList[0]}');
     return GestureDetector(
       onTap: () async {
         await postTime(
