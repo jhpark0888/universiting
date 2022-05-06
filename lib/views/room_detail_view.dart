@@ -104,7 +104,6 @@ class RoomDetailView extends StatelessWidget {
                             onTap: () async {
                               roomDetailController.timer!.cancel();
                               await Get.to(() => RoomProfileView(
-                                    roomid: roomid,
                                     profile: roomDetailController
                                             .detailRoom.value.hosts![
                                         index %

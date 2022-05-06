@@ -9,6 +9,7 @@ class RejectButton extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(30, 13, 30, 13),
       decoration: BoxDecoration(
+          color: kBackgroundWhite,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(width: 1, color: kMainBlack.withOpacity(0.1))),
       child: Center(

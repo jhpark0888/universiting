@@ -143,7 +143,10 @@ class RoomFinalWidget extends StatelessWidget {
                       Column(
                         children: [
                           const SizedBox(height: 18),
-                          StateManagementWidget(state: room.roomstate!),
+                          StateManagementWidget(
+                            state: room.roomstate!.value,
+                            type: 'MyRoom',
+                          ),
                         ],
                       ),
                     const SizedBox(

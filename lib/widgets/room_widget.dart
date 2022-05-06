@@ -144,6 +144,7 @@ class RoomWidget extends StatelessWidget {
                               style: kSmallCaptionStyle),
                           const Spacer(),
                           StateManagementWidget(
+                              type: 'MyRoom',
                               state: room.type!
                                   ? StateManagement.roomActivated
                                   // : room.isModify != null

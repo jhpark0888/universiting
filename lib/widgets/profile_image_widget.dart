@@ -120,9 +120,6 @@ class ProfileImageWidget extends StatelessWidget {
               //       height: 12,
               //     ))
             ]),
-            const SizedBox(
-              width: 8,
-            )
           ],
         ),
       ),

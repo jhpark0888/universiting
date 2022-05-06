@@ -9,6 +9,7 @@ import 'package:universiting/api/status_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
+import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
@@ -19,11 +20,14 @@ import 'package:universiting/controllers/status_room_tab_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/models/my_room_model.dart';
+import 'package:universiting/models/myroom_request_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/models/select_member_model.dart';
+import 'package:universiting/models/send_request_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
+import 'package:universiting/widgets/myroom_widget.dart';
 
 Future<HTTPResponse> getMyRoom(int last) async {
   ConnectivityResult result = await checkConnectionStatus();
@@ -56,15 +60,15 @@ Future<HTTPResponse> getMyRoom(int last) async {
   }
 }
 
-Future<HTTPResponse> getSendlist(int last) async {
+Future<HTTPResponse> getSendlist(String type, int last) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse(
-      '$serverUrl/room_api/send_list?view_type=all&last=${last.toString()}');
+      '$serverUrl/room_api/send_list?type=${type}&last=${last.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     try {
@@ -74,7 +78,9 @@ Future<HTTPResponse> getSendlist(int last) async {
       if (response.statusCode <= 200 && response.statusCode < 300) {
         // selectMemberController.seletedMember.value =
         //     SelectMember.fromJson(jsonDecode(responsebody));
-        return HTTPResponse.success(MyRoom.fromJson(jsonDecode(responsebody)));
+        return HTTPResponse.success((jsonDecode(responsebody) as List)
+            .map((joinrequest) => SendRequest.fromJson(joinrequest))
+            .toList());
       } else {
         return HTTPResponse.apiError('', response.statusCode);
       }
@@ -84,6 +90,39 @@ Future<HTTPResponse> getSendlist(int last) async {
       print(e);
       return HTTPResponse.unexpectedError(e);
     }
+  }
+}
+
+Future<HTTPResponse> getMyRoomRequestlist(String type, int last, int id) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse(
+      '$serverUrl/room_api/request_list?type=${type}&last=${last.toString()}&id=${id.toString()}');
+  var headers = {'Authorization': 'Token $token'};
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400);
+    return HTTPResponse.networkError();
+  } else {
+    // try {
+    var response = await http.get(url, headers: headers);
+    print('내 방 신청 불러오기 : ${response.statusCode}');
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode <= 200 && response.statusCode < 300) {
+      // selectMemberController.seletedMember.value =
+      //     SelectMember.fromJson(jsonDecode(responsebody));
+      return HTTPResponse.success((jsonDecode(responsebody) as List)
+          .map((myRoomRequest) => MyRoomRequest.fromJson(myRoomRequest))
+          .toList());
+    } else {
+      return HTTPResponse.apiError('', response.statusCode);
+    }
+    // } on SocketException {
+    //   return HTTPResponse.serverError();
+    // } catch (e) {
+    //   print(e);
+    //   return HTTPResponse.unexpectedError(e);
+    // }
   }
 }
 
@@ -197,14 +236,14 @@ Future<HTTPResponse> getDetailRoom(String id) async {
   }
 }
 
-Future<void> roomparticipate(String roomId, String type) async {
+Future<void> roomparticipate(int roomId, String type) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/host_member');
 
   var body = {
-    'room_id': roomId,
+    'room_id': roomId.toString(),
     'type': type,
   };
   var headers = {
@@ -218,6 +257,18 @@ Future<void> roomparticipate(String roomId, String type) async {
       String responsebody = utf8.decode(response.bodyBytes);
       print('방 참가 or 거절 : ${response.statusCode}');
       if (response.statusCode <= 200 && response.statusCode < 300) {
+        MyRoomWidget myroomwidget = ManagementController.to.room
+            .where((room) => room.room.id == roomId)
+            .first;
+
+        if (myroomwidget.room.hosts
+                ?.where((member) => member.hostType == false)
+                .isEmpty ==
+            true) {
+          myroomwidget.room.roomstate!(StateManagement.roomActivated);
+        } else {
+          myroomwidget.room.roomstate!(StateManagement.waitingFriend);
+        }
       } else {
         print(response.statusCode);
       }

@@ -10,7 +10,8 @@ class PrimaryButton extends StatelessWidget {
       this.height,
       this.width,
       this.backColor,
-      this.textColor})
+      this.textColor,
+      this.padding})
       : super(key: key);
   Color? backColor;
   Color? textColor;
@@ -18,10 +19,12 @@ class PrimaryButton extends StatelessWidget {
   double? height;
   double? width;
   RxBool isactive;
+  EdgeInsets? padding;
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
+        padding: padding,
         height: height ?? Get.width / 8.5,
         width: width ?? Get.width,
         decoration: BoxDecoration(

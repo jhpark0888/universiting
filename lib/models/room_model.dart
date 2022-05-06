@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/host_model.dart';
+import 'package:universiting/models/myroom_request_model.dart';
 
 class Room {
   int? id;
@@ -19,9 +22,10 @@ class Room {
   int? isJoin;
   DateTime? date;
   bool? type;
-  StateManagement? roomstate;
+  Rx<StateManagement>? roomstate;
   int? views;
   int? requestcount;
+  List<MyRoomRequest>? requestlist = [];
   Room(
       {this.id,
       required this.title,
@@ -61,14 +65,26 @@ class Room {
         roomstate: json['state'] == null
             ? null
             : json['state'] == 1
-                ? StateManagement.roomActivated
+                ? StateManagement.roomActivated.obs
                 : json['state'] == 2
-                    ? StateManagement.friendReject
+                    ? StateManagement.friendReject.obs
                     : json['state'] == 3
-                        ? StateManagement.friendLeave
-                        : json['type'] == true
-                            ? StateManagement.waitingFriend
-                            : StateManagement.sendme,
+                        ? StateManagement.friendLeave.obs
+                        : List<Map<String, dynamic>>.from(json['member'])
+                                .where((element) =>
+                                    element['user_id'] ==
+                                    ProfileController.to.profile.value.userId)
+                                .isEmpty
+                            ? StateManagement.roomActivated.obs
+                            : List<Map<String, dynamic>>.from(json['member'])
+                                        .where((element) =>
+                                            element['user_id'] ==
+                                            ProfileController
+                                                .to.profile.value.userId)
+                                        .first['type'] ==
+                                    true
+                                ? StateManagement.waitingFriend.obs
+                                : StateManagement.sendme.obs,
         createrId: json['creater_id'],
         universityId: json['university_id'],
         introduction: json['introduction'],
