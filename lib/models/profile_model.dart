@@ -22,7 +22,7 @@ class Profile {
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
       age: json['age'],
       department: json['department']?? '',
-      gender: json['gender'] == 'M' ? '남자' : '여자',
+      gender: json['gender'] == 'M' ? '남성' : '여성',
       introduction: json['introduction'] ?? '',
       nickname: json['nickname'],
       profileImage: json['profile_image'] ?? '',

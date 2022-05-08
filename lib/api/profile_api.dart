@@ -55,8 +55,9 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
       request.headers.addAll(headers);
 
       if (profileType != ProfileType.image) {
-        request.fields['nickname'] = profileController.nameController.text;
+        // request.fields['nickname'] = profileController.nameController.text;
         request.fields['introduction'] = profileController.introController.text;
+        // request.fields['department'] = profileController.departmentController.text;
       }
       if (profileType == ProfileType.image) {
         if (image != null) {
@@ -84,6 +85,8 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
         print(response.statusCode);
         print(responsebody);
         Get.back();
+      }else{
+        print(response.statusCode);
       }
     } catch (e) {
       print(e);
