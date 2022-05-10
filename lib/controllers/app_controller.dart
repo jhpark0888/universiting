@@ -5,6 +5,7 @@ class AppController extends GetxController {
   static AppController get to => Get.find();
   RxInt currentIndex = 0.obs;
   RxInt stackPage = 0.obs;
+
   void changePageIndex(int index) {
     if (index == 0) {
       currentIndex.value = index;

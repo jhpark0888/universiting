@@ -55,9 +55,10 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
       request.headers.addAll(headers);
 
       if (profileType != ProfileType.image) {
-        // request.fields['nickname'] = profileController.nameController.text;
+        request.fields['nickname'] = profileController.nameController.text;
         request.fields['introduction'] = profileController.introController.text;
-        // request.fields['department'] = profileController.departmentController.text;
+        request.fields['department_name'] = profileController.departmentController.text;
+        request.fields['age'] = profileController.profile.value.age.toString();
       }
       if (profileType == ProfileType.image) {
         if (image != null) {
@@ -83,6 +84,10 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
         profileController.profile.value =
             Profile.fromJson(jsonDecode(responsebody));
         print(response.statusCode);
+         profileController.profile.value.nickname = profileController.nameController.text;
+        profileController.profile.value.introduction = profileController.introController.text;
+        profileController.profile.value.department = profileController.departmentController.text;
+        profileController.profile.value.age = profileController.profile.value.age;
         print(responsebody);
         Get.back();
       }else{

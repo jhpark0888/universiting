@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:universiting/api/profile_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
+import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/profile_model.dart';
@@ -19,6 +20,7 @@ import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
 import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
+import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 
 class ProfileView extends StatelessWidget {
   ProfileView({Key? key}) : super(key: key);
@@ -157,169 +159,178 @@ class ProfileView extends StatelessWidget {
       //   ),
       // ),
       body: Obx(
-        () => SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Stack(children: [
-                SizedBox(
-                  width: Get.width,
-                  height: Get.width,
-                  child: Image.network(
-                    profileController.profile.value.profileImage != ''
-                        ? profileController.profile.value.profileImage
-                        : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
+        () => ScrollNoneffectWidget(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Stack(children: [
+                  SizedBox(
                     width: Get.width,
                     height: Get.width,
-                    fit: BoxFit.cover,
+                    child: Image.network(
+                      profileController.profile.value.profileImage != ''
+                          ? profileController.profile.value.profileImage
+                          : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
+                      width: Get.width,
+                      height: Get.width,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  ClipRect(child: ProfileBlur()),
+                  if (!profileController.isEdit.value)
+                    Positioned(
+                        bottom: 0,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 18, left: 20),
+                          child: GestureDetector(
+                              onTap: () {
+                                showCustomModalPopup(context,
+                                    value1: '라이브러리에서 선택',
+                                    value2: '기본 이미지로 변경',
+                                    func1: changeProfileImage,
+                                    func2: changeDefaultImage);
+                              },
+                              child: Text('사진 수정하기',
+                                  style: k16SemiBold.copyWith(
+                                      color: kBackgroundWhite))),
+                        )),
+                        if (!profileController.isEdit.value)
+                    Positioned(top: 16.5 +  profileController.statusBarHeight.value, right: 16.5,child: IconButton(
+              onPressed: () {
+                Get.to(() => SettingView());
+              },
+              icon: SvgPicture.asset('assets/icons/setting.svg'),
+            ),)
+                ]),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/mini_profile.svg',
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            '${profileController.profile.value.nickname} / ${profileController.profile.value.age.toString()} / ${profileController.profile.value.gender}',
+                            style: k16SemiBold,
+                          ),
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              if (profileController.isEdit.value) {
+                                updateMyProfile(ProfileType.profile, File(''));
+                              }
+                              profileController.isEdit.value =
+                                  !profileController.isEdit.value;
+                            },
+                            child: profileController.isEdit.value
+                                ? Text(
+                                    '저장하기',
+                                    style: k16SemiBold.copyWith(color: kPrimary),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/profile_edit.svg',
+                                  ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/mini_univ.svg',
+                            color: kMainBlack.withOpacity(0.7),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            profileController.profile.value.university!,
+                            style: k16SemiBold,
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/mini_dept.svg',
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          profileController.isEdit.value
+                              ? Expanded(
+                                  child: EmptyBackTextfieldWidget(
+                                    controller:
+                                        profileController.departmentController,
+                                    contentPadding: EdgeInsets.zero,
+                                    textalign: TextAlign.start,
+                                    textStyle: k16Light.copyWith(
+                                        height: 1.5, color: kMainBlack),
+                                    hinttext: '학과를 입력해주세요',
+                                    hintstyle: k16Light.copyWith(
+                                        height: 1.5,
+                                        color: kMainBlack.withOpacity(0.4)),
+                                  ),
+                                )
+                              : Text(
+                                  profileController.profile.value.department != ''
+                                      ? profileController
+                                          .profile.value.department!
+                                      : '-',
+                                  style: k16SemiBold,
+                                )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        '자기 소개',
+                        style: k16Medium,
+                        textAlign: TextAlign.left,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      profileController.isEdit.value
+                          ? EmptyBackTextfieldWidget(
+                              controller: profileController.introController,
+                              contentPadding: EdgeInsets.zero,
+                              textalign: TextAlign.start,
+                              textStyle: k16Light.copyWith(
+                                  height: 1.5, color: kMainBlack),
+                              hinttext: '자기소개를 입력해주세요',
+                              hintstyle: k16Light.copyWith(
+                                  height: 1.5,
+                                  color: kMainBlack.withOpacity(0.4)),
+                            )
+                          : Text(
+                              profileController.profile.value.introduction == ''
+                                  ? '아직 소개글이 없어요'
+                                  : profileController.profile.value.introduction,
+                              style: k16Light.copyWith(height: 1.5),
+                            ),
+                    ],
                   ),
                 ),
-                ClipRect(child: ProfileBlur()),
-                if (!profileController.isEdit.value)
-                  Positioned(
-                      bottom: 0,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 18, left: 20),
-                        child: GestureDetector(
-                            onTap: () {
-                              showCustomModalPopup(context,
-                                  value1: '라이브러리에서 선택',
-                                  value2: '기본 이미지로 변경',
-                                  func1: changeProfileImage,
-                                  func2: changeDefaultImage);
-                            },
-                            child: Text('사진 수정하기',
-                                style: k16SemiBold.copyWith(
-                                    color: kBackgroundWhite))),
-                      ))
-              ]),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/mini_profile.svg',
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          '${profileController.profile.value.nickname} / ${profileController.profile.value.age.toString()} / ${profileController.profile.value.gender}',
-                          style: k16SemiBold,
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            if (profileController.isEdit.value) {
-                              updateMyProfile(ProfileType.profile, File(''));
-                            }
-                            profileController.isEdit.value =
-                                !profileController.isEdit.value;
-                          },
-                          child: profileController.isEdit.value
-                              ? Text(
-                                  '저장하기',
-                                  style: k16SemiBold.copyWith(color: kPrimary),
-                                )
-                              : SvgPicture.asset(
-                                  'assets/icons/profile_edit.svg',
-                                ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/mini_univ.svg',
-                          color: kMainBlack.withOpacity(0.7),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          profileController.profile.value.university!,
-                          style: k16SemiBold,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/mini_dept.svg',
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        profileController.isEdit.value
-                            ? Expanded(
-                                child: EmptyBackTextfieldWidget(
-                                  controller:
-                                      profileController.departmentController,
-                                  contentPadding: EdgeInsets.zero,
-                                  textalign: TextAlign.start,
-                                  textStyle: k16Light.copyWith(
-                                      height: 1.5, color: kMainBlack),
-                                  hinttext: '학과를 입력해주세요',
-                                  hintstyle: k16Light.copyWith(
-                                      height: 1.5,
-                                      color: kMainBlack.withOpacity(0.4)),
-                                ),
-                              )
-                            : Text(
-                                profileController.profile.value.department != ''
-                                    ? profileController
-                                        .profile.value.department!
-                                    : '-',
-                                style: k16SemiBold,
-                              )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      '자기 소개',
-                      style: k16Medium,
-                      textAlign: TextAlign.left,
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    profileController.isEdit.value
-                        ? EmptyBackTextfieldWidget(
-                            controller: profileController.introController,
-                            contentPadding: EdgeInsets.zero,
-                            textalign: TextAlign.start,
-                            textStyle: k16Light.copyWith(
-                                height: 1.5, color: kMainBlack),
-                            hinttext: '자기소개를 입력해주세요',
-                            hintstyle: k16Light.copyWith(
-                                height: 1.5,
-                                color: kMainBlack.withOpacity(0.4)),
-                          )
-                        : Text(
-                            profileController.profile.value.introduction == ''
-                                ? '아직 소개글이 없어요'
-                                : profileController.profile.value.introduction,
-                            style: k16Light.copyWith(height: 1.5),
-                          ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -337,3 +348,4 @@ class ProfileView extends StatelessWidget {
     updateMyProfile(ProfileType.image, null);
   }
 }
+//사진 수정하기

@@ -11,13 +11,14 @@ class ProfileController extends GetxController{
   TextEditingController introController = TextEditingController();
   final isEdit = false.obs;
   final profile = Profile(age: 0, department: '0', gender: '', introduction: '', nickname: '', profileImage: '', university: '', userId: 0).obs;
-  
+    final statusBarHeight = 0.0.obs;
   @override
   void onInit()async{
     await getMyProfile();
     nameController.text = profile.value.nickname;
     departmentController.text = profile.value.department!;
     introController.text = profile.value.introduction;
+    statusBarHeight.value = MediaQuery.of(Get.context!).padding.top;
     print(profile);
     super.onInit();
   }
