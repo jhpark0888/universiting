@@ -7,7 +7,7 @@ class RoomInfoWidget extends StatelessWidget {
       {Key? key,
       required this.avgAge,
       required this.mypersonnum,
-      required this.yourpersonnum,
+      this.yourpersonnum,
       this.gender,
       this.univ})
       : super(key: key);
@@ -16,7 +16,7 @@ class RoomInfoWidget extends StatelessWidget {
   double avgAge;
   String? gender;
   int mypersonnum;
-  int yourpersonnum;
+  int? yourpersonnum;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,9 @@ class RoomInfoWidget extends StatelessWidget {
                 text: ' · 인원 ',
                 style: k16Medium.copyWith(color: kMainBlack.withOpacity(0.4))),
             TextSpan(
-                text: '${mypersonnum.toString()}:${yourpersonnum.toString()}',
+                text: yourpersonnum != null
+                    ? '${mypersonnum.toString()}:${yourpersonnum.toString()}'
+                    : '${mypersonnum.toString()}명',
                 style: k16Medium),
           ]),
         ),

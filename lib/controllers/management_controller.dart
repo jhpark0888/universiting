@@ -47,7 +47,6 @@ class ManagementController extends GetxController
 
   void onRoomRefresh() async {
     await getRoomList(0);
-    enablepullupMyRoom(true);
     myroomrefreshController.refreshCompleted();
     print('리프레시 완료');
   }
@@ -60,7 +59,7 @@ class ManagementController extends GetxController
 
   void onRequestRefresh() async {
     await getrequestlist(0);
-    enablepulluprequest(true);
+
     requestrefreshController.refreshCompleted();
     print('리프레시 완료');
   }
@@ -77,14 +76,17 @@ class ManagementController extends GetxController
         List<Room> tempRoomList = (httpresponse.data as MyRoom).chiefList;
         if (tempRoomList.isEmpty) {
           enablepullupMyRoom(false);
-        }
-        if (last == 0) {
-          chiefList(tempRoomList);
         } else {
-          for (Room room in tempRoomList.reversed) {
-            chiefList.insert(0, room);
+          enablepullupMyRoom(true);
+          if (last == 0) {
+            chiefList(tempRoomList);
+          } else {
+            for (Room room in tempRoomList.reversed) {
+              chiefList.insert(0, room);
+            }
           }
         }
+
         myroomstate(Screenstate.success);
       } else {
         myroomstate(Screenstate.error);
@@ -102,22 +104,25 @@ class ManagementController extends GetxController
             httpresponse.data as List<SendRequest>;
         if (temprequestlist.isEmpty) {
           enablepulluprequest(false);
-        }
-        if (last == 0) {
-          sendRequestWidgetList(temprequestlist
-              .map((joinrequest) => SendRequestWidget(
-                    request: joinrequest,
-                  ))
-              .toList());
         } else {
-          for (SendRequest request in temprequestlist.reversed) {
-            sendRequestWidgetList.insert(
-                0,
-                SendRequestWidget(
-                  request: request,
-                ));
+          enablepulluprequest(true);
+          if (last == 0) {
+            sendRequestWidgetList(temprequestlist
+                .map((joinrequest) => SendRequestWidget(
+                      request: joinrequest,
+                    ))
+                .toList());
+          } else {
+            for (SendRequest request in temprequestlist.reversed) {
+              sendRequestWidgetList.insert(
+                  0,
+                  SendRequestWidget(
+                    request: request,
+                  ));
+            }
           }
         }
+
         myroomstate(Screenstate.success);
       } else {
         myroomstate(Screenstate.error);

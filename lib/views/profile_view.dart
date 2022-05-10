@@ -251,7 +251,7 @@ class ProfileView extends StatelessWidget {
                         children: [
                           SvgPicture.asset(
                             'assets/icons/mini_univ.svg',
-                            color: kMainBlack.withOpacity(0.7),
+                            
                           ),
                           const SizedBox(
                             width: 8,

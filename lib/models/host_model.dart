@@ -30,7 +30,13 @@ class Host {
             : json['profile'] == null
                 ? ''
                 : json['profile']['profile_image'] ?? '',
-        gender: json['gender'] ?? '',
+        gender: json['gender'] != null
+            ? json['gender'] == 'M'
+                ? '남성'
+                : json['gender'] == 'F'
+                    ? '여성'
+                    : '혼성'
+            : '',
         age: json['age'],
         introduction: json['introduction'] ?? '',
         hostType: json['host_type'],

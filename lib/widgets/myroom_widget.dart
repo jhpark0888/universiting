@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
 import 'package:universiting/models/room_model.dart';
@@ -169,8 +170,15 @@ class MyRoomWidget extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: GestureDetector(
-                                        onTap: () {
-                                          roomparticipate(room.id!, 'reject');
+                                        onTap: () async {
+                                          await roomparticipate(
+                                                  room.id!, 'reject')
+                                              .then((httpresponse) {
+                                            if (httpresponse.isError == false) {
+                                              room.roomstate!(
+                                                  StateManagement.friendReject);
+                                            }
+                                          });
                                         },
                                         child: const RejectButton())),
                                 const SizedBox(
@@ -178,8 +186,23 @@ class MyRoomWidget extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: GestureDetector(
-                                    onTap: () {
-                                      roomparticipate(room.id!, 'join');
+                                    onTap: () async {
+                                      roomparticipate(room.id!, 'join')
+                                          .then((httpresponse) {
+                                        if (httpresponse.isError == false) {
+                                          if (room.hosts
+                                                  ?.where((member) =>
+                                                      member.hostType == false)
+                                                  .isEmpty ==
+                                              true) {
+                                            room.roomstate!(
+                                                StateManagement.roomActivated);
+                                          } else {
+                                            room.roomstate!(
+                                                StateManagement.waitingFriend);
+                                          }
+                                        }
+                                      });
                                     },
                                     child: PrimaryButton(
                                         text: '수락하기', isactive: true.obs),
@@ -235,7 +258,10 @@ class MyRoomWidget extends StatelessWidget {
                                         onTap: () {
                                           Get.to(() => MyRoomRequestView(
                                                 title: room.title,
-                                                requestlist: room.requestlist!,
+                                                roomId: room.id!,
+                                                requestlist:
+                                                    room.requestlist!.obs,
+                                                ishost: room.ishost!,
                                               ));
                                         },
                                         child: Text(
@@ -257,9 +283,12 @@ class MyRoomWidget extends StatelessWidget {
                                             scrollDirection: Axis.horizontal,
                                             itemBuilder: (context, index) =>
                                                 MyroomRequestWidget(
-                                                    isrequestinfo: false,
-                                                    request: room
-                                                        .requestlist![index]),
+                                                  roomId: room.id!,
+                                                  isrequestinfo: false,
+                                                  request:
+                                                      room.requestlist![index],
+                                                  ishost: room.ishost!,
+                                                ),
                                             separatorBuilder:
                                                 (context, index) =>
                                                     const SizedBox(

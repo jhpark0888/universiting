@@ -10,13 +10,13 @@ class Profile {
   int? type;
   Profile(
       {required this.age,
-     this.department,
+      this.department,
       required this.gender,
       required this.introduction,
       required this.nickname,
       required this.profileImage,
-       this.university,
-       this.type,
+      this.university,
+      this.type,
       required this.userId});
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
