@@ -4,6 +4,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/management_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/views/room_info_view.dart';
+import 'package:universiting/widgets/custom_refresher.dart';
 
 class MyRoomView extends StatelessWidget {
   MyRoomView({Key? key}) : super(key: key);
@@ -15,26 +16,8 @@ class MyRoomView extends StatelessWidget {
       () => SmartRefresher(
           controller: _manageController.myroomrefreshController,
           enablePullUp: _manageController.enablepullupMyRoom.value,
-          header: const ClassicHeader(
-              spacing: 0.0,
-              height: 60,
-              completeDuration: Duration(milliseconds: 600),
-              textStyle: TextStyle(color: kMainBlack),
-              refreshingText: '',
-              releaseText: "",
-              completeText: "",
-              idleText: "",
-              refreshingIcon: Text('당기는 중입니다.')),
-          footer: ClassicFooter(
-            loadStyle: LoadStyle.ShowWhenLoading,
-            spacing: 0.0,
-            completeDuration: Duration(milliseconds: 600),
-            loadingText: "로딩 중",
-            canLoadingText: "캔 로딩 중",
-            idleText: "아이들",
-            textStyle: TextStyle(color: kMainBlack),
-            idleIcon: Container(),
-          ),
+          header: const CustomRefresherHeader(),
+          footer: const CustomRefresherFooter(),
           onRefresh: _manageController.onRoomRefresh,
           onLoading: _manageController.onRoomLoading,
           child:

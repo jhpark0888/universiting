@@ -27,9 +27,31 @@ import '../widgets/background_textfield_widget.dart';
 
 class RoomInfoView extends StatelessWidget {
   RoomInfoView({Key? key}) : super(key: key);
+
+  RoomInfoController createRoomController = Get.put(RoomInfoController());
+
+  String getavgage() {
+    int agesum = 0;
+    double avgage = 0;
+    for (var profile in createRoomController.memberProfile) {
+      agesum += profile.age;
+    }
+    avgage = agesum / createRoomController.memberProfile.length;
+    return avgage.toStringAsFixed(1);
+  }
+
+  String getgender() {
+    String gender = ProfileController.to.profile.value.gender;
+    for (var profile in createRoomController.memberProfile) {
+      if (gender != profile.gender) {
+        gender = '혼성';
+      }
+    }
+    return gender;
+  }
+
   @override
   Widget build(BuildContext context) {
-    RoomInfoController createRoomController = Get.put(RoomInfoController());
     return KeyboardDismissOnTap(
       child: Scaffold(
         appBar: AppBarWidget(
@@ -214,16 +236,12 @@ class RoomInfoView extends StatelessWidget {
                                 text: '평균 나이 ',
                                 style: k16Medium.copyWith(
                                     color: kMainBlack.withOpacity(0.4))),
-                            TextSpan(
-                                text: createRoomController.ageAvg.toString(),
-                                style: k16Medium),
+                            TextSpan(text: getavgage(), style: k16Medium),
                             TextSpan(
                                 text: ' · 성별 ',
                                 style: k16Medium.copyWith(
                                     color: kMainBlack.withOpacity(0.4))),
-                            TextSpan(
-                                text: createRoomController.gender.value,
-                                style: k16Medium),
+                            TextSpan(text: getgender(), style: k16Medium),
                             TextSpan(
                                 text: ' · 인원 ',
                                 style: k16Medium.copyWith(

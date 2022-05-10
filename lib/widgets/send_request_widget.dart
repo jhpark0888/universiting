@@ -101,7 +101,12 @@ class SendRequestWidget extends StatelessWidget {
                                     Expanded(
                                         child: GestureDetector(
                                             onTap: () {
-                                              roomparticipate(0, 'reject');
+                                              roomparticipate(0, 'reject')
+                                                  .then((httpresponse) {
+                                                if (httpresponse.isError ==
+                                                    false) {
+                                                } else {}
+                                              });
                                             },
                                             child: const RejectButton())),
                                     const SizedBox(
@@ -110,7 +115,11 @@ class SendRequestWidget extends StatelessWidget {
                                     Expanded(
                                       child: GestureDetector(
                                         onTap: () {
-                                          roomparticipate(0, 'join');
+                                          roomparticipate(0, 'join')
+                                              .then((httpresponse) {
+                                            if (httpresponse.isError == false) {
+                                            } else {}
+                                          });
                                         },
                                         child: PrimaryButton(
                                             text: '수락하기', isactive: true.obs),

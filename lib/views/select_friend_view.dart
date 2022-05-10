@@ -126,22 +126,6 @@ class SelectFriendView extends StatelessWidget {
                                 RoomInfoController.to.memberProfile.add(
                                     selectmemberController.seletedMember.value);
 
-                                RoomInfoController.to.agesum +=
-                                    selectmemberController
-                                        .seletedMember.value.age;
-
-                                RoomInfoController.to.ageAvg(double.parse(
-                                    (RoomInfoController.to.agesum /
-                                            RoomInfoController
-                                                .to.memberProfile.length)
-                                        .toStringAsFixed(1)));
-
-                                if (RoomInfoController.to.gender.value !=
-                                    selectmemberController
-                                        .seletedMember.value.gender) {
-                                  RoomInfoController.to.gender('혼성');
-                                }
-
                                 print(selectmemberController
                                     .seletedMember.value.nickname);
                                 print(RoomInfoController.to.members);

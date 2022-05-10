@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/management_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:universiting/widgets/custom_refresher.dart';
 
 class SendRequestView extends StatelessWidget {
   SendRequestView({Key? key}) : super(key: key);
@@ -14,26 +15,8 @@ class SendRequestView extends StatelessWidget {
       () => SmartRefresher(
           controller: _manageController.requestrefreshController,
           enablePullUp: _manageController.enablepulluprequest.value,
-          header: const ClassicHeader(
-              spacing: 0.0,
-              height: 60,
-              completeDuration: Duration(milliseconds: 600),
-              textStyle: TextStyle(color: kMainBlack),
-              refreshingText: '',
-              releaseText: "",
-              completeText: "",
-              idleText: "",
-              refreshingIcon: Text('당기는 중입니다.')),
-          footer: ClassicFooter(
-            loadStyle: LoadStyle.ShowWhenLoading,
-            spacing: 0.0,
-            completeDuration: Duration(milliseconds: 600),
-            loadingText: "로딩 중",
-            canLoadingText: "캔 로딩 중",
-            idleText: "아이들",
-            textStyle: TextStyle(color: kMainBlack),
-            idleIcon: Container(),
-          ),
+          header: const CustomRefresherHeader(),
+          footer: const CustomRefresherFooter(),
           onRefresh: _manageController.onRequestRefresh,
           onLoading: _manageController.onRequestLoading,
           child:
