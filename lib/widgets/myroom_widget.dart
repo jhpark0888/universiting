@@ -202,50 +202,70 @@ class MyRoomWidget extends StatelessWidget {
                     ])),
                     const Text('초대를 수락하고 방에 참여해 주세요', style: k16Medium),
                     const SizedBox(height: 18),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: GestureDetector(
-                                onTap: () async {
-                                  await roomparticipate(room.id!, 'reject')
-                                      .then((httpresponse) {
-                                    if (httpresponse.isError == false) {
-                                      room.roomstate!(
-                                          StateManagement.friendReject);
-                                    }
-                                  });
-                                },
-                                child: const RejectButton())),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () async {
-                              roomparticipate(room.id!, 'join')
-                                  .then((httpresponse) {
-                                if (httpresponse.isError == false) {
-                                  if (room.hosts
-                                          ?.where((member) =>
-                                              member.hostType == false)
-                                          .isEmpty ==
-                                      true) {
-                                    room.roomstate!(
-                                        StateManagement.roomActivated);
-                                  } else {
-                                    room.roomstate!(
-                                        StateManagement.waitingFriend);
-                                  }
-                                }
-                              });
-                            },
-                            child:
-                                PrimaryButton(text: '수락하기', isactive: true.obs),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    await roomparticipate(room.id!, 'reject')
+                                        .then((httpresponse) {
+                                      if (httpresponse.isError == false) {
+                                        room.roomstate!(
+                                            StateManagement.friendReject);
+                                      }
+                                    });
+                                  },
+                                  child: const RejectButton())),
+                          const SizedBox(
+                            width: 12,
                           ),
-                        )
-                      ],
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                roomparticipate(room.id!, 'join')
+                                    .then((httpresponse) {
+                                  if (httpresponse.isError == false) {
+                                    if (room.hosts
+                                            ?.where((member) =>
+                                                member.hostType == false)
+                                            .isEmpty ==
+                                        true) {
+                                      room.roomstate!(
+                                          StateManagement.roomActivated);
+                                    } else {
+                                      room.roomstate!(
+                                          StateManagement.waitingFriend);
+                                    }
+                                  }
+                                });
+                              },
+                              child:
+                                  PrimaryButton(text: '수락하기', isactive: true.obs),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
+                    Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Divider(
+                        thickness: 2.5,
+                        color: kMainBlack.withOpacity(0.1),
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                    ],
+                  ),
+                )
                   ],
                 ),
               if (room.requestcount != 0)
