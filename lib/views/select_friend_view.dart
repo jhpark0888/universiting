@@ -8,10 +8,11 @@ import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/select_member_controller.dart';
+import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/new_person_widget.dart';
-import 'package:universiting/widgets/participate_selected_name_widget.dart';
+import 'package:universiting/widgets/selected_name_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 import 'package:universiting/widgets/scroll_noneffect_widget.dart';
@@ -20,12 +21,17 @@ import 'package:universiting/widgets/white_textfield_widget.dart';
 import '../widgets/background_textfield_widget.dart';
 
 class SelectFriendView extends StatelessWidget {
-  SelectFriendView({Key? key, this.peoplenum, required this.type})
+  SelectFriendView(
+      {Key? key,
+      this.peoplenum,
+      required this.type,
+      required this.membersProfile})
       : super(key: key);
-  SelectMemberController selectmemberController =
-      Get.put(SelectMemberController());
+  late SelectMemberController selectmemberController =
+      Get.put(SelectMemberController(membersProfile: membersProfile.value.obs));
   int? peoplenum;
   AddFriends type;
+  RxList<Profile> membersProfile = <Profile>[].obs;
   @override
   Widget build(BuildContext context) {
     print(selectmemberController.seletedMember);
@@ -37,14 +43,33 @@ class SelectFriendView extends StatelessWidget {
             () => TextButton(
                 onPressed: () {
                   if (type == AddFriends.myRoom) {
-                    if (RoomInfoController.to.selectedMembers.length > 1) {
+                    if (selectmemberController.membersProfile.length > 1) {
+                      List<int> membersid = selectmemberController
+                          .membersProfile
+                          .map((profile) => profile.userId)
+                          .toList();
+                      membersid.removeAt(0);
+                      RoomInfoController.to.members(membersid);
+
+                      RoomInfoController.to.memberProfile(
+                          selectmemberController.membersProfile.value);
                       Get.back();
                     } else {
                       showCustomDialog('방을 만들기 위해서 2명 이상이 필요해요', 1200);
                     }
                   } else {
-                    if (ParticipateController.to.selectedMembers.length ==
+                    if (selectmemberController.membersProfile.length ==
                         peoplenum) {
+                      List<int> membersid = selectmemberController
+                          .membersProfile
+                          .map((profile) => profile.userId)
+                          .toList();
+                      membersid.removeAt(0);
+                      ParticipateController.to.members(membersid);
+
+                      ParticipateController.to.memberProfile(
+                          selectmemberController.membersProfile.value);
+
                       Get.back();
                     } else {
                       showCustomDialog('인원수를 모두 채워주세요', 1200);
@@ -55,10 +80,10 @@ class SelectFriendView extends StatelessWidget {
                   '완료',
                   style: kSubtitleStyle2.copyWith(
                       color: type == AddFriends.myRoom
-                          ? RoomInfoController.to.selectedMembers.length > 1
+                          ? selectmemberController.membersProfile.length > 1
                               ? kPrimary
                               : kMainBlack.withOpacity(0.4)
-                          : ParticipateController.to.selectedMembers.length ==
+                          : selectmemberController.membersProfile.length ==
                                   peoplenum
                               ? kPrimary
                               : kMainBlack.withOpacity(0.4)),
@@ -73,7 +98,7 @@ class SelectFriendView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Text(
-                '함께 갈 친구들 ${type == AddFriends.myRoom ? '${RoomInfoController.to.members.length}명' : '(${ParticipateController.to.members.length + 1} / ${peoplenum.toString()})'}',
+                '함께 갈 친구들 ${type == AddFriends.myRoom ? '${selectmemberController.membersProfile.length}명' : '(${selectmemberController.membersProfile.length} / ${peoplenum.toString()})'}',
                 style: k16Medium,
               ),
             ),
@@ -81,12 +106,19 @@ class SelectFriendView extends StatelessWidget {
               height: 36,
               width: Get.width,
               child: ScrollNoneffectWidget(
-                child: ListView(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    scrollDirection: Axis.horizontal,
-                    children: type == AddFriends.myRoom
-                        ? RoomInfoController.to.selectedMembers
-                        : ParticipateController.to.selectedMembers),
+                child: ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return SelectedNameWidget(
+                      type: type,
+                      selectMember:
+                          selectmemberController.membersProfile[index],
+                      roomManager: index == 0 ? true : false,
+                    );
+                  },
+                  itemCount: selectmemberController.membersProfile.length,
+                ),
               ),
             ),
             Padding(
@@ -109,26 +141,17 @@ class SelectFriendView extends StatelessWidget {
                         if (selectmemberController.searchtype.value ==
                             SearchType.success) {
                           if (type == AddFriends.myRoom) {
-                            if (!RoomInfoController.to.members.contains(
-                                selectmemberController
-                                    .seletedMember.value.userId)) {
-                              if (5 > RoomInfoController.to.members.length) {
-                                RoomInfoController.to.members.add(
+                            if (selectmemberController.membersProfile
+                                .where((profile) =>
+                                    profile.userId ==
                                     selectmemberController
-                                        .seletedMember.value.userId);
-                                RoomInfoController.to.selectedMembers
-                                    .add(SelectedNameWidget(
-                                  selectMember: selectmemberController
-                                      .seletedMember.value,
-                                  roomManager: false,
-                                  type: AddFriends.myRoom,
-                                ));
-                                RoomInfoController.to.memberProfile.add(
+                                        .seletedMember.value.userId)
+                                .isEmpty) {
+                              if (5 >
+                                  selectmemberController
+                                      .membersProfile.length) {
+                                selectmemberController.membersProfile.add(
                                     selectmemberController.seletedMember.value);
-
-                                print(selectmemberController
-                                    .seletedMember.value.nickname);
-                                print(RoomInfoController.to.members);
                               } else {
                                 showCustomDialog('방 구성 최대 인원은 5명이에요', 1200);
                               }
@@ -136,41 +159,17 @@ class SelectFriendView extends StatelessWidget {
                               showCustomDialog('이미 등록되었어요', 1200);
                             }
                           } else {
-                            if (!ParticipateController.to.members.contains(
-                                selectmemberController
-                                    .seletedMember.value.userId)) {
+                            if (selectmemberController.membersProfile
+                                .where((profile) =>
+                                    profile.userId ==
+                                    selectmemberController
+                                        .seletedMember.value.userId)
+                                .isEmpty) {
                               if (peoplenum! >
-                                  ParticipateController.to.members.length + 1) {
-                                ParticipateController.to.members.add(
-                                    selectmemberController
-                                        .seletedMember.value.userId);
-
-                                ParticipateController.to.selectedMembers.add(
-                                    SelectedNameWidget(
-                                        selectMember: selectmemberController
-                                            .seletedMember.value,
-                                        roomManager: false,
-                                        type: AddFriends.otherRoom));
-
-                                ParticipateController.to.memberProfile.add(
+                                  selectmemberController
+                                      .membersProfile.length) {
+                                selectmemberController.membersProfile.add(
                                     selectmemberController.seletedMember.value);
-
-                                ParticipateController.to.agesum +=
-                                    selectmemberController
-                                        .seletedMember.value.age;
-
-                                ParticipateController.to.ageAvg(double.parse(
-                                    (ParticipateController.to.agesum /
-                                            (ParticipateController
-                                                    .to.memberProfile.length +
-                                                1))
-                                        .toStringAsFixed(1)));
-
-                                if (ParticipateController.to.gender.value !=
-                                    selectmemberController
-                                        .seletedMember.value.gender) {
-                                  ParticipateController.to.gender('혼성');
-                                }
                               } else {
                                 showCustomDialog('이미 인원이 다 찼어요', 1200);
                               }

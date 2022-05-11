@@ -96,7 +96,10 @@ class RoomInfoView extends StatelessWidget {
                               ? GestureDetector(
                                   onTap: () {
                                     Get.to(() => SelectFriendView(
-                                        type: AddFriends.myRoom));
+                                          type: AddFriends.myRoom,
+                                          membersProfile: createRoomController
+                                              .memberProfile,
+                                        ));
                                   },
                                   child: Container(
                                     height: 130,
@@ -160,8 +163,11 @@ class RoomInfoView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(() =>
-                                    SelectFriendView(type: AddFriends.myRoom));
+                                Get.to(() => SelectFriendView(
+                                      type: AddFriends.myRoom,
+                                      membersProfile:
+                                          createRoomController.memberProfile,
+                                    ));
                               },
                               child: Text(
                                 '함께 할 친구 수정하기',
@@ -247,7 +253,8 @@ class RoomInfoView extends StatelessWidget {
                                 style: k16Medium.copyWith(
                                     color: kMainBlack.withOpacity(0.4))),
                             TextSpan(
-                                text: '${createRoomController.members.length}명',
+                                text:
+                                    '${createRoomController.memberProfile.length}명',
                                 style: k16Medium),
                           ]),
                         ),

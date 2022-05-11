@@ -43,6 +43,26 @@ class ParticiapteView extends StatelessWidget {
     );
   }
 
+  String getavgage() {
+    int agesum = 0;
+    double avgage = 0;
+    for (var profile in participateController.memberProfile) {
+      agesum += profile.age;
+    }
+    avgage = agesum / participateController.memberProfile.length;
+    return avgage.toStringAsFixed(1);
+  }
+
+  String getgender() {
+    String gender = ProfileController.to.profile.value.gender;
+    for (var profile in participateController.memberProfile) {
+      if (gender != profile.gender) {
+        gender = '혼성';
+      }
+    }
+    return gender;
+  }
+
   @override
   Widget build(BuildContext context) {
     // CheckPeopleController checkPeopleController = Get.put(CheckPeopleController(
@@ -60,9 +80,6 @@ class ParticiapteView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  NewPersonTileWidget(
-                    profile: ProfileController.to.profile.value,
-                  ),
                   Obx(
                     () => Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -77,13 +94,16 @@ class ParticiapteView extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Get.to(() => SelectFriendView(
-                          peoplenum: peopleNumber, type: AddFriends.otherRoom));
+                            peoplenum: peopleNumber,
+                            type: AddFriends.otherRoom,
+                            membersProfile: participateController.memberProfile,
+                          ));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Obx(
-                          () => participateController.members.length + 1 ==
+                          () => participateController.memberProfile.length ==
                                   peopleNumber
                               ? Container()
                               : SvgPicture.asset(
@@ -95,7 +115,7 @@ class ParticiapteView extends StatelessWidget {
                         ),
                         Obx(
                           () => Text(
-                            participateController.members.length + 1 ==
+                            participateController.memberProfile.length ==
                                     peopleNumber
                                 ? '함께 갈 친구 수정하기'
                                 : '함께 갈 ${(peopleNumber - 1).toString()}명의 친구 초대하기',
@@ -151,23 +171,19 @@ class ParticiapteView extends StatelessWidget {
                           text: '평균 나이 ',
                           style: k16Medium.copyWith(
                               color: kMainBlack.withOpacity(0.4))),
-                      TextSpan(
-                          text: participateController.ageAvg.toString(),
-                          style: k16Medium),
+                      TextSpan(text: getavgage(), style: k16Medium),
                       TextSpan(
                           text: ' · 성별 ',
                           style: k16Medium.copyWith(
                               color: kMainBlack.withOpacity(0.4))),
-                      TextSpan(
-                          text: participateController.gender.value,
-                          style: k16Medium),
+                      TextSpan(text: getgender(), style: k16Medium),
                       TextSpan(
                           text: ' · 인원 ',
                           style: k16Medium.copyWith(
                               color: kMainBlack.withOpacity(0.4))),
                       TextSpan(
                           text:
-                              '${participateController.members.length + 1} : ${peopleNumber.toString()}',
+                              '${participateController.memberProfile.length} : ${peopleNumber.toString()}',
                           style: k16Medium),
                     ]),
                   ),
@@ -176,7 +192,7 @@ class ParticiapteView extends StatelessWidget {
                     () => GestureDetector(
                         onTap: () {
                           if (peopleNumber !=
-                              participateController.members.length + 1) {
+                              participateController.memberProfile.length) {
                             showCustomDialog('친구들 인원에 맞게 초대해 주세요', 1200);
                           } else if (participateController.introController.text
                                   .trim() ==
@@ -200,8 +216,8 @@ class ParticiapteView extends StatelessWidget {
                         child: PrimaryButton(
                           text: '참여 신청하기',
                           isactive: (peopleNumber ==
-                                      participateController.members.length +
-                                          1 &&
+                                      participateController
+                                          .memberProfile.length &&
                                   participateController.introController.text
                                           .trim() !=
                                       '')

@@ -25,8 +25,7 @@ class Room {
   Rx<StateManagement>? roomstate;
   int? views;
   int? requestcount;
-  bool? ishost;
-  List<MyRoomRequest>? requestlist = [];
+  RxList<MyRoomRequest>? requestlist = <MyRoomRequest>[].obs;
   Room(
       {this.id,
       required this.title,
@@ -44,7 +43,6 @@ class Room {
       this.date,
       this.views,
       this.requestcount,
-      this.ishost,
       this.introduction});
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
@@ -56,13 +54,6 @@ class Room {
             ? List<Map<String, dynamic>>.from(json['member'])
                 .map((value) => Host.fromJson(value))
                 .toList()
-            : null,
-        ishost: json['member'] != null
-            ? List<Map<String, dynamic>>.from(json['member'])
-                        .first['user_id'] ==
-                    ProfileController.to.profile.value.userId
-                ? true
-                : false
             : null,
         totalMember: json['totalmember'],
         gender: json['gender'] == 'M'

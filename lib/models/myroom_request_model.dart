@@ -9,11 +9,15 @@ class MyRoomRequest {
     required this.id,
     required this.joinInfo,
     this.members,
+    required this.iscreater,
+    required this.creater,
   });
 
   int id;
   List<Host>? members;
   JoinInfo joinInfo;
+  bool iscreater;
+  String creater;
 
   factory MyRoomRequest.fromJson(Map<String, dynamic> json) => MyRoomRequest(
         id: json["id"],
@@ -23,5 +27,7 @@ class MyRoomRequest {
                 .map((value) => Host.fromJson(value))
                 .toList()
             : null,
+        iscreater: json['is_creater'] ?? false,
+        creater: json['creater'] ?? '',
       );
 }
