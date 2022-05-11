@@ -14,14 +14,10 @@ import 'package:universiting/widgets/room_info_widget.dart';
 
 class MyRoomRequestDetailView extends StatelessWidget {
   MyRoomRequestDetailView(
-      {Key? key,
-      required this.request,
-      required this.ishost,
-      required this.roomId})
+      {Key? key, required this.request, required this.roomId})
       : super(key: key);
 
   MyRoomRequest request;
-  bool ishost;
   int roomId;
 
   @override
@@ -86,7 +82,7 @@ class MyRoomRequestDetailView extends StatelessWidget {
                 const SizedBox(
                   height: 24,
                 ),
-                ishost == true
+                request.iscreater == true
                     ? Column(
                         children: [
                           Row(
@@ -132,9 +128,11 @@ class MyRoomRequestDetailView extends StatelessWidget {
                           ),
                         ],
                       )
-                    : Text(
-                        '방장이 수락하면 채팅이 시작됩니다',
-                        style: k16Medium.copyWith(color: kPrimary),
+                    : Center(
+                        child: Text(
+                          '${request.creater}님이 수락하면 채팅이 시작됩니다',
+                          style: k16Medium.copyWith(color: kPrimary),
+                        ),
                       )
               ],
             ),

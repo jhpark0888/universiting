@@ -25,9 +25,9 @@ class FriendToGoWithWidget extends StatelessWidget {
         children: [
           GestureDetector(
               onTap: () {
-                Get.to(() => SelectFriendView(peoplenum: text + 2, type: type));
-                print('$humanNum입니다');
-                print('$text입니다');
+                // Get.to(() => SelectFriendView(peoplenum: text + 2, type: type));
+                // print('$humanNum입니다');
+                // print('$text입니다');
               },
               child: Container(
                 child: type == AddFriends.myRoom

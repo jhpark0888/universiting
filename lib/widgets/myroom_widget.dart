@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/custom_animation_controller.dart';
 import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
@@ -34,6 +35,35 @@ class MyRoomWidget extends StatelessWidget {
   List<ProfileImageWidget>? hosts;
   RxBool isRequestList = false.obs;
   bool isChief;
+  late final CustomAnimationController _animationController =
+      Get.put(CustomAnimationController(), tag: room.id.toString());
+
+  late Widget requesttext = RichText(
+      text: TextSpan(children: [
+    const TextSpan(text: '이 방이 받은 신청 ', style: k16Medium),
+    TextSpan(
+        text: '${room.requestcount}개',
+        style: k16Medium.copyWith(color: kPrimary)),
+    const TextSpan(text: ' 확인하기', style: k16Medium)
+  ]));
+
+  void textswitch() {
+    if (isRequestList.value) {
+      requesttext = RichText(
+          text: TextSpan(children: [
+        const TextSpan(text: '이 방이 받은 신청 ', style: k16Medium),
+        TextSpan(
+            text: '${room.requestcount}개',
+            style: k16Medium.copyWith(color: kPrimary)),
+        const TextSpan(text: ' 확인하기', style: k16Medium)
+      ]));
+    } else {
+      requesttext = Text(
+        '이 방이 받은 신청 접기',
+        style: kSubtitleStyle3.copyWith(color: kMainBlack.withOpacity(0.4)),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,282 +98,291 @@ class MyRoomWidget extends StatelessWidget {
                     },
                   ))),
           Obx(
-            () => Padding(
+            () =>
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 18),
+                    Text(room.title,
+                        style: kSubtitleStyle5.copyWith(height: 1.5)),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Text('평균 나이',
+                            style: kSubtitleStyle2.copyWith(
+                                color: kMainBlack.withOpacity(0.6))),
+                        const SizedBox(width: 4),
+                        Text(
+                          room.avgAge.toString() + '세',
+                          style: kSubtitleStyle2,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '·',
+                          style: kSubtitleStyle2.copyWith(
+                              color: kMainBlack.withOpacity(0.6)),
+                        ),
+                        const SizedBox(width: 4),
+                        Text('성별',
+                            style: kSubtitleStyle2.copyWith(
+                                color: kMainBlack.withOpacity(0.6))),
+                        const SizedBox(width: 4),
+                        Text(room.gender!, style: kSubtitleStyle2),
+                        const SizedBox(width: 4),
+                        Text(
+                          '·',
+                          style: kSubtitleStyle2.copyWith(
+                              color: kMainBlack.withOpacity(0.6)),
+                        ),
+                        const SizedBox(width: 4),
+                        Text('인원',
+                            style: kSubtitleStyle2.copyWith(
+                                color: kMainBlack.withOpacity(0.6))),
+                        const SizedBox(width: 4),
+                        Text('${room.totalMember} : ${room.totalMember}',
+                            style: kSubtitleStyle2),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              if (room.roomstate!.value != StateManagement.sendme)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Column(
                     children: [
-                      const SizedBox(height: 18),
-                      Text(room.title,
-                          style: kSubtitleStyle5.copyWith(height: 1.5)),
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          Text('평균 나이',
+                          Text('조회수',
                               style: kSubtitleStyle2.copyWith(
                                   color: kMainBlack.withOpacity(0.6))),
                           const SizedBox(width: 4),
-                          Text(
-                            room.avgAge.toString() + '세',
-                            style: kSubtitleStyle2,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            '·',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6)),
-                          ),
-                          const SizedBox(width: 4),
-                          Text('성별',
+                          Text('${room.views}',
                               style: kSubtitleStyle2.copyWith(
                                   color: kMainBlack.withOpacity(0.6))),
-                          const SizedBox(width: 4),
-                          Text(room.gender!, style: kSubtitleStyle2),
-                          const SizedBox(width: 4),
-                          Text(
-                            '·',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.6)),
-                          ),
-                          const SizedBox(width: 4),
-                          Text('인원',
+                          const Spacer(),
+                          Text(calculateDate(room.date!),
                               style: kSubtitleStyle2.copyWith(
-                                  color: kMainBlack.withOpacity(0.6))),
-                          const SizedBox(width: 4),
-                          Text('${room.totalMember} : ${room.totalMember}',
-                              style: kSubtitleStyle2),
+                                  color: kMainBlack.withOpacity(0.4)))
                         ],
                       ),
-                      if (room.roomstate!.value != StateManagement.sendme)
-                        Column(
-                          children: [
-                            const SizedBox(height: 12),
-                            Row(
-                              children: [
-                                Text('조회수',
-                                    style: kSubtitleStyle2.copyWith(
-                                        color: kMainBlack.withOpacity(0.6))),
-                                const SizedBox(width: 4),
-                                Text('${room.views}',
-                                    style: kSubtitleStyle2.copyWith(
-                                        color: kMainBlack.withOpacity(0.6))),
-                                const Spacer(),
-                                Text(calculateDate(room.date!),
-                                    style: kSubtitleStyle2.copyWith(
-                                        color: kMainBlack.withOpacity(0.4)))
-                              ],
-                            ),
-                            const SizedBox(height: 18),
-                            StateManagementWidget(
-                              state: room.roomstate!.value,
-                              type: 'MyRoom',
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            Divider(
-                              thickness: 0.5,
-                              color: kMainBlack.withOpacity(0.1),
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                          ],
-                        ),
-                      if (room.roomstate!.value == StateManagement.sendme)
-                        Column(
-                          children: [
-                            const SizedBox(height: 18),
-                            RichText(
-                                text: TextSpan(children: [
-                              TextSpan(
-                                  text: '\'${room.hosts!.first.nickname}\'',
-                                  style: k16Medium.copyWith(
-                                      color: kPrimary, height: 1.5)),
-                              const TextSpan(
-                                  text: '님이 방에 초대했어요', style: k16Medium),
-                            ])),
-                            const Text('초대를 수락하고 방에 참여해 주세요', style: k16Medium),
-                            const SizedBox(height: 18),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                    child: GestureDetector(
-                                        onTap: () async {
-                                          await roomparticipate(
-                                                  room.id!, 'reject')
-                                              .then((httpresponse) {
-                                            if (httpresponse.isError == false) {
-                                              room.roomstate!(
-                                                  StateManagement.friendReject);
-                                            }
-                                          });
-                                        },
-                                        child: const RejectButton())),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      roomparticipate(room.id!, 'join')
-                                          .then((httpresponse) {
-                                        if (httpresponse.isError == false) {
-                                          if (room.hosts
-                                                  ?.where((member) =>
-                                                      member.hostType == false)
-                                                  .isEmpty ==
-                                              true) {
-                                            room.roomstate!(
-                                                StateManagement.roomActivated);
-                                          } else {
-                                            room.roomstate!(
-                                                StateManagement.waitingFriend);
-                                          }
-                                        }
-                                      });
-                                    },
-                                    child: PrimaryButton(
-                                        text: '수락하기', isactive: true.obs),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      if (room.requestcount != 0)
-                        isRequestList.value == false
-                            ? Center(
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    await getMyRoomRequestlist(
-                                            'all', 0, room.id!)
-                                        .then((httpresponse) {
-                                      if (httpresponse.isError == false) {
-                                        room.requestlist = httpresponse.data;
-                                      } else {}
-                                    });
-                                    isRequestList(true);
-                                  },
-                                  child: Column(
-                                    children: [
-                                      RichText(
-                                          text: TextSpan(children: [
-                                        const TextSpan(
-                                            text: '이 방이 받은 신청 ',
-                                            style: k16Medium),
-                                        TextSpan(
-                                            text: '${room.requestcount}개',
-                                            style: k16Medium.copyWith(
-                                                color: kPrimary)),
-                                        const TextSpan(
-                                            text: ' 확인하기', style: k16Medium)
-                                      ])),
-                                      const SizedBox(
-                                        height: 12,
-                                      ),
-                                      SvgPicture.asset(
-                                        'assets/icons/down_arrow.svg',
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: InkWell(
-                                        onTap: () {
-                                          Get.to(() => MyRoomRequestView(
-                                                title: room.title,
-                                                roomId: room.id!,
-                                                requestlist:
-                                                    room.requestlist!.obs,
-                                                ishost: room.ishost!,
-                                              ));
-                                        },
-                                        child: Text(
-                                          '전체 보기',
-                                          style: k16Medium.copyWith(
-                                              color: kPrimary),
-                                        )),
-                                  ),
-                                  const SizedBox(
-                                    height: 18,
-                                  ),
-                                  Center(
-                                    child: SizedBox(
-                                      height: 190,
-                                      child: ScrollNoneffectWidget(
-                                        child: ListView.separated(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                20, 0, 20, 0),
-                                            scrollDirection: Axis.horizontal,
-                                            itemBuilder: (context, index) =>
-                                                MyroomRequestWidget(
-                                                  roomId: room.id!,
-                                                  isrequestinfo: false,
-                                                  request:
-                                                      room.requestlist![index],
-                                                  ishost: room.ishost!,
-                                                ),
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
-                                            itemCount:
-                                                room.requestlist!.length),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 18,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      isRequestList(false);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        RotatedBox(
-                                          quarterTurns: 2,
-                                          child: SvgPicture.asset(
-                                            'assets/icons/down_arrow.svg',
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 12,
-                                        ),
-                                        Text(
-                                          '이 방이 받은 신청 접기',
-                                          style: kSubtitleStyle3.copyWith(
-                                              color:
-                                                  kMainBlack.withOpacity(0.4)),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      if (room.requestcount != 0)
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            Divider(
-                              thickness: 2.5,
-                              color: kMainBlack.withOpacity(0.1),
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                          ],
-                        )
+                      const SizedBox(height: 18),
+                      StateManagementWidget(
+                        state: room.roomstate!.value,
+                        type: 'MyRoom',
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Divider(
+                        thickness: 0.5,
+                        color: kMainBlack.withOpacity(0.1),
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                    ],
+                  ),
+                ),
+              if (room.roomstate!.value == StateManagement.sendme)
+                Column(
+                  children: [
+                    const SizedBox(height: 18),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                          text: '\'${room.hosts!.first.nickname}\'',
+                          style:
+                              k16Medium.copyWith(color: kPrimary, height: 1.5)),
+                      const TextSpan(text: '님이 방에 초대했어요', style: k16Medium),
                     ])),
+                    const Text('초대를 수락하고 방에 참여해 주세요', style: k16Medium),
+                    const SizedBox(height: 18),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            child: GestureDetector(
+                                onTap: () async {
+                                  await roomparticipate(room.id!, 'reject')
+                                      .then((httpresponse) {
+                                    if (httpresponse.isError == false) {
+                                      room.roomstate!(
+                                          StateManagement.friendReject);
+                                    }
+                                  });
+                                },
+                                child: const RejectButton())),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () async {
+                              roomparticipate(room.id!, 'join')
+                                  .then((httpresponse) {
+                                if (httpresponse.isError == false) {
+                                  if (room.hosts
+                                          ?.where((member) =>
+                                              member.hostType == false)
+                                          .isEmpty ==
+                                      true) {
+                                    room.roomstate!(
+                                        StateManagement.roomActivated);
+                                  } else {
+                                    room.roomstate!(
+                                        StateManagement.waitingFriend);
+                                  }
+                                }
+                              });
+                            },
+                            child:
+                                PrimaryButton(text: '수락하기', isactive: true.obs),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              if (room.requestcount != 0)
+                AnimatedBuilder(
+                  animation:
+                      _animationController.myRoomWidgetAnimationController.view,
+                  builder: (BuildContext context, Widget? child) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ClipRect(
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            heightFactor:
+                                _animationController.expandFactor.value,
+                            child: child,
+                          ),
+                        ),
+                        ClipRect(
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            heightFactor: 1,
+                            child: GestureDetector(
+                              onTap: () async {
+                                if (isRequestList.value) {
+                                  textswitch();
+                                  isRequestList(false);
+                                  _animationController
+                                      .myRoomWidgetAnimationController
+                                      .reverse();
+                                } else {
+                                  await getMyRoomRequestlist('all', 0, room.id!)
+                                      .then((httpresponse) {
+                                    if (httpresponse.isError == false) {
+                                      room.requestlist!.value =
+                                          httpresponse.data;
+                                    } else {}
+                                  });
+                                  textswitch();
+                                  isRequestList(true);
+                                  _animationController
+                                      .myRoomWidgetAnimationController
+                                      .forward();
+                                }
+                              },
+                              child: Column(children: [
+                                AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 500),
+                                  child: requesttext,
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                RotationTransition(
+                                  turns: _animationController.iconTurns,
+                                  child: SvgPicture.asset(
+                                    'assets/icons/down_arrow.svg',
+                                  ),
+                                ),
+                              ]),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                            onTap: () {
+                              Get.to(() => MyRoomRequestView(
+                                    title: room.title,
+                                    roomId: room.id!,
+                                    requestlist: room.requestlist!,
+                                  ));
+                            },
+                            child: Text(
+                              '전체 보기',
+                              style: k16Medium.copyWith(color: kPrimary),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Obx(
+                        () => Center(
+                          child: SizedBox(
+                            height: 190,
+                            child: ScrollNoneffectWidget(
+                              child: ListView.separated(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) =>
+                                      MyroomRequestWidget(
+                                        roomId: room.id!,
+                                        isrequestinfo: false,
+                                        request: room.requestlist![index],
+                                        width: 322,
+                                      ),
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                  itemCount: room.requestlist!.length),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                    ],
+                  ),
+                ),
+              if (room.requestcount != 0)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Divider(
+                        thickness: 2.5,
+                        color: kMainBlack.withOpacity(0.1),
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                    ],
+                  ),
+                )
+            ]),
           ),
         ]));
   }

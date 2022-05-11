@@ -5,9 +5,11 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/select_member_model.dart';
-import 'package:universiting/widgets/participate_selected_name_widget.dart';
+import 'package:universiting/widgets/selected_name_widget.dart';
 
 class SelectMemberController extends GetxController {
+  static SelectMemberController get to => Get.find();
+  SelectMemberController({required this.membersProfile});
   TextEditingController nickNameController = TextEditingController();
   Rx<Profile> seletedMember = Profile(
           age: 0,
@@ -20,6 +22,7 @@ class SelectMemberController extends GetxController {
   RxString nickName = ''.obs;
   RxInt nicNameLength = 0.obs;
   Rx<SearchType> searchtype = SearchType.empty.obs;
+  RxList<Profile> membersProfile = <Profile>[].obs;
   @override
   void onInit() {
     nickNameController.addListener(() {

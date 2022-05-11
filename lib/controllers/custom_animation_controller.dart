@@ -33,6 +33,16 @@ class CustomAnimationController extends GetxController
     )
   ]);
 
+  late AnimationController myRoomWidgetAnimationController;
+
+  final easeInCurve = CurveTween(curve: Curves.easeInOutCubic);
+
+  final halfTurn = Tween<double>(begin: 0.0, end: 0.5);
+
+  late Animation<double> expandFactor;
+
+  late Animation<double> iconTurns;
+
   @override
   void onInit() {
     super.onInit();
@@ -78,6 +88,15 @@ class CustomAnimationController extends GetxController
       ),
     );
 
+    myRoomWidgetAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    expandFactor = myRoomWidgetAnimationController.drive(easeInCurve);
+    iconTurns =
+        myRoomWidgetAnimationController.drive(halfTurn.chain(easeInCurve));
+
     // secondOffsetValue =
     //     Tween<Offset>(begin: const Offset(0.0, 10.0), end: Offset(0.0, 0.0))
     //         .chain(CurveTween(curve: Curves.easeInOut))
@@ -95,6 +114,7 @@ class CustomAnimationController extends GetxController
     animationController!.dispose();
     offsetAnimationController.dispose();
     secondOffsetAnimationController.dispose();
+    myRoomWidgetAnimationController.dispose();
     super.onClose();
   }
 }

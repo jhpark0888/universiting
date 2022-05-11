@@ -5,24 +5,20 @@ import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/select_member_model.dart';
-import 'package:universiting/widgets/participate_selected_name_widget.dart';
+import 'package:universiting/widgets/selected_name_widget.dart';
 
 class ParticipateController extends GetxController {
   static ParticipateController get to => Get.find();
   TextEditingController introController = TextEditingController();
   final members = [].obs;
-  final memberProfile = <Profile>[].obs;
-  RxDouble ageAvg =
-      double.parse(ProfileController.to.profile.value.age.toString()).obs;
+  final memberProfile = <Profile>[ProfileController.to.profile.value].obs;
 
-  int agesum = ProfileController.to.profile.value.age;
-  final gender = ProfileController.to.profile.value.gender.obs;
-  final selectedMembers = [
-    SelectedNameWidget(
-        selectMember: ProfileController.to.profile.value,
-        roomManager: true,
-        type: AddFriends.otherRoom)
-  ].obs;
+  // final selectedMembers = [
+  //   SelectedNameWidget(
+  //       selectMember: ProfileController.to.profile.value,
+  //       roomManager: true,
+  //       type: AddFriends.otherRoom)
+  // ].obs;
 
   @override
   void onInit() {

@@ -9,20 +9,20 @@ import 'package:universiting/widgets/check_number_of_people_widget.dart';
 import 'package:universiting/widgets/friend_to_go_with_widget.dart';
 import 'package:universiting/widgets/new_person_widget.dart';
 
-import '../widgets/participate_selected_name_widget.dart';
+import '../widgets/selected_name_widget.dart';
 
 class RoomInfoController extends GetxController {
   static RoomInfoController get to => Get.find();
   TextEditingController roomTitleController = TextEditingController();
   TextEditingController introController = TextEditingController();
   // final checkNumberPeopleList = <CheckNumberOfPeopleWidget>[].obs;
-  final selectedMembers = <SelectedNameWidget>[
-    SelectedNameWidget(
-        selectMember: ProfileController.to.profile.value,
-        roomManager: true,
-        type: AddFriends.myRoom)
-  ].obs;
-  final members = <int>[ProfileController.to.profile.value.userId].obs;
+  // final selectedMembers = <SelectedNameWidget>[
+  //   SelectedNameWidget(
+  //       selectMember: ProfileController.to.profile.value,
+  //       roomManager: true,
+  //       type: AddFriends.myRoom)
+  // ].obs;
+  final members = <int>[].obs;
   final memberProfile = <Profile>[ProfileController.to.profile.value].obs;
 
   // RxDouble ageAvg =

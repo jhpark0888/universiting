@@ -135,7 +135,7 @@ Future<void> SearchMember() async {
       '$serverUrl/user_api/search_member?nickname=${selectMemberController.nickName}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       selectMemberController.searchtype(SearchType.loading);
@@ -167,14 +167,11 @@ Future<void> makeRoom() async {
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/room_api/room');
 
-  List<int> memberid = createRoomController.members.value;
-  memberid.removeAt(0);
-
   var body = {
     'title': createRoomController.roomTitleController.text,
-    'totalmember': (memberid.length + 1).toString(),
+    'totalmember': (createRoomController.members.length + 1).toString(),
     'introduction': createRoomController.introController.text,
-    'member_id': memberid.toString()
+    'member_id': createRoomController.members.toString()
   };
   var headers = {
     'Authorization': 'Token $token',

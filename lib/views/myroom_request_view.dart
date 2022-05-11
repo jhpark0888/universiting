@@ -12,20 +12,18 @@ import 'package:universiting/widgets/myroom_request_widget.dart';
 import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 
 class MyRoomRequestView extends StatelessWidget {
-  MyRoomRequestView(
-      {Key? key,
-      required this.title,
-      required this.roomId,
-      required this.requestlist,
-      required this.ishost})
-      : super(key: key);
+  MyRoomRequestView({
+    Key? key,
+    required this.title,
+    required this.roomId,
+    required this.requestlist,
+  }) : super(key: key);
 
   late final MyRoomRequestController _myRoomRequestController =
       MyRoomRequestController(roomId: roomId, requestlist: requestlist.obs);
   List<MyRoomRequest> requestlist;
   String title;
   int roomId;
-  bool ishost;
 
   @override
   Widget build(BuildContext context) {
@@ -54,33 +52,36 @@ class MyRoomRequestView extends StatelessWidget {
                 )
               : SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Column(children: [
-                      Text(
-                        '\'${title}\'',
-                        style: kSubtitleStyle3.copyWith(
-                            height: 1.5, color: kMainBlack.withOpacity(0.4)),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        '방에 들어온 신청 목록이에요',
-                        style: kSubtitleStyle3.copyWith(
-                            height: 1.5, color: kMainBlack.withOpacity(0.4)),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children: _myRoomRequestController.requestlist
-                            .map((request) => MyroomRequestWidget(
-                                roomId: roomId,
-                                isrequestinfo: true,
-                                request: request,
-                                ishost: ishost))
-                            .toList(),
-                      )
-                    ]),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                    child: Column(
+                      children: [
+                        Text(
+                          '\'${title}\'',
+                          style: kSubtitleStyle3.copyWith(
+                              height: 1.5, color: kMainBlack.withOpacity(0.4)),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          '방에 들어온 신청 목록이에요',
+                          style: kSubtitleStyle3.copyWith(
+                              height: 1.5, color: kMainBlack.withOpacity(0.4)),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Column(
+                          children: _myRoomRequestController.requestlist
+                              .map((request) => MyroomRequestWidget(
+                                    roomId: roomId,
+                                    isrequestinfo: true,
+                                    request: request,
+                                    isbottompadding: true,
+                                  ))
+                              .toList(),
+                        )
+                      ],
+                    ),
                   ),
                 ))),
     );
