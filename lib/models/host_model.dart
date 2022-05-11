@@ -10,7 +10,7 @@ class Host {
   bool? hostType;
   bool? joinType;
   int? hostId;
-
+  var type;
   Host(
       {required this.userId,
       required this.profileImage,
@@ -20,7 +20,8 @@ class Host {
       this.introduction,
       this.hostType,
       this.hostId,
-      this.joinType});
+      this.joinType,
+      this.type});
 
   factory Host.fromJson(Map<String, dynamic> json) => Host(
         userId: json['user_id'] ?? json['profile']['user_id'],
@@ -42,5 +43,6 @@ class Host {
         hostType: json['host_type'],
         hostId: json['user_id'],
         joinType: json['join_type'],
+        type: json['type'].runtimeType == int ? json['type'] as int : json['type'] as bool
       );
 }

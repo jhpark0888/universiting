@@ -323,6 +323,47 @@ Future<void> roomJoin(String room_id) async {
   }
 }
 
+Future<HTTPResponse> roomRequestJoin(int roomId, String type, int fromId) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/room_api/join_member');
+
+  var body = {
+    'room_id': roomId.toString(),
+    'from_id' : fromId.toString(),
+    'type': type,
+  };
+  var headers = {
+    'Authorization': 'Token $token',
+  };
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return HTTPResponse.networkError();
+  } else {
+    try {
+      var response = await http.put(url, headers: headers, body: body);
+      String responsebody = utf8.decode(response.bodyBytes);
+      print('방 참가 or 거절 : ${response.statusCode}');
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+        return HTTPResponse.success(type);
+      } else {
+        print(response.statusCode);
+        return HTTPResponse.apiError('apierror', response.statusCode);
+      }
+    } on SocketException {
+      Get.back();
+      showCustomDialog('서버 점검중입니다.', 1200);
+      return HTTPResponse.serverError();
+    } catch (e) {
+      Get.back();
+      print(e);
+      showCustomDialog('서버 점검중입니다.', 1200);
+      return HTTPResponse.unexpectedError(e);
+    }
+  }
+}
+
 Future<void> deleteMyRoom(String id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();

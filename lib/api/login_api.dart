@@ -107,6 +107,7 @@ Future<void> logout() async {
               lat: 37.563600,
               lng: 126.962370,
             ));
+            Get.put(HomeController(), tag: '첫 화면');
         AppController.to.currentIndex.value = 0;
       } else {
         print(response.statusCode);

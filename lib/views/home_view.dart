@@ -177,7 +177,8 @@ class HomeView extends StatelessWidget {
                     Obx(() => NaverMap(
                           contentPadding: mapController.isClick.value
                               ? const EdgeInsets.only(bottom: 340)
-                              : EdgeInsets.only(bottom: homeController.searchPadding.value) ,
+                              : EdgeInsets.only(
+                                  bottom: homeController.searchPadding.value),
                           initialCameraPosition:
                               CameraPosition(target: LatLng(lat, lng)),
                           onMapCreated: mapController.onMapCreated,
@@ -254,8 +255,8 @@ class HomeView extends StatelessWidget {
                                         const SizedBox(width: 10),
                                         Expanded(
                                             child: EmptyBackTextfieldWidget(
-                                              cursorWidth: 2,
-                                              cursorHeight: 14,
+                                                cursorWidth: 2,
+                                                cursorHeight: 14,
                                                 controller:
                                                     homeController.searchUniv,
                                                 textStyle: kSubtitleStyle3,
@@ -268,10 +269,19 @@ class HomeView extends StatelessWidget {
                                                 autofocus: false,
                                                 contentPadding: EdgeInsets.zero,
                                                 textalign: TextAlign.start,
-                                                ontap: () {homeController
-                                                    .isSearch(true);
-                                                    Timer(Duration(milliseconds: 1000), (){homeController.searchPadding.value = MediaQuery.of(context).viewInsets.bottom;});
-                                                    }))
+                                                ontap: () {
+                                                  homeController.isSearch(true);
+                                                  Timer(
+                                                      Duration(
+                                                          milliseconds: 1000),
+                                                      () {
+                                                    homeController.searchPadding
+                                                            .value =
+                                                        MediaQuery.of(context)
+                                                            .viewInsets
+                                                            .bottom;
+                                                  });
+                                                }))
                                       ],
                                     ),
                                   ),
@@ -344,9 +354,10 @@ class HomeView extends StatelessWidget {
                       ),
                     if (homeController.searchedUniv.isNotEmpty)
                       Positioned(
-                          top: 114,
+                          top: 72 + homeController.statusBarHeight.value,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20),
                             child: Container(
                               height: homeController.searchedUniv.length > 3
                                   ? 200
@@ -359,42 +370,41 @@ class HomeView extends StatelessWidget {
                               child: ScrollNoneffectWidget(
                                 child: MediaQuery.removePadding(
                                   removeTop: true,
+                                  removeBottom: true,
                                   context: context,
-                                  child: ListView.builder(
+                                  child: ListView.separated(
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () async {
                                           final controller = await mapController
                                               .nMapController.future;
-                                          Timer(Duration(milliseconds: 500),
+                                          Timer(Duration(milliseconds: 100),
                                               () {
-                                            homeController.searchUniv.text =
-                                                homeController
-                                                    .searchedUniv[index]
-                                                    .schoolname;
-                                            controller.moveCamera(
-                                                CameraUpdate.scrollTo(LatLng(
-                                                    homeController
-                                                        .searchedUniv[index]
-                                                        .lat,
-                                                    homeController
-                                                        .searchedUniv[index]
-                                                        .lng)));
-                                            print(
-                                                homeController.searchUniv.text);
-                                            homeController.searchedUniv.clear();
+                                            controller
+                                                .moveCamera(CameraUpdate
+                                                    .scrollTo(LatLng(
+                                                        homeController
+                                                            .searchedUniv[index]
+                                                            .lat,
+                                                        homeController
+                                                            .searchedUniv[index]
+                                                            .lng)))
+                                                .then((value) {
+                                              homeController.searchUniv.text =
+                                                  homeController
+                                                      .searchedUniv[index]
+                                                      .schoolname;
+                                              homeController.searchedUniv
+                                                  .clear();
+                                                  FocusScope.of(context).unfocus();
+                                            });
                                           });
                                         },
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,
                                           children: [
-                                            Divider(
-                                              thickness: 1,
-                                              color:
-                                                  kMainBlack.withOpacity(0.05),
-                                            ),
                                             const SizedBox(height: 20),
                                             Text(
                                               homeController.searchedUniv[index]
@@ -402,6 +412,7 @@ class HomeView extends StatelessWidget {
                                               style: kSubtitleStyle3,
                                             ),
                                             const SizedBox(height: 20),
+                                            
                                             KeyboardVisibilityBuilder(
                                                 builder: (context, visible) {
                                               print(visible);
@@ -413,7 +424,7 @@ class HomeView extends StatelessWidget {
                                       );
                                     },
                                     itemCount:
-                                        homeController.searchedUniv.length,
+                                        homeController.searchedUniv.length, separatorBuilder: (BuildContext context, int index) { return const Divider(); },
                                   ),
                                 ),
                               ),
@@ -448,42 +459,40 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                     // if (!homeController.isSearch.value)
-                      Positioned.fill(
-                          bottom: 100,
-                          child: GestureDetector(
-                              onTap: () {
-                                Get.to(() => RoomInfoView());
-                              },
-                              child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              height: 42,
-                                              decoration: BoxDecoration(
-                                                  color: kPrimary,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          16)),
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      30, 13, 30, 13),
-                                              child: Center(
-                                                child: Text(
-                                                  '방 만들기',
-                                                  style: kBodyStyle2.copyWith(
-                                                      color: kMainWhite,
-                                                      height: 1),
-                                                ),
+                    Positioned.fill(
+                        bottom: 100,
+                        child: GestureDetector(
+                            onTap: () {
+                              Get.to(() => RoomInfoView());
+                            },
+                            child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            height: 42,
+                                            decoration: BoxDecoration(
+                                                color: kPrimary,
+                                                borderRadius:
+                                                    BorderRadius.circular(16)),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                30, 13, 30, 13),
+                                            child: Center(
+                                              child: Text(
+                                                '방 만들기',
+                                                style: kBodyStyle2.copyWith(
+                                                    color: kMainWhite,
+                                                    height: 1),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ]))))
+                                          ),
+                                        ],
+                                      ),
+                                    ]))))
                   ],
                 ),
               ),

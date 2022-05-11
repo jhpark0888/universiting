@@ -11,6 +11,7 @@ import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/models/room_model.dart';
+import 'package:universiting/models/send_request_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 
@@ -201,6 +202,41 @@ Future<void> rejectToChat(AlarmReceive alarmReceive) async {
       print('${response.statusCode}삭제하기');
     } else {
       print('${response.statusCode}삭제가 안됐습니다');
+    }
+  }
+}
+
+Future<HTTPResponse> getDetailSendView(int id,StateManagement management ) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/room_api/send_list?type=${management == StateManagement.theyReject ? 'reject' :management == StateManagement.friendReject ? 'reject' : 'join'}/detail&id=${id.toString()}');
+  var headers = {'Authorization': 'Token $token'};
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return HTTPResponse.networkError();
+  } else {
+    try {
+      var response = await http.get(url, headers: headers);
+
+      String responsebody = utf8.decode(response.bodyBytes);
+      if (response.statusCode <= 200 && response.statusCode < 300) {
+        print(response.statusCode);
+        print(jsonDecode(responsebody).runtimeType);
+        return HTTPResponse.success(SendRequest.fromJson(jsonDecode(responsebody)));
+        // SendRequest.fromJson(jsonDecode(responsebody))
+      } else if (response.statusCode == 500) {
+        print(response.statusCode);
+        return HTTPResponse.apiError('', response.statusCode);
+      } else {
+        print(response.statusCode);
+        return HTTPResponse.apiError('', response.statusCode);
+      }
+    } on SocketException {
+      return HTTPResponse.serverError();
+    } catch (e) {
+      print(e);
+      return HTTPResponse.unexpectedError(e);
     }
   }
 }

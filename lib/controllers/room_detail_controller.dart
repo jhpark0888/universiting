@@ -33,7 +33,6 @@ class RoomDetailController extends GetxController {
   void onInit() async {
     await getDetailRoom(roomid).then((httpresponse) async {
       if (httpresponse.isError == false) {
-        await Future.delayed(Duration(seconds: 3));
         detailRoom(httpresponse.data);
         AppController.to.addPage();
         print(AppController.to.stackPage);

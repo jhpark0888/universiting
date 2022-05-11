@@ -125,7 +125,7 @@ class HomeController extends GetxController {
           size: const Size(36, 45)));
     } else if (int.parse(count) > 9) {
       image.add(await OverlayImage.fromAssetImage(
-          assetName: 'assets/icons/marker_9.png', size: const Size(36, 45)));
+          assetName: 'assets/icons/marker_9+.png', size: const Size(36, 45)));
     }
   }
 

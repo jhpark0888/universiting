@@ -11,6 +11,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
   double? leadingwidth;
   Color? backgroundColor;
   double? titlespacing;
+  TextStyle? textStyle;
   AppBarWidget(
       {Key? key,
       required this.title,
@@ -18,7 +19,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
       this.actions,
       this.leading,
       this.leadingwidth,
-      this.titlespacing})
+      this.titlespacing,
+      this.textStyle})
       : super(key: key);
 
   AppBar appbar = AppBar();
@@ -29,7 +31,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSize {
       backgroundColor: backgroundColor,
       leadingWidth: leadingwidth,
       automaticallyImplyLeading: false,
-      title: Text(title, style: k20SemiBold),
+      title: Text(title, style: textStyle?? k20SemiBold),
       centerTitle: true,
       leading: leading ??
           IconButton(

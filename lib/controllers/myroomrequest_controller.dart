@@ -57,6 +57,7 @@ class MyRoomRequestController extends GetxController
         } else {
           enablepullupMoreRequest(true);
           if (last == 0) {
+            requestlist.clear();
             requestlist(temprequestlist);
           } else {
             for (MyRoomRequest request in temprequestlist.reversed) {
