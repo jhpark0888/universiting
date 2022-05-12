@@ -33,15 +33,21 @@ class CustomAnimationController extends GetxController
     )
   ]);
 
-  late AnimationController myRoomWidgetAnimationController;
+  late AnimationController myRoomWidgetAnimationController =
+      AnimationController(
+    duration: const Duration(milliseconds: 500),
+    vsync: this,
+  );
 
   final easeInCurve = CurveTween(curve: Curves.easeInOutCubic);
 
   final halfTurn = Tween<double>(begin: 0.0, end: 0.5);
 
-  late Animation<double> expandFactor;
+  late Animation<double> expandFactor =
+      myRoomWidgetAnimationController.drive(easeInCurve);
 
-  late Animation<double> iconTurns;
+  late Animation<double> iconTurns =
+      myRoomWidgetAnimationController.drive(halfTurn.chain(easeInCurve));
 
   @override
   void onInit() {

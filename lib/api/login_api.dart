@@ -88,7 +88,7 @@ Future<void> logout() async {
     try {
       var response = await http.post(url, headers: headers);
 
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         print(response.statusCode);
         const FlutterSecureStorage().delete(key: "token");
         const FlutterSecureStorage().delete(key: "id");
@@ -107,7 +107,7 @@ Future<void> logout() async {
               lat: 37.563600,
               lng: 126.962370,
             ));
-            Get.put(HomeController(), tag: '첫 화면');
+        Get.put(HomeController(), tag: '첫 화면');
         AppController.to.currentIndex.value = 0;
       } else {
         print(response.statusCode);

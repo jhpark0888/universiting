@@ -44,7 +44,7 @@ Future<HTTPResponse> getMyRoom(int last) async {
     var response = await http.get(url, headers: headers);
     print('내방 불러오기 : ${response.statusCode}');
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       // selectMemberController.seletedMember.value =
       //     SelectMember.fromJson(jsonDecode(responsebody));
       return HTTPResponse.success(MyRoom.fromJson(jsonDecode(responsebody)));
@@ -75,7 +75,7 @@ Future<HTTPResponse> getSendlist(String type, int last) async {
       var response = await http.get(url, headers: headers);
       print('보낸신청 불러오기 : ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         // selectMemberController.seletedMember.value =
         //     SelectMember.fromJson(jsonDecode(responsebody));
         return HTTPResponse.success((jsonDecode(responsebody) as List)
@@ -108,7 +108,7 @@ Future<HTTPResponse> getMyRoomRequestlist(String type, int last, int id) async {
     var response = await http.get(url, headers: headers);
     print('내 방 신청 불러오기 : ${response.statusCode}');
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       // selectMemberController.seletedMember.value =
       //     SelectMember.fromJson(jsonDecode(responsebody));
       return HTTPResponse.success((jsonDecode(responsebody) as List)
@@ -142,7 +142,7 @@ Future<void> SearchMember() async {
       var response = await http.get(url, headers: headers);
       print('친구 검색 : ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         selectMemberController.searchtype(SearchType.success);
         selectMemberController.seletedMember.value =
             Profile.fromJson(jsonDecode(responsebody));
@@ -217,7 +217,7 @@ Future<HTTPResponse> getDetailRoom(String id) async {
       var response = await http.get(url, headers: headers);
       print('방 로드api : ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         print(responsebody);
         return HTTPResponse.success(Room.fromJson(jsonDecode(responsebody)));
       } else {
@@ -254,7 +254,7 @@ Future<HTTPResponse> roomparticipate(int roomId, String type) async {
       var response = await http.put(url, headers: headers, body: body);
       String responsebody = utf8.decode(response.bodyBytes);
       print('방 참가 or 거절 : ${response.statusCode}');
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return HTTPResponse.success(type);
       } else {
         print(response.statusCode);
@@ -293,7 +293,7 @@ Future<void> roomJoin(String room_id) async {
     try {
       var response = await http.post(url, headers: headers, body: body);
       String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         print(responsebody);
         print(response.statusCode);
         AppController.to.getbacks();
@@ -320,7 +320,8 @@ Future<void> roomJoin(String room_id) async {
   }
 }
 
-Future<HTTPResponse> roomRequestJoin(int roomId, String type, int fromId) async {
+Future<HTTPResponse> roomRequestJoin(
+    int roomId, String type, int fromId) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
@@ -328,7 +329,7 @@ Future<HTTPResponse> roomRequestJoin(int roomId, String type, int fromId) async 
 
   var body = {
     'room_id': roomId.toString(),
-    'from_id' : fromId.toString(),
+    'from_id': fromId.toString(),
     'type': type,
   };
   var headers = {
@@ -342,7 +343,7 @@ Future<HTTPResponse> roomRequestJoin(int roomId, String type, int fromId) async 
       var response = await http.put(url, headers: headers, body: body);
       String responsebody = utf8.decode(response.bodyBytes);
       print('방 참가 or 거절 : ${response.statusCode}');
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return HTTPResponse.success(type);
       } else {
         print(response.statusCode);
@@ -376,7 +377,7 @@ Future<void> deleteMyRoom(String id) async {
   } else {
     var response = await http.delete(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(responsebody);
       print(response.statusCode);
     } else {
@@ -400,7 +401,7 @@ Future<void> reportRoom(String roomId, String reason) async {
   } else {
     var response = await http.post(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(responsebody);
       print(response.statusCode);
     } else {

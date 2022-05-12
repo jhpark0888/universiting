@@ -24,7 +24,7 @@ class Room {
   bool? type;
   Rx<StateManagement>? roomstate;
   int? views;
-  int? requestcount;
+  RxInt? requestcount;
   RxList<MyRoomRequest>? requestlist = <MyRoomRequest>[].obs;
   Room(
       {this.id,
@@ -81,7 +81,7 @@ class Room {
                                             element['user_id'] ==
                                             ProfileController
                                                 .to.profile.value.userId)
-                                        .first['type'] ==
+                                        .first['host_type'] ==
                                     true
                                 ? StateManagement.waitingFriend.obs
                                 : StateManagement.sendme.obs,
@@ -91,7 +91,8 @@ class Room {
         isCreater: json['is_creater'],
         isJoin: json['is_join'],
         views: json['views'],
-        requestcount: json['request'],
+        requestcount:
+            json['request'] != null ? (json['request'] as int).obs : 0.obs,
         date: json['date'] != null ? DateTime.parse(json['date']) : null,
       );
 }

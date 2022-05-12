@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:universiting/api/chat_api.dart';
 import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/app_controller.dart';
+import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/models/myroom_request_model.dart';
+import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
+import 'package:universiting/widgets/myroom_widget.dart';
 import 'package:universiting/widgets/new_person_host_widget.dart';
 import 'package:universiting/widgets/new_person_widget.dart';
 import 'package:universiting/widgets/reject_button.dart';
@@ -91,9 +96,24 @@ class MyRoomRequestDetailView extends StatelessWidget {
                               Expanded(
                                   child: GestureDetector(
                                       onTap: () async {
-                                        await roomparticipate(roomId, 'reject')
+                                        await requestaccept(
+                                                roomId,
+                                                request.members!.first.userId,
+                                                false)
                                             .then((httpresponse) {
                                           if (httpresponse.isError == false) {
+                                            getbacks(1);
+                                            MyRoomWidget myRoomWidget =
+                                                ManagementController.to.room
+                                                    .where((myroom) =>
+                                                        myroom.room.id ==
+                                                        roomId)
+                                                    .first;
+                                            myRoomWidget.room.requestlist!
+                                                .removeWhere((myrequest) =>
+                                                    myrequest.id == request.id);
+                                            myRoomWidget
+                                                .room.requestcount!.value -= 1;
                                           } else {}
                                         });
                                       },
@@ -104,9 +124,12 @@ class MyRoomRequestDetailView extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () async {
-                                    await roomparticipate(roomId, 'join')
+                                    await requestaccept(roomId,
+                                            request.members!.first.userId, true)
                                         .then((httpresponse) {
                                       if (httpresponse.isError == false) {
+                                        getbacks(2);
+                                        AppController.to.currentIndex(4);
                                       } else {}
                                     });
                                   },

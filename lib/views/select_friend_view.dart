@@ -152,6 +152,8 @@ class SelectFriendView extends StatelessWidget {
                                       .membersProfile.length) {
                                 selectmemberController.membersProfile.add(
                                     selectmemberController.seletedMember.value);
+                                selectmemberController.nickNameController
+                                    .clear();
                               } else {
                                 showCustomDialog('방 구성 최대 인원은 5명이에요', 1200);
                               }
@@ -170,6 +172,8 @@ class SelectFriendView extends StatelessWidget {
                                       .membersProfile.length) {
                                 selectmemberController.membersProfile.add(
                                     selectmemberController.seletedMember.value);
+                                selectmemberController.nickNameController
+                                    .clear();
                               } else {
                                 showCustomDialog('이미 인원이 다 찼어요', 1200);
                               }

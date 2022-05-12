@@ -19,25 +19,35 @@ Future<MessageDetail> getMessageDetail(String groupId, String last) async {
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
-    return MessageDetail(userType: 0, message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: [],university: '');
+    return MessageDetail(
+        userType: 0,
+        message: [
+          Message(id: 0, message: '', date: DateTime.now()),
+        ],
+        groupTitle: '',
+        memberProfile: [],
+        university: '');
   } else {
-    
-      var response = await http.get(url, headers: headers);
+    var response = await http.get(url, headers: headers);
 
-      if (response.statusCode <= 200 && response.statusCode < 300) {
-        String responsebody = utf8.decode(response.bodyBytes);
-        print(response.statusCode);
-        print(responsebody);
-        return MessageDetail.fromJson(jsonDecode(responsebody));
-      } else {
-        print(response.statusCode);
-        return MessageDetail(userType: 0, message: [Message(id: 0, message: '', date: DateTime.now()),], groupTitle: '', memberProfile: [], university: '');
-      }
-    
-    
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      String responsebody = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(responsebody);
+      return MessageDetail.fromJson(jsonDecode(responsebody));
+    } else {
+      print(response.statusCode);
+      return MessageDetail(
+          userType: 0,
+          message: [
+            Message(id: 0, message: '', date: DateTime.now()),
+          ],
+          groupTitle: '',
+          memberProfile: [],
+          university: '');
+    }
   }
 }
-
 
 Future<void> sendMessage(String groupId) async {
   ConnectivityResult result = await checkConnectionStatus();
@@ -55,12 +65,10 @@ Future<void> sendMessage(String groupId) async {
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.post(url, headers: headers, body: body);
+    var response = await http.post(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(response.statusCode);
-
     } else {
       print(response.statusCode);
     }
@@ -75,8 +83,7 @@ Future<void> updateTime(String groupId, DateTime dateTime) async {
 
   var body = {
     'id': groupId,
-    'new_date': DateFormat('yyyy-MM-dd HH:mm:ss').format(
-          dateTime),
+    'new_date': DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime),
   };
   var headers = {
     'Authorization': 'Token $token',
@@ -84,18 +91,15 @@ Future<void> updateTime(String groupId, DateTime dateTime) async {
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.put(url, headers: headers, body: body);
+    var response = await http.put(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(response.statusCode);
-
     } else {
       print('${response.statusCode}입니다.');
     }
   }
 }
-
 
 Future<void> exitChat(String groupId) async {
   ConnectivityResult result = await checkConnectionStatus();
@@ -109,12 +113,10 @@ Future<void> exitChat(String groupId) async {
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
   } else {
-    var response =
-        await http.delete(url, headers: headers);
+    var response = await http.delete(url, headers: headers);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(response.statusCode);
-
     } else {
       print('${response.statusCode}입니다.');
     }

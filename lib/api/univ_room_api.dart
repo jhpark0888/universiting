@@ -27,7 +27,7 @@ Future<void> getUnivRoom() async {
   } else {
     var response = await http.get(url, headers: headers);
 
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       String responsebody = utf8.decode(response.bodyBytes);
       print(jsonDecode(responsebody).runtimeType);
 

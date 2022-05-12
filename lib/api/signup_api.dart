@@ -29,7 +29,7 @@ Future<void> getUniversityList() async {
     try {
       var response = await http.get(url);
       print(response.statusCode);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         String responsebody = utf8.decode(response.bodyBytes);
 
         signupController.allUnivList.value = univParsed(responsebody);
@@ -58,7 +58,7 @@ Future<void> getUniversityList() async {
 //     try {
 //       var response = await http.get(url);
 
-//       if (response.statusCode <= 200 && response.statusCode < 300) {
+//       if (response.statusCode >= 200 && response.statusCode < 300) {
 //         String responsebody = utf8.decode(response.bodyBytes);
 //         signupController.allDepartList.value = departParsed(responsebody);
 //         for (Depart i in signupController.allDepartList) {
@@ -91,7 +91,7 @@ Future<void> checkNickName() async {
       );
       print(response.statusCode);
       String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         signupController.isname.value = true;
         print(response.statusCode);
         Get.to(() => SignupAgeView(), transition: Transition.noTransition);

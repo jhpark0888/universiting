@@ -35,8 +35,8 @@ class MyRoomWidget extends StatelessWidget {
   List<ProfileImageWidget>? hosts;
   RxBool isRequestList = false.obs;
   bool isChief;
-  late final CustomAnimationController _animationController =
-      Get.put(CustomAnimationController(), tag: room.id.toString());
+  final CustomAnimationController _animationController =
+      CustomAnimationController();
 
   late Widget requesttext = RichText(
       text: TextSpan(children: [
@@ -49,14 +49,16 @@ class MyRoomWidget extends StatelessWidget {
 
   void textswitch() {
     if (isRequestList.value) {
-      requesttext = RichText(
-          text: TextSpan(children: [
-        const TextSpan(text: '이 방이 받은 신청 ', style: k16Medium),
-        TextSpan(
-            text: '${room.requestcount}개',
-            style: k16Medium.copyWith(color: kPrimary)),
-        const TextSpan(text: ' 확인하기', style: k16Medium)
-      ]));
+      requesttext = Obx(
+        () => RichText(
+            text: TextSpan(children: [
+          const TextSpan(text: '이 방이 받은 신청 ', style: k16Medium),
+          TextSpan(
+              text: '${room.requestcount}개',
+              style: k16Medium.copyWith(color: kPrimary)),
+          const TextSpan(text: ' 확인하기', style: k16Medium)
+        ])),
+      );
     } else {
       requesttext = Text(
         '이 방이 받은 신청 접기',
@@ -242,30 +244,30 @@ class MyRoomWidget extends StatelessWidget {
                                   }
                                 });
                               },
-                              child:
-                                  PrimaryButton(text: '수락하기', isactive: true.obs),
+                              child: PrimaryButton(
+                                  text: '수락하기', isactive: true.obs),
                             ),
                           )
                         ],
                       ),
                     ),
                     Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 18,
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          Divider(
+                            thickness: 2.5,
+                            color: kMainBlack.withOpacity(0.1),
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                        ],
                       ),
-                      Divider(
-                        thickness: 2.5,
-                        color: kMainBlack.withOpacity(0.1),
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                    ],
-                  ),
-                )
+                    )
                   ],
                 ),
               if (room.requestcount != 0)

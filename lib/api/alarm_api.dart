@@ -40,7 +40,7 @@ Future<List<AlarmReceive>> getAlarmList(index) async {
     var response = await http.get(url, headers: headers);
 
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(response.statusCode);
       print(responsebody);
       if (jsonDecode(responsebody).isNotEmpty) {
