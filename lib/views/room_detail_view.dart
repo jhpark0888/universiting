@@ -244,7 +244,7 @@ class RoomDetailView extends StatelessWidget {
                               TextSpan(
                                   text: roomDetailController
                                           .detailRoom.value.gender ??
-                                      'gender를 안 줌',
+                                      '남성',
                                   style: k16Medium),
                               TextSpan(
                                   text: ' · 인원 ',
@@ -300,15 +300,57 @@ class RoomDetailView extends StatelessWidget {
                                   0 ||
                               roomDetailController.detailRoom.value.isCreater ==
                                   1)
-                            const SizedBox(height: 26),
+                            const SizedBox(height: 24),
                           if (roomDetailController.detailRoom.value.isCreater ==
                               1)
-                            Text(
-                              '회원님이 방장으로 신청 현황을 관리할 수 있어요',
-                              style: kSmallCaptionStyle.copyWith(
-                                  height: 1.5, color: kPrimary),
-                              textAlign: TextAlign.center,
-                            ),
+                            roomDetailController
+                                        .detailRoom.value.roomstate!.value ==
+                                    StateManagement.roomActivated
+                                ? Text(
+                                    '회원님이 방장으로 신청 현황을 관리할 수 있어요',
+                                    style:
+                                        kBodyStyle2.copyWith(color: kPrimary),
+                                    textAlign: TextAlign.center,
+                                  )
+                                : roomDetailController.detailRoom.value
+                                            .roomstate!.value ==
+                                        StateManagement.friendReject
+                                    ? Column(
+                                        children: [
+                                          Text(
+                                            '\'${roomDetailController.detailRoom.value.gender}\'님이 함께하기를 거절했어요',
+                                            style: kBodyStyle2.copyWith(
+                                                color: kred),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
+                                          PrimaryButton(
+                                              text: '방 다시 만들기',
+                                              isactive: true.obs),
+                                        ],
+                                      )
+                                    : roomDetailController.detailRoom.value
+                                                .roomstate!.value ==
+                                            StateManagement.friendLeave
+                                        ? Column(
+                                            children: [
+                                              Text(
+                                                '\'${roomDetailController.detailRoom.value.gender}\'님이 함께하기를 거절했어요',
+                                                style: kBodyStyle2.copyWith(
+                                                    color: kred),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              PrimaryButton(
+                                                  text: '방 다시 만들기',
+                                                  isactive: true.obs),
+                                            ],
+                                          )
+                                        : const SizedBox(),
                           if (roomDetailController.detailRoom.value.isCreater ==
                               0)
                             Text(
@@ -330,134 +372,3 @@ class RoomDetailView extends StatelessWidget {
     );
   }
 }
-
-// class RoomDetailView extends StatelessWidget {
-//   RoomDetailView({Key? key, required this.roomid}) : super(key: key);
-//   String roomid;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     RoomDetailController roomDetailController =
-//         Get.put(RoomDetailController(roomid: roomid), tag: '$roomid번 방');
-//     return Obx(
-//       () => Scaffold(
-//         appBar: AppBarWidget(
-//           title: roomDetailController.detailRoom.value.title,
-//           actions: [
-//             Padding(
-//               padding: EdgeInsets.only(right: 20),
-//               child: GestureDetector(
-//                 onTap: () {
-//                   if (roomDetailController.detailRoom.value.isJoin == null &&
-//                       roomDetailController.detailRoom.value.isCreater == null) {
-//                     showCustomModalPopup(context, value1: '이 방 신고하기',
-//                         func1: () {
-//                       Get.back();
-//                       showRoomDialog(
-//                           controller: roomDetailController.reportController,
-//                           roomid: roomid,
-//                           moretype: MoreType.report);
-//                     }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
-//                   } else {
-//                     showCustomModalPopup(context, value1: '이 방 나가기', func1: () {
-//                       Get.back();
-//                       showRoomDialog(
-//                           controller: roomDetailController.reportController,
-//                           roomid: roomid,
-//                           moretype: MoreType.delete);
-//                     }, textStyle: kSubtitleStyle3.copyWith(color: kErrorColor));
-//                   }
-//                 },
-//                 child: Icon(
-//                   Icons.more_horiz,
-//                   color: kMainBlack,
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//         body: Padding(
-//           padding: const EdgeInsets.all(20.0),
-//           child: SingleChildScrollView(
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               crossAxisAlignment: CrossAxisAlignment.stretch,
-//               children: [
-//                 Row(
-//                   children: [
-//                     const Text('방 소개', style: kSubtitleStyle5),
-//                     const Spacer(
-//                       flex: 1,
-//                     ),
-//                     getBoxColor(roomDetailController.detailRoom.value.date!),
-//                     const SizedBox(width: 8),
-//                     Text(
-//                         calculateDate(
-//                             roomDetailController.detailRoom.value.date!),
-//                         style: kSmallCaptionStyle.copyWith(
-//                             color: kMainBlack.withOpacity(0.4)))
-//                   ],
-//                 ),
-//                 const SizedBox(height: 10),
-//                 Text(roomDetailController.detailRoom.value.title,
-//                     style: kBodyStyle1),
-//                 const SizedBox(height: 30),
-//                 Text(
-//                     '구성원 ${roomDetailController.detailRoom.value.totalMember}명',
-//                     style: kSubtitleStyle5),
-//                 const SizedBox(height: 17),
-//                 Column(children: roomDetailController.roomPersonList),
-//                 if (roomDetailController.detailRoom.value.isJoin == null &&
-//                     roomDetailController.detailRoom.value.isCreater == null)
-//                   const SizedBox(height: 35),
-//                 if (roomDetailController.detailRoom.value.isJoin == null &&
-//                     roomDetailController.detailRoom.value.isCreater == null)
-//                   CustomButtonWidget(
-//                     buttonTitle: '이 방에 함께 갈 친구들 초대하기',
-//                     buttonState: ButtonState.primary,
-//                     onTap: () {
-//                       Get.to(() => ParticiapteView(
-//                             roomid: roomid,
-//                             peopleNumber: roomDetailController
-//                                 .detailRoom.value.totalMember!,
-//                           ));
-//                     },
-//                   ),
-//                 if (roomDetailController.detailRoom.value.isJoin == null &&
-//                     roomDetailController.detailRoom.value.isCreater == null)
-//                   const SizedBox(height: 12),
-//                 if (roomDetailController.detailRoom.value.isJoin == null &&
-//                     roomDetailController.detailRoom.value.isCreater == null)
-//                   Center(
-//                     child: Text(
-//                       '함께 갈 친구들을 초대하고,\n 친구들이 모두 수락하면 이 방에 참여 신청이 완료돼요.',
-//                       style: kSmallCaptionStyle.copyWith(
-//                           color: kMainBlack.withOpacity(0.4), height: 1.5),
-//                       textAlign: TextAlign.center,
-//                     ),
-//                   ),
-//                 if (roomDetailController.detailRoom.value.isCreater == 0 ||
-//                     roomDetailController.detailRoom.value.isCreater == 1)
-//                   const SizedBox(height: 26),
-//                 if (roomDetailController.detailRoom.value.isCreater == 1)
-//                   Text(
-//                     '회원님이 방장으로 신청 현황을 관리할 수 있어요',
-//                     style: kSmallCaptionStyle.copyWith(
-//                         height: 1.5, color: kPrimary),
-//                     textAlign: TextAlign.center,
-//                   ),
-//                 if (roomDetailController.detailRoom.value.isCreater == 0)
-//                   Text(
-//                     "'${roomDetailController.detailRoom.value.hosts!.first.nickname}'님이 방장이에요",
-//                     style: kSmallCaptionStyle.copyWith(
-//                         height: 1.5, color: kMainBlack.withOpacity(0.4)),
-//                     textAlign: TextAlign.center
-//                   )
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

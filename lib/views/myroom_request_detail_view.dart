@@ -9,6 +9,7 @@ import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/models/myroom_request_model.dart';
 import 'package:universiting/utils/global_variable.dart';
+import 'package:universiting/views/room_info_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/button_widget.dart';
 import 'package:universiting/widgets/myroom_widget.dart';
@@ -128,8 +129,16 @@ class MyRoomRequestDetailView extends StatelessWidget {
                                             request.members!.first.userId, true)
                                         .then((httpresponse) {
                                       if (httpresponse.isError == false) {
-                                        getbacks(2);
-                                        AppController.to.currentIndex(4);
+                                        MyRoomWidget myRoomWidget =
+                                            ManagementController.to.room
+                                                .where((myroom) =>
+                                                    myroom.room.id == roomId)
+                                                .first;
+                                        myRoomWidget.room.requestlist!
+                                            .removeWhere((myrequest) =>
+                                                myrequest.id == request.id);
+                                        myRoomWidget.room.requestcount!.value -=
+                                            1;
                                       } else {}
                                     });
                                   },

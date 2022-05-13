@@ -207,7 +207,7 @@ class RoomInfoView extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       EmptyBackTextfieldWidget(
-                        textStyle: k16Light,
+                        textStyle: k16Light.copyWith(height: 1.5),
                         controller: createRoomController.introController,
                         hinttext:
                             '처음 만나는 친구들을 위해 이 방에 대한 상세한 설명을 적어주세요 (최대 200글자)',

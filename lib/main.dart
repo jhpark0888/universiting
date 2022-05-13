@@ -51,6 +51,12 @@ void main() async {
   print(temptoken);
   String? lat = await const FlutterSecureStorage().read(key: 'lat');
   String? lng = await const FlutterSecureStorage().read(key: 'lng');
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    print('error : ${details.library}');
+    // if (kReleaseMode) exit(1);
+  };
   runApp(MyApp(
     token: temptoken,
     lat: lat,
@@ -158,7 +164,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(
             name: '/first',
             page: () => UnivRoomView(),
-            transition: Transition.downToUp )
+            transition: Transition.downToUp)
       ],
     );
   }

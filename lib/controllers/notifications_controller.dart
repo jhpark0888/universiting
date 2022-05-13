@@ -16,6 +16,7 @@ import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
 import 'package:universiting/models/notifications_model.dart';
+import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/views/message_detail_screen.dart';
 import 'package:universiting/views/status_view.dart';
 import 'package:universiting/views/status_view_received_view.dart';
@@ -115,40 +116,41 @@ class NotificationController extends GetxController {
             dataBody: message.data['body']);
         a.value++;
         notificationInfo.value = notification;
-        if(ChatListController.to.isInDetailMessage.value == false){
-        showCustomSnacbar(
-            message.notification!.title, message.notification!.body, (a) {
-          if (message.data['type'].contains('msg')) {
-            Get.to(
-                () => MessageDetailScreen(groupId: message.data['group_id']));
-            postTime(int.parse(message.data['group_id']),
-                ProfileController.to.profile.value.userId);
-            AppController.to.currentIndex.value = 3;
-            ChatListController
-                .to
-                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                    (chatRoomWidget) =>
-                        chatRoomWidget.chatRoom.value.group.id.toString() ==
-                        message.data['group_id'])]
-                .chatRoom
-                .value
-                .newMsg = 0;
-            ChatListController
-                .to
-                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                    (chatRoomWidget) =>
-                        chatRoomWidget.chatRoom.value.group.id.toString() ==
-                        message.data['group_id'])]
-                .chatRoom
-                .refresh();
-          }
-        });}
+        if (ChatListController.to.isInDetailMessage.value == false) {
+          showCustomSnacbar(
+              message.notification!.title, message.notification!.body, (a) {
+            if (message.data['type'].contains('msg')) {
+              Get.to(
+                  () => MessageDetailScreen(groupId: message.data['group_id']));
+              postTime(int.parse(message.data['group_id']),
+                  ProfileController.to.profile.value.userId);
+              AppController.to..changePageIndex(2);
+              ChatListController
+                  .to
+                  .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                      (chatRoomWidget) =>
+                          chatRoomWidget.chatRoom.value.group.id.toString() ==
+                          message.data['group_id'])]
+                  .chatRoom
+                  .value
+                  .newMsg = 0;
+              ChatListController
+                  .to
+                  .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                      (chatRoomWidget) =>
+                          chatRoomWidget.chatRoom.value.group.id.toString() ==
+                          message.data['group_id'])]
+                  .chatRoom
+                  .refresh();
+            }
+          });
+        }
         print('메세지 받음');
         print(message.notification!.title);
         print(message.notification!.body);
-        print(message.data['type']);
-        print(message.data['title']);
-        print(message.data['body']);
+        print('메세지 type : ${message.data['type']}');
+        print('메세지 title :${message.data['title']}');
+        print('메세지 body: ${message.data['body']}');
         print(message.data);
         if (message.data['type'] == 'msg') {
           if (ChatListController.to.isInDetailMessage.value == true) {
@@ -180,24 +182,24 @@ class NotificationController extends GetxController {
                 ProfileController.to.profile.value.userId);
             print(message.data);
             ChatListController
-              .to
-              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                  (chatRoomWidget) =>
-                      chatRoomWidget.chatRoom.value.group.id.toString() ==
-                      message.data['group_id'])]
-              .chatRoom
-              .value
-              .newMsg = 0;
-          }else{
-          ChatListController
-              .to
-              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                  (chatRoomWidget) =>
-                      chatRoomWidget.chatRoom.value.group.id.toString() ==
-                      message.data['group_id'])]
-              .chatRoom
-              .value
-              .newMsg += 1;
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg = 0;
+          } else {
+            ChatListController
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg += 1;
           }
           ChatListController
               .to
@@ -239,16 +241,16 @@ class NotificationController extends GetxController {
                     date: DateTime.now()))[0]));
             postTime(int.parse(message.data['group_id']),
                 ProfileController.to.profile.value.userId);
-          }else{
+          } else {
             ChatListController
-              .to
-              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                  (chatRoomWidget) =>
-                      chatRoomWidget.chatRoom.value.group.id.toString() ==
-                      message.data['group_id'])]
-              .chatRoom
-              .value
-              .newMsg += 1;
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg += 1;
           }
           ChatListController
               .to
@@ -278,7 +280,7 @@ class NotificationController extends GetxController {
                       message.data['group_id'])]
               .chatRoom
               .refresh();
-        }else if(message.data['type'] == 'exit/msg'){
+        } else if (message.data['type'] == 'exit/msg') {
           print(ChatListController.to.isInDetailMessage.value);
           if (ChatListController.to.isInDetailMessage.value == true) {
             MessageDetailController.to.messageList.add(ChatWidget(
@@ -301,16 +303,16 @@ class NotificationController extends GetxController {
                     date: DateTime.now()))[0]));
             postTime(int.parse(message.data['group_id']),
                 ProfileController.to.profile.value.userId);
-          }else{
+          } else {
             ChatListController
-              .to
-              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                  (chatRoomWidget) =>
-                      chatRoomWidget.chatRoom.value.group.id.toString() ==
-                      message.data['group_id'])]
-              .chatRoom
-              .value
-              .newMsg += 1;
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg += 1;
           }
           ChatListController
               .to
@@ -322,7 +324,7 @@ class NotificationController extends GetxController {
               .value
               .message
               .message = message.notification!.body!;
-              ChatListController.to.getList();
+          ChatListController.to.getList();
           ChatListController
               .to
               .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
@@ -332,30 +334,36 @@ class NotificationController extends GetxController {
               .chatRoom
               .refresh();
         } else if (message.data['type'] == 'receive/host_invite') {
-          await getReceiveStatus().then((httpresponse) {
-            if (httpresponse.isError == false) {
-              StatusController.to.receiveList(httpresponse.data);
-            }
-          });
-          StatusController.to.makeAllReceiveList();
+          // await getReceiveStatus().then((httpresponse) {
+          //   if (httpresponse.isError == false) {
+          //     StatusController.to.receiveList(httpresponse.data);
+          //   }
+          // });
+          // StatusController.to.makeAllReceiveList();
           print('완료');
         } else if (message.data['type'] == 'chat_group') {
-          await getReceiveStatus().then((httpresponse) {
-            if (httpresponse.isError == false) {
-              StatusController.to.receiveList(httpresponse.data);
-            }
-          });
+          // await getReceiveStatus().then((httpresponse) {
+          //   if (httpresponse.isError == false) {
+          //     StatusController.to.receiveList(httpresponse.data);
+          //   }
+          // });
 
-          StatusController.to.makeAllReceiveList();
-          await getSendStatus().then((httpresponse) {
-            if (httpresponse.isError == false) {
-              StatusController.to.sendList(httpresponse.data);
-            }
-          });
-          StatusController.to.makeAllSendList();
+          // StatusController.to.makeAllReceiveList();
+          // await getSendStatus().then((httpresponse) {
+          //   if (httpresponse.isError == false) {
+          //     StatusController.to.sendList(httpresponse.data);
+          //   }
+          // });
+          // StatusController.to.makeAllSendList();
+          String groupId = message.data['group_id'];
+          getbacks(1);
+          AppController.to.changePageIndex(2);
           ChatListController.to.chatList.value = await getChatList();
           ChatListController.to.chatRoomList.value =
               ChatListController.to.getChatRoomList();
+          Get.to(MessageDetailScreen(
+            groupId: groupId,
+          ));
         }
       });
     } else {
