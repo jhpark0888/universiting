@@ -23,7 +23,7 @@ class UnivRoomWidget extends StatelessWidget {
             height:
                 // mapController.isDetailClick.value ? Get.height : 220
                 univRoomController.changeHeight.value,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 600),
             decoration: !mapController.isDetailClick.value
                 ? const BoxDecoration(
                     color: kBackgroundWhite,

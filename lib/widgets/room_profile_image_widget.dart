@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,8 @@ class RoomProfileImageWidget extends StatelessWidget {
       this.host,
       this.profile,
       this.borderRadius,
-      required this.isname})
+      required this.isname,
+      required this.isReject})
       : super(key: key);
   double? width;
   double? height;
@@ -24,11 +26,14 @@ class RoomProfileImageWidget extends StatelessWidget {
   Host? host;
   Profile? profile;
   bool isname;
+  bool isReject;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => RoomProfileView(profile: host!));
+        if (isReject == false) {
+          Get.to(() => RoomProfileView(profile: host!));
+        }
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -36,28 +41,38 @@ class RoomProfileImageWidget extends StatelessWidget {
           Stack(
             children: [
               Container(
-                  height: height ?? 130,
-                  width: width ?? 130,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(borderRadius ?? 16),
-                    image: host != null
-                        ? host!.profileImage != ''
-                            ? DecorationImage(
-                                image: NetworkImage(host!.profileImage),
-                                fit: BoxFit.cover)
-                            : const DecorationImage(
-                                image: NetworkImage(
-                                    'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612'),
-                                fit: BoxFit.cover)
-                        : profile!.profileImage != ''
-                            ? DecorationImage(
-                                image: NetworkImage(profile!.profileImage),
-                                fit: BoxFit.cover)
-                            : const DecorationImage(
-                                image: NetworkImage(
-                                    'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612'),
-                                fit: BoxFit.cover),
-                  )),
+                height: height ?? 130,
+                width: width ?? 130,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(borderRadius ?? 16),
+                ),
+                child: host != null
+                    ? host!.profileImage != ''
+                        ? ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(borderRadius ?? 16),
+                            child: CachedNetworkImage(
+                              imageUrl: host!.profileImage
+                                  .replaceAll('https', 'http'),
+                              fit: BoxFit.cover,
+                            ))
+                        : CachedNetworkImage(
+                            imageUrl:
+                                'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
+                            fit: BoxFit.cover)
+                    : profile!.profileImage != ''
+                        ? ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(borderRadius ?? 16),
+                            child: CachedNetworkImage(
+                                imageUrl: profile!.profileImage
+                                    .replaceAll('https', 'http'),
+                                fit: BoxFit.cover))
+                        : CachedNetworkImage(
+                            imageUrl:
+                                'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
+                            fit: BoxFit.cover),
+              ),
               if (isname)
                 ClipRRect(
                     borderRadius: BorderRadius.circular(16),

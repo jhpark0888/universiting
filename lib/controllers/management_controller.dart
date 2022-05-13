@@ -98,21 +98,25 @@ class ManagementController extends GetxController
   }
 
   Future getrequestlist(int last) async {
+    print('$last 입니다');
     print(last);
     await getSendlist('all', last).then((httpresponse) {
       if (httpresponse.isError == false) {
         List<SendRequest> temprequestlist =
             httpresponse.data as List<SendRequest>;
+            print('${temprequestlist.length}개야');
         if (temprequestlist.isEmpty) {
           enablepulluprequest(false);
         } else {
           enablepulluprequest(true);
           if (last == 0) {
+            sendRequestWidgetList.clear();
             sendRequestWidgetList(temprequestlist
                 .map((joinrequest) => SendRequestWidget(
                       request: joinrequest,
                     ))
                 .toList());
+                sendRequestWidgetList.refresh();
           } else {
             for (SendRequest request in temprequestlist.reversed) {
               sendRequestWidgetList.insert(
@@ -163,6 +167,7 @@ class ManagementController extends GetxController
       profileImage.add(RoomProfileImageWidget(
         host: room.hosts![i],
         isname: false,
+        isReject: true,
       ));
     }
     return profileImage.toList();

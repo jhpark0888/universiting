@@ -10,7 +10,7 @@ class Host {
   bool? hostType;
   bool? joinType;
   int? hostId;
-  var type;
+  int? type;
   Host(
       {required this.userId,
       required this.profileImage,
@@ -43,6 +43,6 @@ class Host {
         hostType: json['host_type'],
         hostId: json['user_id'],
         joinType: json['join_type'],
-        type: json['type'] != null ? json['type'].runtimeType == int ? json['type'] as int : json['type'] as bool : null
+        type: json['type'] 
       );
 }

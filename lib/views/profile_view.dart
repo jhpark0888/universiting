@@ -169,14 +169,16 @@ class ProfileView extends StatelessWidget {
                   SizedBox(
                     width: Get.width,
                     height: Get.width,
-                    child: Image.network(
-                      profileController.profile.value.profileImage != ''
-                          ? profileController.profile.value.profileImage
-                          : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
-                      width: Get.width,
-                      height: Get.width,
-                      fit: BoxFit.cover,
-                    ),
+                    child: profileController.profile.value.profileImage != ''?
+                             CachedNetworkImage(
+                              imageUrl: profileController.profile.value.profileImage
+                                  .replaceAll('https', 'http'),
+                              fit: BoxFit.cover,
+                            )
+                        : CachedNetworkImage(
+                            imageUrl:
+                                'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
+                            fit: BoxFit.cover)
                   ),
                   ClipRect(child: ProfileBlur()),
                   if (!profileController.isEdit.value)
@@ -187,10 +189,8 @@ class ProfileView extends StatelessWidget {
                           child: GestureDetector(
                               onTap: () {
                                 showCustomModalPopup(context,
-                                    value1: '라이브러리에서 선택',
-                                    value2: '기본 이미지로 변경',
-                                    func1: changeProfileImage,
-                                    func2: changeDefaultImage);
+                                    value1: '사진 수정하기',
+                                    func1: changeProfileImage,);
                               },
                               child: Text('사진 수정하기',
                                   style: k16SemiBold.copyWith(
@@ -349,3 +349,7 @@ class ProfileView extends StatelessWidget {
   }
 }
 //사진 수정하기
+
+
+//네이버 지도 sdk 법적 공지
+//오픈 라이선스

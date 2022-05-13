@@ -36,6 +36,7 @@ dependencies:
   cached_network_image: ^3.2.0
   flutter_svg_provider: ^1.0.3
   table_calendar: ^3.0.5
+  url_launcher: ^6.1.2
   
 dev_dependencies:
   flutter_test:
@@ -50,6 +51,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/illustrations/
+    - assets/png/
 
   fonts:
     - family: SUIT

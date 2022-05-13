@@ -143,6 +143,7 @@ class RoomInfoView extends StatelessWidget {
                                           ? index
                                           : index - 1],
                                   isname: true,
+                                  isReject: true,
                                 );
                         },
                         separatorBuilder: (BuildContext context, int index) {

@@ -49,6 +49,7 @@ class UnivRoomController extends GetxController {
       profileImage.add(RoomProfileImageWidget(
         host: room.hosts![i],
         isname: false,
+        isReject: true,
       )); 
     }
     // profileImage.insert(0, const SizedBox(width: 20));

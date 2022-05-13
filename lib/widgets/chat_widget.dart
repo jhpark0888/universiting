@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/message_detail_controller.dart';
+import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/message_detail_model.dart';
 import 'package:universiting/models/message_model.dart';
 import 'package:universiting/models/profile_model.dart';
@@ -91,7 +92,7 @@ class ChatWidget extends StatelessWidget {
                                           const BoxConstraints(maxWidth: 200),
                                       decoration: BoxDecoration(
                                           color:
-                                              message.sender == profile.userId
+                                              message.sender == ProfileController.to.profile.value.userId
                                                   ? kPrimary
                                                   : cardColor,
                                           borderRadius:
@@ -102,7 +103,7 @@ class ChatWidget extends StatelessWidget {
                                         child: Text(message.message,
                                             style: kBodyStyle1.copyWith(
                                                 color: message.sender ==
-                                                        profile.userId
+                                                        ProfileController.to.profile.value.userId
                                                     ? kMainWhite
                                                     : kMainBlack)),
                                       )),

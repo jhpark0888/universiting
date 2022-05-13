@@ -11,7 +11,7 @@ import 'package:universiting/models/host_model.dart';
 import 'package:universiting/widgets/chat_room_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 
-class ChatListController extends GetxController{
+class ChatListController extends GetxController {
   static ChatListController get to => Get.find();
   final chatList = <ChatRoom>[].obs;
   final chatRoomList = <ChatRoomWidget>[].obs;
@@ -21,37 +21,42 @@ class ChatListController extends GetxController{
   final otheruniv = ''.obs;
   RefreshController refreshController = RefreshController();
   @override
-  void onInit() async{
+  void onInit() async {
     chatList.value = await getChatList();
     chatRoomList.value = getChatRoomList();
     initializeDateFormatting(Localizations.localeOf(Get.context!).languageCode);
     super.onInit();
   }
 
-  void getList()async{
+  void getList() async {
     chatList.value = await getChatList();
     chatRoomList.value = getChatRoomList();
   }
 
-  List<ChatRoomWidget> getChatRoomList(){
-    chatImageList.clear();
+  List<ChatRoomWidget> getChatRoomList() {
     List<ChatRoomWidget> list = <ChatRoomWidget>[];
-    for(ChatRoom chatRoom in chatList){
-      for(Host host in chatRoom.group.member){
-        chatImageList.add(ProfileImageWidget(type: ViewType.otherView, host: host, width: 50,height: 50));
+    for (ChatRoom chatRoom in chatList) {
+      for (Host host in chatRoom.group.member) {
+        chatImageList.add(ProfileImageWidget(
+            type: ViewType.otherView, host: host, width: 50, height: 50));
+        
       }
-      list.add(ChatRoomWidget(chatRoom: chatRoom.obs, imageList: StackedImages(chatImageList.value).obs));
+      list.add(ChatRoomWidget(
+            chatRoom: chatRoom.obs,
+            imageList: StackedImages(chatImageList).obs));
+      chatImageList.clear();
     }
+
     return list;
   }
 
-
-  void onRefreshChatList()async{
+  void onRefreshChatList() async {
     chatList.value = await getChatList();
     chatRoomList.value = getChatRoomList();
     refreshController.refreshCompleted();
     print('리프레시 완료');
   }
+
   String calculateDate(DateTime date) {
     if (date.difference(DateTime.now()).inHours <= 24) {
       return '${date.difference(DateTime.now()).inHours}시간 뒤에 이 채팅방은 삭제돼요';
@@ -64,11 +69,19 @@ class ChatListController extends GetxController{
   }
 }
 
-List<Widget> StackedImages(List<ProfileImageWidget> image){
-  return image.asMap().map((index, item){
-    const left = 20.0;
-    final value = Container(width: 50, height: 50, child: item, margin: EdgeInsets.only(left: left * index),);
-    return MapEntry(index, value);
-
-  }).values.toList();
+List<Widget> StackedImages(List<ProfileImageWidget> image) {
+  return image
+      .asMap()
+      .map((index, item) {
+        const left = 20.0;
+        final value = Container(
+          width: 50,
+          height: 50,
+          child: item,
+          margin: EdgeInsets.only(left: left * index),
+        );
+        return MapEntry(index, value);
+      })
+      .values
+      .toList();
 }

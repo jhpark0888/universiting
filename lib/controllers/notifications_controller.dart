@@ -115,34 +115,35 @@ class NotificationController extends GetxController {
             dataBody: message.data['body']);
         a.value++;
         notificationInfo.value = notification;
-        if(ChatListController.to.isInDetailMessage.value == false){
-        showCustomSnacbar(
-            message.notification!.title, message.notification!.body, (a) {
-          if (message.data['type'].contains('msg')) {
-            Get.to(
-                () => MessageDetailScreen(groupId: message.data['group_id']));
-            postTime(int.parse(message.data['group_id']),
-                ProfileController.to.profile.value.userId);
-            AppController.to.currentIndex.value = 3;
-            ChatListController
-                .to
-                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                    (chatRoomWidget) =>
-                        chatRoomWidget.chatRoom.value.group.id.toString() ==
-                        message.data['group_id'])]
-                .chatRoom
-                .value
-                .newMsg = 0;
-            ChatListController
-                .to
-                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                    (chatRoomWidget) =>
-                        chatRoomWidget.chatRoom.value.group.id.toString() ==
-                        message.data['group_id'])]
-                .chatRoom
-                .refresh();
-          }
-        });}
+        if (ChatListController.to.isInDetailMessage.value == false) {
+          showCustomSnacbar(
+              message.notification!.title, message.notification!.body, (a) {
+            if (message.data['type'].contains('msg')) {
+              Get.to(
+                  () => MessageDetailScreen(groupId: message.data['group_id']));
+              postTime(int.parse(message.data['group_id']),
+                  ProfileController.to.profile.value.userId);
+              AppController.to.currentIndex.value = 3;
+              ChatListController
+                  .to
+                  .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                      (chatRoomWidget) =>
+                          chatRoomWidget.chatRoom.value.group.id.toString() ==
+                          message.data['group_id'])]
+                  .chatRoom
+                  .value
+                  .newMsg = 0;
+              ChatListController
+                  .to
+                  .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                      (chatRoomWidget) =>
+                          chatRoomWidget.chatRoom.value.group.id.toString() ==
+                          message.data['group_id'])]
+                  .chatRoom
+                  .refresh();
+            }
+          });
+        }
         print('메세지 받음');
         print(message.notification!.title);
         print(message.notification!.body);
@@ -180,24 +181,24 @@ class NotificationController extends GetxController {
                 ProfileController.to.profile.value.userId);
             print(message.data);
             ChatListController
-              .to
-              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                  (chatRoomWidget) =>
-                      chatRoomWidget.chatRoom.value.group.id.toString() ==
-                      message.data['group_id'])]
-              .chatRoom
-              .value
-              .newMsg = 0;
-          }else{
-          ChatListController
-              .to
-              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                  (chatRoomWidget) =>
-                      chatRoomWidget.chatRoom.value.group.id.toString() ==
-                      message.data['group_id'])]
-              .chatRoom
-              .value
-              .newMsg += 1;
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg = 0;
+          } else {
+            ChatListController
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg += 1;
           }
           ChatListController
               .to
@@ -209,6 +210,16 @@ class NotificationController extends GetxController {
               .value
               .message
               .message = message.notification!.body!;
+          ChatListController
+              .to
+              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                  (chatRoomWidget) =>
+                      chatRoomWidget.chatRoom.value.group.id.toString() ==
+                      message.data['group_id'])]
+              .chatRoom
+              .value
+              .message
+              .sender = int.parse(message.data['user_id']);
           ChatListController
               .to
               .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
@@ -239,16 +250,16 @@ class NotificationController extends GetxController {
                     date: DateTime.now()))[0]));
             postTime(int.parse(message.data['group_id']),
                 ProfileController.to.profile.value.userId);
-          }else{
+          } else {
             ChatListController
-              .to
-              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                  (chatRoomWidget) =>
-                      chatRoomWidget.chatRoom.value.group.id.toString() ==
-                      message.data['group_id'])]
-              .chatRoom
-              .value
-              .newMsg += 1;
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg += 1;
           }
           ChatListController
               .to
@@ -278,7 +289,7 @@ class NotificationController extends GetxController {
                       message.data['group_id'])]
               .chatRoom
               .refresh();
-        }else if(message.data['type'] == 'exit/msg'){
+        } else if (message.data['type'] == 'exit/msg') {
           print(ChatListController.to.isInDetailMessage.value);
           if (ChatListController.to.isInDetailMessage.value == true) {
             MessageDetailController.to.messageList.add(ChatWidget(
@@ -301,16 +312,16 @@ class NotificationController extends GetxController {
                     date: DateTime.now()))[0]));
             postTime(int.parse(message.data['group_id']),
                 ProfileController.to.profile.value.userId);
-          }else{
+          } else {
             ChatListController
-              .to
-              .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
-                  (chatRoomWidget) =>
-                      chatRoomWidget.chatRoom.value.group.id.toString() ==
-                      message.data['group_id'])]
-              .chatRoom
-              .value
-              .newMsg += 1;
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg += 1;
           }
           ChatListController
               .to
@@ -322,7 +333,7 @@ class NotificationController extends GetxController {
               .value
               .message
               .message = message.notification!.body!;
-              ChatListController.to.getList();
+          ChatListController.to.getList();
           ChatListController
               .to
               .chatRoomList[ChatListController.to.chatRoomList.indexWhere(

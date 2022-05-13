@@ -165,6 +165,20 @@ class MessageDetailScreen extends StatelessWidget {
                                             .message =
                                         messageDetailController
                                             .chatController.text;
+                                    ChatListController
+                                            .to
+                                            .chatRoomList[ChatListController
+                                                .to.chatRoomList
+                                                .indexWhere((chatRoomWidget) =>
+                                                    chatRoomWidget
+                                                        .chatRoom.value.group.id
+                                                        .toString() ==
+                                                    groupId)]
+                                            .chatRoom
+                                            .value
+                                            .message
+                                            .sender =
+                                        ProfileController.to.profile.value.userId;
                                     FocusScope.of(context).unfocus();
                                     messageDetailController.chatController
                                         .clear();

@@ -6,7 +6,9 @@ import 'package:universiting/api/status_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
+import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
+import 'package:universiting/controllers/myroomrequest_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/select_member_controller.dart';
@@ -205,8 +207,9 @@ class ParticiapteView extends StatelessWidget {
                                     '친구들이 함께 가기를 모두 수락하면 \n신청이 완료되며,\n신청은 관리 - 신청 현황 탭에서 확인할 수 있어요',
                                 leftFunction: () => Get.back(),
                                 leftText: '닫기',
-                                rightFunction: () {
-                                  roomJoin(roomid);
+                                rightFunction: () async{
+                                  await roomJoin(roomid);
+                                  await ManagementController.to.getrequestlist(0);
                                   Get.back();
                                   Get.back();
                                 },

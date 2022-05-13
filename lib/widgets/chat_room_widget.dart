@@ -88,9 +88,9 @@ class ChatRoomWidget extends StatelessWidget {
   List<Widget> imageList;
   @override
   Widget build(BuildContext context) {
-    print('이미지 리스트 런타입은 ? : ${imageList[0]}');
     return GestureDetector(
       onTap: () async {
+        print(imageList.length);
         await postTime(
             chatRoom.value.group.id, ProfileController.to.profile.value.userId);
         Get.to(() => MessageDetailScreen(
@@ -173,9 +173,10 @@ class ChatRoomWidget extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
                               text: TextSpan(children: [
+                                if(chatRoom.value.message.sender != 1)
                                 TextSpan(
                                     text:
-                                        chatRoom.value.group.member[0].nickname,
+                                        chatRoom.value.group.member.where((member) => member.userId == chatRoom.value.message.sender).first.nickname,
                                     style: kLargeCaptionStyle.copyWith(
                                         color: kMainBlack.withOpacity(0.4))),
                                 TextSpan(

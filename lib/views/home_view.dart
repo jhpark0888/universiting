@@ -256,7 +256,7 @@ class HomeView extends StatelessWidget {
                                         Expanded(
                                             child: EmptyBackTextfieldWidget(
                                                 cursorWidth: 2,
-                                                cursorHeight: 14,
+                                                cursorHeight: 15,
                                                 controller:
                                                     homeController.searchUniv,
                                                 textStyle: kSubtitleStyle3,
