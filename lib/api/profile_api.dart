@@ -25,7 +25,7 @@ Future<void> getMyProfile() async {
     try {
       var response = await http.get(url, headers: headers);
 
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         String responsebody = utf8.decode(response.bodyBytes);
         profileController.profile.value =
             Profile.fromJson(jsonDecode(responsebody));
@@ -57,7 +57,8 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
       if (profileType != ProfileType.image) {
         request.fields['nickname'] = profileController.nameController.text;
         request.fields['introduction'] = profileController.introController.text;
-        request.fields['department_name'] = profileController.departmentController.text;
+        request.fields['department_name'] =
+            profileController.departmentController.text;
         request.fields['age'] = profileController.profile.value.age.toString();
       }
       if (profileType == ProfileType.image) {
@@ -73,7 +74,7 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
         }
       }
       http.StreamedResponse response = await request.send();
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         String responsebody = await response.stream.bytesToString();
         // profileController.profile.value.nickname ==
         //     profileController.nameController.text;
@@ -84,13 +85,17 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
         profileController.profile.value =
             Profile.fromJson(jsonDecode(responsebody));
         print(response.statusCode);
-         profileController.profile.value.nickname = profileController.nameController.text;
-        profileController.profile.value.introduction = profileController.introController.text;
-        profileController.profile.value.department = profileController.departmentController.text;
-        profileController.profile.value.age = profileController.profile.value.age;
+        profileController.profile.value.nickname =
+            profileController.nameController.text;
+        profileController.profile.value.introduction =
+            profileController.introController.text;
+        profileController.profile.value.department =
+            profileController.departmentController.text;
+        profileController.profile.value.age =
+            profileController.profile.value.age;
         print(responsebody);
         Get.back();
-      }else{
+      } else {
         print(response.statusCode);
       }
     } catch (e) {
@@ -120,7 +125,7 @@ Future<Profile> getOtherProfile(String id) async {
     try {
       var response = await http.get(url, headers: headers);
 
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         String responsebody = utf8.decode(response.bodyBytes);
         print(responsebody);
         print(response.statusCode);

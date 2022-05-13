@@ -4,6 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/chat_list_controller.dart';
 import 'package:universiting/widgets/chat_room_widget.dart';
+import 'package:universiting/widgets/custom_refresher.dart';
 
 class ChatListView extends StatelessWidget {
   ChatListView({Key? key}) : super(key: key);
@@ -26,18 +27,16 @@ class ChatListView extends StatelessWidget {
       ),
       body: SmartRefresher(
           controller: chatListController.refreshController,
-          header: const ClassicHeader(
-              spacing: 0.0,
-              height: 60,
-              completeDuration: Duration(milliseconds: 600),
-              textStyle: TextStyle(color: kMainBlack),
-              refreshingText: '',
-              releaseText: "",
-              completeText: "",
-              idleText: "",
-              refreshingIcon: Text('당기는 중입니다.')),
+          header: const CustomRefresherHeader(),
           onRefresh: chatListController.onRefreshChatList,
-          child: Obx(() => Column(children: chatListController.chatRoomList != [] ? chatListController.chatRoomList : []))),
+          child: Obx(() => SingleChildScrollView(
+                  child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 82),
+                child: Column(
+                    children: chatListController.chatRoomList != []
+                        ? chatListController.chatRoomList
+                        : []),
+              )))),
     );
   }
 }

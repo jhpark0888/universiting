@@ -32,7 +32,7 @@ class App extends StatelessWidget {
         lat: lat,
         lng: lng,
       ),
-      StatusView(),
+      // StatusView(),
       ManagementView(),
       ChatListView(),
       ProfileView(),
@@ -83,20 +83,20 @@ class App extends StatelessWidget {
                                   ),
                                   label: '홈',
                                   tooltip: ''),
-                              BottomNavigationBarItem(
-                                icon: SvgPicture.asset(
-                                  'assets/icons/bell_inactive.svg',
-                                  width: bottomiconsize,
-                                  height: bottomiconsize,
-                                ),
-                                activeIcon: SvgPicture.asset(
-                                  'assets/icons/bell_active.svg',
-                                  width: bottomiconsize,
-                                  height: bottomiconsize,
-                                ),
-                                label: '알람',
-                                tooltip: '',
-                              ),
+                              // BottomNavigationBarItem(
+                              //   icon: SvgPicture.asset(
+                              //     'assets/icons/bell_inactive.svg',
+                              //     width: bottomiconsize,
+                              //     height: bottomiconsize,
+                              //   ),
+                              //   activeIcon: SvgPicture.asset(
+                              //     'assets/icons/bell_active.svg',
+                              //     width: bottomiconsize,
+                              //     height: bottomiconsize,
+                              //   ),
+                              //   label: '알람',
+                              //   tooltip: '',
+                              // ),
                               BottomNavigationBarItem(
                                 icon: SvgPicture.asset(
                                   'assets/icons/manage_inactive.svg',

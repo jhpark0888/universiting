@@ -16,6 +16,7 @@ import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
 import 'package:universiting/models/notifications_model.dart';
+import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/views/message_detail_screen.dart';
 import 'package:universiting/views/status_view.dart';
 import 'package:universiting/views/status_view_received_view.dart';
@@ -123,7 +124,7 @@ class NotificationController extends GetxController {
                   () => MessageDetailScreen(groupId: message.data['group_id']));
               postTime(int.parse(message.data['group_id']),
                   ProfileController.to.profile.value.userId);
-              AppController.to.currentIndex.value = 3;
+              AppController.to..changePageIndex(2);
               ChatListController
                   .to
                   .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
@@ -147,9 +148,9 @@ class NotificationController extends GetxController {
         print('메세지 받음');
         print(message.notification!.title);
         print(message.notification!.body);
-        print(message.data['type']);
-        print(message.data['title']);
-        print(message.data['body']);
+        print('메세지 type : ${message.data['type']}');
+        print('메세지 title :${message.data['title']}');
+        print('메세지 body: ${message.data['body']}');
         print(message.data);
         if (message.data['type'] == 'msg') {
           if (ChatListController.to.isInDetailMessage.value == true) {
@@ -343,30 +344,36 @@ class NotificationController extends GetxController {
               .chatRoom
               .refresh();
         } else if (message.data['type'] == 'receive/host_invite') {
-          await getReceiveStatus().then((httpresponse) {
-            if (httpresponse.isError == false) {
-              StatusController.to.receiveList(httpresponse.data);
-            }
-          });
-          StatusController.to.makeAllReceiveList();
+          // await getReceiveStatus().then((httpresponse) {
+          //   if (httpresponse.isError == false) {
+          //     StatusController.to.receiveList(httpresponse.data);
+          //   }
+          // });
+          // StatusController.to.makeAllReceiveList();
           print('완료');
         } else if (message.data['type'] == 'chat_group') {
-          await getReceiveStatus().then((httpresponse) {
-            if (httpresponse.isError == false) {
-              StatusController.to.receiveList(httpresponse.data);
-            }
-          });
+          // await getReceiveStatus().then((httpresponse) {
+          //   if (httpresponse.isError == false) {
+          //     StatusController.to.receiveList(httpresponse.data);
+          //   }
+          // });
 
-          StatusController.to.makeAllReceiveList();
-          await getSendStatus().then((httpresponse) {
-            if (httpresponse.isError == false) {
-              StatusController.to.sendList(httpresponse.data);
-            }
-          });
-          StatusController.to.makeAllSendList();
+          // StatusController.to.makeAllReceiveList();
+          // await getSendStatus().then((httpresponse) {
+          //   if (httpresponse.isError == false) {
+          //     StatusController.to.sendList(httpresponse.data);
+          //   }
+          // });
+          // StatusController.to.makeAllSendList();
+          String groupId = message.data['group_id'];
+          getbacks(1);
+          AppController.to.changePageIndex(2);
           ChatListController.to.chatList.value = await getChatList();
           ChatListController.to.chatRoomList.value =
               ChatListController.to.getChatRoomList();
+          Get.to(MessageDetailScreen(
+            groupId: groupId,
+          ));
         }
       });
     } else {

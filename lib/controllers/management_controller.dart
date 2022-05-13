@@ -98,8 +98,6 @@ class ManagementController extends GetxController
   }
 
   Future getrequestlist(int last) async {
-    print('$last 입니다');
-    print(last);
     await getSendlist('all', last).then((httpresponse) {
       if (httpresponse.isError == false) {
         List<SendRequest> temprequestlist =

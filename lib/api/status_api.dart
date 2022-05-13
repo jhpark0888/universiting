@@ -29,7 +29,7 @@ Future<HTTPResponse> getReceiveStatus() async {
       var response = await http.get(url, headers: headers);
 
       String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         print(response.statusCode);
         print(jsonDecode(responsebody).runtimeType);
         return HTTPResponse.success(alarmReceiveParsed(responsebody));
@@ -64,7 +64,7 @@ Future<void> hostMemberAlarm(String room_id, String type) async {
   } else {
     var response = await http.put(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode} 거절 또는 수락');
     } else {
@@ -88,7 +88,7 @@ Future<void> okJoinAlarm(String room_id, String from_id, String type) async {
   } else {
     var response = await http.put(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode} 거절 또는 수락');
     } else {
@@ -112,7 +112,7 @@ Future<void> deleteAlarm(String id) async {
   } else {
     var response = await http.delete(url, headers: headers);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode}삭제하기');
     } else {
@@ -135,7 +135,7 @@ Future<HTTPResponse> getSendStatus() async {
       var response = await http.get(url, headers: headers);
       print(response.statusCode);
       String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         print('getSendStatus()의 상태코드 : ${response.statusCode}');
         return HTTPResponse.success(alarmSendParsed(responsebody));
       } else {
@@ -170,7 +170,7 @@ Future<void> joinToChat(AlarmReceive alarmReceive) async {
   } else {
     var response = await http.post(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode}삭제하기');
     } else {
@@ -197,7 +197,7 @@ Future<void> rejectToChat(AlarmReceive alarmReceive) async {
   } else {
     var response = await http.delete(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode <= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       print(responsebody);
       print('${response.statusCode}삭제하기');
     } else {
@@ -206,11 +206,13 @@ Future<void> rejectToChat(AlarmReceive alarmReceive) async {
   }
 }
 
-Future<HTTPResponse> getDetailSendView(int id,StateManagement management ) async {
+Future<HTTPResponse> getDetailSendView(
+    int id, StateManagement management) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/send_list?type=${management == StateManagement.theyReject ? 'reject' :management == StateManagement.friendReject ? 'reject' : 'join'}/detail&id=${id.toString()}');
+  var url = Uri.parse(
+      '$serverUrl/room_api/send_list?type=${management == StateManagement.theyReject ? 'reject' : management == StateManagement.friendReject ? 'reject' : 'join'}/detail&id=${id.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
@@ -220,10 +222,11 @@ Future<HTTPResponse> getDetailSendView(int id,StateManagement management ) async
       var response = await http.get(url, headers: headers);
 
       String responsebody = utf8.decode(response.bodyBytes);
-      if (response.statusCode <= 200 && response.statusCode < 300) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         print(response.statusCode);
         print(jsonDecode(responsebody).runtimeType);
-        return HTTPResponse.success(SendRequest.fromJson(jsonDecode(responsebody)));
+        return HTTPResponse.success(
+            SendRequest.fromJson(jsonDecode(responsebody)));
         // SendRequest.fromJson(jsonDecode(responsebody))
       } else if (response.statusCode == 500) {
         print(response.statusCode);

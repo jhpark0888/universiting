@@ -15,9 +15,7 @@ class AppController extends GetxController {
       currentIndex.value = index;
     } else if (index == 3) {
       currentIndex.value = index;
-    } else if (index == 4) {
-      currentIndex.value = index;
-    }
+    } 
   }
 
   void addPage(){
