@@ -5,6 +5,7 @@ import 'package:universiting/api/login_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/setting_controller.dart';
 import 'package:universiting/views/image_check_view.dart';
+import 'package:universiting/views/inquary_view.dart';
 import 'package:universiting/views/naver_sdk_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,7 +24,7 @@ class SettingView extends StatelessWidget {
           SettingList(title: '알림설정', isIcon: true,),
           SettingList(title: '서비스 이용 약관', isIcon: true),
           SettingList(title: '개인정보 처리방침', isIcon: true),
-          GestureDetector(onTap : ()async{await launchUrlString('https://navermaps.github.io/android-map-sdk/reference/com/naver/maps/map/app/OpenSourceLicenseActivity.html');},child: SettingList(title: '문의하기', isIcon: true)),
+          GestureDetector(onTap : (){Get.to(()=> InquaryView());},child: SettingList(title: '문의하기', isIcon: true)),
           GestureDetector(onTap: (){Get.to(() =>ImageCheckView());}, child: SettingList(title: '비밀번호 변경', isIcon: true)),
           GestureDetector(onTap: (){logout();}, child: SettingList(title: '로그아웃', isIcon: false)),
           SettingList(title: '회원탈퇴', isIcon: false),

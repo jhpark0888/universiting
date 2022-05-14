@@ -102,7 +102,6 @@ class ManagementController extends GetxController
       if (httpresponse.isError == false) {
         List<SendRequest> temprequestlist =
             httpresponse.data as List<SendRequest>;
-            print('${temprequestlist.length}개야');
         if (temprequestlist.isEmpty) {
           enablepulluprequest(false);
         } else {

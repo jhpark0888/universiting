@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
+import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 import 'package:universiting/views/home_view.dart';
@@ -115,6 +117,40 @@ Future<void> logout() async {
     } catch (e) {
       print(e);
       showCustomDialog('서버 점검중입니다.', 1200);
+    }
+  }
+}
+
+
+Future<HTTPResponse> imageCheck() async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse(
+      '$serverUrl/school_api/check_profile');
+  var headers = {'Authorization': 'Token $token'};
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400);
+    return HTTPResponse.networkError();
+  } else {
+    try {
+      var response = await http.get(url, headers: headers);
+      print('이미지 체크 : ${response.statusCode}');
+      String responsebody = utf8.decode(response.bodyBytes);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        if(jsonDecode(responsebody) == '프로필 이미지를 만들어주세요'){
+        return HTTPResponse.success(false);
+        }else{
+          return HTTPResponse.success(true);
+        }
+      } else {
+        return HTTPResponse.apiError('', response.statusCode);
+      }
+    } on SocketException {
+      return HTTPResponse.serverError();
+    } catch (e) {
+      print(e);
+      return HTTPResponse.unexpectedError(e);
     }
   }
 }

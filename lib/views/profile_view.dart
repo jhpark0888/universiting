@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -190,7 +191,9 @@ class ProfileView extends StatelessWidget {
                               onTap: () {
                                 showCustomModalPopup(context,
                                     value1: '사진 수정하기',
-                                    func1: changeProfileImage,);
+                                    func1: changeProfileImage,
+                                    value2: '기본 이미지',
+                                    func2: changeDefaultImage);
                               },
                               child: Text('사진 수정하기',
                                   style: k16SemiBold.copyWith(
@@ -226,9 +229,9 @@ class ProfileView extends StatelessWidget {
                           ),
                           const Spacer(),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async{
                               if (profileController.isEdit.value) {
-                                updateMyProfile(ProfileType.profile, File(''));
+                                await updateMyProfile(ProfileType.profile, File(''));
                               }
                               profileController.isEdit.value =
                                   !profileController.isEdit.value;
@@ -340,7 +343,8 @@ class ProfileView extends StatelessWidget {
   void changeProfileImage() async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     print(image);
-    updateMyProfile(ProfileType.image, File(image!.path));
+    if(image != null){
+    updateMyProfile(ProfileType.image, File(image.path)).then((value) => Get.back());}
     print('클릭했습니다.');
   }
 

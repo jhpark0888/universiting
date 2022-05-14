@@ -177,7 +177,7 @@ Widget? managerChat(String message) {
     username = message.split('님이 ')[0];
   }
   if (message.contains('님이 약속시간을')) {
-    updateDate = message.split('$username님이 약속시간을 ')[1].split('로 설정했어요')[0].split(' 00:00:00')[0];
+    updateDate = message.split('$username님이 약속시간을 ')[1].split('로 설정했어요')[0].split(' 23:59:59')[0];
     return Padding(
       padding: const EdgeInsets.only(left: 33, right: 33),
       child: RichText(

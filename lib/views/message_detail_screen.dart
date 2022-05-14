@@ -278,7 +278,7 @@ class MessageDetailScreen extends StatelessWidget {
                                           .value
                                           .group
                                           .date =
-                                      messageDetailController.selectedDay.value;
+                                      messageDetailController.selectedDay.value.add(const Duration(hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
                                   ChatListController.to.chatRoomList.refresh();
                                   ChatListController
                                       .to
@@ -309,7 +309,7 @@ class MessageDetailScreen extends StatelessWidget {
             Obx(() => messageDetailController.isCalendar.value == true
                 ? TableCalendar(
                     locale: 'ko-KR',
-                    firstDay: DateTime.now().add(const Duration(days: -60)),
+                    firstDay: DateTime.now(),
                     lastDay: DateTime.now().add(const Duration(days: 60)),
                     focusedDay: messageDetailController.focusDay.value,
                     calendarFormat: CalendarFormat.month,

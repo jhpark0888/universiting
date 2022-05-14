@@ -12,6 +12,8 @@ class OtherProfileController extends GetxController {
           introduction: '',
           nickname: '',
           profileImage: '',
+          university: '',
+          department: '',
           userId: 0)
       .obs;
   OtherProfileController({required this.id});

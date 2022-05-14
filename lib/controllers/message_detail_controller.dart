@@ -26,30 +26,50 @@ class MessageDetailController extends GetxController {
   String groupId;
   RxBool isSend = false.obs;
   RxBool isCalendar = false.obs;
-  final focusDay = DateTime.now().obs; 
-  final selectedDay = DateTime.now().obs;
+  final focusDay =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 00,00)
+          .obs;
+  final selectedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 00, 00).obs;
   final messageList = <Widget>[
     Center(
-      child: RichText(textAlign: TextAlign.center,
+      child: RichText(
+          textAlign: TextAlign.center,
           text: TextSpan(children: [
-        const TextSpan(text: '유니버시팅은 개인정보 보호를 위해\n',style: k13LightContent),
-        TextSpan(text: '약속 시간 이후 채팅방이 삭제돼요\n',style: k13LightContent.copyWith(color: kPrimary)),
-        const TextSpan(text: '만약 별도의 약속 시간을 설정하지 않으면\n',style: k13LightContent),
-        TextSpan(text: '채팅방 생성 이후 일주일 뒤 자동 삭제되니\n',style: k13LightContent.copyWith(color: kPrimary)),
-        TextSpan(text: '약속 시간을 설정해주세요\n',style: k13LightContent.copyWith(color: kPrimary)),
-        const TextSpan(text: '\n',style: k13LightContent),
-        const TextSpan(text: '아래 달력 아이콘을 통해\n', style: k13LightContent),
-        const TextSpan(text: '언제든 약속 시간을 설정할 수 있으며\n', style: k13LightContent),
-        const TextSpan(text: '여러 날짜를 입력할 경우\n', style: k13LightContent),
-        const TextSpan(text: '가장 최근 설정된 날짜로 약속 시간이 변경돼요\n', style: k13LightContent),
-        const TextSpan(text: '\n',style: k13LightContent),
-        TextSpan(text: '그럼 새로운 친구에게 반갑게 인사해보세요!',style:k13LightContent.copyWith(color: kPrimary))
-      ])),
+            const TextSpan(
+                text: '유니버시팅은 개인정보 보호를 위해\n', style: k13LightContent),
+            TextSpan(
+                text: '약속 시간 이후 채팅방이 삭제돼요\n',
+                style: k13LightContent.copyWith(color: kPrimary)),
+            const TextSpan(
+                text: '만약 별도의 약속 시간을 설정하지 않으면\n', style: k13LightContent),
+            TextSpan(
+                text: '채팅방 생성 이후 일주일 뒤 자동 삭제되니\n',
+                style: k13LightContent.copyWith(color: kPrimary)),
+            TextSpan(
+                text: '약속 시간을 설정해주세요\n',
+                style: k13LightContent.copyWith(color: kPrimary)),
+            const TextSpan(text: '\n', style: k13LightContent),
+            const TextSpan(text: '아래 달력 아이콘을 통해\n', style: k13LightContent),
+            const TextSpan(
+                text: '언제든 약속 시간을 설정할 수 있으며\n', style: k13LightContent),
+            const TextSpan(text: '여러 날짜를 입력할 경우\n', style: k13LightContent),
+            const TextSpan(
+                text: '가장 최근 설정된 날짜로 약속 시간이 변경돼요\n', style: k13LightContent),
+            const TextSpan(text: '\n', style: k13LightContent),
+            TextSpan(
+                text: '그럼 새로운 친구에게 반갑게 인사해보세요!',
+                style: k13LightContent.copyWith(color: kPrimary))
+          ])),
     ),
     const SizedBox(height: 24),
   ].obs;
   final messageDetail = MessageDetail(
-      userType: 0, message: [], groupTitle: '', memberProfile: [],university :'').obs;
+          userType: 0,
+          message: [],
+          groupTitle: '',
+          memberProfile: [],
+          university: '')
+      .obs;
   final memberProfile = <Profile>[].obs;
   @override
   void onInit() async {
@@ -108,45 +128,50 @@ class MessageDetailController extends GetxController {
     }
   }
 
-  void onDayselected(DateTime day, DateTime day2){
-    print('선택된 날짜는 ${day}');
-    selectedDay.value = day;
-    print(selectedDay.value);
-    focusDay.value = day;
-  }
-  void onPageChanged(DateTime day){
+  void onDayselected(DateTime day, DateTime day2) {
     print('선택된 날짜는 ${day}');
     selectedDay.value = day;
     print(selectedDay.value);
     focusDay.value = day;
   }
 
-  bool selectedDayPredicate(DateTime day){
+  void onPageChanged(DateTime day) {
+    print('선택된 날짜는 ${day}');
+    selectedDay.value = day;
+    print(selectedDay.value);
+    focusDay.value = day;
+  }
+
+  bool selectedDayPredicate(DateTime day) {
     return isSameDay(selectedDay.value, day);
   }
 
-  List<ChatPersonWidget> hostMember(List<Profile> member){
+  List<ChatPersonWidget> hostMember(List<Profile> member) {
     List<Profile> list = [];
-    for(Profile profile in member){
-      if(profile.type == 0){
+    for (Profile profile in member) {
+      if (profile.type == 0) {
         list.add(profile);
       }
     }
     return getMemberInfo(list);
   }
 
-  List<ChatPersonWidget> joinMember(List<Profile> member){
+  List<ChatPersonWidget> joinMember(List<Profile> member) {
     List<Profile> list = [];
-    for(Profile profile in member){
-      if(profile.type == 1){
+    for (Profile profile in member) {
+      if (profile.type == 1) {
         list.add(profile);
       }
     }
     return getMemberInfo(list);
   }
 
-  List<ChatPersonWidget> getMemberInfo(List<Profile> member){
-    return member.map((e) => ChatPersonWidget(profile: e, width: 60,)).toList();
+  List<ChatPersonWidget> getMemberInfo(List<Profile> member) {
+    return member
+        .map((e) => ChatPersonWidget(
+              profile: e,
+              width: 60,
+            ))
+        .toList();
   }
 }
-

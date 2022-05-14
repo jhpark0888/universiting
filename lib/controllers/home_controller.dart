@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:universiting/api/login_api.dart';
 // import 'package:universiting/api/main_api.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/map_controller.dart';
@@ -17,6 +18,7 @@ import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/views/home_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:universiting/views/image_check_view.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find(tag: '다음 화면');
@@ -35,6 +37,7 @@ class HomeController extends GetxController {
   RxBool isDetailClick = false.obs;
   RxBool isSearch = false.obs;
   RxBool iskeybord = false.obs;
+  RxBool isImagecheck = true.obs;
   final RxList<OverlayImage> image = <OverlayImage>[].obs;
   // late final OverlayImage image;
   @override
@@ -45,12 +48,27 @@ class HomeController extends GetxController {
     if (temptoken != null) {
       isGuest.value = false;
       islogin.value = true;
+      await imageCheck().then((httpresponse) async {
+        print(httpresponse.data);
+        isImagecheck.value = httpresponse.data;
+        if (isImagecheck.value == false) {
+          Get.to(() => ImageCheckView());
+        } else {
+          await getOverlyImage();
+          mainuniv.value = (await getMainUniv());
+          // showcustomCustomDialog(1200);
+          customDialog(1);
+          createdMarker();
+        }
+      });
+    } else {
+      await getOverlyImage();
+      mainuniv.value = (await getMainUniv());
+      // showcustomCustomDialog(1200);
+      customDialog(1);
+      createdMarker();
     }
-    await getOverlyImage();
-    mainuniv.value = (await getMainUniv());
-    // showcustomCustomDialog(1200);
-    customDialog(1);
-    createdMarker();
+
     super.onInit();
 
     searchUniv.addListener(() {
@@ -65,17 +83,17 @@ class HomeController extends GetxController {
         }
       }
     });
-  keyboardVisibilityController.onChange.listen((bool visible) {
-    iskeybord.value = visible;
-    if(iskeybord.value == false && isSearch.value == true){
-      isSearch(false);
-    }
-    if(iskeybord.value == true){
-      searchPadding.value = MediaQuery.of(Get.context!).viewInsets.bottom;
-    }else if(iskeybord.value == false){
-      searchPadding.value = 70.0;
-    }
-  });
+    keyboardVisibilityController.onChange.listen((bool visible) {
+      iskeybord.value = visible;
+      if (iskeybord.value == false && isSearch.value == true) {
+        isSearch(false);
+      }
+      if (iskeybord.value == true) {
+        searchPadding.value = MediaQuery.of(Get.context!).viewInsets.bottom;
+      } else if (iskeybord.value == false) {
+        searchPadding.value = 70.0;
+      }
+    });
   }
 
   @override
@@ -201,5 +219,13 @@ class HomeController extends GetxController {
                 .toList()),
       ),
     );
+  }
+
+  void getLoad()async{
+    await getOverlyImage();
+      mainuniv.value = (await getMainUniv());
+      // showcustomCustomDialog(1200);
+      customDialog(1);
+      createdMarker();
   }
 }

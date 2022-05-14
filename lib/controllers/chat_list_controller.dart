@@ -61,7 +61,7 @@ class ChatListController extends GetxController {
     if (date.difference(DateTime.now()).inHours <= 24) {
       return '${date.difference(DateTime.now()).inHours}시간 뒤에 이 채팅방은 삭제돼요';
     } else if (date.difference(DateTime.now()).inDays <= 31) {
-      return '${date.difference(DateTime.now()).inDays}일 뒤에 이 채팅방은 삭제돼요';
+      return '${date.difference(DateTime.now()).inDays + 1}일 뒤에 이 채팅방은 삭제돼요';
     } else if (date.difference(DateTime.now()).inDays <= 365) {
       return '일 년 이내 만들어진 방';
     }

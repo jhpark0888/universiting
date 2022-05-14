@@ -8,6 +8,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/signup_controller.dart';
+import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
@@ -94,7 +95,7 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
         profileController.profile.value.age =
             profileController.profile.value.age;
         print(responsebody);
-        Get.back();
+        
       } else {
         print(response.statusCode);
       }
@@ -151,5 +152,37 @@ Future<Profile> getOtherProfile(String id) async {
         nickname: '',
         profileImage: '',
         userId: 0);
+  }
+}
+
+
+Future<HTTPResponse> postInquary(String email, String content) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url =
+      Uri.parse('$serverUrl/user_api/inquary');
+  var headers = {'Authorization': 'Token $token'};
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return HTTPResponse.networkError();
+  } else {
+    // try {
+    var response = await http.post(url, headers: headers);
+    print('문의하기 : ${response.statusCode}');
+    String responsebody = utf8.decode(response.bodyBytes);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      // selectMemberController.seletedMember.value =
+      //     SelectMember.fromJson(jsonDecode(responsebody));
+      return HTTPResponse.success('');
+    } else {
+      return HTTPResponse.apiError('', response.statusCode);
+    }
+    // } on SocketException {
+    //   return HTTPResponse.serverError();
+    // } catch (e) {
+    //   print(e);
+    //   return HTTPResponse.unexpectedError(e);
+    // }
   }
 }

@@ -83,7 +83,7 @@ Future<void> updateTime(String groupId, DateTime dateTime) async {
 
   var body = {
     'id': groupId,
-    'new_date': DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime),
+    'new_date': DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime.add(const Duration(hours: 23, minutes: 59, seconds: 59, milliseconds: 999))),
   };
   var headers = {
     'Authorization': 'Token $token',
