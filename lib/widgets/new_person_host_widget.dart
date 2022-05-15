@@ -26,19 +26,22 @@ class NewPersonTileHostWidget extends StatelessWidget {
           const SizedBox(
             width: 12,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${host.nickname} / ${host.age}세 / ${host.gender}',
-                style: k16Medium,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                host.introduction != '' ? host.introduction! : '아직 소개글이 없어요',
-                style: k16Light,
-              )
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${host.nickname} / ${host.age}세 / ${host.gender}',
+                  style: k16Medium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  host.introduction != '' ? host.introduction! : '아직 소개글이 없어요',
+                  style: k16Light,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
           )
         ],
       ),

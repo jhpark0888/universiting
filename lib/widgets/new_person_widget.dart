@@ -25,21 +25,24 @@ class NewPersonTileWidget extends StatelessWidget {
           const SizedBox(
             width: 12,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${profile.nickname} / ${profile.age}세 / ${profile.gender}',
-                style: k16Medium,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                profile.introduction != ''
-                    ? profile.introduction
-                    : '아직 소개글이 없어요',
-                style: k16Light,
-              )
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${profile.nickname} / ${profile.age}세 / ${profile.gender}',
+                  style: k16Medium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  profile.introduction != ''
+                      ? profile.introduction
+                      : '아직 소개글이 없어요',
+                  style: k16Light,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
           )
         ],
       ),

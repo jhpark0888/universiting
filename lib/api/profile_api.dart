@@ -7,10 +7,12 @@ import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
+import 'package:universiting/controllers/pw_find_controller.dart';
 import 'package:universiting/controllers/signup_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
+import 'package:universiting/views/pw_find_change_view.dart';
 
 Future<void> getMyProfile() async {
   ConnectivityResult result = await checkConnectionStatus();
@@ -151,5 +153,133 @@ Future<Profile> getOtherProfile(String id) async {
         nickname: '',
         profileImage: '',
         userId: 0);
+  }
+}
+
+Future<void> pwfindemailcheck() async {
+  ConnectivityResult result = await checkConnectionStatus();
+  PwController pwController = Get.find();
+  if (result == ConnectivityResult.none) {
+    pwController.emailcheckstate(EmailCheckState.fill);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
+  } else {
+    showCustomDialog('입력하신 이메일로 들어가서 링크를 클릭해 본인 인증을 해주세요', 1400);
+    pwController.emailcheckstate(EmailCheckState.waiting);
+    Uri uri = Uri.parse('$serverUrl/user_api/password');
+
+    //이메일 줘야 됨
+    final email = {
+      'email': pwController.emailController.text.trim(),
+    };
+
+    try {
+      pwController.emailcheckstate(EmailCheckState.waiting);
+      showemailchecksnackbar(
+          '${pwController.emailController.text.trim()}로 인증 메일을 보냈어요');
+
+      http.Response response = await http.post(uri,
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(email));
+
+      print("비밀번호 찾기 이메일 체크 : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        pwController.emailcheckstate(EmailCheckState.success);
+        Get.to(() => PwFindChangeView());
+        // _modalController.showCustomDialog('입력하신 이메일로 새로운 비밀번호를 알려드렸어요', 1400);
+      } else if (response.statusCode == 401) {
+        pwController.emailcheckstate(EmailCheckState.fill);
+        print('에러1');
+      } else {
+        pwController.emailcheckstate(EmailCheckState.fill);
+        print('에러');
+      }
+    } on SocketException {
+      pwController.emailcheckstate(EmailCheckState.fill);
+    } catch (e) {
+      pwController.emailcheckstate(EmailCheckState.fill);
+      print(e);
+      // ErrorController.to.isServerClosed(true);
+    }
+  }
+}
+
+Future<void> pwfindchange() async {
+  ConnectivityResult result = await checkConnectionStatus();
+  PwController pwController = Get.find();
+
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400);
+  } else {
+    Uri uri = Uri.parse('$serverUrl/user_api/password?type=find');
+
+    final user = {
+      "email": pwController.emailController.text,
+      'password': pwController.newpwController.text,
+    };
+
+    try {
+      http.Response response = await http.put(uri,
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(user));
+
+      print("비밀번호 찾기 : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        getbacks(3);
+        showCustomDialog('비밀번호 변경이 완료되었습니다', 1400);
+      } else if (response.statusCode == 401) {
+        showCustomDialog('현재 비밀번호가 틀렸습니다.', 1400);
+      } else {
+        showCustomDialog('입력한 정보를 다시 확인해주세요', 1400);
+      }
+    } on SocketException {
+    } catch (e) {
+      print(e);
+      // ErrorController.to.isServerClosed(true);
+    }
+  }
+}
+
+Future<void> pwchange() async {
+  ConnectivityResult result = await checkConnectionStatus();
+  PwController pwController = Get.find();
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400);
+  } else {
+    String? token = await const FlutterSecureStorage().read(key: "token");
+
+    Uri uri = Uri.parse('$serverUrl/user_api/password?type=change');
+
+    //이메일 줘야 됨
+    final password = {
+      'origin_pw': pwController.originpwController.text,
+      'new_pw': pwController.newpwController.text,
+    };
+
+    try {
+      http.Response response = await http.put(uri,
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'Token $token',
+          },
+          body: json.encode(password));
+
+      print("비밀번호 변경 : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        Get.back();
+        showCustomDialog('비밀번호 변경이 완료되었습니다', 1400);
+      } else if (response.statusCode == 401) {
+        showCustomDialog('현재 비밀번호가 틀렸습니다.', 1400);
+      } else {
+        showCustomDialog('입력한 정보를 다시 확인해주세요', 1400);
+      }
+    } on SocketException {
+    } catch (e) {
+      print(e);
+      // ErrorController.to.isServerClosed(true);
+    }
   }
 }

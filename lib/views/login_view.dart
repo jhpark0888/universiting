@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/utils/global_variable.dart';
+import 'package:universiting/views/pw_find_view.dart';
 import 'package:universiting/widgets/button_widget.dart';
 import 'package:universiting/widgets/custom_button_widget.dart';
 
@@ -86,7 +87,9 @@ class LoginView extends StatelessWidget {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => PwFindView());
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(

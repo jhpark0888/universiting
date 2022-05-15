@@ -365,15 +365,17 @@ class NotificationController extends GetxController {
           //   }
           // });
           // StatusController.to.makeAllSendList();
+
           String groupId = message.data['group_id'];
-          getbacks(1);
-          AppController.to.changePageIndex(2);
+
           ChatListController.to.chatList.value = await getChatList();
           ChatListController.to.chatRoomList.value =
               ChatListController.to.getChatRoomList();
+          await getbacks(2);
           Get.to(MessageDetailScreen(
             groupId: groupId,
           ));
+          AppController.to.changePageIndex(2);
         }
       });
     } else {
