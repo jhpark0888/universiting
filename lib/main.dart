@@ -11,6 +11,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:kakao_flutter_sdk/all.dart';
@@ -23,8 +24,19 @@ import 'package:universiting/views/univ_room_view.dart';
 
 import 'firebase_options.dart';
 
-void main() async {
+const Map<String, String> UNIT_ID = kReleaseMode
+    ? {
+        'ios': 'ca-app-pub-5195331284911428/7249874794',
+        'android': 'ca-app-pub-5195331284911428/6021673162',
+      }
+    : {
+        'ios': 'ca-app-pub-3940256099942544/2934735716',
+        'android': 'ca-app-pub-3940256099942544/6300978111',
+      };
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform, name: 'universiting');

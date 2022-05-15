@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/other_profile_controller.dart';
 import 'package:universiting/models/host_model.dart';
@@ -13,7 +15,8 @@ class RoomProfileView extends StatelessWidget {
   Host profile;
   @override
   Widget build(BuildContext context) {
-    OtherProfileController controller = Get.put(OtherProfileController(id: profile.userId.toString()));
+    OtherProfileController controller =
+        Get.put(OtherProfileController(id: profile.userId.toString()));
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
@@ -47,9 +50,10 @@ class RoomProfileView extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Obx(
-          () => Column(
+      body: Obx(
+        () => Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -58,8 +62,8 @@ class RoomProfileView extends StatelessWidget {
                 height: Get.width,
                 child: Stack(
                   children: [
-                    CachedNetworkImage(imageUrl:
-                      controller.otherProfile.value.profileImage != ''
+                    CachedNetworkImage(
+                      imageUrl: controller.otherProfile.value.profileImage != ''
                           ? controller.otherProfile.value.profileImage
                           : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
                       width: Get.width,
@@ -171,7 +175,16 @@ class RoomProfileView extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Container(
+                  height: 40,
+                  width: Get.width,
+                  child: AdWidget(ad: AdmobController.to.getBanner()..load()),
+                ),
+              ),
             ],
           ),
         ),

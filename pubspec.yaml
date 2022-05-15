@@ -38,6 +38,8 @@ dependencies:
   table_calendar: ^3.0.5
   url_launcher: ^6.1.2
   device_info_plus: ^3.2.3
+  google_mobile_ads: ^1.2.0
+  ios_utsname_ext: ^2.1.0
   
 dev_dependencies:
   flutter_test:

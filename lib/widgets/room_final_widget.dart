@@ -53,6 +53,8 @@ class RoomFinalWidget extends StatelessWidget {
           } else {
             print(hosts);
           }
+          print(MapController.to.isDetailClick);
+          print(roomType);
         },
         behavior: HitTestBehavior.translucent,
         child:

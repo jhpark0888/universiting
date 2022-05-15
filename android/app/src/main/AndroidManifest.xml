@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
    <application
-        android:label="universiting"
+        android:label="유니버시팅"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -44,5 +44,8 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="kbx9cb788s" />  
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+              android:value="ca-app-pub-5195331284911428~2956526124"/>     
     </application>
 </manifest>
