@@ -54,7 +54,10 @@ void main() async {
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
-    print('error : ${details.library}');
+    print('error context : ${details.context}');
+    print('error name : ${details.context!.name}');
+    print('error exception : ${details.exception}');
+    print('error linePrefix: ${details.context!.linePrefix}');
     // if (kReleaseMode) exit(1);
   };
   runApp(MyApp(

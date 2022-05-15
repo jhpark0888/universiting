@@ -47,7 +47,7 @@ class RoomInfoWidget extends StatelessWidget {
             TextSpan(
                 text: ' · 성별 ',
                 style: k16Medium.copyWith(color: kMainBlack.withOpacity(0.4))),
-            TextSpan(text: gender, style: k16Medium),
+            TextSpan(text: gender ?? '-', style: k16Medium),
             TextSpan(
                 text: ' · 인원 ',
                 style: k16Medium.copyWith(color: kMainBlack.withOpacity(0.4))),

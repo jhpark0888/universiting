@@ -110,6 +110,7 @@ class ParticiapteView extends StatelessWidget {
                               ? Container()
                               : SvgPicture.asset(
                                   'assets/icons/circle_add.svg',
+                                  color: kPrimary,
                                 ),
                         ),
                         const SizedBox(
@@ -138,7 +139,7 @@ class ParticiapteView extends StatelessWidget {
                     height: 2,
                   ),
                   EmptyBackTextfieldWidget(
-                    textStyle: k16Normal,
+                    textStyle: k16Normal.copyWith(height: 1.5),
                     controller: participateController.introController,
                     hinttext: '상대방이 관심있어 할 친구들만의 특별한 점을 입력해보세요.(최대 200글자)',
                     hintstyle: k16Normal.copyWith(
@@ -207,10 +208,12 @@ class ParticiapteView extends StatelessWidget {
                                     '친구들이 함께 가기를 모두 수락하면 \n신청이 완료되며,\n신청은 관리 - 신청 현황 탭에서 확인할 수 있어요',
                                 leftFunction: () => Get.back(),
                                 leftText: '닫기',
-                                rightFunction: () async{
+                                rightFunction: () async {
                                   await roomJoin(roomid);
-                                  await ManagementController.to.getrequestlist(0);
-                                  Get.back();
+                                  await ManagementController.to
+                                      .getrequestlist(0);
+                                  AppController.to.changePageIndex(1);
+                                  Get.back(closeOverlays: true);
                                   Get.back();
                                 },
                                 rightText: '신청하기');
