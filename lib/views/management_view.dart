@@ -5,6 +5,7 @@ import 'package:universiting/controllers/management_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/views/m_my_room_view.dart';
 import 'package:universiting/views/m_send_request_view.dart';
+import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 
 class ManagementView extends StatelessWidget {
   ManagementView({Key? key}) : super(key: key);
@@ -76,9 +77,11 @@ class ManagementView extends StatelessWidget {
                   ),
                 ];
               },
-              body: TabBarView(
-                  controller: _manageController.managetabController,
-                  children: [MyRoomView(), SendRequestView()]))),
+              body: ScrollNoneffectWidget(
+                child: TabBarView(
+                    controller: _manageController.managetabController,
+                    children: [MyRoomView(), SendRequestView()]),
+              ))),
     );
   }
 }

@@ -29,72 +29,77 @@ class RoomProfileImageWidget extends StatelessWidget {
   bool isReject;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (isReject == false) {
-          Get.to(() => RoomProfileView(profile: host!));
-        }
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: height ?? 130,
-                width: width ?? 130,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(borderRadius ?? 16),
-                ),
-                child: host != null
-                    ? host!.profileImage != ''
-                        ? ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(borderRadius ?? 16),
-                            child: CachedNetworkImage(
-                              imageUrl: host!.profileImage
-                                  .replaceAll('https', 'http'),
-                              fit: BoxFit.cover,
-                            ))
-                        : CachedNetworkImage(
-                            imageUrl:
-                                'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
-                            fit: BoxFit.cover)
-                    : profile!.profileImage != ''
-                        ? ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(borderRadius ?? 16),
-                            child: CachedNetworkImage(
-                                imageUrl: profile!.profileImage
-                                    .replaceAll('https', 'http'),
-                                fit: BoxFit.cover))
-                        : CachedNetworkImage(
-                            imageUrl:
-                                'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
-                            fit: BoxFit.cover),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Stack(
+          children: [
+            Container(
+              height: height ?? 130,
+              width: width ?? 130,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius ?? 16),
               ),
-              if (isname)
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: ProfileBlur(
-                      width: 130,
-                    )),
-              if (isname)
-                Positioned(
-                    left: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: Get.width,
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                      child: Text(
-                        host != null ? host!.nickname ?? '' : profile!.nickname,
-                        style: k16Medium.copyWith(color: kBackgroundWhite),
-                      ),
-                    ))
-            ],
-          ),
-        ],
-      ),
+              child: host != null
+                  ? host!.profileImage != ''
+                      ? ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(borderRadius ?? 16),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                host!.profileImage.replaceAll('https', 'http'),
+                            fit: BoxFit.cover,
+                          ))
+                      : CachedNetworkImage(
+                          imageUrl:
+                              'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
+                          fit: BoxFit.cover)
+                  : profile!.profileImage != ''
+                      ? ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(borderRadius ?? 16),
+                          child: CachedNetworkImage(
+                              imageUrl: profile!.profileImage
+                                  .replaceAll('https', 'http'),
+                              fit: BoxFit.cover))
+                      : CachedNetworkImage(
+                          imageUrl:
+                              'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
+                          fit: BoxFit.cover),
+            ),
+            if (isname)
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: ProfileBlur(
+                    width: 130,
+                  )),
+            if (isname)
+              Positioned(
+                  left: 0,
+                  bottom: 0,
+                  child: Container(
+                    width: Get.width,
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                    child: Text(
+                      host != null ? host!.nickname ?? '' : profile!.nickname,
+                      style: k16Medium.copyWith(color: kBackgroundWhite),
+                    ),
+                  )),
+            if (isReject == false)
+              Positioned.fill(
+                  child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    Get.to(() => RoomProfileView(profile: host!));
+                  },
+                  borderRadius: BorderRadius.circular(borderRadius ?? 16),
+                  splashColor: kSplashColor,
+                ),
+              )),
+          ],
+        ),
+      ],
     );
   }
 }

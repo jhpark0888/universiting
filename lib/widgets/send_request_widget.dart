@@ -28,7 +28,6 @@ class SendRequestWidget extends StatelessWidget {
     return Obx(
       () => Container(
           margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: kCardColor.withOpacity(1)),
@@ -36,28 +35,40 @@ class SendRequestWidget extends StatelessWidget {
           ),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            GestureDetector(
+            InkWell(
               onTap: () {
                 if (request.requeststate!.value != StateManagement.theyReject) {
-                  Get.to(() => SendRequestView(
-                        id: request.id,
-                        stateManagement: StateManagement.waitingThey,
-                      ));
+                  Get.to(
+                      () => SendRequestView(
+                            id: request.id,
+                            stateManagement: StateManagement.waitingThey,
+                          ),
+                      opaque: false);
                 } else if (request.requeststate!.value ==
                     StateManagement.friendReject) {
-                  Get.to(() => SendRequestView(
-                        id: request.id,
-                        stateManagement: StateManagement.friendReject,
-                      ));
+                  Get.to(
+                      () => SendRequestView(
+                            id: request.id,
+                            stateManagement: StateManagement.friendReject,
+                          ),
+                      opaque: false);
                 } else if (request.requeststate!.value ==
                     StateManagement.theyReject) {
                   getDetailSendView(request.id, request.requeststate!.value);
                   showCustomDialog('다음 기회에', 1200);
                 }
               },
+              splashColor: kSplashColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Center(
                       child: SizedBox(
                         height: 50,
@@ -173,17 +184,18 @@ class SendRequestWidget extends StatelessWidget {
                                                             request.id)
                                                         .first
                                                         .request
-                                                        .requeststate!.value =
-                                                    StateManagement
-                                                        .waitingThey;
-                                                        ManagementController
-                                                        .to.sendRequestWidgetList
-                                                        .where((widget) =>
-                                                            widget.request.id ==
-                                                            request.id)
-                                                        .first
-                                                        .request
-                                                        .requeststate!.refresh();
+                                                        .requeststate!
+                                                        .value =
+                                                    StateManagement.waitingThey;
+                                                ManagementController
+                                                    .to.sendRequestWidgetList
+                                                    .where((widget) =>
+                                                        widget.request.id ==
+                                                        request.id)
+                                                    .first
+                                                    .request
+                                                    .requeststate!
+                                                    .refresh();
                                               } else {}
                                             });
                                           },
@@ -208,13 +220,20 @@ class SendRequestWidget extends StatelessWidget {
                     ),
                   ]),
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 if (request.requeststate!.value != StateManagement.theyReject) {
-                  Get.to(() =>
-                      RoomDetailView(roomid: request.room!.id!.toString()));
+                  Get.to(
+                      () =>
+                          RoomDetailView(roomid: request.room!.id!.toString()),
+                      opaque: false);
                 }
               },
+              splashColor: kSplashColor,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(16),
+                bottomRight: Radius.circular(16),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -309,6 +328,9 @@ class SendRequestWidget extends StatelessWidget {
                         ],
                       ),
                     ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),

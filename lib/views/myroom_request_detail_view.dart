@@ -117,7 +117,16 @@ class MyRoomRequestDetailView extends StatelessWidget {
                                                     myrequest.id == request.id);
                                             myRoomWidget
                                                 .room.requestcount!.value -= 1;
-                                          } else {}
+                                          } else {
+                                            if (httpresponse
+                                                    .errorData!['statusCode'] !=
+                                                59) {
+                                              showCustomDialog(
+                                                  '네트워크를 확인해주세요', 1400);
+                                            } else {
+                                              showErrorDialog();
+                                            }
+                                          }
                                         });
                                       },
                                       child: const RejectButton())),

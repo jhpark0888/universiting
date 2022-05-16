@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +9,12 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
+import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> getUnivRoom() async {
+Future<HTTPResponse> getUnivRoom() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   MapController mapController = Get.find();
@@ -23,22 +25,27 @@ Future<void> getUnivRoom() async {
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
+    return HTTPResponse.networkError();
   } else {
-    var response = await http.get(url, headers: headers);
-
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      String responsebody = utf8.decode(response.bodyBytes);
-      print(jsonDecode(responsebody).runtimeType);
-
-      univRoomController.univRoom.value =
-          List<Map<String, dynamic>>.from(jsonDecode(responsebody))
-              .map((value) => Room.fromJson(value))
-              .toList();
-      print(response.statusCode);
-      print(univRoomController.univRoom);
-    } else {
-      print(response.statusCode);
+    try {
+      var response = await http.get(url, headers: headers);
+      print('대학교 방 로드 : ${response.statusCode}');
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        String responsebody = utf8.decode(response.bodyBytes);
+        print(jsonDecode(responsebody).runtimeType);
+        // print(univRoomController.univRoom);
+        return HTTPResponse.success(
+            List<Map<String, dynamic>>.from(jsonDecode(responsebody))
+                .map((value) => Room.fromJson(value))
+                .toList());
+      } else {
+        return HTTPResponse.apiError('', response.statusCode);
+      }
+    } on SocketException {
+      return HTTPResponse.serverError();
+    } catch (e) {
+      return HTTPResponse.unexpectedError(e);
     }
   }
 }

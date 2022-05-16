@@ -69,7 +69,7 @@ class MyRoomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
         onTap: () {
           Get.to(
               () => RoomDetailView(
@@ -77,8 +77,12 @@ class MyRoomWidget extends StatelessWidget {
                   ),
               opaque: false);
         },
+        splashColor: kSplashColor,
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          const SizedBox(
+            height: 18,
+          ),
           ScrollNoneffectWidget(
               child: SizedBox(
                   height: 130,
@@ -184,9 +188,6 @@ class MyRoomWidget extends StatelessWidget {
                         thickness: 0.5,
                         color: kMainBlack.withOpacity(0.1),
                       ),
-                      const SizedBox(
-                        height: 18,
-                      ),
                     ],
                   ),
                 ),
@@ -262,9 +263,6 @@ class MyRoomWidget extends StatelessWidget {
                             thickness: 2.5,
                             color: kMainBlack.withOpacity(0.1),
                           ),
-                          const SizedBox(
-                            height: 18,
-                          ),
                         ],
                       ),
                     )
@@ -286,33 +284,34 @@ class MyRoomWidget extends StatelessWidget {
                             child: child,
                           ),
                         ),
-                        ClipRect(
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            heightFactor: 1,
-                            child: GestureDetector(
-                              onTap: () async {
-                                if (isRequestList.value) {
-                                  textswitch();
-                                  isRequestList(false);
-                                  _animationController
-                                      .myRoomWidgetAnimationController
-                                      .reverse();
-                                } else {
-                                  await getMyRoomRequestlist('all', 0, room.id!)
-                                      .then((httpresponse) {
-                                    if (httpresponse.isError == false) {
-                                      room.requestlist!.value =
-                                          httpresponse.data;
-                                    } else {}
-                                  });
-                                  textswitch();
-                                  isRequestList(true);
-                                  _animationController
-                                      .myRoomWidgetAnimationController
-                                      .forward();
-                                }
-                              },
+                        InkWell(
+                          onTap: () async {
+                            if (isRequestList.value) {
+                              textswitch();
+                              isRequestList(false);
+                              _animationController
+                                  .myRoomWidgetAnimationController
+                                  .reverse();
+                            } else {
+                              await getMyRoomRequestlist('all', 0, room.id!)
+                                  .then((httpresponse) {
+                                if (httpresponse.isError == false) {
+                                  room.requestlist!.value = httpresponse.data;
+                                } else {}
+                              });
+                              textswitch();
+                              isRequestList(true);
+                              _animationController
+                                  .myRoomWidgetAnimationController
+                                  .forward();
+                            }
+                          },
+                          splashColor: kSplashColor,
+                          borderRadius: BorderRadius.circular(10),
+                          child: ClipRect(
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              heightFactor: 1,
                               child: Column(children: [
                                 AnimatedSwitcher(
                                   duration: const Duration(milliseconds: 500),
@@ -326,6 +325,9 @@ class MyRoomWidget extends StatelessWidget {
                                   child: SvgPicture.asset(
                                     'assets/icons/down_arrow.svg',
                                   ),
+                                ),
+                                const SizedBox(
+                                  height: 18,
                                 ),
                               ]),
                             ),
@@ -391,15 +393,9 @@ class MyRoomWidget extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 18,
-                      ),
                       Divider(
                         thickness: 2.5,
                         color: kMainBlack.withOpacity(0.1),
-                      ),
-                      const SizedBox(
-                        height: 18,
                       ),
                     ],
                   ),

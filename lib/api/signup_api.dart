@@ -53,7 +53,7 @@ Future<void> getUniversityList() async {
 //   SignupController signupController = Get.find();
 //   var url = Uri.parse('$serverUrl/school_api/department_list?id=$id');
 //   if (result == ConnectivityResult.none) {
-//     showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+//     showCustomDialog('네트워크를 확인해주세요', 1400);
 //   } else {
 //     try {
 //       var response = await http.get(url);
@@ -83,7 +83,7 @@ Future<void> checkNickName() async {
   var url = Uri.parse(
       '$serverUrl/user_api/nickname?nickname=${signupController.nameController.text}');
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       var response = await http.get(
@@ -118,7 +118,7 @@ Future<void> checkEmail() async {
   var headers = {'Content-Type': 'multipart/form-data'};
   if (result == ConnectionState.none) {
     signupController.emailcheckstate(EmailCheckState.fill);
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       // showcustomCustomDialog(1200);
@@ -169,7 +169,7 @@ Future<void> postProfile() async {
   print(signup);
   var headers = {'Content-Type': 'application/json'};
   if (result == ConnectionState.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       var response =
@@ -216,7 +216,7 @@ Future<void> _login() async {
   final url = Uri.parse('$serverUrl/user_api/login');
 
   if (result == ConnectivityResult.none) {
-    // showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    // showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       var response =

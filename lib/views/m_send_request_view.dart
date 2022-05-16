@@ -4,6 +4,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/management_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/widgets/custom_refresher.dart';
+import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 
 class SendRequestView extends StatelessWidget {
   SendRequestView({Key? key}) : super(key: key);

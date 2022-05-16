@@ -23,7 +23,7 @@ Future<void> getMyProfile() async {
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       var response = await http.get(url, headers: headers);
@@ -51,7 +51,7 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       var request = http.MultipartRequest('PUT', url);
@@ -97,7 +97,6 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
         profileController.profile.value.age =
             profileController.profile.value.age;
         print(responsebody);
-        
       } else {
         print(response.statusCode);
       }
@@ -116,7 +115,7 @@ Future<Profile> getOtherProfile(String id) async {
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return Profile(
         age: 0,
         gender: '',
@@ -157,16 +156,14 @@ Future<Profile> getOtherProfile(String id) async {
   }
 }
 
-
 Future<HTTPResponse> postInquary(String email, String content) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url =
-      Uri.parse('$serverUrl/user_api/inquary');
+  var url = Uri.parse('$serverUrl/user_api/inquary');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     // try {
@@ -188,6 +185,7 @@ Future<HTTPResponse> postInquary(String email, String content) async {
     // }
   }
 }
+
 Future<void> pwfindemailcheck() async {
   ConnectivityResult result = await checkConnectionStatus();
   PwController pwController = Get.find();
@@ -270,6 +268,7 @@ Future<void> pwfindchange() async {
     } on SocketException {
     } catch (e) {
       print(e);
+      showErrorDialog();
       // ErrorController.to.isServerClosed(true);
     }
   }
@@ -311,6 +310,7 @@ Future<void> pwchange() async {
     } on SocketException {
     } catch (e) {
       print(e);
+      showErrorDialog();
       // ErrorController.to.isServerClosed(true);
     }
   }

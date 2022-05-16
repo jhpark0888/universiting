@@ -37,26 +37,23 @@ Future<HTTPResponse> getMyRoom(int last) async {
       Uri.parse('$serverUrl/room_api/my_room?type=all&last=${last.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
     return HTTPResponse.networkError();
   } else {
-    // try {
-    var response = await http.get(url, headers: headers);
-    print('내방 불러오기 : ${response.statusCode}');
-    String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      // selectMemberController.seletedMember.value =
-      //     SelectMember.fromJson(jsonDecode(responsebody));
-      return HTTPResponse.success(MyRoom.fromJson(jsonDecode(responsebody)));
-    } else {
-      return HTTPResponse.apiError('', response.statusCode);
+    try {
+      var response = await http.get(url, headers: headers);
+      print('내방 불러오기 : ${response.statusCode}');
+      String responsebody = utf8.decode(response.bodyBytes);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return HTTPResponse.success(MyRoom.fromJson(jsonDecode(responsebody)));
+      } else {
+        return HTTPResponse.apiError('', response.statusCode);
+      }
+    } on SocketException {
+      return HTTPResponse.serverError();
+    } catch (e) {
+      print(e);
+      return HTTPResponse.unexpectedError(e);
     }
-    // } on SocketException {
-    //   return HTTPResponse.serverError();
-    // } catch (e) {
-    //   print(e);
-    //   return HTTPResponse.unexpectedError(e);
-    // }
   }
 }
 
@@ -68,7 +65,6 @@ Future<HTTPResponse> getSendlist(String type, int last) async {
       '$serverUrl/room_api/send_list?type=${type}&last=${last.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     try {
@@ -159,7 +155,7 @@ Future<void> SearchMember() async {
   }
 }
 
-Future<void> makeRoom() async {
+Future<HTTPResponse> makeRoom() async {
   RoomInfoController createRoomController = Get.find();
   // CheckPeopleController checkPeopleController = Get.find();
   ConnectivityResult result = await checkConnectionStatus();
@@ -177,28 +173,25 @@ Future<void> makeRoom() async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    Get.back();
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return HTTPResponse.networkError();
   } else {
     try {
       var response = await http.post(url, headers: headers, body: body);
       print('방 만들기: ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        Get.back();
-        Get.back();
-        print(responsebody);
-        print(response.statusCode);
+        return HTTPResponse.success('success');
       } else {
         print(response.statusCode);
+        return HTTPResponse.apiError('', response.statusCode);
       }
     } on SocketException {
-      Get.back();
       showCustomDialog('서버 점검중입니다.', 1200);
+      return HTTPResponse.serverError();
     } catch (e) {
-      Get.back();
       print(e);
       showCustomDialog('서버 점검중입니다.', 1200);
+      return HTTPResponse.unexpectedError(e);
     }
   }
 }
@@ -210,7 +203,7 @@ Future<HTTPResponse> getDetailRoom(String id) async {
   var url = Uri.parse('$serverUrl/room_api/room?type=room&room_id=${id}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     try {
@@ -247,7 +240,7 @@ Future<HTTPResponse> roomparticipate(int roomId, String type) async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     try {
@@ -273,7 +266,7 @@ Future<HTTPResponse> roomparticipate(int roomId, String type) async {
   }
 }
 
-Future<void> roomJoin(String room_id) async {
+Future<HTTPResponse> roomJoin(String room_id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
@@ -288,34 +281,23 @@ Future<void> roomJoin(String room_id) async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return HTTPResponse.networkError();
   } else {
     try {
       var response = await http.post(url, headers: headers, body: body);
+      print('방에 신청 보내기 : ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        print(responsebody);
-        print(response.statusCode);
-        AppController.to.getbacks();
-        AppController.to.currentIndex.value = 2;
-        Get.back();
-        await getSendStatus().then((httpresponse) {
-          if (httpresponse.isError == false) {
-            StatusController.to.sendList(httpresponse.data);
-          }
-        });
-        StatusController.to.makeAllSendList();
-        StatusRoomTabController.to.currentIndex.value = 1;
+        return HTTPResponse.success(responsebody);
       } else {
         print(response.statusCode);
+        return HTTPResponse.apiError('apierror', response.statusCode);
       }
     } on SocketException {
-      Get.back();
-      showCustomDialog('서버 점검중입니다.', 1200);
+      return HTTPResponse.serverError();
     } catch (e) {
-      Get.back();
       print(e);
-      showCustomDialog('서버 점검중입니다.', 1200);
+      return HTTPResponse.unexpectedError(e);
     }
   }
 }
@@ -336,7 +318,7 @@ Future<HTTPResponse> roomRequestJoin(
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     try {
@@ -373,7 +355,7 @@ Future<void> deleteMyRoom(String id) async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     var response = await http.delete(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
@@ -397,7 +379,7 @@ Future<void> reportRoom(String roomId, String reason) async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     var response = await http.post(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);

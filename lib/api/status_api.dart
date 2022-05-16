@@ -22,7 +22,7 @@ Future<HTTPResponse> getReceiveStatus() async {
   var url = Uri.parse('$serverUrl/room_api/alarm_list?type=receive');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     try {
@@ -60,7 +60,7 @@ Future<void> hostMemberAlarm(String room_id, String type) async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     var response = await http.put(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
@@ -84,7 +84,7 @@ Future<void> okJoinAlarm(String room_id, String from_id, String type) async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     var response = await http.put(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
@@ -108,7 +108,7 @@ Future<void> deleteAlarm(String id) async {
     'Authorization': 'Token $token',
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     var response = await http.delete(url, headers: headers);
     String responsebody = utf8.decode(response.bodyBytes);
@@ -128,7 +128,7 @@ Future<HTTPResponse> getSendStatus() async {
   var url = Uri.parse('$serverUrl/room_api/alarm_list?type=send');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     try {
@@ -166,7 +166,7 @@ Future<void> joinToChat(AlarmReceive alarmReceive) async {
     'creater_id': alarmReceive.profile.userId.toString()
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     var response = await http.post(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
@@ -193,7 +193,7 @@ Future<void> rejectToChat(AlarmReceive alarmReceive) async {
     'creater_id': alarmReceive.profile.userId.toString()
   };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     var response = await http.delete(url, headers: headers, body: body);
     String responsebody = utf8.decode(response.bodyBytes);
@@ -215,7 +215,7 @@ Future<HTTPResponse> getDetailSendView(
       '$serverUrl/room_api/send_list?type=${management == StateManagement.theyReject ? 'reject' : management == StateManagement.friendReject ? 'reject' : 'join'}/detail&id=${id.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return HTTPResponse.networkError();
   } else {
     try {

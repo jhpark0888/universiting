@@ -8,6 +8,7 @@ import 'package:universiting/controllers/custom_animation_controller.dart';
 import 'package:universiting/models/my_room_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/models/send_request_model.dart';
+import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/widgets/myroom_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 import 'package:universiting/widgets/room_final_widget.dart';
@@ -90,6 +91,7 @@ class ManagementController extends GetxController
 
         myroomstate(Screenstate.success);
       } else {
+        errorSituation(httpresponse);
         myroomstate(Screenstate.error);
       }
       // memberList.value = myRoomList.memberList;
@@ -113,7 +115,7 @@ class ManagementController extends GetxController
                       request: joinrequest,
                     ))
                 .toList());
-                sendRequestWidgetList.refresh();
+            sendRequestWidgetList.refresh();
           } else {
             for (SendRequest request in temprequestlist.reversed) {
               sendRequestWidgetList.insert(
@@ -127,6 +129,7 @@ class ManagementController extends GetxController
 
         myroomstate(Screenstate.success);
       } else {
+        errorSituation(httpresponse);
         myroomstate(Screenstate.error);
       }
       // memberList.value = myRoomList.memberList;

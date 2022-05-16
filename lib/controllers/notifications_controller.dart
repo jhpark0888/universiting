@@ -368,9 +368,10 @@ class NotificationController extends GetxController {
 
           String groupId = message.data['group_id'];
 
-          ChatListController.to.chatList.value = await getChatList();
-          ChatListController.to.chatRoomList.value =
-              ChatListController.to.getChatRoomList();
+          await ChatListController.to.getList();
+          // ChatListController.to.chatList.value = await getChatList();
+          // ChatListController.to.chatRoomList.value =
+          //     ChatListController.to.getChatRoomList();
           await getbacks(2);
           Get.to(MessageDetailScreen(
             groupId: groupId,

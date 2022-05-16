@@ -356,8 +356,7 @@ class HomeView extends StatelessWidget {
                       Positioned(
                           top: 72 + homeController.statusBarHeight.value,
                           child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20),
+                            padding: const EdgeInsets.only(left: 20, right: 20),
                             child: Container(
                               height: homeController.searchedUniv.length > 3
                                   ? 200
@@ -397,7 +396,7 @@ class HomeView extends StatelessWidget {
                                                       .schoolname;
                                               homeController.searchedUniv
                                                   .clear();
-                                                  FocusScope.of(context).unfocus();
+                                              FocusScope.of(context).unfocus();
                                             });
                                           });
                                         },
@@ -412,7 +411,6 @@ class HomeView extends StatelessWidget {
                                               style: kSubtitleStyle3,
                                             ),
                                             const SizedBox(height: 20),
-                                            
                                             KeyboardVisibilityBuilder(
                                                 builder: (context, visible) {
                                               print(visible);
@@ -424,7 +422,11 @@ class HomeView extends StatelessWidget {
                                       );
                                     },
                                     itemCount:
-                                        homeController.searchedUniv.length, separatorBuilder: (BuildContext context, int index) { return const Divider(); },
+                                        homeController.searchedUniv.length,
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return const Divider();
+                                    },
                                   ),
                                 ),
                               ),

@@ -5,6 +5,7 @@ import 'package:universiting/controllers/management_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/views/room_info_view.dart';
 import 'package:universiting/widgets/custom_refresher.dart';
+import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 
 class MyRoomView extends StatelessWidget {
   MyRoomView({Key? key}) : super(key: key);

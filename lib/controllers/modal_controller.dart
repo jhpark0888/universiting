@@ -239,6 +239,92 @@ void showButtonDialog({
   );
 }
 
+void showNetworkDisconnectDialog() {
+  if (Get.isDialogOpen == false) {
+    Get.dialog(
+      const AlertDialog(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(16.0),
+          ),
+        ),
+        contentPadding: EdgeInsets.fromLTRB(20, 12, 20, 12),
+        backgroundColor: Colors.white,
+        content: Text(
+          '네트워크를 확인해주세요',
+          style: kSubtitleStyle3,
+          textAlign: TextAlign.center,
+        ),
+      ),
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.3),
+      // transitionCurve: kAnimationCurve,
+      // transitionDuration: kAnimationDuration,
+    );
+    Future.delayed(Duration(milliseconds: 1400), () {
+      Get.back();
+    });
+  }
+}
+
+void showErrorDialog() {
+  if (Get.isDialogOpen == false) {
+    Get.dialog(
+      AlertDialog(
+        // actionsAlignment: MainAxisAlignment.spaceBetween,
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  decoration: BoxDecoration(
+                    color: kPrimary,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  height: 42,
+                  child: Center(
+                    child: Text(
+                      '확인',
+                      style: k16Medium.copyWith(color: kMainWhite),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        insetPadding: const EdgeInsets.all(20),
+        buttonPadding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
+        contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
+        backgroundColor: kBackgroundWhite,
+        title: const Text(
+          '오류',
+          style: k16Normal,
+          textAlign: TextAlign.center,
+        ),
+        content: const Text(
+          '오류로 인해 해당 작업이 실행되지 않았습니다.',
+          style: kBodyStyle1,
+          textAlign: TextAlign.center,
+        ),
+      ),
+      barrierDismissible: false,
+      barrierColor: kMainBlack.withOpacity(0.1),
+    );
+  }
+}
+
 void showRoomDialog(
     {TextEditingController? controller,
     String? roomid,

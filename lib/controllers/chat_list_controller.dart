@@ -8,6 +8,7 @@ import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/chat_list_model.dart';
 import 'package:universiting/models/group_model.dart';
 import 'package:universiting/models/host_model.dart';
+import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/widgets/chat_room_widget.dart';
 import 'package:universiting/widgets/profile_image_widget.dart';
 
@@ -22,15 +23,20 @@ class ChatListController extends GetxController {
   RefreshController refreshController = RefreshController();
   @override
   void onInit() async {
-    chatList.value = await getChatList();
-    chatRoomList.value = getChatRoomList();
+    await getList();
     initializeDateFormatting(Localizations.localeOf(Get.context!).languageCode);
     super.onInit();
   }
 
-  void getList() async {
-    chatList.value = await getChatList();
-    chatRoomList.value = getChatRoomList();
+  Future getList() async {
+    await getChatList().then((httpresponse) {
+      if (httpresponse.isError == false) {
+        chatList(List<ChatRoom>.from(httpresponse.data));
+        chatRoomList.value = getChatRoomList();
+      } else {
+        errorSituation(httpresponse);
+      }
+    });
   }
 
   List<ChatRoomWidget> getChatRoomList() {
@@ -39,11 +45,9 @@ class ChatListController extends GetxController {
       for (Host host in chatRoom.group.member) {
         chatImageList.add(ProfileImageWidget(
             type: ViewType.otherView, host: host, width: 50, height: 50));
-        
       }
       list.add(ChatRoomWidget(
-            chatRoom: chatRoom.obs,
-            imageList: StackedImages(chatImageList).obs));
+          chatRoom: chatRoom.obs, imageList: StackedImages(chatImageList).obs));
       chatImageList.clear();
     }
 
@@ -51,8 +55,7 @@ class ChatListController extends GetxController {
   }
 
   void onRefreshChatList() async {
-    chatList.value = await getChatList();
-    chatRoomList.value = getChatRoomList();
+    await getList();
     refreshController.refreshCompleted();
     print('리프레시 완료');
   }

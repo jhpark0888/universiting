@@ -17,7 +17,7 @@ Future<List<AlarmReceive>> getAlarmList(index) async {
   var url = Uri.parse('$serverUrl/room_api/alarm?last=$index');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    showCustomDialog('네트워크를 확인해주세요', 1400);
     return [
       AlarmReceive(
           id: 0,

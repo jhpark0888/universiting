@@ -40,7 +40,7 @@ Future<void> login() async {
   final url = Uri.parse('$serverUrl/user_api/login');
 
   if (result == ConnectivityResult.none) {
-    // showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    // showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
     try {
       var response =
@@ -78,56 +78,38 @@ Future<void> login() async {
   }
 }
 
-Future<void> logout() async {
+Future<HTTPResponse> logout() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
   var url = Uri.parse('$serverUrl/user_api/logout');
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+    return HTTPResponse.networkError();
   } else {
     try {
       var response = await http.post(url, headers: headers);
-
+      print('로그아웃 : ${response.statusCode}');
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        print(response.statusCode);
-        const FlutterSecureStorage().delete(key: "token");
-        const FlutterSecureStorage().delete(key: "id");
-        const FlutterSecureStorage().delete(key: "lng");
-        const FlutterSecureStorage().delete(key: "lat");
-        Get.delete<HomeController>(tag: '다음 화면');
-        Get.delete<HomeController>(tag: '첫 화면');
-        Get.delete<ManagementController>();
-        Get.delete<StatusController>();
-        Get.delete<ChatListController>();
-        Get.delete<ProfileController>();
-        Get.delete<MapController>();
-        Get.offAll(() => HomeView(
-              login: false,
-              tag: '첫 화면',
-              lat: 37.563600,
-              lng: 126.962370,
-            ));
-        Get.put(HomeController(), tag: '첫 화면');
-        AppController.to.currentIndex.value = 0;
+        return HTTPResponse.success('success');
       } else {
         print(response.statusCode);
+        return HTTPResponse.apiError('', response.statusCode);
       }
+    } on SocketException {
+      return HTTPResponse.serverError();
     } catch (e) {
       print(e);
-      showCustomDialog('서버 점검중입니다.', 1200);
+      return HTTPResponse.unexpectedError(e);
     }
   }
 }
-
 
 Future<HTTPResponse> imageCheck() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse(
-      '$serverUrl/school_api/check_profile');
+  var url = Uri.parse('$serverUrl/school_api/check_profile');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -138,9 +120,9 @@ Future<HTTPResponse> imageCheck() async {
       print('이미지 체크 : ${response.statusCode}');
       String responsebody = utf8.decode(response.bodyBytes);
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        if(jsonDecode(responsebody) == '프로필 이미지를 만들어주세요'){
-        return HTTPResponse.success(false);
-        }else{
+        if (jsonDecode(responsebody) == '프로필 이미지를 만들어주세요') {
+          return HTTPResponse.success(false);
+        } else {
           return HTTPResponse.success(true);
         }
       } else {

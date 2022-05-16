@@ -49,16 +49,20 @@ class HomeController extends GetxController {
       isGuest.value = false;
       islogin.value = true;
       await imageCheck().then((httpresponse) async {
-        print(httpresponse.data);
-        isImagecheck.value = httpresponse.data;
-        if (isImagecheck.value == false) {
-          Get.to(() => ImageCheckView());
+        if (httpresponse.isError == false) {
+          print(httpresponse.data);
+          isImagecheck.value = httpresponse.data;
+          if (isImagecheck.value == false) {
+            Get.to(() => ImageCheckView());
+          } else {
+            await getOverlyImage();
+            mainuniv.value = (await getMainUniv());
+            // showcustomCustomDialog(1200);
+            customDialog(1);
+            createdMarker();
+          }
         } else {
-          await getOverlyImage();
-          mainuniv.value = (await getMainUniv());
-          // showcustomCustomDialog(1200);
-          customDialog(1);
-          createdMarker();
+          errorSituation(httpresponse);
         }
       });
     } else {
@@ -151,7 +155,7 @@ class HomeController extends GetxController {
     ConnectivityResult result = await checkConnectionStatus();
     final url = Uri.parse('$serverUrl/school_api/main_load');
     if (result == ConnectivityResult.none) {
-      showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
+      showNetworkDisconnectDialog();
       return [
         MainUniv(
             id: 0, schoolname: '', lat: 37.563600, lng: 126.962370, type: false)
@@ -221,11 +225,11 @@ class HomeController extends GetxController {
     );
   }
 
-  void getLoad()async{
+  void getLoad() async {
     await getOverlyImage();
-      mainuniv.value = (await getMainUniv());
-      // showcustomCustomDialog(1200);
-      customDialog(1);
-      createdMarker();
+    mainuniv.value = (await getMainUniv());
+    // showcustomCustomDialog(1200);
+    customDialog(1);
+    createdMarker();
   }
 }

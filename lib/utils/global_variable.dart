@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/modal_controller.dart';
+import 'package:universiting/models/httpresponse_model.dart';
 
 Future<ConnectivityResult> checkConnectionStatus() async {
   late ConnectivityResult result = ConnectivityResult.none;
@@ -71,7 +73,15 @@ Widget getBoxColor(DateTime date) {
 
 Future? getbacks(int number) {
   for (int i = 0; i < number; i++) {
-    Get.back();
+    Get.back(closeOverlays: true);
   }
   return null;
+}
+
+void errorSituation(HTTPResponse httpresponse) {
+  if (httpresponse.errorData!['statusCode'] == 59) {
+    showNetworkDisconnectDialog();
+  } else {
+    showErrorDialog();
+  }
 }

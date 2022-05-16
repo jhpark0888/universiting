@@ -16,27 +16,39 @@ class ChatListView extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: false,
         elevation: 0,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 4.0),
+        titleSpacing: 20,
+        title: const Padding(
+          padding: EdgeInsets.only(top: 28),
           child: Text(
             '채팅방',
-            style: kHeaderStyle3,
+            style: k26SemiBold,
           ),
         ),
-        actions: [],
       ),
       body: SmartRefresher(
           controller: chatListController.refreshController,
           header: const CustomRefresherHeader(),
           onRefresh: chatListController.onRefreshChatList,
-          child: Obx(() => SingleChildScrollView(
+          child: Obx(() => chatListController.chatRoomList.isEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '아직 채팅방이 없어요',
+                      style: kSubtitleStyle2.copyWith(
+                          color: kMainBlack.withOpacity(0.38)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                )
+              : SingleChildScrollView(
                   child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 82),
-                child: Column(
-                    children: chatListController.chatRoomList != []
-                        ? chatListController.chatRoomList.value
-                        : []),
-              )))),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 82),
+                  child: Column(
+                      children: chatListController.chatRoomList != []
+                          ? chatListController.chatRoomList.value
+                          : []),
+                )))),
     );
   }
 }

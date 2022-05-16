@@ -36,8 +36,10 @@ class MyroomRequestWidget extends StatelessWidget {
     return Container(
       padding:
           isbottompadding == true ? const EdgeInsets.only(bottom: 10) : null,
-      child: GestureDetector(
+      child: InkWell(
         onTap: onTap,
+        splashColor: kSplashColor,
+        borderRadius: BorderRadius.circular(16),
         child: Container(
           width: width,
           padding: const EdgeInsets.all(20),

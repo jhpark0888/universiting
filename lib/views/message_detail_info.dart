@@ -26,7 +26,7 @@ class MessageDetailInfoView extends StatelessWidget {
               onPressed: () {
                 showCustomModalPopup(context, value1: '채팅 나가기', func1: () {
                   exitChat(MessageDetailController.to.groupId);
-                  getbacks(3);
+                  getbacks(2);
                   ChatListController.to.chatRoomList.remove(
                       ChatListController.to.chatRoomList[ChatListController
                           .to.chatRoomList
@@ -57,17 +57,24 @@ class MessageDetailInfoView extends StatelessWidget {
                             textAlign: TextAlign.center),
                     const SizedBox(height: 26),
                     messageDetailController.messageDetail.value.userType != 0
-                        ? Text(messageDetailController
-                            .messageDetail.value.university, style: kSubtitleStyle1,)
+                        ? Text(
+                            messageDetailController
+                                .messageDetail.value.university,
+                            style: kSubtitleStyle1,
+                          )
                         : Text(
-                            messageDetailController.profile.value.university!, style: kSubtitleStyle1),
+                            messageDetailController.profile.value.university!,
+                            style: kSubtitleStyle1),
                     Column(children: hostMember),
                     const SizedBox(height: 24),
                     messageDetailController.messageDetail.value.userType == 0
-                        ? Text(messageDetailController
-                            .messageDetail.value.university, style: kSubtitleStyle1)
+                        ? Text(
+                            messageDetailController
+                                .messageDetail.value.university,
+                            style: kSubtitleStyle1)
                         : Text(
-                            messageDetailController.profile.value.university!, style: kSubtitleStyle1),
+                            messageDetailController.profile.value.university!,
+                            style: kSubtitleStyle1),
                     Column(children: joinMember)
                   ]),
             )));

@@ -8,6 +8,7 @@ import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
 import 'package:universiting/views/univ_room_view.dart';
+import 'package:universiting/widgets/loading_widget.dart';
 import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 
 class UnivRoomWidget extends StatelessWidget {
@@ -46,13 +47,12 @@ class UnivRoomWidget extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   print('object');
-                  if(mapController.isDetailClick.value == false){
+                  if (mapController.isDetailClick.value == false) {
                     univRoomController.changeHeight.value = Get.height;
                     mapController.isDetailClick(true);
                   }
                 },
                 onVerticalDragUpdate: (value) {
-                  
                   // print(value.globalPosition.dy);
                   if (univRoomController.changeHeight.value <
                       Get.height - value.globalPosition.dy) {
@@ -62,7 +62,7 @@ class UnivRoomWidget extends StatelessWidget {
                   if (Get.height - value.globalPosition.dy > Get.height - 100) {
                     if (univRoomController.changeHeight.value >
                         Get.height - value.globalPosition.dy) {
-                          mapController.isDetailClick(false);
+                      mapController.isDetailClick(false);
                       Get.back();
                     }
                   }
@@ -108,7 +108,10 @@ class UnivRoomWidget extends StatelessWidget {
                   // }
                 },
                 child: Padding(
-                  padding: mapController.isDetailClick.value ? EdgeInsets.only(top: HomeController.to.statusBarHeight.value) : const EdgeInsets.only(top: 8),
+                  padding: mapController.isDetailClick.value
+                      ? EdgeInsets.only(
+                          top: HomeController.to.statusBarHeight.value)
+                      : const EdgeInsets.only(top: 8),
                   child: Stack(children: [
                     Column(
                       children: [
@@ -127,7 +130,7 @@ class UnivRoomWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          // if(mapController.isDetailClick.value == false)
+                        // if(mapController.isDetailClick.value == false)
                         const SizedBox(height: 28),
                         GestureDetector(
                           onTap: () {
@@ -149,29 +152,65 @@ class UnivRoomWidget extends StatelessWidget {
                               )),
                         ),
                         const SizedBox(height: 28),
-                        if (univRoomController.univRoom.isEmpty)
-                          Text(
-                            '아직 만들어진 방이 없어요',
-                            style: kSubtitleStyle2.copyWith(
-                                color: kMainBlack.withOpacity(0.38)),
-                          ),
-                        if (univRoomController.univRoom.isNotEmpty)
-                          Expanded(
-                            child: ScrollNoneffectWidget(
-                              child: SingleChildScrollView(
-                                controller: univRoomController.scrollController,
-                                physics:
-                                    univRoomController.changeHeight.value ==
-                                            Get.height
-                                        ? null
-                                        : const NeverScrollableScrollPhysics(),
-                                child: Column(
-                                  children:
-                                      univRoomController.room.reversed.toList(),
+                        Obx(() => univRoomController.screenstate.value ==
+                                Screenstate.loading
+                            ? Center(
+                                child: Image.asset(
+                                  'assets/icons/loading.gif',
+                                  scale: 8,
                                 ),
-                              ),
-                            ),
-                          )
+                              )
+                            : univRoomController.screenstate.value ==
+                                    Screenstate.success
+                                ? univRoomController.univRoom.isEmpty
+                                    ? Text(
+                                        '아직 만들어진 방이 없어요',
+                                        style: kSubtitleStyle2.copyWith(
+                                            color:
+                                                kMainBlack.withOpacity(0.38)),
+                                      )
+                                    : Expanded(
+                                        child: ScrollNoneffectWidget(
+                                          child: SingleChildScrollView(
+                                            controller: univRoomController
+                                                .scrollController,
+                                            physics: univRoomController
+                                                        .changeHeight.value ==
+                                                    Get.height
+                                                ? null
+                                                : const NeverScrollableScrollPhysics(),
+                                            child: Column(
+                                              children: univRoomController
+                                                  .room.reversed
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                : Container()),
+                        // if (univRoomController.univRoom.isEmpty)
+                        //   Text(
+                        //     '아직 만들어진 방이 없어요',
+                        //     style: kSubtitleStyle2.copyWith(
+                        //         color: kMainBlack.withOpacity(0.38)),
+                        //   ),
+                        // if (univRoomController.univRoom.isNotEmpty)
+                        //   Expanded(
+                        //     child: ScrollNoneffectWidget(
+                        //       child: SingleChildScrollView(
+                        //         controller: univRoomController.scrollController,
+                        //         physics:
+                        //             univRoomController.changeHeight.value ==
+                        //                     Get.height
+                        //                 ? null
+                        //                 : const NeverScrollableScrollPhysics(),
+                        //         child: Column(
+                        //           children:
+                        //               univRoomController.room.reversed.toList(),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   )
                       ],
                     ),
                     if (mapController.isDetailClick.value)
