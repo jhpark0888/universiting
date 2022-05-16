@@ -5,6 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/inquary_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/pw_find_controller.dart';
@@ -156,21 +157,53 @@ Future<Profile> getOtherProfile(String id) async {
   }
 }
 
-Future<HTTPResponse> postInquary(String email, String content) async {
+Future<HTTPResponse> postInquary() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
+  InquaryController controller = Get.find();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/user_api/inquary');
-  var headers = {'Authorization': 'Token $token'};
+  var url = Uri.parse('$serverUrl/user_api/ask');
+  // var headers = {'Authorization': 'Token $token'};
+
+  var body = {
+    'email': controller.emailController.text,
+    'content': controller.contentcontroller.text,
+    'real_name': ProfileController.to.profile.value.nickname,
+    'os': controller.userDeviceInfo.deviceData.isNotEmpty
+        ? "${controller.userDeviceInfo.deviceData.values.first}"
+        : "",
+    'app_ver': controller.userDeviceInfo.appInfoData.isNotEmpty
+        ? controller.userDeviceInfo.appInfoData.keys.first +
+            ' ' +
+            controller.userDeviceInfo.appInfoData.values.first
+        : "",
+    'device': controller.userDeviceInfo.deviceData.isNotEmpty
+        ? "${controller.userDeviceInfo.deviceData.values.last}"
+        : ""
+  };
   if (result == ConnectivityResult.none) {
-    showCustomDialog('네트워크를 확인해주세요', 1400);
+    showCustomDialog('네트워크를 확인해주세요', 1400000000000000);
     return HTTPResponse.networkError();
   } else {
     // try {
-    var response = await http.post(url, headers: headers);
+    var response = await http.post(url, body: body);
+    print(controller.userDeviceInfo.deviceData.values.first.runtimeType);
+    print((controller.userDeviceInfo.appInfoData.keys.first +
+            ' ' +
+            controller.userDeviceInfo.appInfoData.values.first)
+        .runtimeType);
+    print(
+      controller.emailController.text.runtimeType,
+    );
+    print(
+      controller.contentcontroller.text.runtimeType,
+    );
+    print(ProfileController.to.profile.value.nickname);
+    print(controller.userDeviceInfo.deviceData.values.last.runtimeType);
     print('문의하기 : ${response.statusCode}');
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode >= 200 && response.statusCode < 300) {
+      print(response.statusCode);
       // selectMemberController.seletedMember.value =
       //     SelectMember.fromJson(jsonDecode(responsebody));
       return HTTPResponse.success('');

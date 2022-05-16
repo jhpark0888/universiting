@@ -14,10 +14,9 @@ import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 class UnivRoomWidget extends StatelessWidget {
   UnivRoomWidget({Key? key}) : super(key: key);
   MapController mapController = Get.find();
-
+  UnivRoomController univRoomController = Get.put(UnivRoomController());
   @override
   Widget build(BuildContext context) {
-    UnivRoomController univRoomController = Get.put(UnivRoomController());
     return Obx(
       () => SafeArea(
         child: AnimatedContainer(
@@ -181,7 +180,7 @@ class UnivRoomWidget extends StatelessWidget {
                                                 : const NeverScrollableScrollPhysics(),
                                             child: Column(
                                               children: univRoomController
-                                                  .room.reversed
+                                                  .adRoom.reversed
                                                   .toList(),
                                             ),
                                           ),

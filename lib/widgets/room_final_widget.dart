@@ -54,14 +54,12 @@ class RoomFinalWidget extends StatelessWidget {
             } else {
               print(hosts);
             }
+            print(MapController.to.isDetailClick);
+            print(roomType);
           },
           splashColor: kSplashColor,
-          // behavior: HitTestBehavior.translucent,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            const SizedBox(
-              height: 18,
-            ),
             ScrollNoneffectWidget(
                 child: SizedBox(
                     height: 130,

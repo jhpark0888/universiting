@@ -39,6 +39,8 @@ dependencies:
   url_launcher: ^6.1.2
   device_info_plus: ^3.2.3
   app_settings: ^4.1.6
+  google_mobile_ads: ^1.2.0
+  ios_utsname_ext: ^2.1.0
   
 dev_dependencies:
   flutter_test:

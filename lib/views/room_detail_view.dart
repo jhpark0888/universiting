@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/room_detail_controller.dart';
@@ -114,8 +117,8 @@ class RoomDetailView extends StatelessWidget {
                             },
                             child: Stack(
                               children: [
-                                Image.network(
-                                  roomDetailController
+                                CachedNetworkImage(
+                                  imageUrl: roomDetailController
                                               .detailRoom
                                               .value
                                               .hosts![index %
@@ -133,6 +136,7 @@ class RoomDetailView extends StatelessWidget {
                                               roomDetailController.detailRoom
                                                   .value.hosts!.length]
                                           .profileImage
+                                          .replaceAll('https', 'http')
                                       : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
                                   width: Get.width,
                                   height: Get.width,
@@ -358,7 +362,13 @@ class RoomDetailView extends StatelessWidget {
                                 style: kSmallCaptionStyle.copyWith(
                                     height: 1.5,
                                     color: kMainBlack.withOpacity(0.4)),
-                                textAlign: TextAlign.center)
+                                textAlign: TextAlign.center),
+                          Container(
+                            height: 50,
+                            width: Get.width,
+                            child: AdWidget(
+                                ad: AdmobController.to.getBanner()..load()),
+                          ),
                         ],
                       ),
                     )
