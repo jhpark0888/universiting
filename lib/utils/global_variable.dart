@@ -35,9 +35,15 @@ Future<bool> resultOfConnection() async {
 }
 
 String calculateDate(DateTime date) {
-  if (DateTime.now().difference(date).inHours <= 24) {
+  if (DateTime.now().difference(date).inMilliseconds < 1000) {
+    return '방금 전';
+  } 
+  else if (DateTime.now().difference(date).inMinutes < 60) {
+    return '${DateTime.now().difference(date).inMinutes}분 전';
+  } else if(DateTime.now().difference(date).inHours <= 24){
     return '${DateTime.now().difference(date).inHours}시간 전';
-  } else if (DateTime.now().difference(date).inDays <= 31) {
+  }
+   else if (DateTime.now().difference(date).inDays <= 31) {
     return '${DateTime.now().difference(date).inDays}일 전';
   } else if (DateTime.now().difference(date).inDays <= 365) {
     return '일 년 이내 만들어진 방';

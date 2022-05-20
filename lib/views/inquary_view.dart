@@ -7,6 +7,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/inquary_controller.dart';
+import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/views/inquary_finish_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
@@ -23,7 +24,12 @@ class InquaryView extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              postInquary().then((value) {
+              postInquary(
+                      controller.emailController.text,
+                      controller.contentcontroller.text,
+                      '사용자'
+                     )
+                  .then((value) {
                 if (value.isError == false) {
                   Get.to(() => InquaryFinishView());
                 }

@@ -13,6 +13,7 @@ import 'package:universiting/views/signup_gender_view.dart';
 import 'package:universiting/views/signup_profile_view.dart';
 import 'package:universiting/views/signup_success_view.dart';
 import 'package:universiting/widgets/bottombutton.dart';
+import 'package:universiting/widgets/loading_widget.dart';
 import 'package:universiting/widgets/signup_bottombutton_widget.dart';
 import '../constant.dart';
 import '../controllers/signup_controller.dart';
@@ -98,6 +99,7 @@ class SignupEmailValidateView extends StatelessWidget {
                                 ),
                               ),
                             ),
+
                             // Expanded(
                             //   child: Stack(children: [
                             //     Positioned(
@@ -229,6 +231,17 @@ class SignupEmailValidateView extends StatelessWidget {
                           ]),
                     ),
                   ),
+                  GestureDetector(
+                      onTap: () {
+                        showaskDialog(controller: SignupController.to.askController);
+                      },
+                      child: Text(
+                        '혹시 이메일 인증에 문제가 있나요?',
+                        style: kInActiveButtonStyle.copyWith(
+                            height: 1.5, color: kMainBlack.withOpacity(0.4)),
+                        textAlign: TextAlign.center,
+                      )),
+                  const SizedBox(height: 10),
                   Obx(
                     () => SignupButtonWidget(
                         onTap: () async {

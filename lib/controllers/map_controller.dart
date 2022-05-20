@@ -67,7 +67,7 @@ class MapController extends GetxController {
 
   void getUnivDetailRoom(int pos) {
     bottomSheetModal(UnivRoomWidget(),isClick, isDetailClick, pos);
-    Timer(Duration(milliseconds: 500), () async {
+    Timer(Duration(seconds: 1), () async {
       await HomeController.to.getDetailOverlyImage(
           UnivRoomController.to.univRoom.length.toString());
       HomeController.to.image.refresh();

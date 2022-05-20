@@ -77,8 +77,10 @@ class UnivRoomController extends GetxController {
           list.insert(
             a - 1,
             Container(
-                height: 50,
+              padding: EdgeInsets.only(left: 20, right: 20),
                 width: Get.width,
+                height: 40,
+                decoration: const BoxDecoration(color: Colors.transparent),
                 child: AdWidget(ad: AdmobController.to.getBanner()..load())),
           );
         }

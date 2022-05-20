@@ -20,6 +20,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/views/first_view.dart';
 import 'package:universiting/views/home_view.dart';
+import 'package:universiting/views/image_check_view.dart';
 import 'package:universiting/views/univ_room_view.dart';
 
 import 'firebase_options.dart';

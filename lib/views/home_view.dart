@@ -74,7 +74,7 @@ class HomeView extends StatelessWidget {
                             ),
                           ),
                         ],
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20),
                         ),
@@ -176,6 +176,9 @@ class HomeView extends StatelessWidget {
                 child: Stack(
                   children: [
                     Obx(() => NaverMap(
+                      maxZoom: 20,
+                          rotationGestureEnable: false,
+                          tiltGestureEnable: false,
                           contentPadding: mapController.isClick.value
                               ? const EdgeInsets.only(bottom: 340)
                               : EdgeInsets.only(

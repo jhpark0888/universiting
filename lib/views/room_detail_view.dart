@@ -85,6 +85,13 @@ class RoomDetailView extends StatelessWidget {
                   )
                 ],
               ),
+              bottomNavigationBar: Obx(
+                ()=> Container(
+                  height: AdmobController.to.size.value.height.toDouble(),
+                  decoration: const BoxDecoration(color: Colors.transparent),
+                  child: AdWidget(ad: AdmobController.to.getBanner()..load()),
+                ),
+              ),
               body: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -110,8 +117,8 @@ class RoomDetailView extends StatelessWidget {
                                     profile: roomDetailController
                                             .detailRoom.value.hosts![
                                         index %
-                                            roomDetailController.detailRoom
-                                                .value.hosts!.length],
+                                            roomDetailController
+                                                .detailRoom.value.hosts!.length],
                                   ));
                               roomDetailController.timerstart();
                             },
@@ -122,19 +129,16 @@ class RoomDetailView extends StatelessWidget {
                                               .detailRoom
                                               .value
                                               .hosts![index %
-                                                  roomDetailController
-                                                      .detailRoom
-                                                      .value
-                                                      .hosts!
-                                                      .length]
+                                                  roomDetailController.detailRoom
+                                                      .value.hosts!.length]
                                               .profileImage !=
                                           ''
                                       ? roomDetailController
                                           .detailRoom
                                           .value
                                           .hosts![index %
-                                              roomDetailController.detailRoom
-                                                  .value.hosts!.length]
+                                              roomDetailController
+                                                  .detailRoom.value.hosts!.length]
                                           .profileImage
                                           .replaceAll('https', 'http')
                                       : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
@@ -165,7 +169,7 @@ class RoomDetailView extends StatelessWidget {
                                           )
                                         ],
                                       ),
-                                    ))
+                                    )),
                               ],
                             ),
                           ),
@@ -194,8 +198,8 @@ class RoomDetailView extends StatelessWidget {
                                     color: kMainBlack.withOpacity(0.4)),
                               ),
                               Text(
-                                calculateDate(roomDetailController
-                                    .detailRoom.value.date!),
+                                calculateDate(
+                                    roomDetailController.detailRoom.value.date!),
                                 style: k16Medium.copyWith(
                                     color: kMainBlack.withOpacity(0.4)),
                               ),
@@ -312,19 +316,18 @@ class RoomDetailView extends StatelessWidget {
                                     StateManagement.roomActivated
                                 ? Text(
                                     '회원님이 방장으로 신청 현황을 관리할 수 있어요',
-                                    style:
-                                        kBodyStyle2.copyWith(color: kPrimary),
+                                    style: kBodyStyle2.copyWith(color: kPrimary),
                                     textAlign: TextAlign.center,
                                   )
-                                : roomDetailController.detailRoom.value
-                                            .roomstate!.value ==
+                                : roomDetailController
+                                            .detailRoom.value.roomstate!.value ==
                                         StateManagement.friendReject
                                     ? Column(
                                         children: [
                                           Text(
                                             '\'${roomDetailController.detailRoom.value.gender}\'님이 함께하기를 거절했어요',
-                                            style: kBodyStyle2.copyWith(
-                                                color: kred),
+                                            style:
+                                                kBodyStyle2.copyWith(color: kred),
                                             textAlign: TextAlign.center,
                                           ),
                                           const SizedBox(
@@ -363,12 +366,6 @@ class RoomDetailView extends StatelessWidget {
                                     height: 1.5,
                                     color: kMainBlack.withOpacity(0.4)),
                                 textAlign: TextAlign.center),
-                          Container(
-                            height: 50,
-                            width: Get.width,
-                            child: AdWidget(
-                                ad: AdmobController.to.getBanner()..load()),
-                          ),
                         ],
                       ),
                     )

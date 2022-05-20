@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
@@ -23,7 +24,7 @@ class UnivRoomWidget extends StatelessWidget {
             height:
                 // mapController.isDetailClick.value ? Get.height : 220
                 univRoomController.changeHeight.value,
-            duration: const Duration(milliseconds: 600),
+            duration: const Duration(milliseconds: 800),
             decoration: !mapController.isDetailClick.value
                 ? const BoxDecoration(
                     color: kBackgroundWhite,
@@ -170,22 +171,59 @@ class UnivRoomWidget extends StatelessWidget {
                                       )
                                     : Expanded(
                                         child: ScrollNoneffectWidget(
-                                          child: SingleChildScrollView(
-                                            controller: univRoomController
-                                                .scrollController,
-                                            physics: univRoomController
-                                                        .changeHeight.value ==
-                                                    Get.height
-                                                ? null
-                                                : const NeverScrollableScrollPhysics(),
-                                            child: Column(
-                                              children: univRoomController
-                                                  .adRoom.reversed
-                                                  .toList(),
-                                            ),
-                                          ),
+                                          child: ListView.separated(
+                                              controller: univRoomController
+                                                  .scrollController,
+                                              physics: univRoomController
+                                                          .changeHeight.value ==
+                                                      Get.height
+                                                  ? null
+                                                  : const NeverScrollableScrollPhysics(),
+                                              itemBuilder: (context, index) {
+                                                return univRoomController
+                                                    .adRoom.reversed
+                                                    .toList()[index];
+                                              },
+                                              separatorBuilder:
+                                                  (buildContext, index) {
+                                                return Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .fromLTRB(
+                                                          20, 18, 20, 18),
+                                                      child: Divider(
+                                                        thickness: 1.5,
+                                                        color: kMainBlack
+                                                            .withOpacity(0.05),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                              itemCount: univRoomController
+                                                  .adRoom.length),
                                         ),
                                       )
+                                // Expanded(
+                                //     child: ScrollNoneffectWidget(
+                                //       child: SingleChildScrollView(
+                                //         controller: univRoomController
+                                //             .scrollController,
+                                //         physics: univRoomController
+                                //                     .changeHeight.value ==
+                                //                 Get.height
+                                //             ? null
+                                //             : const NeverScrollableScrollPhysics(),
+                                //         child: Column(
+                                //           children: univRoomController
+                                //               .adRoom.reversed
+                                //               .toList(),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   )
+
                                 : Container()),
                         // if (univRoomController.univRoom.isEmpty)
                         //   Text(

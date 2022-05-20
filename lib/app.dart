@@ -5,8 +5,10 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/views/chat_list_view.dart';
 import 'package:universiting/views/home_view.dart';
+import 'package:universiting/views/image_check_view.dart';
 import 'package:universiting/views/management_view.dart';
 import 'package:universiting/views/profile_view.dart';
 import 'package:universiting/views/status_view.dart';
@@ -37,8 +39,8 @@ class App extends StatelessWidget {
       ChatListView(),
       ProfileView(),
     ];
-
-    return Scaffold(
+  
+    return Obx( () => appController.isImageCheck.value ? Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: true,
       bottomNavigationBar: Obx(
@@ -151,6 +153,7 @@ class App extends StatelessWidget {
           children: views,
         ),
       ),
-    );
+    ) : ImageCheckView());
   }
+
 }

@@ -14,6 +14,7 @@ import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
+import 'package:universiting/utils/user_device_info.dart';
 import 'package:universiting/views/pw_find_change_view.dart';
 
 Future<void> getMyProfile() async {
@@ -157,28 +158,29 @@ Future<Profile> getOtherProfile(String id) async {
   }
 }
 
-Future<HTTPResponse> postInquary() async {
+Future<HTTPResponse> postInquary(
+    String email, String content, String name) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
-  InquaryController controller = Get.find();
+  UserDeviceInfo userDeviceInfo = Get.put(UserDeviceInfo());
   String? token = await storage.read(key: 'token');
   var url = Uri.parse('$serverUrl/user_api/ask');
   // var headers = {'Authorization': 'Token $token'};
 
   var body = {
-    'email': controller.emailController.text,
-    'content': controller.contentcontroller.text,
-    'real_name': ProfileController.to.profile.value.nickname,
-    'os': controller.userDeviceInfo.deviceData.isNotEmpty
-        ? "${controller.userDeviceInfo.deviceData.values.first}"
+    'email': email,
+    'content': content,
+    'real_name': name,
+    'os': userDeviceInfo.deviceData.isNotEmpty
+        ? "${userDeviceInfo.deviceData.values.first}"
         : "",
-    'app_ver': controller.userDeviceInfo.appInfoData.isNotEmpty
-        ? controller.userDeviceInfo.appInfoData.keys.first +
+    'app_ver': userDeviceInfo.appInfoData.isNotEmpty
+        ? userDeviceInfo.appInfoData.keys.first +
             ' ' +
-            controller.userDeviceInfo.appInfoData.values.first
+            userDeviceInfo.appInfoData.values.first
         : "",
-    'device': controller.userDeviceInfo.deviceData.isNotEmpty
-        ? "${controller.userDeviceInfo.deviceData.values.last}"
+    'device': userDeviceInfo.deviceData.isNotEmpty
+        ? "${userDeviceInfo.deviceData.values.last}"
         : ""
   };
   if (result == ConnectivityResult.none) {
@@ -187,20 +189,6 @@ Future<HTTPResponse> postInquary() async {
   } else {
     // try {
     var response = await http.post(url, body: body);
-    print(controller.userDeviceInfo.deviceData.values.first.runtimeType);
-    print((controller.userDeviceInfo.appInfoData.keys.first +
-            ' ' +
-            controller.userDeviceInfo.appInfoData.values.first)
-        .runtimeType);
-    print(
-      controller.emailController.text.runtimeType,
-    );
-    print(
-      controller.contentcontroller.text.runtimeType,
-    );
-    print(ProfileController.to.profile.value.nickname);
-    print(controller.userDeviceInfo.deviceData.values.last.runtimeType);
-    print('문의하기 : ${response.statusCode}');
     String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       print(response.statusCode);

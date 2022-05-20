@@ -1,38 +1,36 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:universiting/main.dart';
 
-class AdmobController extends GetxController{
+class AdmobController extends GetxController {
   static AdmobController get to => Get.find();
-  TargetPlatform os = Theme.of(Get.context!).platform;
-  late BannerAd banner;
-
-  @override
-  void onInit() {
-    banner = BannerAd(
-    listener: BannerAdListener(
-      onAdFailedToLoad: (Ad ad, LoadAdError error) {},
-      onAdLoaded: (_) {},
-    ),
-    size: AdSize(height: 50, width:  Get.width.round()),
-    adUnitId: UNIT_ID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
-    request: AdRequest(),
-  )..load();
-    super.onInit();
+  TargetPlatform? os;
+  late Rx<BannerAd> banners;
+  final size = AdSize.banner.obs;
+  final adSize =AdSize.getInlineAdaptiveBannerAdSize(Get.width.toInt(), 70).obs ;
+  RxBool isLoad = false.obs;
+  
+  void oninit(){
+    
+  print(adSize);
+  super.onInit();
   }
 
-  BannerAd getBanner(){
+  BannerAd getBanner() {
+    os = Theme.of(Get.context!).platform;
     BannerAd banner = BannerAd(
-    listener: BannerAdListener(
-      onAdFailedToLoad: (Ad ad, LoadAdError error) {},
-      onAdLoaded: (_) {},
-    ),
-    size: AdSize(height: 40, width: Get.width.round()),
-    adUnitId: UNIT_ID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
-    request: AdRequest(),
-  );
-  return banner;
+      size : AdSize.banner,
+      listener: BannerAdListener(
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {ad.dispose();},
+        onAdLoaded: (Ad ad) {}
+      ),
+      adUnitId: UNIT_ID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
+      request: AdRequest()
+    );
+    return banner;
   }
 }

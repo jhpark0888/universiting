@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:universiting/api/login_api.dart';
 // import 'package:universiting/api/main_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
@@ -45,26 +46,18 @@ class HomeController extends GetxController {
     String? temptoken = await const FlutterSecureStorage().read(key: 'token');
     var keyboardVisibilityController = KeyboardVisibilityController();
     statusBarHeight.value = MediaQuery.of(Get.context!).padding.top;
+    Future.delayed(Duration(seconds: 1));
     if (temptoken != null) {
       isGuest.value = false;
       islogin.value = true;
-      await imageCheck().then((httpresponse) async {
-        if (httpresponse.isError == false) {
-          print(httpresponse.data);
-          isImagecheck.value = httpresponse.data;
-          if (isImagecheck.value == false) {
-            Get.to(() => ImageCheckView());
-          } else {
-            await getOverlyImage();
-            mainuniv.value = (await getMainUniv());
-            // showcustomCustomDialog(1200);
-            customDialog(1);
-            createdMarker();
-          }
-        } else {
-          errorSituation(httpresponse);
-        }
-      });
+    
+      await getOverlyImage();
+      mainuniv.value = (await getMainUniv());
+      // showcustomCustomDialog(1200);
+      if(AppController.to.isImageCheck.value ==true ){
+      customDialog(1);
+      }
+      createdMarker();
     } else {
       await getOverlyImage();
       mainuniv.value = (await getMainUniv());

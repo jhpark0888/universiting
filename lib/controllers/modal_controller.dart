@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:universiting/api/profile_api.dart';
 import 'package:universiting/api/room_api.dart';
 import 'package:universiting/api/status_api.dart';
 import 'package:universiting/constant.dart';
@@ -13,6 +14,7 @@ import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/signup_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
+import 'package:universiting/views/inquary_finish_view.dart';
 import 'package:universiting/widgets/custom_button_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
 
@@ -530,5 +532,117 @@ void showdatepicker(
     },
     currentTime: DateTime.now(),
     locale: LocaleType.ko,
+  );
+}
+
+void showaskDialog({
+  TextEditingController? controller,
+}) {
+  Get.dialog(
+    AlertDialog(
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(16.0),
+          ),
+        ),
+        contentPadding: const EdgeInsets.all(20),
+        insetPadding: const EdgeInsets.only(left: 20, right: 20),
+        backgroundColor: kBackgroundWhite,
+        content: Container(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(child: const Text('문의하기', style: k16Medium)),
+              const SizedBox(height: 15),
+              Container(
+                  decoration: BoxDecoration(
+                      color: kBackgroundWhite,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                            color: const Color(0x000000).withOpacity(0.1),
+                            blurRadius: 3,
+                            spreadRadius: 0,
+                            offset: const Offset(0.0, 1.0))
+                      ]),
+                  child: EmptyBackTextfieldWidget(
+                    controller: controller!,
+                    hinttext:
+                        '찾으시는 대학이 없거나, 이메일 인증이 안될 \n경우 해당 학교 이름과 포탈 메일 주소를 입력\n해주세요.',
+                    hintstyle: kBodyStyle1.copyWith(
+                        color: kMainBlack.withOpacity(0.4)),
+                    maxLines: 3,
+                    // cursorHeight: 20,
+                    cursorWidth: 1.4,
+                    textalign: TextAlign.start,
+                    contentPadding: const EdgeInsets.only(
+                        top: 10, bottom: 10, right: 20, left: 20),
+                    textStyle: kBodyStyle1,
+                  )),
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      controller.clear();
+                      Get.back();
+                    },
+                    child: Container(
+                      height: 42,
+                      padding: const EdgeInsets.fromLTRB(56.75, 13, 56.75, 13),
+                      decoration: BoxDecoration(
+                          color: kMainBlack.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                              width: 0.5, color: kMainBlack.withOpacity(0.1))),
+                      child: Text(
+                        '닫기',
+                        style: k16Medium.copyWith(
+                            color: kBackgroundWhite, height: 1),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  GestureDetector(
+                    onTap: () async {
+                      customDialog(1);
+                      await postInquary(
+                        '',
+                        controller.text,
+                        '사용자',
+                      ).then((value) {
+                        if (value.isError == false) {
+                          Get.back();
+                          Get.to(() => InquaryFinishView());
+                          controller.clear();
+                        } 
+                      });
+                    },
+                    child: Container(
+                        height: 42,
+                        padding:
+                            const EdgeInsets.fromLTRB(42.75, 13, 42.75, 13),
+                        decoration: BoxDecoration(
+                            color: kPrimary,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                                width: 0.5,
+                                color: kMainBlack.withOpacity(0.1))),
+                        child: Text('문의하기',
+                            style: k16Medium.copyWith(
+                                color: kBackgroundWhite, height: 1))),
+                  ),
+                ],
+              )
+            ],
+          ),
+        )),
+    barrierDismissible: false,
+    barrierColor: Colors.black.withOpacity(0.4),
   );
 }

@@ -30,6 +30,7 @@ class RoomFinalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color:kBackgroundWhite,
       child: InkWell(
           onTap: () {
             if (roomType != ViewType.statusReceiveView) {
@@ -39,7 +40,7 @@ class RoomFinalWidget extends StatelessWidget {
                       () => RoomDetailView(
                             roomid: room.id.toString(),
                           ),
-                      opaque: false);
+                      opaque: false, preventDuplicates: false);
                 } else {
                   UnivRoomController.to.changeHeight.value = Get.height;
                   MapController.to.isDetailClick(true);
@@ -142,13 +143,14 @@ class RoomFinalWidget extends StatelessWidget {
                                   color: kMainBlack.withOpacity(0.4)))
                         ],
                       ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                        color: kMainBlack.withOpacity(0.05),
-                      ),
+                      // const SizedBox(
+                      //   height: 18,
+                      // ),
+                      // Divider(
+                      //   thickness: 1.5,
+                      //   color: kMainBlack.withOpacity(0.05),
+                      // ),
+                      // const SizedBox(height: 20)
                     ]))
           ])),
     );
