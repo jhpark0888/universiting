@@ -12,6 +12,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/chat_list_controller.dart';
 import 'package:universiting/controllers/message_detail_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/status_controller.dart';
 import 'package:universiting/controllers/status_room_tab_controller.dart';
@@ -367,36 +368,78 @@ class NotificationController extends GetxController {
           // StatusController.to.makeAllSendList();
 
           String groupId = message.data['group_id'];
+          String createrId = message.data['creater_id'];
 
-          await ChatListController.to.getList();
-          // ChatListController.to.chatList.value = await getChatList();
-          // ChatListController.to.chatRoomList.value =
-          //     ChatListController.to.getChatRoomList();
-          await getbacks(2);
-          Get.to(MessageDetailScreen(
-            groupId: groupId,
-          ));
-          AppController.to.changePageIndex(2);
+          if (createrId ==
+              ProfileController.to.profile.value.userId.toString()) {
+            await ChatListController.to.getList();
+
+            await getbacks(2);
+            Get.to(MessageDetailScreen(
+              groupId: groupId,
+            ));
+            AppController.to.changePageIndex(2);
+
+            postTime(int.parse(message.data['group_id']),
+                ProfileController.to.profile.value.userId);
+            ChatListController
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .value
+                .newMsg = 0;
+            ChatListController
+                .to
+                .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+                    (chatRoomWidget) =>
+                        chatRoomWidget.chatRoom.value.group.id.toString() ==
+                        message.data['group_id'])]
+                .chatRoom
+                .refresh();
+          }
+          // else {
+          //   showCustomSnacbar(
+          //       message.notification!.title, message.notification!.body,
+          //       (a) async {
+          //     if (message.data['type'].contains('msg')) {
+          //       await ChatListController.to.getList();
+
+          //       await getbacks(2);
+          //       Get.to(MessageDetailScreen(
+          //         groupId: groupId,
+          //       ));
+          //       AppController.to.changePageIndex(2);
+
+          //       postTime(int.parse(message.data['group_id']),
+          //           ProfileController.to.profile.value.userId);
+          //       ChatListController
+          //           .to
+          //           .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+          //               (chatRoomWidget) =>
+          //                   chatRoomWidget.chatRoom.value.group.id.toString() ==
+          //                   message.data['group_id'])]
+          //           .chatRoom
+          //           .value
+          //           .newMsg = 0;
+          //       ChatListController
+          //           .to
+          //           .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
+          //               (chatRoomWidget) =>
+          //                   chatRoomWidget.chatRoom.value.group.id.toString() ==
+          //                   message.data['group_id'])]
+          //           .chatRoom
+          //           .refresh();
+          //     }
+          //   });
+          // }
         }
       });
     } else {
       print('permission declined by user');
     }
-  }
-
-  void showCustomSnacbar(
-      String? title, String? body, void Function(GetSnackBar)? ontap) {
-    Get.snackbar(title!, body!,
-        titleText: Text(
-          title,
-          style: kActiveButtonStyle,
-        ),
-        messageText: Text(
-          body,
-          style: kActiveButtonStyle,
-        ),
-        backgroundColor: kMainWhite,
-        onTap: ontap);
   }
 }
 

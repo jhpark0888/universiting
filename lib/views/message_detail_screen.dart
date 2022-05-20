@@ -178,8 +178,9 @@ class MessageDetailScreen extends StatelessWidget {
                                             .value
                                             .message
                                             .sender =
-                                        ProfileController.to.profile.value.userId;
-                                    FocusScope.of(context).unfocus();
+                                        ProfileController
+                                            .to.profile.value.userId;
+                                    // FocusScope.of(context).unfocus();
                                     messageDetailController.chatController
                                         .clear();
                                     ChatListController
@@ -278,7 +279,12 @@ class MessageDetailScreen extends StatelessWidget {
                                           .value
                                           .group
                                           .date =
-                                      messageDetailController.selectedDay.value.add(const Duration(hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
+                                      messageDetailController.selectedDay.value
+                                          .add(const Duration(
+                                              hours: 23,
+                                              minutes: 59,
+                                              seconds: 59,
+                                              milliseconds: 999));
                                   ChatListController.to.chatRoomList.refresh();
                                   ChatListController
                                       .to

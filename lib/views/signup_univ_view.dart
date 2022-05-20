@@ -73,6 +73,7 @@ class SignupUnivView extends StatelessWidget {
                                 controller:
                                     signupController.universityController,
                                 hinttext: '대학교 이름',
+                                maxLines: 1,
                               ),
                             ),
                           ),

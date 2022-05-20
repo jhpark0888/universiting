@@ -203,8 +203,7 @@ class ParticiapteView extends StatelessWidget {
                             if (peopleNumber !=
                                 participateController.memberProfile.length) {
                               showCustomDialog('친구들 인원에 맞게 초대해 주세요', 1200);
-                            } else if (participateController
-                                    .introController.text
+                            } else if (participateController.intro.value
                                     .trim() ==
                                 '') {
                               showCustomDialog('신청 메세지를 작성해 주세요', 1200);
@@ -218,8 +217,7 @@ class ParticiapteView extends StatelessWidget {
                                   rightFunction: () async {
                                     Get.to(() => const LoadingWidget(),
                                         opaque: false);
-                                    await Future.delayed(Duration(seconds: 2))
-                                        .then((httpresponse) {
+                                    await roomJoin(roomid).then((httpresponse) {
                                       Get.back();
                                       if (httpresponse.isError == false) {
                                         getbacks(3);
@@ -241,8 +239,7 @@ class ParticiapteView extends StatelessWidget {
                             isactive: (peopleNumber ==
                                         participateController
                                             .memberProfile.length &&
-                                    participateController.introController.text
-                                            .trim() !=
+                                    participateController.intro.value.trim() !=
                                         '')
                                 .obs,
                           )),

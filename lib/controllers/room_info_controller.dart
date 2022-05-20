@@ -12,9 +12,14 @@ import 'package:universiting/widgets/new_person_widget.dart';
 import '../widgets/selected_name_widget.dart';
 
 class RoomInfoController extends GetxController {
+  RoomInfoController(
+      {required this.memberProfile,
+      required this.roomtitle,
+      required this.intro});
   static RoomInfoController get to => Get.find();
   TextEditingController roomTitleController = TextEditingController();
   TextEditingController introController = TextEditingController();
+
   // final checkNumberPeopleList = <CheckNumberOfPeopleWidget>[].obs;
   // final selectedMembers = <SelectedNameWidget>[
   //   SelectedNameWidget(
@@ -23,8 +28,11 @@ class RoomInfoController extends GetxController {
   //       type: AddFriends.myRoom)
   // ].obs;
   final members = <int>[].obs;
-  final memberProfile = <Profile>[ProfileController.to.profile.value].obs;
+  RxList<Profile> memberProfile =
+      <Profile>[ProfileController.to.profile.value].obs;
 
+  RxString roomtitle = ''.obs;
+  RxString intro = ''.obs;
   // RxDouble ageAvg =
   //     double.parse(ProfileController.to.profile.value.age.toString()).obs;
 
@@ -34,6 +42,16 @@ class RoomInfoController extends GetxController {
   void onInit() {
     AppController.to.addPage();
     print(AppController.to.stackPage);
+    roomTitleController.text = roomtitle.value;
+    introController.text = intro.value;
+
+    roomTitleController.addListener(() {
+      roomtitle(roomTitleController.text);
+    });
+
+    introController.addListener(() {
+      intro(introController.text);
+    });
     super.onInit();
     // for (int i = 2; i < 6; i++) {
     //   checkNumberPeopleList.add(CheckNumberOfPeopleWidget(text: i));

@@ -34,14 +34,15 @@ class SendRequestView extends StatelessWidget {
           ? const LoadingWidget()
           : Scaffold(
               appBar: AppBarWidget(
-                  title: '보낸 신청',
-                  textStyle: k20SemiBold.copyWith(fontWeight: FontWeight.w500),
-                  actions: [
-                    IconButton(
-                      icon: SvgPicture.asset('assets/icons/more.svg'),
-                      onPressed: () {},
-                    )
-                  ]),
+                title: '보낸 신청',
+                textStyle: k20SemiBold.copyWith(fontWeight: FontWeight.w500),
+                // actions: [
+                //   IconButton(
+                //     icon: SvgPicture.asset('assets/icons/more.svg'),
+                //     onPressed: () {},
+                //   )
+                // ],
+              ),
               body: Obx(
                 () => Padding(
                   padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),

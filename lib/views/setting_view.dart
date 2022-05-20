@@ -19,6 +19,7 @@ import 'package:universiting/views/image_check_view.dart';
 import 'package:universiting/views/inquary_view.dart';
 import 'package:universiting/views/naver_sdk_view.dart';
 import 'package:universiting/views/pw_change_view.dart';
+import 'package:universiting/views/withdrawal_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/loading_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -88,7 +89,12 @@ class SettingView extends StatelessWidget {
               },
               title: '로그아웃',
               isIcon: false),
-          SettingList(onTap: () {}, title: '회원탈퇴', isIcon: false),
+          SettingList(
+              onTap: () {
+                Get.to(() => WithDrawalView());
+              },
+              title: '회원탈퇴',
+              isIcon: false),
           const Spacer(),
           InkWell(
               splashColor: kSplashColor,

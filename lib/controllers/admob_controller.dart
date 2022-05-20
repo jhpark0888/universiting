@@ -11,19 +11,19 @@ class AdmobController extends GetxController {
   TargetPlatform? os;
   late Rx<BannerAd> banners;
   final size = AdSize.banner.obs;
-  final adSize =AdSize.getInlineAdaptiveBannerAdSize(Get.width.toInt(), 70).obs ;
+  // final adSize =AdSize.getInlineAdaptiveBannerAdSize(Get.width.toInt(), 70).obs ;
   RxBool isLoad = false.obs;
   
   void oninit(){
     
-  print(adSize);
+  // print(adSize);
   super.onInit();
   }
 
   BannerAd getBanner() {
     os = Theme.of(Get.context!).platform;
     BannerAd banner = BannerAd(
-      size : AdSize.banner,
+      size : size.value,
       listener: BannerAdListener(
         onAdFailedToLoad: (Ad ad, LoadAdError error) {ad.dispose();},
         onAdLoaded: (Ad ad) {}

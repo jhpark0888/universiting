@@ -14,7 +14,7 @@ class RoomDetailController extends GetxController {
   RoomDetailController({required this.roomid});
   TextEditingController reportController = TextEditingController();
   Rx<Screenstate> screenstate = Screenstate.loading.obs;
-  int currentPage = 0;
+  // int currentPage = 0;
   PageController pageController = PageController(
     initialPage: 0,
   );
@@ -46,6 +46,13 @@ class RoomDetailController extends GetxController {
         }
       }
     });
+
+    pageController.addListener(() {
+      if (timer != null) {
+        timer!.cancel();
+        timerstart();
+      }
+    });
     // makeRoomPersonList(detailRoom.value.hosts!.length);
     super.onInit();
   }
@@ -62,10 +69,9 @@ class RoomDetailController extends GetxController {
 
   void timerstart() {
     timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      currentPage++;
+      // currentPage++;
 
-      pageController.animateToPage(
-        currentPage,
+      pageController.nextPage(
         duration: Duration(milliseconds: 350),
         curve: Curves.easeIn,
       );

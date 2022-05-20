@@ -12,6 +12,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
+import 'package:universiting/utils/custom_profile.dart';
 import 'package:universiting/widgets/button_widget.dart';
 
 class ImageCheckView extends StatelessWidget {

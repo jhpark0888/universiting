@@ -7,6 +7,7 @@ import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/profile_image_widget_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/profile_model.dart';
+import 'package:universiting/utils/custom_profile.dart';
 import 'package:universiting/views/other_profile_view.dart';
 
 class ProfileImageWidget extends StatelessWidget {
@@ -39,12 +40,11 @@ class ProfileImageWidget extends StatelessWidget {
                 child: host != null
                     ? host!.userId == ProfileController.to.profile.value.userId
                         ? ProfileController.to.profile.value.profileImage != ''
-                            ? CachedNetworkImage(
+                            ? CustomCachedNetworkImage(
                                 imageUrl: ProfileController
                                     .to.profile.value.profileImage,
                                 width: width ?? 48,
                                 height: width ?? 48,
-                                fit: BoxFit.cover,
                               )
                             : SvgPicture.asset(
                                 'assets/illustrations/default_profile.svg',
@@ -53,11 +53,10 @@ class ProfileImageWidget extends StatelessWidget {
                                 fit: BoxFit.cover,
                               )
                         : host!.profileImage != ''
-                            ? CachedNetworkImage(
+                            ? CustomCachedNetworkImage(
                                 imageUrl: host!.profileImage,
                                 width: width ?? 48,
                                 height: width ?? 48,
-                                fit: BoxFit.cover,
                               )
                             : SvgPicture.asset(
                                 'assets/illustrations/default_profile.svg',
@@ -70,12 +69,11 @@ class ProfileImageWidget extends StatelessWidget {
                                 ProfileController.to.profile.value.userId
                             ? ProfileController.to.profile.value.profileImage !=
                                     ''
-                                ? CachedNetworkImage(
+                                ? CustomCachedNetworkImage(
                                     imageUrl: ProfileController
                                         .to.profile.value.profileImage,
                                     width: width ?? 48,
                                     height: width ?? 48,
-                                    fit: BoxFit.cover,
                                   )
                                 : SvgPicture.asset(
                                     'assets/illustrations/default_profile.svg',
@@ -90,11 +88,10 @@ class ProfileImageWidget extends StatelessWidget {
                                     width: width ?? 80,
                                     fit: BoxFit.cover,
                                   )
-                                : CachedNetworkImage(
+                                : CustomCachedNetworkImage(
                                     imageUrl: profile!.profileImage,
                                     width: width ?? 48,
                                     height: width ?? 48,
-                                    fit: BoxFit.cover,
                                   )
                         : ClipOval(
                             child: SvgPicture.asset(

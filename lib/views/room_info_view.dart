@@ -11,6 +11,7 @@ import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/controllers/room_info_controller.dart';
+import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:universiting/views/select_friend_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
@@ -30,9 +31,19 @@ import 'package:universiting/widgets/white_textfield_widget.dart';
 import '../widgets/background_textfield_widget.dart';
 
 class RoomInfoView extends StatelessWidget {
-  RoomInfoView({Key? key}) : super(key: key);
+  RoomInfoView({Key? key, this.memberlist, this.roomtitle, this.intro})
+      : super(key: key);
 
-  RoomInfoController createRoomController = Get.put(RoomInfoController());
+  late RoomInfoController createRoomController = Get.put(RoomInfoController(
+      memberProfile: memberlist != null
+          ? memberlist!.obs
+          : [ProfileController.to.profile.value].obs,
+      roomtitle: roomtitle != null ? roomtitle!.obs : ''.obs,
+      intro: intro != null ? intro!.obs : ''.obs));
+
+  List<Profile>? memberlist = [];
+  String? roomtitle;
+  String? intro;
 
   String getavgage() {
     int agesum = 0;
@@ -207,6 +218,7 @@ class RoomInfoView extends StatelessWidget {
                           hintMaxLines: 2,
                           textalign: TextAlign.start,
                           maxLength: 30,
+                          maxLines: 2,
                         ),
                         const SizedBox(height: 28),
                         const Text(
@@ -286,13 +298,11 @@ class RoomInfoView extends StatelessWidget {
                                 if (createRoomController.memberProfile.length ==
                                     1) {
                                   showCustomDialog('친구를 초대해주세요', 1200);
-                                } else if (createRoomController
-                                        .roomTitleController.text
+                                } else if (createRoomController.roomtitle.value
                                         .trim() ==
                                     '') {
                                   showCustomDialog('방 제목을 입력해주세요', 1200);
-                                } else if (createRoomController
-                                        .introController.text
+                                } else if (createRoomController.intro.value
                                         .trim() ==
                                     '') {
                                   showCustomDialog('방 소개를 입력해주세요', 1200);
@@ -328,12 +338,10 @@ class RoomInfoView extends StatelessWidget {
                                 isactive:
                                     createRoomController.memberProfile.length >
                                                 1 &&
-                                            createRoomController
-                                                    .roomTitleController.text
+                                            createRoomController.roomtitle.value
                                                     .trim() !=
                                                 '' &&
-                                            createRoomController
-                                                    .introController.text
+                                            createRoomController.intro.value
                                                     .trim() !=
                                                 ''
                                         ? true.obs

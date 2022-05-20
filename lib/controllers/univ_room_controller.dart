@@ -77,7 +77,7 @@ class UnivRoomController extends GetxController {
           list.insert(
             a - 1,
             Container(
-              padding: EdgeInsets.only(left: 20, right: 20),
+              // padding: EdgeInsets.only(left: 20, right: 20),
                 width: Get.width,
                 height: 40,
                 decoration: const BoxDecoration(color: Colors.transparent),
