@@ -45,27 +45,26 @@ class RoomProfileImageWidget extends StatelessWidget {
                       ? ClipRRect(
                           borderRadius:
                               BorderRadius.circular(borderRadius ?? 16),
-                          child: CachedNetworkImage(
+                          child: CustomCachedNetworkImage(
                             imageUrl:
                                 host!.profileImage.replaceAll('https', 'http'),
-                            fit: BoxFit.cover,
                           ))
-                      : CachedNetworkImage(
+                      : CustomCachedNetworkImage(
                           imageUrl:
                               'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
-                          fit: BoxFit.cover)
+                        )
                   : profile!.profileImage != ''
                       ? ClipRRect(
                           borderRadius:
                               BorderRadius.circular(borderRadius ?? 16),
-                          child: CachedNetworkImage(
-                              imageUrl: profile!.profileImage
-                                  .replaceAll('https', 'http'),
-                              fit: BoxFit.cover))
-                      : CachedNetworkImage(
+                          child: CustomCachedNetworkImage(
+                            imageUrl: profile!.profileImage
+                                .replaceAll('https', 'http'),
+                          ))
+                      : CustomCachedNetworkImage(
                           imageUrl:
                               'http://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
-                          fit: BoxFit.cover),
+                        ),
             ),
             if (isname)
               ClipRRect(

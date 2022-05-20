@@ -76,6 +76,7 @@ class SignupNameView extends StatelessWidget {
                                 }
                               },
                               hinttext: '최대 8자',
+                              maxLines: 1,
                             ),
                           ),
                         ),

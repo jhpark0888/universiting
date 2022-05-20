@@ -12,6 +12,7 @@ import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
 import 'package:universiting/views/alarm_list_view.dart';
@@ -256,6 +257,7 @@ class HomeView extends StatelessWidget {
                                         const SizedBox(width: 10),
                                         Expanded(
                                             child: EmptyBackTextfieldWidget(
+                                                maxLines: 1,
                                                 cursorWidth: 2,
                                                 cursorHeight: 15,
                                                 controller:

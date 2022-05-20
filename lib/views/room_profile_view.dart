@@ -8,6 +8,7 @@ import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/other_profile_controller.dart';
 import 'package:universiting/models/host_model.dart';
+import 'package:universiting/utils/custom_profile.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 
 class RoomProfileView extends StatelessWidget {
@@ -62,13 +63,12 @@ class RoomProfileView extends StatelessWidget {
                 height: Get.width,
                 child: Stack(
                   children: [
-                    CachedNetworkImage(
+                    CustomCachedNetworkImage(
                       imageUrl: controller.otherProfile.value.profileImage != ''
                           ? controller.otherProfile.value.profileImage
                           : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
                       width: Get.width,
                       height: Get.width,
-                      fit: BoxFit.cover,
                     ),
                     ClipRect(
                       child: Container(

@@ -98,7 +98,7 @@ class SelectFriendView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Text(
-                '함께 갈 친구들 ${type == AddFriends.myRoom ? '${selectmemberController.membersProfile.length}명' : '(${selectmemberController.membersProfile.length} / ${peoplenum.toString()})'}',
+                '함께 갈 친구들 ${type == AddFriends.myRoom ? '${selectmemberController.membersProfile.length}명 (최대 5명)' : '(${selectmemberController.membersProfile.length} / ${peoplenum.toString()})'}',
                 style: k16Medium,
               ),
             ),

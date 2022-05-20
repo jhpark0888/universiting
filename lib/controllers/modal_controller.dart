@@ -239,6 +239,104 @@ void showButtonDialog({
   );
 }
 
+void showTextFieldDialog({
+  required String title,
+  required String hintText,
+  required TextEditingController textEditingController,
+  required bool obscureText,
+  required String? Function(String?)? validator,
+  required Function() leftFunction,
+  required Function() rightFunction,
+  required bool isWithdrawal,
+}) {
+  Get.dialog(
+    AlertDialog(
+      buttonPadding: EdgeInsets.zero,
+      actionsAlignment: MainAxisAlignment.spaceBetween,
+      actions: [
+        Row(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: leftFunction,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      right: BorderSide(
+                        width: 1,
+                        color: Color(0xffe7e7e7),
+                      ),
+                      top: BorderSide(
+                        width: 1,
+                        color: Color(0xffe7e7e7),
+                      ),
+                    ),
+                  ),
+                  height: 48,
+                  child: const Center(
+                    child: Text('취소', style: kBodyStyle2),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: rightFunction,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        width: 1,
+                        color: Color(0xffe7e7e7),
+                      ),
+                    ),
+                  ),
+                  height: 48,
+                  child: Center(
+                    child: Text(
+                      isWithdrawal ? '탈퇴' : '확인',
+                      style: kBodyStyle2.copyWith(
+                        color: isWithdrawal ? kred : kPrimary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+      elevation: 0,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      titlePadding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
+      backgroundColor: Colors.white,
+      title: Text(
+        title,
+        style: kSubtitleStyle3.copyWith(height: 1.5),
+        textAlign: TextAlign.center,
+      ),
+      content: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: EmptyBackTextfieldWidget(
+          maxLength: null,
+          hinttext: hintText,
+          controller: textEditingController,
+          obsecuretext: obscureText,
+          validator: validator,
+          maxLines: 1,
+        ),
+      ),
+    ),
+    barrierDismissible: false,
+    barrierColor: kMainBlack.withOpacity(0.3),
+  );
+}
+
 void showNetworkDisconnectDialog() {
   if (Get.isDialogOpen == false) {
     Get.dialog(
@@ -470,7 +568,7 @@ void showRoomDialog(
                                     style: kActiveButtonStyle.copyWith(
                                         color: kBackgroundWhite, height: 1),
                                   )
-                                : Text('삭제하기',
+                                : Text('나가기',
                                     style: kActiveButtonStyle.copyWith(
                                         color: kBackgroundWhite, height: 1))),
                   ),
@@ -482,6 +580,21 @@ void showRoomDialog(
     barrierDismissible: false,
     barrierColor: Colors.black.withOpacity(0.4),
   );
+}
+
+void showCustomSnacbar(
+    String? title, String? body, void Function(GetSnackBar)? ontap) {
+  Get.snackbar(title!, body!,
+      titleText: Text(
+        title,
+        style: kActiveButtonStyle,
+      ),
+      messageText: Text(
+        body,
+        style: kActiveButtonStyle,
+      ),
+      backgroundColor: kLightGrey,
+      onTap: ontap);
 }
 
 void showemailchecksnackbar(String message) {

@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/widgets/loading_widget.dart';
 
 class ProfileBlur extends StatelessWidget {
   ProfileBlur({Key? key, this.width, this.blurRadius, this.opacity})
@@ -96,3 +98,26 @@ class ProfileBlurClipper extends CustomClipper<Path> {
 //   @override
 //   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 // }
+
+class CustomCachedNetworkImage extends StatelessWidget {
+  CustomCachedNetworkImage(
+      {Key? key, required this.imageUrl, this.width, this.height})
+      : super(key: key);
+
+  String imageUrl;
+  double? width;
+  double? height;
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      width: width,
+      height: height,
+      fit: BoxFit.cover,
+      placeholder: (context, url) {
+        return const LoadingWidget();
+      },
+    );
+  }
+}

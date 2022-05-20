@@ -15,6 +15,7 @@ import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 import 'package:universiting/views/pw_find_change_view.dart';
+import 'package:universiting/views/withdrawal_view.dart';
 
 Future<void> getMyProfile() async {
   ConnectivityResult result = await checkConnectionStatus();
@@ -290,7 +291,7 @@ Future<void> pwfindchange() async {
           body: json.encode(user));
 
       print("비밀번호 찾기 : ${response.statusCode}");
-      if (response.statusCode == 200) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         getbacks(3);
         showCustomDialog('비밀번호 변경이 완료되었습니다', 1400);
       } else if (response.statusCode == 401) {
@@ -332,7 +333,7 @@ Future<void> pwchange() async {
           body: json.encode(password));
 
       print("비밀번호 변경 : ${response.statusCode}");
-      if (response.statusCode == 200) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         Get.back();
         showCustomDialog('비밀번호 변경이 완료되었습니다', 1400);
       } else if (response.statusCode == 401) {
@@ -344,6 +345,68 @@ Future<void> pwchange() async {
     } catch (e) {
       print(e);
       showErrorDialog();
+      // ErrorController.to.isServerClosed(true);
+    }
+  }
+}
+
+Future<HTTPResponse> deleteuser(
+    String pw, List<SelectedOptionWidget> reasonlist) async {
+  ConnectivityResult result = await checkConnectionStatus();
+
+  if (result == ConnectivityResult.none) {
+    return HTTPResponse.networkError();
+  } else {
+    String? token = await const FlutterSecureStorage().read(key: "token");
+    print('user token: $token');
+
+    var uri = Uri.parse("$serverUrl/user_api/resign");
+
+    String reason = "";
+    for (var reasonwidget in reasonlist) {
+      if (reasonwidget.isSelected.value == true) {
+        reason += reasonwidget.text;
+      }
+    }
+
+    final password = {
+      'password': pw,
+      'reason': reason,
+    };
+
+    try {
+      http.Response response = await http.post(uri,
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Token $token"
+          },
+          body: json.encode(password));
+
+      print("회원탈퇴: ${response.statusCode}");
+      print(utf8.decode(response.bodyBytes));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        // Get.offAll(() => StartScreen());
+
+        // FlutterSecureStorage().delete(key: "token");
+        // FlutterSecureStorage().delete(key: "id");
+        // Get.delete<AppController>();
+        // Get.delete<HomeController>();
+        // Get.delete<SearchController>();
+        // Get.delete<ProfileController>();
+
+        return HTTPResponse.success('success');
+      } else if (response.statusCode == 401) {
+        return HTTPResponse.apiError('', response.statusCode);
+      } else if (response.statusCode == 406) {
+        return HTTPResponse.apiError('', response.statusCode);
+      } else {
+        return HTTPResponse.apiError('', response.statusCode);
+      }
+    } on SocketException {
+      return HTTPResponse.serverError();
+    } catch (e) {
+      print(e);
+      return HTTPResponse.unexpectedError(e);
       // ErrorController.to.isServerClosed(true);
     }
   }

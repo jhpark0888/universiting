@@ -15,6 +15,9 @@ class UnivRoomWidget extends StatelessWidget {
   UnivRoomWidget({Key? key}) : super(key: key);
   MapController mapController = Get.find();
   UnivRoomController univRoomController = Get.put(UnivRoomController());
+
+  double startoffset = 0;
+  double endoffset = 0;
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -23,7 +26,7 @@ class UnivRoomWidget extends StatelessWidget {
             height:
                 // mapController.isDetailClick.value ? Get.height : 220
                 univRoomController.changeHeight.value,
-            duration: const Duration(milliseconds: 600),
+            duration: const Duration(milliseconds: 150),
             decoration: !mapController.isDetailClick.value
                 ? const BoxDecoration(
                     color: kBackgroundWhite,
@@ -32,6 +35,7 @@ class UnivRoomWidget extends StatelessWidget {
                       topLeft: Radius.circular(20),
                     ))
                 : const BoxDecoration(color: kBackgroundWhite),
+            curve: Curves.ease,
             child: ClipRRect(
               borderRadius: !mapController.isDetailClick.value
                   ? univRoomController.changeHeight.value == Get.height
@@ -53,11 +57,14 @@ class UnivRoomWidget extends StatelessWidget {
                 },
                 onVerticalDragUpdate: (value) {
                   // print(value.globalPosition.dy);
+
                   if (univRoomController.changeHeight.value <
                       Get.height - value.globalPosition.dy) {
+                    // if(value.)
                     univRoomController.changeHeight.value = Get.height;
                     mapController.isDetailClick(true);
                   }
+
                   if (Get.height - value.globalPosition.dy > Get.height - 100) {
                     if (univRoomController.changeHeight.value >
                         Get.height - value.globalPosition.dy) {
@@ -131,25 +138,20 @@ class UnivRoomWidget extends StatelessWidget {
                           ),
                         // if(mapController.isDetailClick.value == false)
                         const SizedBox(height: 28),
-                        GestureDetector(
-                          onTap: () {
-                            print('여기');
-                          },
-                          child: Container(
-                              // padding: univRoomController.changeHeight.value == Get.height
-                              //     ? EdgeInsets.only(top: 28)
-                              //     : EdgeInsets.only(top: 0),
-                              color: kBackgroundWhite,
-                              width: Get.width,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                child: Text(
-                                  mapController.clickedUniv.value,
-                                  style: kBodyStyle6,
-                                ),
-                              )),
-                        ),
+                        Container(
+                            // padding: univRoomController.changeHeight.value == Get.height
+                            //     ? EdgeInsets.only(top: 28)
+                            //     : EdgeInsets.only(top: 0),
+                            color: kBackgroundWhite,
+                            width: Get.width,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: Text(
+                                mapController.clickedUniv.value,
+                                style: kBodyStyle6,
+                              ),
+                            )),
                         const SizedBox(height: 28),
                         Obx(() => univRoomController.screenstate.value ==
                                 Screenstate.loading
@@ -169,19 +171,44 @@ class UnivRoomWidget extends StatelessWidget {
                                                 kMainBlack.withOpacity(0.38)),
                                       )
                                     : Expanded(
-                                        child: ScrollNoneffectWidget(
-                                          child: SingleChildScrollView(
-                                            controller: univRoomController
-                                                .scrollController,
-                                            physics: univRoomController
-                                                        .changeHeight.value ==
-                                                    Get.height
-                                                ? null
-                                                : const NeverScrollableScrollPhysics(),
-                                            child: Column(
-                                              children: univRoomController
-                                                  .adRoom.reversed
-                                                  .toList(),
+                                        child: NotificationListener<
+                                            ScrollNotification>(
+                                          onNotification: (scrollNotification) {
+                                            if (scrollNotification
+                                                is ScrollStartNotification) {
+                                              startoffset = univRoomController
+                                                  .scrollController.offset;
+                                            } else if (scrollNotification
+                                                is ScrollEndNotification) {
+                                              endoffset = univRoomController
+                                                  .scrollController.offset;
+                                              if (startoffset == 0.0 &&
+                                                  endoffset == 0.0 &&
+                                                  mapController.isDetailClick
+                                                          .value ==
+                                                      true) {
+                                                mapController
+                                                    .isDetailClick(false);
+                                                Get.back();
+                                              }
+                                            }
+
+                                            return false;
+                                          },
+                                          child: ScrollNoneffectWidget(
+                                            child: SingleChildScrollView(
+                                              controller: univRoomController
+                                                  .scrollController,
+                                              physics: univRoomController
+                                                          .changeHeight.value ==
+                                                      Get.height
+                                                  ? null
+                                                  : const NeverScrollableScrollPhysics(),
+                                              child: Column(
+                                                children: univRoomController
+                                                    .adRoom.reversed
+                                                    .toList(),
+                                              ),
                                             ),
                                           ),
                                         ),

@@ -6,6 +6,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/check_people_controller.dart';
 import 'package:universiting/controllers/room_info_controller.dart';
 import 'package:universiting/controllers/participate_controller.dart';
+import 'package:universiting/utils/custom_profile.dart';
 import 'package:universiting/views/select_friend_view.dart';
 
 class FriendToGoWithWidget extends StatelessWidget {
@@ -39,14 +40,13 @@ class FriendToGoWithWidget extends StatelessWidget {
                                             .memberProfile[humanNum - 1]
                                             .profileImage !=
                                         ''
-                                    ? CachedNetworkImage(
+                                    ? CustomCachedNetworkImage(
                                         imageUrl: RoomInfoController
                                             .to
                                             .memberProfile[humanNum - 1]
                                             .profileImage,
                                         width: 48,
                                         height: 48,
-                                        fit: BoxFit.cover,
                                       )
                                     : SvgPicture.asset(
                                         'assets/illustrations/default_profile.svg',
@@ -66,14 +66,13 @@ class FriendToGoWithWidget extends StatelessWidget {
                                             .memberProfile[humanNum - 1]
                                             .profileImage !=
                                         ''
-                                    ? CachedNetworkImage(
+                                    ? CustomCachedNetworkImage(
                                         imageUrl: ParticipateController
                                             .to
                                             .memberProfile[humanNum - 1]
                                             .profileImage,
                                         width: 48,
                                         height: 48,
-                                        fit: BoxFit.cover,
                                       )
                                     : SvgPicture.asset(
                                         'assets/illustrations/default_profile.svg',

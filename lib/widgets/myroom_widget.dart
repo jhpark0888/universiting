@@ -77,6 +77,7 @@ class MyRoomWidget extends StatelessWidget {
                   ),
               opaque: false);
         },
+        splashFactory: InkSplash.splashFactory,
         splashColor: kSplashColor,
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -185,7 +186,7 @@ class MyRoomWidget extends StatelessWidget {
                         height: 18,
                       ),
                       Divider(
-                        thickness: 0.5,
+                        thickness: room.requestcount != 0 ? 0.5 : 2.5,
                         color: kMainBlack.withOpacity(0.1),
                       ),
                     ],

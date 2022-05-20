@@ -44,7 +44,7 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
     return TextFormField(
       onTap: ontap,
       keyboardType: textInputType,
-      autofocus: autofocus?? true,
+      autofocus: autofocus ?? true,
       toolbarOptions: const ToolbarOptions(
         copy: true,
         cut: true,
@@ -72,7 +72,7 @@ class EmptyBackTextfieldWidget extends StatelessWidget {
           hintText: hinttext ?? '',
           hintStyle: hintstyle ??
               kHeaderStyle2.copyWith(color: kMainBlack.withOpacity(0.38)),
-          hintMaxLines: hintMaxLines,
+          hintMaxLines: hintMaxLines ?? 1,
           focusedBorder: InputBorder.none,
           errorBorder: InputBorder.none,
           enabledBorder: InputBorder.none,

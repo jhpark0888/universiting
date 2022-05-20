@@ -173,12 +173,16 @@ class ChatRoomWidget extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
                               text: TextSpan(children: [
-                                if(chatRoom.value.message.sender != 1)
-                                TextSpan(
-                                    text:
-                                        chatRoom.value.group.member.where((member) => member.userId == chatRoom.value.message.sender).first.nickname,
-                                    style: kLargeCaptionStyle.copyWith(
-                                        color: kMainBlack.withOpacity(0.4))),
+                                if (chatRoom.value.message.sender != 1)
+                                  TextSpan(
+                                      text: chatRoom.value.group.member
+                                          .where((member) =>
+                                              member.userId ==
+                                              chatRoom.value.message.sender)
+                                          .first
+                                          .nickname,
+                                      style: kLargeCaptionStyle.copyWith(
+                                          color: kMainBlack.withOpacity(0.4))),
                                 TextSpan(
                                     text: ' ${chatRoom.value.message.message}',
                                     style: kInActiveButtonStyle)

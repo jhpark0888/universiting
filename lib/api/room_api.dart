@@ -36,6 +36,7 @@ Future<HTTPResponse> getMyRoom(int last) async {
   var url =
       Uri.parse('$serverUrl/room_api/my_room?type=all&last=${last.toString()}');
   var headers = {'Authorization': 'Token $token'};
+  print(token);
   if (result == ConnectivityResult.none) {
     return HTTPResponse.networkError();
   } else {
@@ -164,9 +165,9 @@ Future<HTTPResponse> makeRoom() async {
   var url = Uri.parse('$serverUrl/room_api/room');
 
   var body = {
-    'title': createRoomController.roomTitleController.text,
+    'title': createRoomController.roomTitleController.text.trim(),
     'totalmember': (createRoomController.members.length + 1).toString(),
-    'introduction': createRoomController.introController.text,
+    'introduction': createRoomController.introController.text.trim(),
     'member_id': createRoomController.members.toString()
   };
   var headers = {

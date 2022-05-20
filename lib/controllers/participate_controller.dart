@@ -20,10 +20,16 @@ class ParticipateController extends GetxController {
   //       type: AddFriends.otherRoom)
   // ].obs;
 
+  RxString intro = ''.obs;
+
   @override
   void onInit() {
     AppController.to.addPage();
     print(AppController.to.stackPage);
+
+    introController.addListener(() {
+      intro(introController.text);
+    });
     super.onInit();
   }
 

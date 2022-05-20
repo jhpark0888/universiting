@@ -72,6 +72,7 @@ class PwFindView extends StatelessWidget {
                               controller: _pwController.emailController,
                               hinttext: '본인 대학 이메일 아이디',
                               textInputType: TextInputType.emailAddress,
+                              maxLines: 1,
                             ),
                             Center(
                               child: Padding(
