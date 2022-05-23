@@ -8,6 +8,7 @@ import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/controllers/chat_list_controller.dart';
 import 'package:universiting/widgets/chat_room_widget.dart';
 import 'package:universiting/widgets/custom_refresher.dart';
+import 'package:universiting/widgets/scroll_noneffect_widget.dart';
 
 class ChatListView extends StatelessWidget {
   ChatListView({Key? key}) : super(key: key);
@@ -42,30 +43,32 @@ class ChatListView extends StatelessWidget {
             ),
           ),
         ),
-        body: SmartRefresher(
-            controller: chatListController.refreshController,
-            header: const CustomRefresherHeader(),
-            onRefresh: chatListController.onRefreshChatList,
-            child: Obx(() => chatListController.chatRoomList.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '아직 채팅방이 없어요',
-                        style: kSubtitleStyle2.copyWith(
-                            color: kMainBlack.withOpacity(0.38)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  )
-                : SingleChildScrollView(
-                    child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 82),
-                    child: Column(
-                        children: chatListController.chatRoomList != []
-                            ? chatListController.chatRoomList.value
-                            : []),
-                  )))),
+        body: ScrollNoneffectWidget(
+          child: SmartRefresher(
+              controller: chatListController.refreshController,
+              header: const CustomRefresherHeader(),
+              onRefresh: chatListController.onRefreshChatList,
+              child: Obx(() => chatListController.chatRoomList.isEmpty
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '아직 채팅방이 없어요',
+                          style: kSubtitleStyle2.copyWith(
+                              color: kMainBlack.withOpacity(0.38)),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                  : SingleChildScrollView(
+                      child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 82),
+                      child: Column(
+                          children: chatListController.chatRoomList != []
+                              ? chatListController.chatRoomList.value
+                              : []),
+                    )))),
+        ),
       ),
     );
   }

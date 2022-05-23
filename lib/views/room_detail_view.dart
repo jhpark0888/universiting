@@ -87,7 +87,7 @@ class RoomDetailView extends StatelessWidget {
                 ],
               ),
               bottomNavigationBar: Obx(
-                ()=> Container(
+                () => Container(
                   height: AdmobController.to.size.value.height.toDouble(),
                   decoration: const BoxDecoration(color: Colors.transparent),
                   child: AdWidget(ad: AdmobController.to.getBanner()..load()),
@@ -331,7 +331,7 @@ class RoomDetailView extends StatelessWidget {
                                       ? Column(
                                           children: [
                                             Text(
-                                              '\'${roomDetailController.detailRoom.value.hosts!.where((member) => member.type == 2).isNotEmpty ? roomDetailController.detailRoom.value.hosts!.where((member) => member.type == 2).first.nickname : '알 수 없음'}\'님이 함께하기를 거절했어요',
+                                              '\'${roomDetailController.detailRoom.value.inactivehosts!.isNotEmpty ? roomDetailController.detailRoom.value.inactivehosts!.first.nickname : '알 수 없음'}\'님이 함께하기를 거절했어요',
                                               style: kBodyStyle2.copyWith(
                                                   color: kred),
                                               textAlign: TextAlign.center,
@@ -340,8 +340,10 @@ class RoomDetailView extends StatelessWidget {
                                               height: 12,
                                             ),
                                             GestureDetector(
-                                              onTap: () {
-                                                Get.to(() => RoomInfoView(
+                                              onTap: () async {
+                                                roomDetailController.timer!
+                                                    .cancel();
+                                                await Get.to(() => RoomInfoView(
                                                       memberlist:
                                                           roomDetailController
                                                               .detailRoom
@@ -363,6 +365,8 @@ class RoomDetailView extends StatelessWidget {
                                                               .value
                                                               .introduction,
                                                     ));
+                                                roomDetailController
+                                                    .timerstart();
                                               },
                                               child: PrimaryButton(
                                                   text: '방 다시 만들기',
@@ -376,7 +380,7 @@ class RoomDetailView extends StatelessWidget {
                                           ? Column(
                                               children: [
                                                 Text(
-                                                  '\'${roomDetailController.detailRoom.value.hosts!.where((member) => member.type == 3).isNotEmpty ? roomDetailController.detailRoom.value.hosts!.where((member) => member.type == 3).first.nickname : '알 수 없음'}\'님이 방을 나갔어요',
+                                                  '\'${roomDetailController.detailRoom.value.inactivehosts!.isNotEmpty ? roomDetailController.detailRoom.value.inactivehosts!.first.nickname : '알 수 없음'}\'님이 방을 나갔어요',
                                                   style: kBodyStyle2.copyWith(
                                                       color: kred),
                                                   textAlign: TextAlign.center,
@@ -385,10 +389,12 @@ class RoomDetailView extends StatelessWidget {
                                                   height: 12,
                                                 ),
                                                 GestureDetector(
-                                                  onTap: () {
-                                                    Get.to(() => RoomInfoView(
-                                                          memberlist:
-                                                              roomDetailController
+                                                  onTap: () async {
+                                                    roomDetailController.timer!
+                                                        .cancel();
+                                                    await Get.to(
+                                                        () => RoomInfoView(
+                                                              memberlist: roomDetailController
                                                                   .detailRoom
                                                                   .value
                                                                   .hosts!
@@ -396,17 +402,18 @@ class RoomDetailView extends StatelessWidget {
                                                                       Profile.fromHost(
                                                                           host))
                                                                   .toList(),
-                                                          roomtitle:
-                                                              roomDetailController
-                                                                  .detailRoom
-                                                                  .value
-                                                                  .title,
-                                                          intro:
-                                                              roomDetailController
+                                                              roomtitle:
+                                                                  roomDetailController
+                                                                      .detailRoom
+                                                                      .value
+                                                                      .title,
+                                                              intro: roomDetailController
                                                                   .detailRoom
                                                                   .value
                                                                   .introduction,
-                                                        ));
+                                                            ));
+                                                    roomDetailController
+                                                        .timerstart();
                                                   },
                                                   child: PrimaryButton(
                                                       text: '방 다시 만들기',

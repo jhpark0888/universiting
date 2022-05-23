@@ -9,7 +9,7 @@ class ScrollNoneffectWidget extends StatelessWidget {
     return NotificationListener<OverscrollIndicatorNotification>(
         onNotification: ((notification) {
           notification.disallowIndicator();
-          return true;
+          return false;
         }),
         child: child);
   }
