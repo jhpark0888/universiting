@@ -115,7 +115,15 @@ class MessageDetailController extends GetxController {
       return memberProfile
           .where((profile) => message.sender == profile.userId)
           .toList();
-    } else {
+    } else if(message.sender == 2){
+      return [Profile(
+            age: 0,
+            gender: 'M',
+            introduction: '',
+            nickname: '관리자',
+            profileImage: '',
+            userId: 2)];
+    }else{
       return [
         Profile(
             age: 0,
@@ -125,7 +133,7 @@ class MessageDetailController extends GetxController {
             profileImage: '',
             userId: 0)
       ];
-    }
+      }
   }
 
   void onDayselected(DateTime day, DateTime day2) {

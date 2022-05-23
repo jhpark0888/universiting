@@ -143,9 +143,9 @@ class RoomFinalWidget extends StatelessWidget {
                                   color: kMainBlack.withOpacity(0.4)))
                         ],
                       ),
-                      // const SizedBox(
-                      //   height: 18,
-                      // ),
+                      const SizedBox(
+                        height: 18,
+                      ),
                       // Divider(
                       //   thickness: 1.5,
                       //   color: kMainBlack.withOpacity(0.05),

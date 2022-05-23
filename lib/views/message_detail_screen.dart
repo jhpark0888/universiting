@@ -252,20 +252,20 @@ class MessageDetailScreen extends StatelessWidget {
                                     profile:
                                         messageDetailController.profile.value,
                                   ));
-                                  ChatListController
-                                          .to
-                                          .chatRoomList[ChatListController
-                                              .to.chatRoomList
-                                              .indexWhere((chatRoomWidget) =>
-                                                  chatRoomWidget
-                                                      .chatRoom.value.group.id
-                                                      .toString() ==
-                                                  groupId)]
-                                          .chatRoom
-                                          .value
-                                          .message
-                                          .message =
-                                      "'${messageDetailController.profile.value.nickname}'님이 약속시간을 ${DateFormat('yyyy-MM-dd').format(messageDetailController.selectedDay.value)}로 설정했어요";
+                                  // ChatListController
+                                  //         .to
+                                  //         .chatRoomList[ChatListController
+                                  //             .to.chatRoomList
+                                  //             .indexWhere((chatRoomWidget) =>
+                                  //                 chatRoomWidget
+                                  //                     .chatRoom.value.group.id
+                                  //                     .toString() ==
+                                  //                 groupId)]
+                                  //         .chatRoom
+                                  //         .value
+                                  //         .message
+                                  //         .message =
+                                  //     "'${messageDetailController.profile.value.nickname}'님이 약속시간을 ${DateFormat('yyyy-MM-dd').format(messageDetailController.selectedDay.value)}로 설정했어요";
                                   ChatListController
                                           .to
                                           .chatRoomList[ChatListController

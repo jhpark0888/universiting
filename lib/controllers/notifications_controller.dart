@@ -202,6 +202,7 @@ class NotificationController extends GetxController {
                 .value
                 .newMsg += 1;
           }
+          if(message.data['type'] != 'time_update/msg' || ChatListController.to.isInDetailMessage.value != true){
           ChatListController
               .to
               .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
@@ -230,6 +231,7 @@ class NotificationController extends GetxController {
                       message.data['group_id'])]
               .chatRoom
               .refresh();
+          }
         } else if (message.data['type'] == 'time_update/msg') {
           if (ChatListController.to.isInDetailMessage.value == true) {
             MessageDetailController.to.messageList.add(ChatWidget(
@@ -263,6 +265,7 @@ class NotificationController extends GetxController {
                 .value
                 .newMsg += 1;
           }
+          if(message.data['type'] != 'time_update/msg' ){
           ChatListController
               .to
               .chatRoomList[ChatListController.to.chatRoomList.indexWhere(
@@ -291,6 +294,7 @@ class NotificationController extends GetxController {
                       message.data['group_id'])]
               .chatRoom
               .refresh();
+          }
         } else if (message.data['type'] == 'exit/msg') {
           print(ChatListController.to.isInDetailMessage.value);
           if (ChatListController.to.isInDetailMessage.value == true) {

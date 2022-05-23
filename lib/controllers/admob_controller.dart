@@ -10,12 +10,12 @@ class AdmobController extends GetxController {
   static AdmobController get to => Get.find();
   TargetPlatform? os;
   late Rx<BannerAd> banners;
-  final size = AdSize.banner.obs;
+  final size = AdSize(height: 60, width : Get.width.toInt()).obs;
   // final adSize =AdSize.getInlineAdaptiveBannerAdSize(Get.width.toInt(), 70).obs ;
   RxBool isLoad = false.obs;
   
   void oninit(){
-    
+
   // print(adSize);
   super.onInit();
   }

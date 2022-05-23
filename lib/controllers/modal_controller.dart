@@ -650,6 +650,12 @@ void showdatepicker(
 
 void showaskDialog({
   TextEditingController? controller,
+  required String centertext,
+  required String lefttext,
+  required String righttext,
+  required String hinttext,
+  void Function()? leftfunc,
+  void Function()? rightfunc
 }) {
   Get.dialog(
     AlertDialog(
@@ -663,15 +669,16 @@ void showaskDialog({
         insetPadding: const EdgeInsets.only(left: 20, right: 20),
         backgroundColor: kBackgroundWhite,
         content: Container(
-          width: double.infinity,
+          width: Get.width,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(child: const Text('문의하기', style: k16Medium)),
+              Center(child: Text(centertext, style: k16Medium)),
               const SizedBox(height: 15),
               Container(
+                width: Get.width,
                   decoration: BoxDecoration(
                       color: kBackgroundWhite,
                       borderRadius: BorderRadius.circular(16),
@@ -685,13 +692,15 @@ void showaskDialog({
                   child: EmptyBackTextfieldWidget(
                     controller: controller!,
                     hinttext:
-                        '찾으시는 대학이 없거나, 이메일 인증이 안될 \n경우 해당 학교 이름과 포탈 메일 주소를 입력\n해주세요.',
+                        hinttext,
                     hintstyle: kBodyStyle1.copyWith(
-                        color: kMainBlack.withOpacity(0.4)),
-                    maxLines: 3,
+                        color: kMainBlack.withOpacity(0.4), height: 1),
+                    maxLines: 4,
+                    hintMaxLines: 4,
+                    maxLength: 300,
                     // cursorHeight: 20,
                     cursorWidth: 1.4,
-                    textalign: TextAlign.start,
+                    textalign: TextAlign.left,
                     contentPadding: const EdgeInsets.only(
                         top: 10, bottom: 10, right: 20, left: 20),
                     textStyle: kBodyStyle1,
@@ -701,10 +710,7 @@ void showaskDialog({
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      controller.clear();
-                      Get.back();
-                    },
+                    onTap: leftfunc,
                     child: Container(
                       height: 42,
                       padding: const EdgeInsets.fromLTRB(56.75, 13, 56.75, 13),
@@ -714,7 +720,7 @@ void showaskDialog({
                           border: Border.all(
                               width: 0.5, color: kMainBlack.withOpacity(0.1))),
                       child: Text(
-                        '닫기',
+                        lefttext,
                         style: k16Medium.copyWith(
                             color: kBackgroundWhite, height: 1),
                       ),
@@ -722,20 +728,7 @@ void showaskDialog({
                   ),
                   const SizedBox(width: 12),
                   GestureDetector(
-                    onTap: () async {
-                      customDialog(1);
-                      await postInquary(
-                        '',
-                        controller.text,
-                        '사용자',
-                      ).then((value) {
-                        if (value.isError == false) {
-                          Get.back();
-                          Get.to(() => InquaryFinishView());
-                          controller.clear();
-                        } 
-                      });
-                    },
+                    onTap: rightfunc,
                     child: Container(
                         height: 42,
                         padding:
@@ -746,7 +739,7 @@ void showaskDialog({
                             border: Border.all(
                                 width: 0.5,
                                 color: kMainBlack.withOpacity(0.1))),
-                        child: Text('문의하기',
+                        child: Text(righttext,
                             style: k16Medium.copyWith(
                                 color: kBackgroundWhite, height: 1))),
                   ),

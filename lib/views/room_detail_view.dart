@@ -88,6 +88,7 @@ class RoomDetailView extends StatelessWidget {
               ),
               bottomNavigationBar: Obx(
                 ()=> Container(
+                  padding: EdgeInsets.only(left: 20, right: 20),
                   height: AdmobController.to.size.value.height.toDouble(),
                   decoration: const BoxDecoration(color: Colors.transparent),
                   child: AdWidget(ad: AdmobController.to.getBanner()..load()),
