@@ -16,6 +16,7 @@ class Room {
   String? university;
   double? avgAge;
   List<Host>? hosts;
+  List<Host>? inactivehosts;
   int? totalMember;
   String? gender;
   int? isCreater;
@@ -31,6 +32,7 @@ class Room {
       required this.title,
       this.university,
       this.hosts,
+      this.inactivehosts,
       this.totalMember,
       this.type,
       this.roomstate,
@@ -53,6 +55,15 @@ class Room {
         hosts: json['member'] != null
             ? List<Map<String, dynamic>>.from(json['member'])
                 .map((value) => Host.fromJson(value))
+                .toList()
+                .where((host) => host.type != 2 && host.type != 3)
+                .toList()
+            : null,
+        inactivehosts: json['member'] != null
+            ? List<Map<String, dynamic>>.from(json['member'])
+                .map((value) => Host.fromJson(value))
+                .toList()
+                .where((host) => host.type == 2 || host.type == 3)
                 .toList()
             : null,
         totalMember: json['totalmember'],

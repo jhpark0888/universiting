@@ -197,38 +197,40 @@ class UnivRoomWidget extends StatelessWidget {
                                             return false;
                                           },
                                           child: ScrollNoneffectWidget(
-                                            child: ListView.separated(
-                                              controller: univRoomController
-                                                  .scrollController,
-                                              physics: univRoomController
-                                                          .changeHeight.value ==
-                                                      Get.height
-                                                  ? null
-                                                  : const NeverScrollableScrollPhysics(),
-                                              itemBuilder: (context, index) {
-                                                return univRoomController
-                                                    .adRoom.reversed
-                                                    .toList()[index];
-                                              },
-                                              separatorBuilder:
-                                                  (buildContext, index) {
-                                                return Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          20, 18, 20, 18),
-                                                      child: Divider(
-                                                        thickness: 1.5,
-                                                        color: kMainBlack
-                                                            .withOpacity(0.05),
+                                            child: Obx(
+                                              ()=> ListView.separated(
+                                                controller: univRoomController
+                                                    .scrollController,
+                                                physics: univRoomController
+                                                            .changeHeight.value ==
+                                                        Get.height
+                                                    ? null
+                                                    : const NeverScrollableScrollPhysics(),
+                                                itemBuilder: (context, index) {
+                                                  return univRoomController
+                                                      .adRoom.reversed
+                                                      .toList()[index];
+                                                },
+                                                separatorBuilder:
+                                                    (buildContext, index) {
+                                                  return Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets
+                                                                .fromLTRB(
+                                                            20, 18, 20, 18),
+                                                        child: Divider(
+                                                          thickness: 1.5,
+                                                          color: kMainBlack
+                                                              .withOpacity(0.05),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                              itemCount: univRoomController
-                                                  .adRoom.length),
+                                                    ],
+                                                  );
+                                                },
+                                                itemCount: univRoomController
+                                                    .adRoom.length),
+                                            ),
                                         ),
                                       ))
                                 // Expanded(

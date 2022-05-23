@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/models/profile_model.dart';
 
@@ -17,7 +18,7 @@ class OtherProfileController extends GetxController {
           userId: 0)
       .obs;
   OtherProfileController({required this.id});
-
+  AdmobController controller = Get.put(AdmobController(), tag: 'otherProfile');
   @override
   void onInit() async {
     AppController.to.addPage();

@@ -52,141 +52,137 @@ class RoomProfileView extends StatelessWidget {
         ],
       ),
       body: Obx(
-        () => Padding(
-          padding: const EdgeInsets.only(bottom: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                width: Get.width,
-                height: Get.width,
-                child: Stack(
-                  children: [
-                    CustomCachedNetworkImage(
-                      imageUrl: controller.otherProfile.value.profileImage != ''
-                          ? controller.otherProfile.value.profileImage
-                          : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
-                      width: Get.width,
-                      height: Get.width,
+        () => Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              width: Get.width,
+              height: Get.width,
+              child: Stack(
+                children: [
+                  CustomCachedNetworkImage(
+                    imageUrl: controller.otherProfile.value.profileImage != ''
+                        ? controller.otherProfile.value.profileImage
+                        : 'https://media.istockphoto.com/photos/confident-young-man-in-casual-green-shirt-looking-away-standing-with-picture-id1324558913?s=612x612',
+                    width: Get.width,
+                    height: Get.width,
+                  ),
+                  ClipRect(
+                    child: Container(
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                          color: kMainBlack.withOpacity(0.7),
+                          blurRadius: 80,
+                          offset: Offset(0, -Get.width),
+                          blurStyle: BlurStyle.normal,
+                        ),
+                        BoxShadow(
+                          color: kMainBlack.withOpacity(0.7),
+                          blurRadius: 80,
+                          offset: Offset(-Get.width, 0),
+                          blurStyle: BlurStyle.normal,
+                        ),
+                        BoxShadow(
+                          color: kMainBlack.withOpacity(0.7),
+                          blurRadius: 80,
+                          offset: Offset(Get.width, 0),
+                          blurStyle: BlurStyle.normal,
+                        ),
+                        BoxShadow(
+                          color: kMainBlack.withOpacity(0.7),
+                          blurRadius: 80,
+                          offset: Offset(0, Get.width),
+                          blurStyle: BlurStyle.normal,
+                        ),
+                      ]),
                     ),
-                    ClipRect(
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: kMainBlack.withOpacity(0.7),
-                            blurRadius: 80,
-                            offset: Offset(0, -Get.width),
-                            blurStyle: BlurStyle.normal,
-                          ),
-                          BoxShadow(
-                            color: kMainBlack.withOpacity(0.7),
-                            blurRadius: 80,
-                            offset: Offset(-Get.width, 0),
-                            blurStyle: BlurStyle.normal,
-                          ),
-                          BoxShadow(
-                            color: kMainBlack.withOpacity(0.7),
-                            blurRadius: 80,
-                            offset: Offset(Get.width, 0),
-                            blurStyle: BlurStyle.normal,
-                          ),
-                          BoxShadow(
-                            color: kMainBlack.withOpacity(0.7),
-                            blurRadius: 80,
-                            offset: Offset(0, Get.width),
-                            blurStyle: BlurStyle.normal,
-                          ),
-                        ]),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/mini_profile.svg',
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        '${profile.nickname} / ${profile.age.toString()} / ${profile.gender}',
+                        style: k16SemiBold,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/mini_univ.svg',
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        controller.otherProfile.value.university!,
+                        style: k16SemiBold,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/mini_dept.svg',
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        controller.otherProfile.value.department!,
+                        style: k16SemiBold,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    '자기 소개',
+                    style: k16Medium,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    profile.introduction == ''
+                        ? '아직 소개글이 없어요'
+                        : profile.introduction!,
+                    style: k16Light.copyWith(height: 1.5),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/mini_profile.svg',
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          '${profile.nickname} / ${profile.age.toString()} / ${profile.gender}',
-                          style: k16SemiBold,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/mini_univ.svg',
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          controller.otherProfile.value.university!,
-                          style: k16SemiBold,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/mini_dept.svg',
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          controller.otherProfile.value.department!,
-                          style: k16SemiBold,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      '자기 소개',
-                      style: k16Medium,
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      profile.introduction == ''
-                          ? '아직 소개글이 없어요'
-                          : profile.introduction!,
-                      style: k16Light.copyWith(height: 1.5),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Container(
-                  height: 40,
-                  width: Get.width,
-                  child: AdWidget(ad: AdmobController.to.getBanner()..load()),
-                ),
-              ),
-            ],
-          ),
+            ),
+            const Spacer(),
+            controller.controller.isLoad.value == true ?
+                controller.controller.adWidget.value : controller.controller.loadingWidget()
+            // Container(
+            //   height: controller.controller.size.value.height.toDouble(),
+            //     width: controller.controller.size.value.width.toDouble(),
+            //   child: AdWidget(ad: controller.controller.getBanner()..load()),
+            // ),
+          ],
         ),
       ),
     );

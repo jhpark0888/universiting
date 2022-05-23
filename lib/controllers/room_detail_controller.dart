@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/app_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/room_model.dart';
@@ -13,6 +14,7 @@ class RoomDetailController extends GetxController {
   static RoomDetailController get to => Get.find();
   RoomDetailController({required this.roomid});
   TextEditingController reportController = TextEditingController();
+  AdmobController admobController = Get.put(AdmobController(), tag: 'RoomDetail');
   Rx<Screenstate> screenstate = Screenstate.loading.obs;
   // int currentPage = 0;
   PageController pageController = PageController(

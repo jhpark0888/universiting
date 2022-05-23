@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:universiting/api/login_api.dart';
 import 'package:universiting/api/main_api.dart';
 import 'package:universiting/constant.dart';
-import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/login_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
@@ -43,7 +42,6 @@ class HomeView extends StatelessWidget {
   bool login = false;
   late String tag;
   late CameraUpdate cameraUpdate = CameraUpdate.scrollTo(LatLng(lat, lng));
-  AdmobController admobController = Get.put(AdmobController());
   MapController mapController = Get.put(MapController());
   late final HomeController homeController =
       Get.put(HomeController(), tag: tag);
