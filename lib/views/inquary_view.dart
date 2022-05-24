@@ -7,39 +7,60 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/inquary_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
+import 'package:universiting/controllers/signup_controller.dart';
 import 'package:universiting/views/inquary_finish_view.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
 import 'package:universiting/widgets/empty_back_textfield_widget.dart';
 import 'package:universiting/widgets/under_line_textfield_widget.dart';
 
 class InquaryView extends StatelessWidget {
-  InquaryView({Key? key}) : super(key: key);
+  InquaryView({Key? key, required this.viewtype}) : super(key: key);
   InquaryController controller = Get.put(InquaryController());
+  ViewType viewtype;
+  RxBool? isLoading;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
         title: '문의',
         actions: [
-          TextButton(
-            onPressed: () {
-              postInquary(
-                      controller.emailController.text,
-                      controller.contentcontroller.text,
-                      '사용자'
-                     )
-                  .then((value) {
-                if (value.isError == false) {
-                  Get.to(() => InquaryFinishView());
-                }
-              });
-            },
-            child: Text(
-              '보내기',
-              style: k16Medium.copyWith(color: kPrimary),
+          
+             TextButton(
+              onPressed: () {
+                isLoading = false.obs;
+
+                customDialog(1);
+                
+                viewtype == ViewType.setting
+                    ? postInquary(
+                            controller.emailController.text,
+                            controller.contentcontroller.text,
+                            ProfileController.to.profile.value.nickname)
+                        .then((value) {
+                        if (value.isError == false) {
+                          Get.back();
+                          Get.to(() => InquaryFinishView());
+                          
+                        }
+                      })
+                    : postInquary(
+                        SignupController.to.askEmailController.text,
+                        SignupController.to.askController.text,
+                        '사용자',
+                      ).then((value) {
+                        if (value.isError == false) {
+                          Get.to(() => InquaryFinishView());
+                        }
+                      });
+              },
+              child: Text(
+                '보내기',
+                style: k16Medium.copyWith(color: kPrimary),
+              ),
             ),
-          ),
+          
         ],
       ),
       body: Padding(
@@ -84,7 +105,7 @@ class InquaryView extends StatelessWidget {
             )
           ],
         ),
-      ),
+      ) ,
     );
   }
 }

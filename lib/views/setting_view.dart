@@ -47,7 +47,7 @@ class SettingView extends StatelessWidget {
           SettingList(onTap: () {}, title: '개인정보 처리방침', isIcon: true),
           SettingList(
               onTap: () {
-                Get.to(() => InquaryView());
+                Get.to(() => InquaryView(viewtype: ViewType.setting,));
               },
               title: '문의하기',
               isIcon: true),

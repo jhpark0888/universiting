@@ -262,7 +262,7 @@ class SignupEmailValidateView extends StatelessWidget {
                         //       });
                         //     });
 
-                        Get.to(() => InquaryView());
+                        Get.to(() => InquaryView(viewtype: ViewType.signUp,));
                       },
                       child: Text(
                         '혹시 이메일 인증에 문제가 있나요?',

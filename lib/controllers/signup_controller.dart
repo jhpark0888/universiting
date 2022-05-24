@@ -15,6 +15,7 @@ class SignupController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
   TextEditingController askController = TextEditingController();
+  TextEditingController askEmailController = TextEditingController();
   // TextEditingController yearController = TextEditingController();
   // TextEditingController monthController = TextEditingController();
   // TextEditingController dayController = TextEditingController();
