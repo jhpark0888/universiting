@@ -19,7 +19,7 @@ class ChatListController extends GetxController {
   final chatList = <ChatRoom>[].obs;
   final chatRoomList = <ChatRoomWidget>[].obs;
   final chatImageList = <ProfileImageWidget>[].obs;
-  final finalChatRoomList = <Widget>[].obs;
+  // final finalChatRoomList = <Widget>[].obs;
   final isInDetailMessage = false.obs;
   final datetime = DateTime.now().obs;
   final otheruniv = ''.obs;
@@ -37,7 +37,7 @@ class ChatListController extends GetxController {
       if (httpresponse.isError == false) {
         chatList(List<ChatRoom>.from(httpresponse.data));
         chatRoomList.value = getChatRoomList();
-        finalChatRoomList.value = getAdList(chatRoomList);
+        // finalChatRoomList.value = getAdList(chatRoomList);
       } else {
         errorSituation(httpresponse);
       }
@@ -80,7 +80,7 @@ class ChatListController extends GetxController {
     List<dynamic> list = List<dynamic>.from(room);
     if (room.length >= 2) {
       for (int a = 1; a < room.length; a++) {
-        if (a % 1 == 0) {
+        if (a % 2 == 0) {
           list.insert(
             a ,
               Container(

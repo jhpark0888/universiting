@@ -83,8 +83,8 @@ class Room {
                         ? StateManagement.friendLeave.obs
                         : List<Map<String, dynamic>>.from(json['member'])
                                 .where((element) =>
-                                    element['user_id'] ==
-                                    ProfileController.to.profile.value.userId)
+                                    element['user_id'].toString() ==
+                                    ProfileController.to.profile.value.userId.toString())
                                 .isEmpty
                             ? StateManagement.roomActivated.obs
                             : List<Map<String, dynamic>>.from(json['member'])

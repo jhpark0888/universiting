@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/api/room_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/custom_animation_controller.dart';
 import 'package:universiting/models/my_room_model.dart';
 import 'package:universiting/models/room_model.dart';
@@ -21,7 +23,7 @@ class ManagementController extends GetxController
   static ManagementController get to => Get.find();
 
   late TabController managetabController;
-
+  AdmobController admobController = Get.put(AdmobController(),tag: 'MyRoom');
   RefreshController myroomrefreshController = RefreshController();
   RefreshController requestrefreshController = RefreshController();
   // final myRoomList = MyRoom(chiefList: [], memberList: []).obs;
@@ -31,6 +33,7 @@ class ManagementController extends GetxController
   final chiefList = <Room>[].obs;
   final memberList = <Room>[].obs;
   final room = <MyRoomWidget>[].obs;
+  RxList<Widget> adRoom = <Widget>[].obs;
 
   final sendRequestWidgetList = <SendRequestWidget>[].obs;
   final profileImage = <RoomProfileImageWidget>[].obs;
@@ -139,6 +142,7 @@ class ManagementController extends GetxController
   void getRoom() {
     room.clear();
     for (Room i in chiefList) {
+      print('object ${i.roomstate}');
       room.add(MyRoomWidget(
         room: i,
         roomMember: getHostsList(i),
@@ -152,6 +156,7 @@ class ManagementController extends GetxController
         isChief: false,
       ));
     }
+    adRoom = getAdRoom(room).obs;
   }
 
   List<RoomProfileImageWidget> getHostsList(Room room) {
@@ -171,5 +176,44 @@ class ManagementController extends GetxController
       ));
     }
     return profileImage.toList();
+  }
+
+  List<Widget> getAdRoom(List<dynamic> room) {
+    List<dynamic> list = List<dynamic>.from(room);
+    if (room.length >= 2) {
+      for (int a = 0; a < list.length; a++) {
+        if ((a + 1)% 3 == 0) {
+          if(a != 0) {
+            list.insert(
+           list.length - a ,
+              Column(
+                children: [
+                  const SizedBox(height: 18),
+                  // Container(
+                  //    height: admobController.size.value.height.toDouble(),
+                  // width: admobController.size.value.width.toDouble(),
+                  //     decoration: const BoxDecoration(color: Colors.transparent),
+                  //     child: AdWidget(ad: admobController.getBanner()..load())),
+                   Container(
+                     height:  admobController.sizes.value?.height.toDouble(),
+                  width: admobController.sizes.value?.width.toDouble(),
+                      decoration: const BoxDecoration(color: Colors.transparent),
+                      child: AdWidget(ad: admobController.getAnchorBanner()..load(),key: UniqueKey())),
+                      const SizedBox(height: 18),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          thickness: 2.5,
+                          color: kMainBlack.withOpacity(0.1),
+                        ),
+                      ),
+                ],
+              ),
+          );
+          }
+        }
+      }
+    }
+    return List<Widget>.from(list);
   }
 }

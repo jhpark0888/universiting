@@ -65,7 +65,7 @@ class ChatListView extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 82),
                       child: Column(
                           children: chatListController.chatRoomList != []
-                              ? chatListController.finalChatRoomList.value
+                              ? chatListController.chatRoomList.value
                               : []),
                     )))),
         ),

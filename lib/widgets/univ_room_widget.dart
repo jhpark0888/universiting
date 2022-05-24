@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
@@ -174,63 +175,49 @@ class UnivRoomWidget extends StatelessWidget {
                                     : Expanded(
                                         child: NotificationListener<
                                             ScrollNotification>(
-                                          onNotification: (scrollNotification) {
-                                            if (scrollNotification
-                                                is ScrollStartNotification) {
-                                              startoffset = univRoomController
-                                                  .scrollController.offset;
-                                            } else if (scrollNotification
-                                                is ScrollEndNotification) {
-                                              endoffset = univRoomController
-                                                  .scrollController.offset;
-                                              if (startoffset == 0.0 &&
-                                                  endoffset == 0.0 &&
-                                                  mapController.isDetailClick
-                                                          .value ==
-                                                      true) {
+                                        onNotification: (scrollNotification) {
+                                          if (scrollNotification
+                                              is ScrollStartNotification) {
+                                            startoffset = univRoomController
+                                                .scrollController.offset;
+                                          } else if (scrollNotification
+                                              is ScrollEndNotification) {
+                                            endoffset = univRoomController
+                                                .scrollController.offset;
+                                            if (startoffset == 0.0 &&
+                                                endoffset == 0.0 &&
                                                 mapController
-                                                    .isDetailClick(false);
-                                                Get.back();
-                                              }
+                                                        .isDetailClick.value ==
+                                                    true) {
+                                              mapController
+                                                  .isDetailClick(false);
+                                              Get.back();
                                             }
+                                          }
 
-                                            return false;
-                                          },
-                                          child: ScrollNoneffectWidget(
-                                            child: Obx(
-                                              ()=> ListView.separated(
+                                          return false;
+                                        },
+                                        child: ScrollNoneffectWidget(
+                                          child: Obx(
+                                            () => ListView.separated(
                                                 controller: univRoomController
                                                     .scrollController,
                                                 physics: univRoomController
-                                                            .changeHeight.value ==
+                                                            .changeHeight
+                                                            .value ==
                                                         Get.height
                                                     ? null
                                                     : const NeverScrollableScrollPhysics(),
                                                 itemBuilder: (context, index) {
                                                   return univRoomController
-                                                      .adRoom.reversed
+                                                      .room.reversed
                                                       .toList()[index];
                                                 },
                                                 separatorBuilder:
-                                                    (buildContext, index) {
-                                                  return Column(
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets
-                                                                .fromLTRB(
-                                                            20, 18, 20, 18),
-                                                        child: Divider(
-                                                          thickness: 1.5,
-                                                          color: kMainBlack
-                                                              .withOpacity(0.05),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
+                                                    (buildContext, index) {return seperatedWidget(index);},
                                                 itemCount: univRoomController
-                                                    .adRoom.length),
-                                            ),
+                                                    .room.length),
+                                          ),
                                         ),
                                       ))
                                 // Expanded(
@@ -322,5 +309,56 @@ class UnivRoomWidget extends StatelessWidget {
             )),
       ),
     );
+  }
+
+  Widget seperatedWidget(int index) {
+    if ((index + 1) % 2 == 0) {
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+            child: Divider(
+              thickness: 1.5,
+              color: kMainBlack.withOpacity(0.05),
+            ),
+          ),
+          Container(
+              height:
+                  univRoomController.controller.sizes.value?.height.toDouble(),
+              width:
+                  univRoomController.controller.sizes.value?.width.toDouble(),
+              decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  image: DecorationImage(
+                    scale: 8,
+                    image: AssetImage(
+                      'assets/icons/loading.gif',
+                    ),
+                  )),
+              child: AdWidget(
+                  ad: univRoomController.controller.getAnchorBanner()..load(),
+                  key: UniqueKey())),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+            child: Divider(
+              thickness: 1.5,
+              color: kMainBlack.withOpacity(0.05),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+            child: Divider(
+              thickness: 1.5,
+              color: kMainBlack.withOpacity(0.05),
+            ),
+          ),
+        ],
+      );
+    }
   }
 }

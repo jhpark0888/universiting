@@ -72,7 +72,7 @@ class MyRoomView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 82),
                       child: Column(
-                        children: _manageController.room.reversed.toList(),
+                        children: _manageController.adRoom.reversed.toList(),
                       ),
                     ),
                   ),

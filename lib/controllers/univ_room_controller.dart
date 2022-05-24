@@ -14,7 +14,7 @@ import 'package:universiting/widgets/room_widget.dart';
 class UnivRoomController extends GetxController {
   static UnivRoomController get to => Get.find();
   RxList<Room> univRoom = <Room>[].obs;
-  RxList<Widget> room = <Widget>[].obs;
+  RxList<Widget> room = <RoomFinalWidget>[].obs;
   RxList<Widget> adRoom = <Widget>[].obs;
   ScrollController scrollController = ScrollController(initialScrollOffset: 0);
   AdmobController controller = Get.put(AdmobController(),tag: 'univRoom');
@@ -37,7 +37,7 @@ class UnivRoomController extends GetxController {
                 ))
             .toList());
 
-        adRoom.value = List<Widget>.from(getAdList(room));
+        // adRoom.value = List<Widget>.from(getAdList(room));
 
         screenstate(Screenstate.success);
       } else {
@@ -70,22 +70,27 @@ class UnivRoomController extends GetxController {
     return profileImage.toList();
   }
 
-  List<dynamic> getAdList(List<dynamic> room) {
-    List<dynamic> list = room;
-    if (room.length > 3) {
-      for (int a = 1; a < room.length; a++) {
-        if (a % 3 == 0) {
-          list.insert(
-            a - 1,
-            // Padding(
-              // padding: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
-              // child: 
-              controller.getAdWidget(),
-            // ),
-          );
-        }
-      }
-    }
-    return room;
-  }
+  // List<dynamic> getAdList(List<dynamic> room) {
+  //   List<dynamic> list = room;
+  //   if (room.length > 2) {
+  //     for (int a = 0; a < list.length; a++) {
+  //       if (a % 3 == 0) {
+  //         list.insert(
+  //           a,
+  //           // Padding(
+  //             // padding: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+  //             // child: 
+            
+  //           // ),
+  //           Container(
+  //                    height:  controller.sizes.value?.height.toDouble(),
+  //                 width: controller.sizes.value?.width.toDouble(),
+  //                     decoration: const BoxDecoration(color: Colors.transparent),
+  //                     child: AdWidget(ad: controller.getAnchorBanner()..load(),key: UniqueKey())),
+  //         );
+  //       }
+  //     }
+  //   }
+  //   return room;
+  // }
 }
