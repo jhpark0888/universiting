@@ -148,7 +148,8 @@ class App extends StatelessWidget {
             : SizedBox.shrink(),
       ),
       body: Obx(
-        () => IndexedStack(
+        () => 
+        IndexedStack(
           index: appController.currentIndex.value,
           children: views,
         ),

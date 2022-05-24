@@ -63,14 +63,14 @@ class InquaryView extends StatelessWidget {
                 validator: null,
                 obscureText: false,
                 maxLines: 5),
-            SizedBox(
+            const SizedBox(
               height: 32,
             ),
-            Text(
+            const Text(
               '문의 내용',
               style: k16Medium,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             UnderLineTexField(
