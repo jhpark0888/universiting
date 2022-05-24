@@ -86,9 +86,10 @@ class RoomDetailView extends StatelessWidget {
                   )
                 ],
               ),
-              bottomNavigationBar: Obx( () => roomDetailController.admobController.isLoad.value == true ?
-                roomDetailController.admobController.getAdWidget() : roomDetailController.admobController.loadingWidget())
-              ,
+              bottomNavigationBar: Obx(() =>
+                  roomDetailController.admobController.isLoad.value == true
+                      ? roomDetailController.admobController.getAdWidget()
+                      : roomDetailController.admobController.loadingWidget()),
               body: ScrollNoneffectWidget(
                 child: SingleChildScrollView(
                   child: Column(

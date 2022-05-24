@@ -338,6 +338,36 @@ Future<void> pwchange() async {
   }
 }
 
+Future<HTTPResponse> errorpost(String text) async {
+  ConnectivityResult result = await checkConnectionStatus();
+  FlutterSecureStorage storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'token');
+  var url = Uri.parse('$serverUrl/user_api/error');
+  // var headers = {'Authorization': 'Token $token'};
+
+  var body = {'text': text};
+  if (result == ConnectivityResult.none) {
+    showCustomDialog('네트워크를 확인해주세요', 1400);
+    return HTTPResponse.networkError();
+  } else {
+    try {
+      var response = await http.post(url, body: body);
+      String responsebody = utf8.decode(response.bodyBytes);
+      print('에러 전송 : ${response.statusCode}');
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return HTTPResponse.success('');
+      } else {
+        return HTTPResponse.apiError('', response.statusCode);
+      }
+    } on SocketException {
+      return HTTPResponse.serverError();
+    } catch (e) {
+      print(e);
+      return HTTPResponse.unexpectedError(e);
+    }
+  }
+}
+
 Future<HTTPResponse> deleteuser(
     String pw, List<SelectedOptionWidget> reasonlist) async {
   ConnectivityResult result = await checkConnectionStatus();
