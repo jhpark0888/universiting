@@ -21,7 +21,8 @@ class ChatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return message.sender != 1
-        ? Padding(
+        ? message.sender != 2 ?
+        Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(children: [
               profile.type != userType
@@ -122,6 +123,34 @@ class ChatWidget extends StatelessWidget {
                 height: 18,
               ),
             ]),
+          ):Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        thickness: 1,
+                        color: kMainBlack.withOpacity(0.4),
+                      ),
+                    ),
+                    managerChat(message.message)!,
+                    Expanded(
+                      child: Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: kMainBlack.withOpacity(0.4),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+              ],
+            ),
           )
         : Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),

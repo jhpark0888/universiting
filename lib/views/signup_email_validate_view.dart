@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:universiting/api/profile_api.dart';
 import 'package:universiting/api/signup_api.dart';
 import 'package:universiting/app.dart';
 import 'package:universiting/controllers/custom_animation_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/utils/check_validator.dart';
 import 'package:universiting/views/home_view.dart';
+import 'package:universiting/views/inquary_finish_view.dart';
 import 'package:universiting/views/signup_email_validate_view.dart';
 import 'package:universiting/views/signup_gender_view.dart';
 import 'package:universiting/views/signup_profile_view.dart';
@@ -233,7 +235,31 @@ class SignupEmailValidateView extends StatelessWidget {
                   ),
                   GestureDetector(
                       onTap: () {
-                        showaskDialog(controller: SignupController.to.askController);
+                        showaskDialog(
+                            controller: SignupController.to.askController,
+                            centertext: '문의하기',
+                            hinttext:
+                                '찾으시는 대학이 없거나, 이메일 인증이 안될 경우\n해당 학교 이름과 포탈 메일 주소를 입력해주세요.',
+                            lefttext: '닫기',
+                            leftfunc: () {
+                              SignupController.to.askController.clear();
+                              Get.back();
+                            },
+                            righttext: '문의하기',
+                            rightfunc: () async {
+                              customDialog(1);
+                              await postInquary(
+                                '',
+                                SignupController.to.askController.text,
+                                '사용자',
+                              ).then((value) {
+                                if (value.isError == false) {
+                                  Get.back();
+                                  Get.to(() => InquaryFinishView());
+                                  SignupController.to.askController.clear();
+                                }
+                              });
+                            });
                       },
                       child: Text(
                         '혹시 이메일 인증에 문제가 있나요?',
