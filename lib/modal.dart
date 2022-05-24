@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/home_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
@@ -26,6 +27,7 @@ void bottomSheetModal(Widget widget,RxBool isClick, RxBool isDetailClick, int in
         : MapController.to.markers[index].icon = HomeController.to.image[0];
     MapController.to.markers.refresh();
     Get.delete<UnivRoomController>();
+    Get.delete<AdmobController>();
   });
 }
 

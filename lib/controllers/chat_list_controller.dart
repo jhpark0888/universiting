@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:universiting/api/chat_api.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/admob_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/chat_list_model.dart';
 import 'package:universiting/models/group_model.dart';
@@ -17,10 +19,12 @@ class ChatListController extends GetxController {
   final chatList = <ChatRoom>[].obs;
   final chatRoomList = <ChatRoomWidget>[].obs;
   final chatImageList = <ProfileImageWidget>[].obs;
+  final finalChatRoomList = <Widget>[].obs;
   final isInDetailMessage = false.obs;
   final datetime = DateTime.now().obs;
   final otheruniv = ''.obs;
   RefreshController refreshController = RefreshController();
+  AdmobController admobController = Get.put(AdmobController(), tag: 'ChatList');
   @override
   void onInit() async {
     await getList();
@@ -33,6 +37,7 @@ class ChatListController extends GetxController {
       if (httpresponse.isError == false) {
         chatList(List<ChatRoom>.from(httpresponse.data));
         chatRoomList.value = getChatRoomList();
+        finalChatRoomList.value = getAdList(chatRoomList);
       } else {
         errorSituation(httpresponse);
       }
@@ -70,6 +75,25 @@ class ChatListController extends GetxController {
     }
     return '일 년 이전 만들어진 방';
   }
+
+  List<Widget> getAdList(List<dynamic> room) {
+    List<dynamic> list = List<dynamic>.from(room);
+    if (room.length >= 2) {
+      for (int a = 1; a < room.length; a++) {
+        if (a % 1 == 0) {
+          list.insert(
+            a ,
+              Container(
+                 height: admobController.size.value.height.toDouble(),
+              width: admobController.size.value.width.toDouble(),
+                  decoration: const BoxDecoration(color: Colors.transparent),
+                  child: AdWidget(ad: admobController.getBanner()..load())),
+          );
+        }
+      }
+    }
+    return List<Widget>.from(list);
+  }
 }
 
 List<Widget> StackedImages(List<ProfileImageWidget> image) {
@@ -88,3 +112,4 @@ List<Widget> StackedImages(List<ProfileImageWidget> image) {
       .values
       .toList();
 }
+

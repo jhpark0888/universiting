@@ -15,6 +15,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:kakao_flutter_sdk/all.dart';
+import 'package:universiting/api/profile_api.dart';
 import 'package:universiting/app.dart';
 import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
@@ -65,12 +66,13 @@ Future<void> main() async {
   String? lat = await const FlutterSecureStorage().read(key: 'lat');
   String? lng = await const FlutterSecureStorage().read(key: 'lng');
 
-  FlutterError.onError = (FlutterErrorDetails details) {
+  FlutterError.onError = (FlutterErrorDetails details) async {
     FlutterError.presentError(details);
     print('error context : ${details.context}');
     print('error name : ${details.context!.name}');
     print('error exception : ${details.exception}');
     print('error linePrefix: ${details.context!.linePrefix}');
+    await errorpost(details.exception as String);
     // if (kReleaseMode) exit(1);
   };
   runApp(MyApp(

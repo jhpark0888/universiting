@@ -55,7 +55,7 @@ class SendRequestWidget extends StatelessWidget {
                 } else if (request.requeststate!.value ==
                     StateManagement.theyReject) {
                   getDetailSendView(request.id, request.requeststate!.value);
-                  showCustomDialog('다음 기회에', 1200);
+                  showCustomDialog('상대방이 거절했어요', 1200);
                 }
               },
               splashColor: kSplashColor,

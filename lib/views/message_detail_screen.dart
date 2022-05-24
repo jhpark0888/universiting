@@ -38,8 +38,12 @@ class MessageDetailScreen extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.only(left: 23.0),
             child: IconButton(
-                onPressed: () {
+                onPressed: () async{
                   FocusScope.of(context).unfocus();
+                  await postTime(
+                                      int.parse(groupId),
+                                      ProfileController
+                                          .to.profile.value.userId);
                   Get.back();
                 },
                 icon: SvgPicture.asset('assets/icons/back.svg')),
@@ -210,7 +214,7 @@ class MessageDetailScreen extends StatelessWidget {
                                       .value
                                       .message
                                       .message);
-                                  postTime(
+                                  await postTime(
                                       int.parse(groupId),
                                       ProfileController
                                           .to.profile.value.userId);
@@ -297,7 +301,7 @@ class MessageDetailScreen extends StatelessWidget {
                                               groupId)]
                                       .chatRoom
                                       .refresh();
-                                  postTime(
+                                  await postTime(
                                       int.parse(groupId),
                                       ProfileController
                                           .to.profile.value.userId);

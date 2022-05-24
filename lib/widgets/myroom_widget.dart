@@ -6,6 +6,7 @@ import 'package:universiting/constant.dart';
 import 'package:universiting/controllers/custom_animation_controller.dart';
 import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/map_controller.dart';
+import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/univ_room_controller.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/utils/global_variable.dart';

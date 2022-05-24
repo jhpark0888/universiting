@@ -677,6 +677,7 @@ void showaskDialog({
             children: [
               Center(child: Text(centertext, style: k16Medium)),
               const SizedBox(height: 15),
+              if(controller != null)
               Container(
                 width: Get.width,
                   decoration: BoxDecoration(
@@ -689,8 +690,8 @@ void showaskDialog({
                             spreadRadius: 0,
                             offset: const Offset(0.0, 1.0))
                       ]),
-                  child: EmptyBackTextfieldWidget(
-                    controller: controller!,
+                  child: controller != null ?EmptyBackTextfieldWidget(
+                    controller: controller,
                     hinttext:
                         hinttext,
                     hintstyle: kBodyStyle1.copyWith(
@@ -704,7 +705,7 @@ void showaskDialog({
                     contentPadding: const EdgeInsets.only(
                         top: 10, bottom: 10, right: 20, left: 20),
                     textStyle: kBodyStyle1,
-                  )),
+                  ) : Text('거절하시겠습니까?')),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
