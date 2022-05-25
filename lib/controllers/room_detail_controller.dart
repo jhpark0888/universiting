@@ -39,6 +39,7 @@ class RoomDetailController extends GetxController {
         AppController.to.addPage();
         print(AppController.to.stackPage);
         screenstate(Screenstate.success);
+        print(screenstate.value);
         timerstart();
       } else {
         if (httpresponse.errorData!['statusCode'] == 59) {

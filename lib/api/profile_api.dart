@@ -109,8 +109,37 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
     }
   }
 }
+// Future<HTTPResponse> getDetailRoom(String id) async {
+//   ConnectivityResult result = await checkConnectionStatus();
+//   FlutterSecureStorage storage = FlutterSecureStorage();
+//   String? token = await storage.read(key: 'token');
+//   var url = Uri.parse('$serverUrl/room_api/room?type=room&room_id=${id}');
+//   var headers = {'Authorization': 'Token $token'};
+//   if (result == ConnectivityResult.none) {
+//     showCustomDialog('네트워크를 확인해주세요', 1400);
+//     return HTTPResponse.networkError();
+//   } else {
+//     try {
+//       var response = await http.get(url, headers: headers);
+//       print('방 로드api : ${response.statusCode}');
+//       String responsebody = utf8.decode(response.bodyBytes);
+//       if (response.statusCode >= 200 && response.statusCode < 300) {
+//         print(responsebody);
+//         return HTTPResponse.success(Room.fromJson(jsonDecode(responsebody)));
+//       } else {
+//         return HTTPResponse.apiError('', response.statusCode);
+//       }
+//     } on SocketException {
+//       return HTTPResponse.serverError();
+//     } catch (e) {
+//       print(e);
+//       // showcustomCustomDialog(1200);
+//       return HTTPResponse.unexpectedError(e);
+//     }
+//   }
+// }
 
-Future<Profile> getOtherProfile(String id) async {
+Future<HTTPResponse> getOtherProfile(String id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
@@ -119,14 +148,8 @@ Future<Profile> getOtherProfile(String id) async {
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
-    return Profile(
-        age: 0,
-        gender: '',
-        introduction: '',
-        nickname: '',
-        profileImage: '',
-        userId: 0);
-  } else {
+    return HTTPResponse.networkError();}
+    else {
     try {
       var response = await http.get(url, headers: headers);
 
@@ -134,28 +157,18 @@ Future<Profile> getOtherProfile(String id) async {
         String responsebody = utf8.decode(response.bodyBytes);
         print(responsebody);
         print(response.statusCode);
-        return Profile.fromJson(jsonDecode(responsebody));
+        return HTTPResponse.success(Profile.fromJson(jsonDecode(responsebody)));
       } else {
         print(response.statusCode);
-        return Profile(
-            age: 0,
-            gender: '',
-            introduction: '',
-            nickname: '',
-            profileImage: '',
-            userId: 0);
+        return HTTPResponse.apiError('', response.statusCode);
       }
+    }
+     on SocketException {
+      return HTTPResponse.serverError();
     } catch (e) {
       print(e);
-      showCustomDialog('서버 점검중입니다.', 1200);
-    }
-    return Profile(
-        age: 0,
-        gender: '',
-        introduction: '',
-        nickname: '',
-        profileImage: '',
-        userId: 0);
+      return HTTPResponse.unexpectedError(e);
+    } 
   }
 }
 

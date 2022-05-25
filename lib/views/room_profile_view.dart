@@ -10,15 +10,17 @@ import 'package:universiting/controllers/other_profile_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/utils/custom_profile.dart';
 import 'package:universiting/widgets/appbar_widget.dart';
+import 'package:universiting/widgets/loading_widget.dart';
 
 class RoomProfileView extends StatelessWidget {
   RoomProfileView({Key? key, required this.profile}) : super(key: key);
   Host profile;
+  late OtherProfileController controller =
+      Get.put(OtherProfileController(id: profile.userId.toString()));
   @override
   Widget build(BuildContext context) {
-    OtherProfileController controller =
-        Get.put(OtherProfileController(id: profile.userId.toString()));
-    return Scaffold(
+    print(controller.id);
+    return Obx(() =>controller.screenstate.value == Screenstate.success ? Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
         backgroundColor: Colors.transparent,
@@ -51,6 +53,13 @@ class RoomProfileView extends StatelessWidget {
           )
         ],
       ),
+      bottomNavigationBar: Obx(() => Container(
+          height: controller.controller.sizes.value?.height.toDouble(),
+          width: controller.controller.sizes.value?.width.toDouble(),
+          decoration: const BoxDecoration(color: Colors.transparent),
+          child: AdWidget(
+              ad: controller.controller.getAnchorBanner()..load(),
+              key: UniqueKey()))),
       body: Obx(
         () => Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -174,9 +183,10 @@ class RoomProfileView extends StatelessWidget {
                 ],
               ),
             ),
-            const Spacer(),
-            controller.controller.isLoad.value == true ?
-                controller.controller.adWidget.value : controller.controller.loadingWidget()
+            // const Spacer(),
+            // controller.controller.isLoad.value == true
+            //     ? controller.controller.adWidget.value
+            //     : controller.controller.loadingWidget()
             // Container(
             //   height: controller.controller.size.value.height.toDouble(),
             //     width: controller.controller.size.value.width.toDouble(),
@@ -185,6 +195,6 @@ class RoomProfileView extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ) : controller.screenstate.value == Screenstate.loading ? const LoadingWidget() : const SizedBox.shrink());
   }
 }

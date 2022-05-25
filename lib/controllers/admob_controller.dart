@@ -13,7 +13,7 @@ class AdmobController extends GetxController {
   late Rx<BannerAd> banners;
   Rx<BannerAd>? anchoredAdaptiveAd;
   final size = AdSize.fullBanner.obs;
-  late Rx<AnchoredAdaptiveBannerAdSize?>sizes;
+  late Rx<AnchoredAdaptiveBannerAdSize?> sizes;
   // AdSize(height: 60, width : Get.width.toInt()).obs;
   // final adSize =AdSize.getInlineAdaptiveBannerAdSize(Get.width.toInt(), 70).obs ;
   Orientation currentOrientation = MediaQuery.of(Get.context!).orientation;
@@ -21,12 +21,16 @@ class AdmobController extends GetxController {
   RxBool isLoad = false.obs;
 
   @override
-  void onInit() async{
+  void onInit() async {
     anchoredAdaptiveAd?.value.dispose();
     await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-            MediaQuery.of(Get.context!).size.width.truncate()).then((value) => sizes = value.obs);
+            MediaQuery.of(Get.context!).size.width.truncate())
+        .then((value) {sizes = value.obs;
+        if (sizes.value == null) {
+      print('Unable to get height of anchored banner.');
+        }});
     // getAnchorBanner().then((value) => print(anchoredAdaptiveAd?.value.size));
-    
+
     super.onInit();
   }
 
@@ -51,7 +55,7 @@ class AdmobController extends GetxController {
     return banner;
   }
 
-  BannerAd getAnchorBanner()  {
+  BannerAd getAnchorBanner() {
     // anchoredAdaptiveAd?.value.dispose();
     // anchoredAdaptiveAd = null;
     isLoad.value = false;
@@ -63,28 +67,30 @@ class AdmobController extends GetxController {
     }
     // sizes = size.obs;
     os = Theme.of(Get.context!).platform;
-      print(sizes.value?.width);
+    print(sizes.value?.width);
     BannerAd anchoredAdaptiveAd = BannerAd(
-            size: sizes.value as AdSize,
-            listener:
-                BannerAdListener(onAdFailedToLoad: (Ad ad, LoadAdError error) {
-              ad.dispose();
-            }, onAdLoaded: (Ad ad) {
-              // anchoredAdaptiveAd!.value = ad as BannerAd;
-                isLoad(true);  
-            }, onAdClosed: (ad) {
-              ad.dispose();
-            }),
-            adUnitId: UNIT_ID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
-            request: AdRequest())
-        ;
+        size: sizes.value as AdSize,
+        listener:
+            BannerAdListener(onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          ad.dispose();
+        }, onAdLoaded: (Ad ad) {
+          print(isLoad.value);
+          // anchoredAdaptiveAd!.value = ad as BannerAd;
+          isLoad.value = true;
+          print(isLoad.value);
+        }, onAdClosed: (ad) {
+          ad.dispose();
+        }),
+        adUnitId: UNIT_ID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
+        request: AdRequest());
     return anchoredAdaptiveAd;
   }
 
   Widget getAdWidget() {
-    
     return OrientationBuilder(builder: (context, orientation) {
-      if (currentOrientation == orientation && anchoredAdaptiveAd != null && isLoad.value ==true ) {
+      if (currentOrientation == orientation &&
+          anchoredAdaptiveAd != null &&
+          isLoad.value == true) {
         return Container(
           color: Colors.transparent,
           width: anchoredAdaptiveAd!.value.size.width.toDouble(),
@@ -100,11 +106,11 @@ class AdmobController extends GetxController {
     });
   }
 
-  Widget loadingWidget(){
+  Widget loadingWidget() {
     return Container(
       color: Colors.transparent,
-          width: anchoredAdaptiveAd?.value.size.width.toDouble(),
-          height: anchoredAdaptiveAd?.value.size.height.toDouble(),
+      width: anchoredAdaptiveAd?.value.size.width.toDouble(),
+      height: anchoredAdaptiveAd?.value.size.height.toDouble(),
       child: Center(
         child: Image.asset(
           'assets/icons/loading.gif',
@@ -113,6 +119,7 @@ class AdmobController extends GetxController {
       ),
     );
   }
+
   @override
   void dispose() {
     anchoredAdaptiveAd?.value.dispose();
