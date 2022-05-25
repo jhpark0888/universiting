@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:universiting/constant.dart';
+import 'package:universiting/controllers/management_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
 import 'package:universiting/models/host_model.dart';
 import 'package:universiting/models/myroom_request_model.dart';
@@ -47,7 +49,8 @@ class Room {
       this.requestcount,
       this.introduction});
 
-  factory Room.fromJson(Map<String, dynamic> json) => Room(
+  factory Room.fromJson(Map<String, dynamic> json) => 
+     Room(
         id: json['id'],
         university: json['university'],
         title: json['title'],
@@ -84,7 +87,9 @@ class Room {
                         : List<Map<String, dynamic>>.from(json['member'])
                                 .where((element) =>
                                     element['user_id'].toString() ==
-                                    ProfileController.to.profile.value.userId.toString())
+                                    // ProfileController.to.profile.value.userId.toString()
+                                    ManagementController.to.id
+                                    )
                                 .isEmpty
                             ? StateManagement.roomActivated.obs
                             : List<Map<String, dynamic>>.from(json['member'])

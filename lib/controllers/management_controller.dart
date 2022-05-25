@@ -1,3 +1,4 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -22,6 +23,8 @@ class ManagementController extends GetxController
     with GetSingleTickerProviderStateMixin {
   static ManagementController get to => Get.find();
 
+  String? id;
+
   late TabController managetabController;
   AdmobController admobController = Get.put(AdmobController(),tag: 'MyRoom');
   RefreshController myroomrefreshController = RefreshController();
@@ -44,6 +47,7 @@ class ManagementController extends GetxController
   @override
   void onInit() async {
     managetabController = TabController(length: 2, vsync: this);
+    id = await FlutterSecureStorage().read(key: 'id');
     // myRoomList.value = await getMyRoom();
     getRoomList(0);
     getrequestlist(0);

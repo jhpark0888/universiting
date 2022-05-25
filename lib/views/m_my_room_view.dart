@@ -24,7 +24,7 @@ class MyRoomView extends StatelessWidget {
           child:
               // Text(myRoomController.myRoomList.value.chiefList[0].toString())
               Obx(
-            () => _manageController.room.isEmpty
+            () => _manageController.adRoom.isEmpty
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
