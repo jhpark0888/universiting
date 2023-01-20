@@ -8,13 +8,14 @@ import 'package:universiting/models/alarm_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
+import 'package:universiting/models/environment_model.dart';
 
 Future<List<AlarmReceive>> getAlarmList(index) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  // var url = Uri.parse('$serverUrl/room_api/alarm?last=$index');
-  var url = Uri.parse('$serverUrl/room_api/alarm?last=$index');
+  // var url = Uri.parse('${Environment.apiUrl}/room_api/alarm?last=$index');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/alarm?last=$index');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);

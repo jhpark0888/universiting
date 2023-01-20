@@ -13,6 +13,7 @@ import 'package:universiting/controllers/map_controller.dart';
 import 'package:universiting/controllers/modal_controller.dart';
 import 'package:universiting/controllers/notifications_controller.dart';
 import 'package:universiting/controllers/profile_controller.dart';
+import 'package:universiting/models/environment_model.dart';
 import 'package:universiting/models/main_univ_model.dart';
 import 'package:universiting/models/profile_model.dart';
 import 'package:universiting/utils/global_variable.dart';
@@ -50,12 +51,12 @@ class HomeController extends GetxController {
     if (temptoken != null) {
       isGuest.value = false;
       islogin.value = true;
-    
+
       await getOverlyImage();
       mainuniv.value = (await getMainUniv());
       // showcustomCustomDialog(1200);
-      if(AppController.to.isImageCheck.value ==true ){
-      customDialog(1);
+      if (AppController.to.isImageCheck.value == true) {
+        customDialog(1);
       }
       createdMarker();
     } else {
@@ -146,7 +147,7 @@ class HomeController extends GetxController {
 
   Future<List<MainUniv>> getMainUniv() async {
     ConnectivityResult result = await checkConnectionStatus();
-    final url = Uri.parse('$serverUrl/school_api/main_load');
+    final url = Uri.parse('${Environment.apiUrl}/school_api/main_load');
     if (result == ConnectivityResult.none) {
       showNetworkDisconnectDialog();
       return [

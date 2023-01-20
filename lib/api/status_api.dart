@@ -14,12 +14,13 @@ import 'package:universiting/models/room_model.dart';
 import 'package:universiting/models/send_request_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
+import 'package:universiting/models/environment_model.dart';
 
 Future<HTTPResponse> getReceiveStatus() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/alarm_list?type=receive');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/alarm_list?type=receive');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -53,7 +54,7 @@ Future<void> hostMemberAlarm(String room_id, String type) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/host_member');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/host_member');
 
   var body = {'room_id': room_id, 'type': type};
   var headers = {
@@ -77,7 +78,7 @@ Future<void> okJoinAlarm(String room_id, String from_id, String type) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/join_member');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/join_member');
 
   var body = {'room_id': room_id, 'from_id': from_id, 'type': type};
   var headers = {
@@ -102,7 +103,7 @@ Future<void> deleteAlarm(String id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/alarm_list?id=$id');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/alarm_list?id=$id');
 
   var headers = {
     'Authorization': 'Token $token',
@@ -125,7 +126,7 @@ Future<HTTPResponse> getSendStatus() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/alarm_list?type=send');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/alarm_list?type=send');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -156,7 +157,7 @@ Future<void> joinToChat(AlarmReceive alarmReceive) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/chat/make_group');
+  var url = Uri.parse('${Environment.apiUrl}/chat/make_group');
 
   var headers = {
     'Authorization': 'Token $token',
@@ -183,7 +184,7 @@ Future<void> rejectToChat(AlarmReceive alarmReceive) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/chat/make_group');
+  var url = Uri.parse('${Environment.apiUrl}/chat/make_group');
 
   var headers = {
     'Authorization': 'Token $token',
@@ -212,7 +213,7 @@ Future<HTTPResponse> getDetailSendView(
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse(
-      '$serverUrl/room_api/send_list?type=${management == StateManagement.theyReject ? 'reject' : management == StateManagement.friendReject ? 'reject' : 'join'}/detail&id=${id.toString()}');
+      '${Environment.apiUrl}/room_api/send_list?type=${management == StateManagement.theyReject ? 'reject' : management == StateManagement.friendReject ? 'reject' : 'join'}/detail&id=${id.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);

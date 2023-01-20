@@ -20,7 +20,7 @@ import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 import 'package:universiting/views/home_view.dart';
-
+import 'package:universiting/models/environment_model.dart';
 import '../constant.dart';
 
 Future<void> login() async {
@@ -37,7 +37,7 @@ Future<void> login() async {
   };
   print(login_info);
   final headers = {'Content-Type': 'application/json'};
-  final url = Uri.parse('$serverUrl/user_api/login');
+  final url = Uri.parse('${Environment.apiUrl}/user_api/login');
 
   if (result == ConnectivityResult.none) {
     // showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -81,7 +81,7 @@ Future<void> login() async {
 Future<HTTPResponse> logout() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
-  var url = Uri.parse('$serverUrl/user_api/logout');
+  var url = Uri.parse('${Environment.apiUrl}/user_api/logout');
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
@@ -109,7 +109,7 @@ Future<HTTPResponse> imageCheck() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/school_api/check_profile');
+  var url = Uri.parse('${Environment.apiUrl}/school_api/check_profile');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);

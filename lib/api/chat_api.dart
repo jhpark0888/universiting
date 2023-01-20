@@ -14,12 +14,13 @@ import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/models/message_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
+import 'package:universiting/models/environment_model.dart';
 
 Future<HTTPResponse> getChatList() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/chat/get_list');
+  var url = Uri.parse('${Environment.apiUrl}/chat/get_list');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     // showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -75,7 +76,7 @@ Future<HTTPResponse> requestaccept(
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/chat/make_group');
+  var url = Uri.parse('${Environment.apiUrl}/chat/make_group');
 
   var body = {
     'room_id': roomId.toString(),
@@ -120,7 +121,7 @@ Future<void> postTime(int groupId, int userId) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/chat/last_view');
+  var url = Uri.parse('${Environment.apiUrl}/chat/last_view');
 
   var body = {
     'id': groupId.toString(),

@@ -10,11 +10,13 @@ import 'package:universiting/models/message_detail_model.dart';
 import 'package:universiting/models/message_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
+import 'package:universiting/models/environment_model.dart';
 
 Future<MessageDetail> getMessageDetail(String groupId, String last) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
-  var url = Uri.parse('$serverUrl/chat/chatting?group_id=$groupId&last=$last');
+  var url = Uri.parse(
+      '${Environment.apiUrl}/chat/chatting?group_id=$groupId&last=$last');
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
@@ -53,7 +55,7 @@ Future<void> sendMessage(String groupId) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/chat/chatting');
+  var url = Uri.parse('${Environment.apiUrl}/chat/chatting');
 
   var body = {
     'group_id': groupId,
@@ -79,7 +81,7 @@ Future<void> updateTime(String groupId, DateTime dateTime) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/chat/chatting');
+  var url = Uri.parse('${Environment.apiUrl}/chat/chatting');
 
   var body = {
     'id': groupId,
@@ -107,7 +109,7 @@ Future<void> exitChat(String groupId) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/chat/chatting?group_id=$groupId');
+  var url = Uri.parse('${Environment.apiUrl}/chat/chatting?group_id=$groupId');
 
   var headers = {
     'Authorization': 'Token $token',

@@ -17,12 +17,13 @@ import 'package:http/http.dart' as http;
 import 'package:universiting/utils/user_device_info.dart';
 import 'package:universiting/views/pw_find_change_view.dart';
 import 'package:universiting/views/withdrawal_view.dart';
+import 'package:universiting/models/environment_model.dart';
 
 Future<void> getMyProfile() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
   ProfileController profileController = Get.find();
-  var url = Uri.parse('$serverUrl/user_api/profile');
+  var url = Uri.parse('${Environment.apiUrl}/user_api/profile');
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
@@ -50,7 +51,8 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
   ProfileController profileController = Get.find();
-  var url = Uri.parse('$serverUrl/user_api/profile?type=${profileType.name}');
+  var url = Uri.parse(
+      '${Environment.apiUrl}/user_api/profile?type=${profileType.name}');
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
@@ -113,7 +115,7 @@ Future<void> updateMyProfile(ProfileType profileType, File? image) async {
 //   ConnectivityResult result = await checkConnectionStatus();
 //   FlutterSecureStorage storage = FlutterSecureStorage();
 //   String? token = await storage.read(key: 'token');
-//   var url = Uri.parse('$serverUrl/room_api/room?type=room&room_id=${id}');
+//   var url = Uri.parse('${Environment.apiUrl}/room_api/room?type=room&room_id=${id}');
 //   var headers = {'Authorization': 'Token $token'};
 //   if (result == ConnectivityResult.none) {
 //     showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -143,13 +145,13 @@ Future<HTTPResponse> getOtherProfile(String id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  var url = Uri.parse('$serverUrl/user_api/profile_info?id=$id');
+  var url = Uri.parse('${Environment.apiUrl}/user_api/profile_info?id=$id');
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
-    return HTTPResponse.networkError();}
-    else {
+    return HTTPResponse.networkError();
+  } else {
     try {
       var response = await http.get(url, headers: headers);
 
@@ -162,13 +164,12 @@ Future<HTTPResponse> getOtherProfile(String id) async {
         print(response.statusCode);
         return HTTPResponse.apiError('', response.statusCode);
       }
-    }
-     on SocketException {
+    } on SocketException {
       return HTTPResponse.serverError();
     } catch (e) {
       print(e);
       return HTTPResponse.unexpectedError(e);
-    } 
+    }
   }
 }
 
@@ -178,7 +179,7 @@ Future<HTTPResponse> postInquary(
   FlutterSecureStorage storage = FlutterSecureStorage();
   UserDeviceInfo userDeviceInfo = Get.put(UserDeviceInfo());
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/user_api/ask');
+  var url = Uri.parse('${Environment.apiUrl}/user_api/ask');
   // var headers = {'Authorization': 'Token $token'};
 
   var body = {
@@ -230,7 +231,7 @@ Future<void> pwfindemailcheck() async {
   } else {
     showCustomDialog('입력하신 이메일로 들어가서 링크를 클릭해 본인 인증을 해주세요', 1400);
     pwController.emailcheckstate(EmailCheckState.waiting);
-    Uri uri = Uri.parse('$serverUrl/user_api/password');
+    Uri uri = Uri.parse('${Environment.apiUrl}/user_api/password');
 
     //이메일 줘야 됨
     final email = {
@@ -277,7 +278,7 @@ Future<void> pwfindchange() async {
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
-    Uri uri = Uri.parse('$serverUrl/user_api/password?type=find');
+    Uri uri = Uri.parse('${Environment.apiUrl}/user_api/password?type=find');
 
     final user = {
       "email": pwController.emailController.text,
@@ -317,7 +318,7 @@ Future<void> pwchange() async {
   } else {
     String? token = await const FlutterSecureStorage().read(key: "token");
 
-    Uri uri = Uri.parse('$serverUrl/user_api/password?type=change');
+    Uri uri = Uri.parse('${Environment.apiUrl}/user_api/password?type=change');
 
     //이메일 줘야 됨
     final password = {
@@ -355,7 +356,7 @@ Future<HTTPResponse> errorpost(String text) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/user_api/error');
+  var url = Uri.parse('${Environment.apiUrl}/user_api/error');
   // var headers = {'Authorization': 'Token $token'};
 
   var body = {'text': text};
@@ -391,7 +392,7 @@ Future<HTTPResponse> deleteuser(
     String? token = await const FlutterSecureStorage().read(key: "token");
     print('user token: $token');
 
-    var uri = Uri.parse("$serverUrl/user_api/resign");
+    var uri = Uri.parse("${Environment.apiUrl}/user_api/resign");
 
     String reason = "";
     for (var reasonwidget in reasonlist) {

@@ -13,6 +13,7 @@ import 'package:universiting/models/httpresponse_model.dart';
 import 'package:universiting/models/room_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
+import 'package:universiting/models/environment_model.dart';
 
 Future<HTTPResponse> getUnivRoom() async {
   ConnectivityResult result = await checkConnectionStatus();
@@ -21,7 +22,7 @@ Future<HTTPResponse> getUnivRoom() async {
   UnivRoomController univRoomController = Get.find();
   print(mapController.clickedId);
   var url = Uri.parse(
-      '$serverUrl/room_api/room?type=university&university_id=${mapController.clickedId}&last=0');
+      '${Environment.apiUrl}/room_api/room?type=university&university_id=${mapController.clickedId}&last=0');
   String? token = await storage.read(key: 'token');
   Map<String, String> headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {

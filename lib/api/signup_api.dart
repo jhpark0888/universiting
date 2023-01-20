@@ -18,11 +18,12 @@ import '../constant.dart';
 import '../controllers/signup_controller.dart';
 import '../models/signup_model.dart';
 import '../utils/global_variable.dart';
+import 'package:universiting/models/environment_model.dart';
 
 Future<void> getUniversityList() async {
   ConnectivityResult result = await checkConnectionStatus();
   SignupController signupController = Get.find();
-  var url = Uri.parse('$serverUrl/school_api/university_list');
+  var url = Uri.parse('${Environment.apiUrl}/school_api/university_list');
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
@@ -51,7 +52,7 @@ Future<void> getUniversityList() async {
 // Future<void> getDepartList(int id) async {
 //   ConnectivityResult result = await checkConnectionStatus();
 //   SignupController signupController = Get.find();
-//   var url = Uri.parse('$serverUrl/school_api/department_list?id=$id');
+//   var url = Uri.parse('${Environment.apiUrl}/school_api/department_list?id=$id');
 //   if (result == ConnectivityResult.none) {
 //     showCustomDialog('네트워크를 확인해주세요', 1400);
 //   } else {
@@ -81,7 +82,7 @@ Future<void> checkNickName() async {
   ConnectivityResult result = await checkConnectionStatus();
   SignupController signupController = Get.find();
   var url = Uri.parse(
-      '$serverUrl/user_api/nickname?nickname=${signupController.nameController.text}');
+      '${Environment.apiUrl}/user_api/nickname?nickname=${signupController.nameController.text}');
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
   } else {
@@ -108,7 +109,7 @@ Future<void> checkNickName() async {
 Future<void> checkEmail() async {
   ConnectivityResult result = await checkConnectionStatus();
   SignupController signupController = Get.find();
-  var url = Uri.parse('$serverUrl/user_api/check_email');
+  var url = Uri.parse('${Environment.apiUrl}/user_api/check_email');
   Map<String, dynamic> signup = {
     'email': signupController.emailController.text +
         '@' +
@@ -154,7 +155,7 @@ Future<void> postProfile() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = const FlutterSecureStorage();
   SignupController signupController = Get.find();
-  var url = Uri.parse('$serverUrl/user_api/signup');
+  var url = Uri.parse('${Environment.apiUrl}/user_api/signup');
   Map<String, dynamic> signup = {
     'type': 12,
     'email': signupController.emailController.text +
@@ -213,7 +214,7 @@ Future<void> _login() async {
   };
   print(login_info);
   final headers = {'Content-Type': 'application/json'};
-  final url = Uri.parse('$serverUrl/user_api/login');
+  final url = Uri.parse('${Environment.apiUrl}/user_api/login');
 
   if (result == ConnectivityResult.none) {
     // showCustomDialog('네트워크를 확인해주세요', 1400);

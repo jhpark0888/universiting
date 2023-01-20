@@ -28,13 +28,14 @@ import 'package:universiting/models/send_request_model.dart';
 import 'package:universiting/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 import 'package:universiting/widgets/myroom_widget.dart';
+import 'package:universiting/models/environment_model.dart';
 
 Future<HTTPResponse> getMyRoom(int last) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url =
-      Uri.parse('$serverUrl/room_api/my_room?type=all&last=${last.toString()}');
+  var url = Uri.parse(
+      '${Environment.apiUrl}/room_api/my_room?type=all&last=${last.toString()}');
   var headers = {'Authorization': 'Token $token'};
   print(token);
   if (result == ConnectivityResult.none) {
@@ -63,7 +64,7 @@ Future<HTTPResponse> getSendlist(String type, int last) async {
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse(
-      '$serverUrl/room_api/send_list?type=${type}&last=${last.toString()}');
+      '${Environment.apiUrl}/room_api/send_list?type=${type}&last=${last.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     return HTTPResponse.networkError();
@@ -95,7 +96,7 @@ Future<HTTPResponse> getMyRoomRequestlist(String type, int last, int id) async {
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse(
-      '$serverUrl/room_api/request_list?type=${type}&last=${last.toString()}&room_id=${id.toString()}');
+      '${Environment.apiUrl}/room_api/request_list?type=${type}&last=${last.toString()}&room_id=${id.toString()}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -129,7 +130,7 @@ Future<void> SearchMember() async {
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
   var url = Uri.parse(
-      '$serverUrl/user_api/search_member?nickname=${selectMemberController.nickName}');
+      '${Environment.apiUrl}/user_api/search_member?nickname=${selectMemberController.nickName}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -162,7 +163,7 @@ Future<HTTPResponse> makeRoom() async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/room');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/room');
 
   var body = {
     'title': createRoomController.roomTitleController.text.trim(),
@@ -201,7 +202,8 @@ Future<HTTPResponse> getDetailRoom(String id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/room?type=room&room_id=${id}');
+  var url =
+      Uri.parse('${Environment.apiUrl}/room_api/room?type=room&room_id=${id}');
   var headers = {'Authorization': 'Token $token'};
   if (result == ConnectivityResult.none) {
     showCustomDialog('네트워크를 확인해주세요', 1400);
@@ -231,7 +233,7 @@ Future<HTTPResponse> roomparticipate(int roomId, String type) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/host_member');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/host_member');
 
   var body = {
     'room_id': roomId.toString(),
@@ -271,7 +273,7 @@ Future<HTTPResponse> roomJoin(String room_id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/join_member');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/join_member');
 
   var body = {
     'room_id': room_id,
@@ -308,7 +310,7 @@ Future<HTTPResponse> roomRequestJoin(
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/join_member');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/join_member');
 
   var body = {
     'room_id': roomId.toString(),
@@ -349,7 +351,7 @@ Future<void> deleteMyRoom(String id) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/room');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/room');
 
   var body = {'room_id': id};
   var headers = {
@@ -373,7 +375,7 @@ Future<void> reportRoom(String roomId, String reason) async {
   ConnectivityResult result = await checkConnectionStatus();
   FlutterSecureStorage storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
-  var url = Uri.parse('$serverUrl/room_api/report_room');
+  var url = Uri.parse('${Environment.apiUrl}/room_api/report_room');
 
   var body = {'id': roomId, 'reason': reason};
   var headers = {
@@ -395,7 +397,7 @@ Future<void> reportRoom(String roomId, String reason) async {
 
 
 
-// '$serverUrl/room_api/report_room
+// '${Environment.apiUrl}/room_api/report_room
 //body{id(방 아이디),reason(text)}
 
 
